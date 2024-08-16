@@ -1,0 +1,33 @@
+terraform {
+  backend "s3" {
+    bucket                      = "terraform"
+    key                         = "cloudflare/state.tfstate"
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    skip_region_validation      = true
+    use_path_style              = true
+  }
+
+  required_providers {
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "4.38.0"
+    }
+    http = {
+      source  = "hashicorp/http"
+      version = "3.4.4"
+    }
+  }
+}
+
+module "secret_cf" {
+  # Remember to export OP_CONNECT_HOST and OP_CONNECT_TOKEN
+  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  vault  = "Automation"
+  item   = "cloudflare"
+}
+
+provider "cloudflare" {
+  email   = module.secret_cf.fields.cloudflare_email
+  api_key = module.secret_cf.fields.cloudflare_api_key
+}

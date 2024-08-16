@@ -1,0 +1,21 @@
+{
+    "id": "p-tlx-k8s-w2",
+    "name": "p-tlx-k8s-w2",
+    "boot": {
+        "kernel": "/assets/kernel-amd64",
+        "initrd": [
+            "/assets/initramfs-amd64.xz"
+        ],
+        "args": [
+            "initrd=initramfs-amd64.xz",
+            "init_on_alloc=1",
+            "slab_nomerge",
+            "pti=on",
+            "console=tty0",
+            "console=ttyS0",
+            "printk.devkmsg=on",
+            "talos.platform=metal",
+            "talos.config=http://c-pdm-pxe.monosense.dev/assets/p-tlx-k8s-w2.yaml"
+        ]
+    }
+}

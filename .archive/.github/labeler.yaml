@@ -1,0 +1,31 @@
+---
+# Areas
+area/ansible:
+  - changed-files:
+      - any-glob-to-any-file: "ansible/**/*"
+area/docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "docs/**/*"
+          - "README.md"
+area/github:
+  - changed-files:
+      - any-glob-to-any-file: ".github/**/*"
+area/kubernetes:
+  - changed-files:
+      - any-glob-to-any-file: "kubernetes/**/*"
+area/taskfile:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".taskfiles/**/*"
+          - "Taskfile.yaml"
+area/terraform:
+  - changed-files:
+      - any-glob-to-any-file: "terraform/**/*"
+# Clusters
+cluster/k8s:
+  - changed-files:
+      - any-glob-to-any-file: "kubernetes/k8s/**/*"
+cluster/storage:
+  - changed-files:
+      - any-glob-to-any-file: "kubernetes/storage/**/*"

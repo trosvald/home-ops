@@ -1,0 +1,399 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+clusterName: ${clusterName}
+endpoint: "https://${clusterName}.${clusterDNSSuffix}:6443"
+
+# renovate: depName=ghcr.io/siderolabs/installer datasource=docker extractVersion=^(?<version>.*)$
+talosVersion: v1.7.4
+# renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker extractVersion=^v(?<version>.*)$
+kubernetesVersion: v1.30.2
+
+clusterPodNets:
+  - 10.42.0.0/16
+clusterSvcNets:
+  - 10.43.0.0/16
+
+cniConfig:
+  name: none
+
+additionalApiServerCertSans: &san
+  - ${clusterEndpointIP}
+  # - ${clusterName}.${clusterDNSSuffix}
+  - "127.0.0.1"
+additionalMachineCertSans: *san
+
+nodes:
+  # ToR1 Port6, ToR2 Port6, 500GB Samsung EVO 860
+  # Rack Position 7th From right
+  # MAC Address for onboard NIC => e8:6a:64:96:0a:35
+  - hostname: p-tlx-k8s-m0.${clusterDNSSuffix}
+    ipAddress: 172.16.11.3
+    installDisk: /dev/sda
+    controlPlane: true
+    networkInterfaces:
+      - interface: eth0
+        ignore: true
+      - interface: bond0
+        bond:
+          mode: active-backup
+          miimon: 100
+          deviceSelectors:
+            - hardwareAddr: e4:1d:85:75:d8:73
+            - hardwareAddr: e4:1d:85:75:d8:74
+        dhcp: true
+        vip:
+          ip: ${clusterEndpointIP}
+        mtu: 9000
+
+  # ToR1 Port5, ToR2 Port5, 500GB Samsung EVO 860
+  # Rack Position 6th From right
+  # MAC Address for onboard NIC => 98:fa:9b:19:be:d9
+  - hostname: p-tlx-k8s-m1.${clusterDNSSuffix}
+    ipAddress: 172.16.11.4
+    installDisk: /dev/sda
+    controlPlane: true
+    networkInterfaces:
+      - interface: eth0
+        ignore: true
+      - interface: bond0
+        bond:
+          mode: active-backup
+          miimon: 100
+          deviceSelectors:
+            - hardwareAddr: ec:0d:9a:02:85:30
+            - hardwareAddr: ec:0d:9a:02:85:31
+        dhcp: true
+        vip:
+          ip: ${clusterEndpointIP}
+        mtu: 9000
+    # nodeLabels: *masterLabels
+
+  # ToR1 Port4, ToR2 Port4, 512GB Intel
+  # Rack Position 5th From right
+  # m920x
+  # MAC Address for onboard NIC => 98:fa:9b:36:bf:33
+  - hostname: p-tlx-k8s-m2.${clusterDNSSuffix}
+    ipAddress: 172.16.11.5
+    installDisk: /dev/sda
+    controlPlane: true
+    networkInterfaces:
+      - interface: eth0
+        ignore: true
+      - interface: bond0
+        bond:
+          mode: active-backup
+          miimon: 100
+          deviceSelectors:
+            - hardwareAddr: ec:0d:9a:00:27:90
+            - hardwareAddr: ec:0d:9a:00:27:91
+        dhcp: true
+        vip:
+          ip: ${clusterEndpointIP}
+        mtu: 9000
+    # nodeLabels: *masterLabels
+
+  # ToR1 Port3, ToR2 Port3, 512GB Intel
+  # Rack Position 4th From right
+  # m920x
+  # MAC Address for onboard NIC => 98:fa:9b:36:b1:0c
+  - hostname: p-tlx-k8s-w0.${clusterDNSSuffix}
+    ipAddress: 172.16.11.6
+    installDisk: /dev/sda
+    controlPlane: false
+    networkInterfaces:
+      - interface: eth0
+        ignore: true
+      - interface: bond0
+        bond:
+          mode: active-backup
+          miimon: 100
+          deviceSelectors:
+            - hardwareAddr: 7c:fe:90:a2:c5:90
+            - hardwareAddr: 7c:fe:90:a2:c5:91
+        dhcp: true
+        mtu: 9000
+
+  # ToR1 Port2, ToR2 Port2, 500GB Samsung EVO 860
+  # Rack Position 3rd From right
+  # MAC Address for onboard NIC => e8:6a:64:9a:66:97
+  - hostname: p-tlx-k8s-w1.${clusterDNSSuffix}
+    ipAddress: 172.16.11.7
+    installDisk: /dev/sda
+    controlPlane: false
+    networkInterfaces:
+      - interface: eth0
+        ignore: true
+      - interface: bond0
+        bond:
+          mode: active-backup
+          miimon: 100
+          deviceSelectors:
+            - hardwareAddr: e4:1d:79:67:75:95
+            - hardwareAddr: e4:1d:79:67:75:96
+        dhcp: true
+        mtu: 9000
+
+  # ToR1 Port1, ToR2 Port1, 500GB Samsung EVO 860
+  # Rack Position 2nd From right
+  # MAC Address for onboard NIC => e8:6a:64:96:0e:64
+  - hostname: p-tlx-k8s-w2.${clusterDNSSuffix}
+    ipAddress: 172.16.11.8
+    installDisk: /dev/sda
+    controlPlane: false
+    networkInterfaces:
+      - interface: eth0
+        ignore: true
+      - interface: bond0
+        bond:
+          mode: active-backup
+          miimon: 100
+          deviceSelectors:
+            - hardwareAddr: 8c:dc:d4:a8:42:dc
+            - hardwareAddr: 8c:dc:d4:a8:42:dd
+        dhcp: true
+        mtu: 9000
+
+controlPlane:
+  nodeLabels:
+    topology.kubernetes.io/region: main
+    topology.kubernetes.io/zone: m
+  schematic:
+    customization:
+      extraKernelArgs:
+        - net.ifnames=0
+        - mitigations=off
+        - module_blacklist=e1000e
+        - talos.logging.kernel=udp://vector.${clusterDNSSuffix}:${talosKernelLogPort}/
+      systemExtensions:
+        officialExtensions:
+          # - siderolabs/nut-client
+          - siderolabs/intel-ucode
+          - siderolabs/i915-ucode
+          - siderolabs/iscsi-tools
+
+  patches:
+    # Configure containerd
+    - &containerdPatch |-
+      machine:
+        files:
+          - op: create
+            path: /etc/cri/conf.d/20-customization.part
+            content: |
+              [plugins]
+                [plugins."io.containerd.grpc.v1.cri"]
+                  enable_unprivileged_ports = true
+                  enable_unprivileged_icmp = true
+                [plugins."io.containerd.grpc.v1.cri".containerd]
+                  discard_unpacked_layers = false
+                [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+                  discard_unpacked_layers = false
+
+    # Disable search domain everywhere
+    - &disableSearchDomainPatch |-
+      machine:
+        network:
+          disableSearchDomain: true
+
+    # Enable cluster discovery
+    - &discoveryPatch |-
+      cluster:
+        discovery:
+          registries:
+            kubernetes:
+              disabled: false
+            service:
+              disabled: false
+
+    # Enable host dns
+    - &hostDnsPatch |-
+      machine:
+        features:
+          hostDNS:
+            enabled: true
+            resolveMemberNames: true
+            forwardKubeDNSToHost: false
+
+    # Configure kubelet
+    - &kubeletPatch |-
+      machine:
+        kubelet:
+          extraArgs:
+            rotate-server-certificates: true
+          extraMounts:
+            - destination: /var/openebs/local
+              type: bind
+              source: /var/openebs/local
+              options:
+                - bind
+                - rshared
+                - rw
+          defaultRuntimeSeccompProfileEnabled: true
+          nodeIP:
+            validSubnets:
+              - 172.16.11.0/24
+          disableManifestsDirectory: true
+
+    # Enable KubePrism
+    - &kubePrismPatch |-
+      machine:
+        features:
+          kubePrism:
+            enabled: true
+            port: 7445
+
+    # Enable logging
+    - &loggingPatch |-
+      machine:
+        logging:
+          destinations:
+            - endpoint: udp://vector.${clusterDNSSuffix}:${talosServiceLogPort}
+              format: json_lines
+
+    # Force nameserver
+    - &nameServerPatch |-
+      machine:
+        network:
+          nameservers:
+            - 172.16.11.9
+            - 172.16.11.11
+
+    # NFS Mount options
+    - &nfsPatch |-
+      machine:
+        files:
+          - op: overwrite
+            path: /etc/nfsmount.conf
+            permissions: 420
+            content: |
+              [ NFSMount_Global_Options ]
+              nfsvers=4.2
+              hard=True
+              noatime=True
+              nodiratime=True
+              rsize=131072
+              wsize=131072
+              nconnect=8
+
+    # Configure NTP
+    - &ntpServerPatch |-
+      machine:
+        time:
+          disabled: false
+          servers:
+            - 172.16.11.254
+            - 172.16.11.9
+            - 172.16.11.11
+
+    # Configure cluster loopback
+    - &staticHostEntriesPatch |-
+      machine:
+        network:
+          extraHostEntries:
+            - ip: ${clusterEndpointIP}
+              aliases:
+                - ${clusterName}.${clusterDNSSuffix}
+
+    # Custom sysctl settings
+    - &sysctlPatch |-
+      machine:
+        sysctls:
+          fs.inotify.max_user_watches: 1048576
+          fs.inotify.max_user_instances: 8192
+          kernel.randomize_va_space: 0
+          net.core.netdev_max_backlog: 30000
+          net.core.rmem_max: 67108864
+          net.core.wmem_max: 67108864
+          net.ipv4.tcp_rmem: 4096 87380 33554432
+          net.ipv4.tcp_wmem: 4096 65536 33554432
+          net.ipv4.tcp_tw_reuse: 1
+          net.ipv4.tcp_window_scaling: 1
+
+    # Cluster configuration
+    - |-
+      cluster:
+        allowSchedulingOnMasters: true
+        controllerManager:
+          extraArgs:
+            bind-address: 0.0.0.0
+        coreDNS:
+          disabled: true
+        proxy:
+          disabled: true
+        scheduler:
+          extraArgs:
+            bind-address: 0.0.0.0
+
+    # Cluster ETCD configuration
+    - |-
+      cluster:
+        etcd:
+          extraArgs:
+            listen-metrics-urls: http://0.0.0.0:2381
+          advertisedSubnets:
+            - 172.16.11.0/24
+
+    # Disable default API server admission plugins.
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl
+
+    # Enable K8s Talos API Access
+    - |-
+      machine:
+        features:
+          kubernetesTalosAPIAccess:
+            enabled: true
+            allowedRoles:
+              - os:admin
+            allowedKubernetesNamespaces:
+              - system-upgrade
+
+    # Configure master node nut client
+    # - |-
+    #   machine:
+    #     files:
+    #       - op: create
+    #         path: /var/etc/nut/upsmon.conf
+    #         permissions: 0o600
+    #         content: |
+    #           MONITOR ${upsmonMasterHost} 1 ${upsmonMasterUser} ${upsmonMasterPass} slave
+    #           SHUTDOWNCMD "/sbin/poweroff"
+
+worker:
+  schematic:
+    customization:
+      extraKernelArgs:
+        - net.ifnames=0
+        - mitigations=off
+        - module_blacklist=e1000e
+        - talos.logging.kernel=udp://vector.${clusterDNSSuffix}:${talosKernelLogPort}/
+      systemExtensions:
+        officialExtensions:
+          # - siderolabs/nut-client
+          - siderolabs/intel-ucode
+          - siderolabs/i915-ucode
+          - siderolabs/iscsi-tools
+
+  patches:
+    - *containerdPatch
+    - *disableSearchDomainPatch
+    - *discoveryPatch
+    - *hostDnsPatch
+    - *kubeletPatch
+    - *kubePrismPatch
+    - *loggingPatch
+    - *nameServerPatch
+    - *nfsPatch
+    - *ntpServerPatch
+    - *staticHostEntriesPatch
+    - *sysctlPatch
+    # Configure nut client
+    # - |-
+    #   machine:
+    #     files:
+    #       - op: create
+    #         path: /var/etc/nut/upsmon.conf
+    #         permissions: 0o600
+    #         content: |
+    #           MONITOR ${upsmonWorkerHost} 1 ${upsmonWorkerUser} ${upsmonWorkerPass} slave
+    #           SHUTDOWNCMD "/sbin/poweroff"

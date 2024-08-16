@@ -1,0 +1,3 @@
+---
+providerRegex: ^p-tlx-k8s-\d$
+bypassDnsResolution: true

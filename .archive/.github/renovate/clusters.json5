@@ -1,0 +1,27 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "packageRules": [
+        {
+            "description": [
+                "Separate PRs for k8s cluster"
+            ],
+            "matchFileNames": [
+                "**/kubernetes/k8s/**",
+                "**/ansible/k8s/**",
+                "**/terraform/k8s/**"
+            ],
+            "additionalBranchPrefix": "k8s-"
+        },
+        {
+            "description": [
+                "Separate PRs for storage cluster"
+            ],
+            "matchFileNames": [
+                "**/kubernetes/storage/**",
+                "**/ansible/storage/**",
+                "**/terraform/storage/**"
+            ],
+            "additionalBranchPrefix": "storage-"
+        }
+    ]
+}

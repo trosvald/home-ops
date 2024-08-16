@@ -1,0 +1,10 @@
+---
+kubernetes:
+  vars:
+    ansible_user: monosense
+    ansible_ssh_port: 22
+  children:
+    controllers:
+      hosts:
+        expanse:
+          ansible_host: 172.16.11.1
