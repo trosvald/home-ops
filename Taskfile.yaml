@@ -7,13 +7,12 @@ vars:
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
 
 env:
-  KUBECONFIG: "{{.KUBERNETES_DIR}}/kubernetes/k8s/kubeconfig:{{.KUBERNETES_DIR}}/kubernetes/storage/kubeconfig"
+  KUBECONFIG: "{{.KUBERNETES_DIR}}/kubernetes/k8s/kubeconfig"
   SOPS_AGE_KEY_FILE: "{{.ROOT_DIR}}/age.key"
 
 includes:
   ansible: .taskfiles/Ansible
   bootstrap: .taskfiles/Bootstrap
-  external-secrets: .taskfiles/ExternalSecrets
   kubernetes: .taskfiles/Kubernetes
   talos: .taskfiles/Talos
   volsync: .taskfiles/VolSync
