@@ -88,6 +88,24 @@ tasks:
       - talosctl --context {{.cluster}} config info >/dev/null 2>&1
       - talosctl --context {{.cluster}} --nodes {{.nodes}} get machineconfig >/dev/null 2>&1
 
+  generate-clusterconfig:
+    desc: Generate clusterconfig for Talos
+    cmds:
+      - talhelper genconfig
+        --env-file {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/talenv.sops.yaml
+        --secret-file {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/talsecret.sops.yaml
+        --config-file {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/talconfig.yaml
+        --out-dir {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/clusterconfig
+      - cp -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/clusterconfig/talosconfig {{.KUBERNETES_DIR}}/{{.cluster}}
+    requires:
+      vars:
+        - cluster
+    preconditions:
+      - which talhelper
+      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/talenv.sops.yaml
+      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/talsecret.sops.yaml
+      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/talconfig.yaml
+
   bootstrap-matchbox:
     desc: Bootstrap required Matchbox configuration to PXE Boot machine
     cmds:
