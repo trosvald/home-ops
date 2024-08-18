@@ -44,6 +44,20 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
+        vlans:
+          - &vlan1613
+            vlanId: 1613
+            mtu: 1500
+            dhcp: true
+            dhcpOptions:
+              routeMetric: 4096
+          - &vlan1614
+            vlanId: 1614
+            mtu: 1500
+            dhcp: true
+            dhcpOptions:
+              routeMetric: 4096
+
 
   # ToR1 Port5, ToR2 Port5, 500GB Samsung EVO 860
   # Rack Position 6th From right
@@ -66,6 +80,9 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
+        vlans:
+          - *vlan1613
+          - *vlan1614
     # nodeLabels: *masterLabels
 
   # ToR1 Port4, ToR2 Port4, 512GB Intel
@@ -90,6 +107,9 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
+        vlans:
+          - *vlan1613
+          - *vlan1614
     # nodeLabels: *masterLabels
 
   # ToR1 Port3, ToR2 Port3, 512GB Intel
@@ -112,6 +132,9 @@ nodes:
             - hardwareAddr: 7c:fe:90:a2:c5:91
         dhcp: true
         mtu: 9000
+        vlans:
+          - *vlan1613
+          - *vlan1614
 
   # ToR1 Port2, ToR2 Port2, 500GB Samsung EVO 860
   # Rack Position 3rd From right
@@ -132,6 +155,9 @@ nodes:
             - hardwareAddr: e4:1d:79:67:75:96
         dhcp: true
         mtu: 9000
+        vlans:
+          - *vlan1613
+          - *vlan1614
 
   # ToR1 Port1, ToR2 Port1, 500GB Samsung EVO 860
   # Rack Position 2nd From right
@@ -152,6 +178,9 @@ nodes:
             - hardwareAddr: 8c:dc:d4:a8:42:dd
         dhcp: true
         mtu: 9000
+        vlans:
+          - *vlan1613
+          - *vlan1614
 
 controlPlane:
   nodeLabels:
