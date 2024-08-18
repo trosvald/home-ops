@@ -4,7 +4,7 @@ clusterName: ${clusterName}
 endpoint: "https://k8s.${clusterDNSSuffix}:6443"
 
 # renovate: depName=ghcr.io/siderolabs/installer datasource=docker extractVersion=^(?<version>.*)$
-talosVersion: v1.7.5
+talosVersion: v1.7.6
 # renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker extractVersion=^v(?<version>.*)$
 kubernetesVersion: v1.30.3
 
@@ -18,7 +18,7 @@ cniConfig:
 
 additionalApiServerCertSans: &san
   - ${clusterEndpointIP}
-  # - ${clusterName}.${clusterDNSSuffix}
+  # - ${clusterHostname}.${clusterDNSSuffix}
   - "127.0.0.1"
 additionalMachineCertSans: *san
 
@@ -44,19 +44,6 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
-        vlans:
-          - &vlan1613
-            vlanId: 1613
-            mtu: 1500
-            dhcp: true
-            dhcpOptions:
-              routeMetric: 4096
-          - &vlan1614
-            vlanId: 1614
-            mtu: 1500
-            dhcp: true
-            dhcpOptions:
-              routeMetric: 4096
 
 
   # ToR1 Port5, ToR2 Port5, 500GB Samsung EVO 860
@@ -80,10 +67,6 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
-        vlans:
-          - *vlan1613
-          - *vlan1614
-    # nodeLabels: *masterLabels
 
   # ToR1 Port4, ToR2 Port4, 512GB Intel
   # Rack Position 5th From right
@@ -107,10 +90,6 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
-        vlans:
-          - *vlan1613
-          - *vlan1614
-    # nodeLabels: *masterLabels
 
   # ToR1 Port3, ToR2 Port3, 512GB Intel
   # Rack Position 4th From right
@@ -132,9 +111,6 @@ nodes:
             - hardwareAddr: 7c:fe:90:a2:c5:91
         dhcp: true
         mtu: 9000
-        vlans:
-          - *vlan1613
-          - *vlan1614
 
   # ToR1 Port2, ToR2 Port2, 500GB Samsung EVO 860
   # Rack Position 3rd From right
@@ -155,9 +131,6 @@ nodes:
             - hardwareAddr: e4:1d:79:67:75:96
         dhcp: true
         mtu: 9000
-        vlans:
-          - *vlan1613
-          - *vlan1614
 
   # ToR1 Port1, ToR2 Port1, 500GB Samsung EVO 860
   # Rack Position 2nd From right
@@ -178,9 +151,6 @@ nodes:
             - hardwareAddr: 8c:dc:d4:a8:42:dd
         dhcp: true
         mtu: 9000
-        vlans:
-          - *vlan1613
-          - *vlan1614
 
 controlPlane:
   nodeLabels:
@@ -321,6 +291,7 @@ controlPlane:
             - ip: ${clusterEndpointIP}
               aliases:
                 - ${clusterHostname}.${clusterDNSSuffix}
+                - ${clusterName}.${clusterDNSSuffix}
 
     # Custom sysctl settings
     - &sysctlPatch |-
@@ -389,6 +360,9 @@ controlPlane:
     #           SHUTDOWNCMD "/sbin/poweroff"
 
 worker:
+  nodeLabels:
+    topology.kubernetes.io/region: main
+    topology.kubernetes.io/zone: w
   schematic:
     customization:
       extraKernelArgs:

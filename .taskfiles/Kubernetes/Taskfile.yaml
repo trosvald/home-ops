@@ -17,7 +17,7 @@ tasks:
           --path {{.KUBERNETES_DIR}}/{{.cluster}}/apps/{{.path}} \
           {{- if contains "not found" .ks }}--dry-run \{{ end }}
       | \
-      kubectl --context {{.cluster}} apply --server-side \
+      kubectl apply --server-side \
           --field-manager=kustomize-controller -f -
     requires:
       vars: ["cluster", "path"]
@@ -42,7 +42,7 @@ tasks:
     requires:
       vars: ["claim"]
     preconditions:
-      - kubectl --context {{.cluster}} --namespace {{.ns}} get persistentvolumeclaims {{.claim}}
+      - kubectl --namespace {{.ns}} get persistentvolumeclaims {{.claim}}
 
   delete-failed-pods:
     desc: Delete all pods with an Evicted/Failed/Succeeded status
@@ -50,7 +50,7 @@ tasks:
       cluster: Cluster to run command against (default: main)
     cmds:
       - for: ["Evicted", "Failed", "Succeeded"]
-        cmd: kubectl --context {{.cluster}} delete pods --field-selector status.phase={{.ITEM}} -A --ignore-not-found=true
+        cmd: kubectl delete pods --field-selector status.phase={{.ITEM}} -A --ignore-not-found=true
     vars:
       cluster: '{{.cluster | default "main"}}'
 
@@ -65,11 +65,11 @@ tasks:
         kubectl get externalsecret --all-namespaces --no-headers -A | awk '{print $1, $2}' \
           | xargs --max-procs=2 -l bash -c 'kubectl -n $0 annotate externalsecret $1 force-sync=$(date +%s) --overwrite'
       {{else}}
-        kubectl --context {{.cluster}} --namespace {{.ns}} annotate externalsecret {{.secret}} force-sync=$(date +%s) --overwrite
+        kubectl --namespace {{.ns}} annotate externalsecret {{.secret}} force-sync=$(date +%s) --overwrite
       {{end}}
     vars:
       secret: '{{ .secret | default ""}}'
       ns: '{{.ns | default "default"}}'
       cluster: '{{.cluster | default "main"}}'
     preconditions:
-      - kubectl --context {{.cluster}} --namespace {{.ns}} get externalsecret {{.secret}}
+      - kubectl --namespace {{.ns}} get externalsecret {{.secret}}

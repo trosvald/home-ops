@@ -3,8 +3,15 @@
 version: "3"
 
 vars:
-  BOOTSTRAP_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/bootstrap/resources"
-
+  BOOTSTRAP_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/Bootstrap/resources"
+  TALOS_VERSION:
+    sh: yq 'select(document_index == 1).spec.postBuild.substitute.TALOS_VERSION' {{.KUBERNETES_DIR}}/main/apps/system-upgrade/system-upgrade-controller/ks.yaml
+  TALOS_SCHEMATIC_ID:
+    sh: yq 'select(document_index == 1).spec.postBuild.substitute.TALOS_SCHEMATIC_ID' {{.KUBERNETES_DIR}}/main/apps/system-upgrade/system-upgrade-controller/ks.yaml
+  KUBERNETES_VERSION:
+    sh: yq 'select(document_index == 1).spec.postBuild.substitute.KUBERNETES_VERSION' {{.KUBERNETES_DIR}}/main/apps/system-upgrade/system-upgrade-controller/ks.yaml
+  CONTROLLER:
+    sh: talosctl --context main config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
 tasks:
 
   kubernetes:
@@ -23,7 +30,7 @@ tasks:
       - { task: kubeconfig, vars: *vars }
       - { task: apps, vars: *vars }
       - { task: rook, vars: *vars }
-      - { task: flux, vars: *vars }
+      # - { task: flux, vars: *vars }
     requires:
       vars: ["nodes", "disk"]
     preconditions:
@@ -40,9 +47,9 @@ tasks:
   apps:
     internal: true
     cmds:
-      - until kubectl --context {{.cluster}} wait --for=condition=Ready=False nodes --all --timeout=10m; do sleep 10; done
-      - helmfile --quiet --kube-context {{.cluster}} --file {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff
-      - until kubectl --context {{.cluster}} wait --for=condition=Ready nodes --all --timeout=10m; do sleep 10; done
+      - until kubectl wait --for=condition=Ready=False nodes --all --timeout=10m; do sleep 10; done
+      - helmfile --quiet --file {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff
+      - until kubectl wait --for=condition=Ready nodes --all --timeout=10m; do sleep 10; done
     preconditions:
       - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/talosconfig
       - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/helmfile.yaml
@@ -60,12 +67,12 @@ tasks:
   flux:
     internal: true
     cmds:
-      - kubectl --context {{.cluster}} apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux
-      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml | kubectl --context {{.cluster}} apply --server-side --filename -
-      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml | kubectl --context {{.cluster}} apply --server-side --filename -
-      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | kubectl --context {{.cluster}} apply --server-side --filename -
-      - kubectl --context {{.cluster}} apply --server-side --filename {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
-      - kubectl --context {{.cluster}} apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/flux/config
+      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux
+      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml | kubectl apply --server-side --filename -
+      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml | kubectl apply --server-side --filename -
+      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | kubectl apply --server-side --filename -
+      - kubectl apply --server-side --filename {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
+      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/flux/config
     preconditions:
       - test -f {{.ROOT_DIR}}/age.key
       - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml
@@ -77,7 +84,7 @@ tasks:
       - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | jq --exit-status '.encrypted'
 
   rook:
-    internal: true
+    # internal: true
     vars: &vars
       cluster: '{{.cluster}}'
       node: '{{.ITEM}}'
@@ -93,11 +100,11 @@ tasks:
   rook-disk:
     internal: true
     cmds:
-      - $GOPATH/bin/envsubst < <(cat {{.BOOTSTRAP_RESOURCES_DIR}}/rook-disk-job.tmpl.yaml) | kubectl --context {{.cluster}} apply -f -
+      - /usr/local/bin/envsubst < <(cat {{.BOOTSTRAP_RESOURCES_DIR}}/rook-disk-job.tmpl.yaml) | kubectl apply -f -
       - bash {{.BOOTSTRAP_RESOURCES_DIR}}/wait-for-job.sh {{.job}} default {{.cluster}}
-      - kubectl --context {{.cluster}} --namespace default wait job/{{.job}} --for condition=complete --timeout=1m
-      - kubectl --context {{.cluster}} --namespace default logs job/{{.job}}
-      - kubectl --context {{.cluster}} --namespace default delete job {{.job}}
+      - kubectl --namespace default wait job/{{.job}} --for condition=complete --timeout=1m
+      - kubectl --namespace default logs job/{{.job}}
+      - kubectl --namespace default delete job {{.job}}
     env:
       disk: '{{.disk}}'
       job: '{{.job}}'
@@ -105,18 +112,18 @@ tasks:
     vars:
       job: wipe-disk-{{.node}}
     preconditions:
-      - test -f $GOPATH/bin/envsubst
+      - test -f /usr/local/bin/envsubst
       - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/wait-for-job.sh
       - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/rook-disk-job.tmpl.yaml
 
   rook-data:
     internal: true
     cmds:
-      - $GOPATH/bin/envsubst < <(cat {{.BOOTSTRAP_RESOURCES_DIR}}/rook-data-job.tmpl.yaml) | kubectl --context {{.cluster}} apply -f -
+      - /usr/local/bin/envsubst < <(cat {{.BOOTSTRAP_RESOURCES_DIR}}/rook-data-job.tmpl.yaml) | kubectl apply -f -
       - bash {{.BOOTSTRAP_RESOURCES_DIR}}/wait-for-job.sh {{.job}} default {{.cluster}}
-      - kubectl --context {{.cluster}} --namespace default wait job/{{.job}} --for condition=complete --timeout=1m
-      - kubectl --context {{.cluster}} --namespace default logs job/{{.job}}
-      - kubectl --context {{.cluster}} --namespace default delete job {{.job}}
+      - kubectl --namespace default wait job/{{.job}} --for condition=complete --timeout=1m
+      - kubectl --namespace default logs job/{{.job}}
+      - kubectl --namespace default delete job {{.job}}
     env:
       disk: '{{.disk}}'
       job: '{{.job}}'
@@ -124,6 +131,6 @@ tasks:
     vars:
       job: wipe-data-{{.node}}
     preconditions:
-      - test -f $GOPATH/bin/envsubst
+      - test -f /usr/local/bin/envsubst
       - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/wait-for-job.sh
       - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/rook-data-job.tmpl.yaml

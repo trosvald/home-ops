@@ -23,7 +23,7 @@ tasks:
     desc: Apply Talos configuration to a node
     cmd: |
       sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets/{{.hostname}}.secret.sops.yaml | \
-          $GOPATH/bin/envsubst | \
+          /usr/local/bin/envsubst | \
               talosctl --context {{.cluster}} apply-config --mode={{.mode}} --nodes {{.hostname}} --file /dev/stdin
     env: *vars
     vars:
@@ -38,10 +38,10 @@ tasks:
   upgrade:
     desc: Upgrade Talos on a node
     cmds:
-      - until kubectl --context {{.cluster}} wait --timeout=5m --for=condition=Complete jobs --all --all-namespaces; do sleep 10; done
+      - until kubectl wait --timeout=5m --for=condition=Complete jobs --all --all-namespaces; do sleep 10; done
       - talosctl --context {{.cluster}} --nodes {{.hostname}} upgrade --image="factory.talos.dev/installer/{{.TALOS_SCHEMATIC_ID}}:{{.TALOS_VERSION}}" --wait=true --timeout=10m --preserve=true
       - talosctl --context {{.cluster}} --nodes {{.hostname}} health --wait-timeout=10m --server=false
-      - until kubectl --context {{.cluster}} wait --timeout=5m --for=jsonpath=.status.ceph.health=HEALTH_OK cephcluster --all --all-namespaces; do sleep 10; done
+      - until kubectl wait --timeout=5m --for=jsonpath=.status.ceph.health=HEALTH_OK cephcluster --all --all-namespaces; do sleep 10; done
     vars: *vars
     requires:
       vars: ["cluster", "hostname"]
@@ -53,7 +53,7 @@ tasks:
   upgrade-k8s:
     desc: Upgrade Kubernetes
     cmds:
-      - until kubectl --context {{.cluster}} wait --timeout=5m --for=condition=Complete jobs --all --all-namespaces; do sleep 10; done
+      - until kubectl wait --timeout=5m --for=condition=Complete jobs --all --all-namespaces; do sleep 10; done
       - talosctl --context {{.cluster}} --nodes {{.CONTROLLER}} upgrade-k8s --to {{.KUBERNETES_VERSION}}
     vars: *vars
     requires:
@@ -97,6 +97,12 @@ tasks:
         --config-file {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/talconfig.yaml
         --out-dir {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/clusterconfig
       - cp -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/clusterconfig/talosconfig {{.KUBERNETES_DIR}}/{{.cluster}}
+      - rm -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets/*.yaml
+      - cp -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/clusterconfig/main-* {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets
+      - rename 's/main-//;' {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets/*.yaml
+      - rename 's/\.monosense.io.yaml$/\.secret.sops.yaml/' {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets/*.yaml
+      - find {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets -type f | xargs -I{} sh -c "sops  --encrypt --encrypted-regex '^(token|crt|key|id|secret|secretboxEncryptionSecret|ca)$' --in-place {}"
+      - { task: bootstrap-matchbox, vars: *vars }
     requires:
       vars:
         - cluster
@@ -114,7 +120,7 @@ tasks:
           curl -skL https://factory.talos.dev/image/{{.TALOS_SCHEMATIC_ID}}/{{.TALOS_VERSION}}/{{.ITEM}} | \
               curl -skT - -u "{{.HOME_SERVICE_USER}}:" \
                   sftp://{{.HOME_SERVICE_ADDR}}/{{.HOME_SERVICE_MATCHBOX_DIR}}/assets/{{.ITEM}}
-      - find {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets -type f | xargs -I{} sh -c "sops --decrypt {} | $GOPATH/bin/envsubst | curl -skT - -u "{{.HOME_SERVICE_USER}}:" sftp://{{.HOME_SERVICE_ADDR}}/{{.HOME_SERVICE_MATCHBOX_DIR}}/assets/\$(basename {} | sed 's/\.secret\.sops//')"
+      - find {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets -type f | xargs -I{} sh -c "sops --decrypt {} | /usr/local/bin/envsubst | curl -skT - -u "{{.HOME_SERVICE_USER}}:" sftp://{{.HOME_SERVICE_ADDR}}/{{.HOME_SERVICE_MATCHBOX_DIR}}/assets/\$(basename {} | sed 's/\.secret\.sops//')"
       - find {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/groups -type f | xargs -I{} curl -skT {} -u "{{.HOME_SERVICE_USER}}:" sftp://{{.HOME_SERVICE_ADDR}}/{{.HOME_SERVICE_MATCHBOX_DIR}}/groups/
       - find {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/profiles -type f | xargs -I{} curl -skT {} -u "{{.HOME_SERVICE_USER}}:" sftp://{{.HOME_SERVICE_ADDR}}/{{.HOME_SERVICE_MATCHBOX_DIR}}/profiles/
       - ssh -l {{.HOME_SERVICE_USER}} {{.HOME_SERVICE_ADDR}} "cd /var/opt/home-service ; go-task restart-matchbox"
@@ -122,5 +128,5 @@ tasks:
     requires:
       vars: ["cluster"]
     preconditions:
-      - test -f $GOPATH/bin/envsubst
+      - test -f /usr/local/bin/envsubst
       - host {{.HOME_SERVICE_ADDR}}
