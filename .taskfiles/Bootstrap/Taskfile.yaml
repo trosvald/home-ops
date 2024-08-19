@@ -30,7 +30,7 @@ tasks:
       - { task: kubeconfig, vars: *vars }
       - { task: apps, vars: *vars }
       - { task: rook, vars: *vars }
-      # - { task: flux, vars: *vars }
+      - { task: flux, vars: *vars }
     requires:
       vars: ["nodes", "disk"]
     preconditions:
@@ -84,7 +84,7 @@ tasks:
       - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | jq --exit-status '.encrypted'
 
   rook:
-    # internal: true
+    internal: true
     vars: &vars
       cluster: '{{.cluster}}'
       node: '{{.ITEM}}'
