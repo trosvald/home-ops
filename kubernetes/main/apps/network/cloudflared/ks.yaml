@@ -15,6 +15,7 @@ spec:
   dependsOn:
     - name: external-dns-cloudflare
     - name: external-secrets-stores
+    - name: nginx-external
   path: ./kubernetes/main/apps/network/cloudflared/app
   prune: false
   sourceRef:
