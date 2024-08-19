@@ -90,10 +90,10 @@ tasks:
       node: '{{.ITEM}}'
       disk: '{{.disk}}'
     cmds:
-      - for: { var: nodes }
+      - for: { var: nodes, split: ',' }
         task: rook-data
         vars: *vars
-      - for: { var: nodes }
+      - for: { var: nodes, split: ',' }
         task: rook-disk
         vars: *vars
 

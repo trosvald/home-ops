@@ -102,7 +102,7 @@ tasks:
       - rename 's/main-//;' {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets/*.yaml
       - rename 's/\.monosense.io.yaml$/\.secret.sops.yaml/' {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets/*.yaml
       - find {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets -type f | xargs -I{} sh -c "sops  --encrypt --encrypted-regex '^(token|crt|key|id|secret|secretboxEncryptionSecret|ca)$' --in-place {}"
-      - { task: bootstrap-matchbox, vars: *vars }
+      # - { task: bootstrap-matchbox, vars: *vars }
     requires:
       vars:
         - cluster
