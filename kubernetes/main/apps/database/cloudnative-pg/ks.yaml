@@ -12,6 +12,8 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
+    - name: rook-ceph
+    - name: rook-ceph-cluster
   path: ./kubernetes/main/apps/database/cloudnative-pg/app
   prune: true
   sourceRef:
