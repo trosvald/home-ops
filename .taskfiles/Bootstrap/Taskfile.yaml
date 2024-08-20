@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
-
+# task bootstrap:kubernetes cluster=main nodes=p-tlx-k8s-m0,p-tlx-k8s-m1,p-tlx-k8s-m2,p-tlx-k8s-w0,p-tlx-k8s-w1,p-tlx-k8s-w2 disk=/dev/nvme0n1
 vars:
   BOOTSTRAP_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/Bootstrap/resources"
   TALOS_VERSION:
