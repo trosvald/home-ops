@@ -13,6 +13,7 @@ resources:
   # - ./crossplane.yaml
   # - ./crunchydata.yaml
   # - ./csi-driver-nfs.yaml
+  - ./democratic-csi.yaml
   - ./descheduler.yaml
   - ./emqx.yaml
   - ./external-dns.yaml
