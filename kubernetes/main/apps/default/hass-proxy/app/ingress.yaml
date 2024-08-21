@@ -4,6 +4,8 @@ kind: Ingress
 metadata:
   name: hass-proxy
 spec:
+  annotations:
+    external-dns.alpha.kubernetes.io/target: external.monosense.io
   ingressClassName: external
   rules:
     - host: &host ha.monosense.io
