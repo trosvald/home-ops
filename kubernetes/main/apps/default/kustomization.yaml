@@ -7,4 +7,4 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   # - ./atuin/ks.yaml
-  - ./hass-proxy/ks.yaml
+  # - ./hass-proxy/ks.yaml
