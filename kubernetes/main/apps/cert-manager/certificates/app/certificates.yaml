@@ -11,6 +11,6 @@ spec:
     kind: ClusterIssuer
   commonName: monosense.io
   dnsNames:
-    - k8s.monosense.io
-    #- monosense.io
-    #- "*.monosense.io"
+    # - k8s.monosense.io
+    - monosense.io
+    - "*.monosense.io"
