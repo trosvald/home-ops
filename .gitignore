@@ -12,6 +12,7 @@ Thumbs.db
 *.pub
 *.key
 *.pem
+*.crt
 kubeconfig
 talosconfig
 config.xml
