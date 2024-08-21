@@ -3,8 +3,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # Pre Flux-Kustomizations
-  - ./namespace.yaml
-  # Flux-Kustomizations
-  # - ./atuin/ks.yaml
-  - ./hass-proxy/ks.yaml
+  - ../../../../templates/gatus/guarded
+  - ./ingress.yaml
+  - ./service.yaml
