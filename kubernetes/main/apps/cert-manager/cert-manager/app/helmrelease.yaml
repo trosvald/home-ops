@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: cert-manager
-      version: v1.15.2
+      version: v1.15.3
       sourceRef:
         kind: HelmRepository
         name: jetstack
@@ -26,11 +26,11 @@ spec:
     installCRDs: true
     dns01RecursiveNameservers: 203.142.82.222:53,203.142.84.222:53
     dns01RecursiveNameserversOnly: true
-    podDnsPolicy: None
-    podDnsConfig:
-      nameservers:
-        - "203.142.82.222"
-        - "203.142.84.222"
+#   podDnsPolicy: None
+#   podDnsConfig:
+#     nameservers:
+#       - "203.142.82.222"
+#       - "203.142.84.222"
     prometheus:
       enabled: true
       servicemonitor:
