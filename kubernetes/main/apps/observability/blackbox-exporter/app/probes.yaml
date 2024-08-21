@@ -11,7 +11,7 @@ spec:
   targets:
     staticConfig:
       static:
-        - p-rl8-zfs.monosense.dev
+        - p-rh8-zfs.monosense.dev
         - san-ipmi.monosense.dev
         - p-rh8-ipa1.monosense.io
         - p-rh8-ipa2.monosense.io
