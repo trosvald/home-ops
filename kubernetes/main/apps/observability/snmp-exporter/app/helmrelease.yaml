@@ -32,7 +32,7 @@ spec:
       params:
         # - name: apcups
         #   module: ["apcups"]
-        #   target: 192.168.1.80
+        #   target: p-apc-ups3.monosense.dev
         #   auth: ["public_v2"]
         - name: dell
           module: ["dell"]
