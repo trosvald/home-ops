@@ -30,13 +30,13 @@ spec:
     serviceMonitor:
       enabled: true
       params:
-        # - name: apcups
-        #   module: ["apcups"]
-        #   target: p-apc-ups3.monosense.dev
-        #   auth: ["public_v2"]
+        - name: apcups
+          module: ["apcups"]
+          target: 172.16.10.14
+          auth: ["public_v2"]
         - name: dell
           module: ["dell"]
-          target: san-ipmi.monosense.dev
+          target: 172.16.10.12
           auth: ["public_v2"]
       path: /snmp
       scrapeTimeout: 10s
