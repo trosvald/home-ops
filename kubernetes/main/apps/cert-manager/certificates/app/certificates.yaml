@@ -9,8 +9,8 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: monosense.io
+  commonName: prod.monosense.io
   dnsNames:
-    # - k8s.monosense.io
-    - monosense.io
-    - "*.monosense.io"
+    - prod.monosense.io
+    #- monosense.io
+    #- "*.monosense.io"
