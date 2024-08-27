@@ -12,6 +12,9 @@ ui:
   title: Status | Gatus
   header: Status
 alerting:
+  telegram:
+    id: $${TELEGRAM_CHANNEL_ID}
+    token: $${TELEGRAM_TOKEN}
   pushover:
     title: Gatus (Kubernetes)
     application-token: $${PUSHOVER_TOKEN}
@@ -37,6 +40,7 @@ endpoints:
       - "[STATUS] == 200"
     alerts:
       - type: pushover
+      - type: telegram
   - name: flux-webhook
     group: external
     url: https://flux-webhook.monosense.io
