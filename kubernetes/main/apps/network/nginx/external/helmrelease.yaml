@@ -31,6 +31,9 @@ spec:
     fullnameOverride: nginx-external
     controller:
       replicaCount: 2
+      extraEnvs:
+        - name: TZ
+          value: "Asia/Jakarta"
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: external.monosense.io
@@ -68,6 +71,7 @@ spec:
           "http_user_agent": "$http_user_agent", "country_code": "$geoip2_city_country_code", "country_name": "$geoip2_city_country_name"}
         proxy-body-size: 0
         proxy-buffer-size: 16k
+        custom-http-errors: 400,401,403,404,500,502,503,504
         ssl-protocols: TLSv1.3 TLSv1.2
         use-geoip2: true
         use-forwarded-headers: "true"
@@ -95,4 +99,21 @@ spec:
         limits:
           memory: 500Mi
     defaultBackend:
-      enabled: false
+      enabled: true
+      image:
+        repository: ghcr.io/tarampampam/error-pages
+        tag: 3.3.0
+      replicaCount: 1
+      resources:
+        requests:
+          cpu: 15m
+          memory: 50Mi
+        limits:
+          memory: 128Mi
+      extraEnvs:
+        - name: TEMPLATE_NAME
+          value: "app-down"
+        - name: SHOW_DETAILS
+          value: "true"
+        - name: SEND_SAME_HTTP_CODE
+          value: "true"
