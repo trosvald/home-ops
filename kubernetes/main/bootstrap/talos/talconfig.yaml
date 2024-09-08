@@ -26,6 +26,7 @@ nodes:
   # ToR1 Port6, ToR2 Port6, 500GB Samsung EVO 860
   # Rack Position 7th From right
   # MAC Address for onboard NIC => e8:6a:64:96:0a:35
+  # /dev/disk/by-id/nvme-TEAM_TM8FP6001T_TPBF2312120030301595
   - hostname: p-tlx-k8s-m0.${clusterDNSSuffix}
     ipAddress: 172.16.11.3
     installDisk: /dev/sda
@@ -44,11 +45,24 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
+        # VLAN
+        vlans:
+          - vlanId: 1613
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.13.3/24
+          - vlanId: 1614
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.14.3/24
 
 
   # ToR1 Port5, ToR2 Port5, 500GB Samsung EVO 860
   # Rack Position 6th From right
   # MAC Address for onboard NIC => 98:fa:9b:19:be:d9
+  # /dev/disk/by-id/nvme-TEAM_TM8FP6001T_TPBF2312120030301178
   - hostname: p-tlx-k8s-m1.${clusterDNSSuffix}
     ipAddress: 172.16.11.4
     installDisk: /dev/sda
@@ -67,11 +81,24 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
+        # VLAN
+        vlans:
+          - vlanId: 1613
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.13.4/24
+          - vlanId: 1614
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.14.4/24
 
   # ToR1 Port4, ToR2 Port4, 512GB Intel
   # Rack Position 5th From right
   # m920x
   # MAC Address for onboard NIC => 98:fa:9b:36:bf:33
+  # /dev/disk/by-id/nvme-PNY_CS2241_1TB_SSD_PNY23242306160103994
   - hostname: p-tlx-k8s-m2.${clusterDNSSuffix}
     ipAddress: 172.16.11.5
     installDisk: /dev/sda
@@ -90,11 +117,25 @@ nodes:
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
+        # VLAN
+        vlans:
+          - vlanId: 1613
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.13.5/24
+          - vlanId: 1614
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.14.5/24
+
 
   # ToR1 Port3, ToR2 Port3, 512GB Intel
   # Rack Position 4th From right
   # m920x
   # MAC Address for onboard NIC => 98:fa:9b:36:b1:0c
+  # /dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY23012301030100E10
   - hostname: p-tlx-k8s-w0.${clusterDNSSuffix}
     ipAddress: 172.16.11.6
     installDisk: /dev/sda
@@ -111,10 +152,23 @@ nodes:
             - hardwareAddr: 7c:fe:90:a2:c5:91
         dhcp: true
         mtu: 9000
+        # VLAN
+        vlans:
+          - vlanId: 1613
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.13.6/24
+          - vlanId: 1614
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.14.6/24
 
   # ToR1 Port2, ToR2 Port2, 500GB Samsung EVO 860
   # Rack Position 3rd From right
   # MAC Address for onboard NIC => e8:6a:64:9a:66:97
+  # /dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY2301230103010065A
   - hostname: p-tlx-k8s-w1.${clusterDNSSuffix}
     ipAddress: 172.16.11.7
     installDisk: /dev/sda
@@ -131,10 +185,23 @@ nodes:
             - hardwareAddr: e4:1d:79:67:75:96
         dhcp: true
         mtu: 9000
+        # VLAN
+        vlans:
+          - vlanId: 1613
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.13.7/24
+          - vlanId: 1614
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.14.7/24
 
   # ToR1 Port1, ToR2 Port1, 500GB Samsung EVO 860
   # Rack Position 2nd From right
   # MAC Address for onboard NIC => e8:6a:64:96:0e:64
+  # /dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY2301230103010067A
   - hostname: p-tlx-k8s-w2.${clusterDNSSuffix}
     ipAddress: 172.16.11.8
     installDisk: /dev/sda
@@ -151,6 +218,18 @@ nodes:
             - hardwareAddr: 8c:dc:d4:a8:42:dd
         dhcp: true
         mtu: 9000
+        # VLAN
+        vlans:
+          - vlanId: 1613
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.13.8/24
+          - vlanId: 1614
+            mtu: 1500
+            dhcp: false
+            addresses:
+              - 172.16.14.8/24
 
 controlPlane:
   nodeLabels:
