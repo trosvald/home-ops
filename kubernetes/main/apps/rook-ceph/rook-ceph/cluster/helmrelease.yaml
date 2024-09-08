@@ -64,11 +64,30 @@ spec:
         connections:
           requireMsgr2: true
       storage:
-        useAllNodes: true
-        useAllDevices: true
-        deviceFilter: nvme0n1
+        useAllNodes: false
+        useAllDevices: false
+        # deviceFilter: nvme0n1
         config:
           osdsPerDevice: "1"
+        nodes:
+          - name: "p-tlx-k8s-m0"
+            devices:
+              - name: "/dev/disk/by-id/nvme-TEAM_TM8FP6001T_TPBF2312120030301595"
+          - name: "p-tlx-k8s-m1"
+            devices:
+              - name: "/dev/disk/by-id/nvme-TEAM_TM8FP6001T_TPBF2312120030301178"
+          - name: "p-tlx-k8s-m2"
+            devices:
+              - name: "/dev/disk/by-id/nvme-PNY_CS2241_1TB_SSD_PNY23242306160103994"
+          - name: "p-tlx-k8s-w0"
+            devices:
+              - name: "/dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY23012301030100E10"
+          - name: "p-tlx-k8s-w1"
+            devices:
+              - name: "/dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY2301230103010065A"
+          - name: "p-tlx-k8s-w2"
+            devices:
+              - name: "/dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY2301230103010067A"
       placement:
         mgr: &placement
           nodeAffinity:
