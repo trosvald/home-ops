@@ -34,14 +34,22 @@ nodes:
     networkInterfaces:
       - interface: eth0
         ignore: true
-      - interface: bond0
-        bond:
-          mode: active-backup
-          miimon: 100
-          deviceSelectors:
-            - hardwareAddr: e4:1d:85:75:d8:73
-            - hardwareAddr: e4:1d:85:75:d8:74
-        dhcp: true
+      - interface: eth2
+        ignore: true
+      # - interface: bond0
+      #   bond:
+      #     mode: active-backup
+      #     miimon: 100
+      #     deviceSelectors:
+      #       - hardwareAddr: e4:1d:85:75:d8:73
+      #       - hardwareAddr: e4:1d:85:75:d8:74
+      - interface: eth1
+        dhcp: false
+        addresses:
+          - 172.16.11.3/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.11.254
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
@@ -50,13 +58,13 @@ nodes:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.13.3/24
+            # addresses:
+            #   - 172.16.13.3/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.14.3/24
+            # addresses:
+            #   - 172.16.14.3/24
 
 
   # ToR1 Port5, ToR2 Port5, 500GB Samsung EVO 860
@@ -70,14 +78,22 @@ nodes:
     networkInterfaces:
       - interface: eth0
         ignore: true
-      - interface: bond0
-        bond:
-          mode: active-backup
-          miimon: 100
-          deviceSelectors:
-            - hardwareAddr: ec:0d:9a:02:85:30
-            - hardwareAddr: ec:0d:9a:02:85:31
-        dhcp: true
+      - interface: eth2
+        ignore: true
+      # - interface: bond0
+      #   bond:
+      #     mode: active-backup
+      #     miimon: 100
+      #     deviceSelectors:
+      #       - hardwareAddr: ec:0d:9a:02:85:30
+      #       - hardwareAddr: ec:0d:9a:02:85:31
+      - interface: eth1
+        dhcp: false
+        addresses:
+          - 172.16.11.4/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.11.254
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
@@ -86,13 +102,13 @@ nodes:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.13.4/24
+            # addresses:
+            #   - 172.16.13.4/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.14.4/24
+            # addresses:
+            #   - 172.16.14.4/24
 
   # ToR1 Port4, ToR2 Port4, 512GB Intel
   # Rack Position 5th From right
@@ -106,14 +122,22 @@ nodes:
     networkInterfaces:
       - interface: eth0
         ignore: true
-      - interface: bond0
-        bond:
-          mode: active-backup
-          miimon: 100
-          deviceSelectors:
-            - hardwareAddr: ec:0d:9a:00:27:90
-            - hardwareAddr: ec:0d:9a:00:27:91
-        dhcp: true
+      - interface: eth2
+        ignore: true
+      # - interface: bond0
+      #   bond:
+      #     mode: active-backup
+      #     miimon: 100
+      #     deviceSelectors:
+      #       - hardwareAddr: ec:0d:9a:00:27:90
+      #       - hardwareAddr: ec:0d:9a:00:27:91
+      - interface: eth1
+        dhcp: false
+        addresses:
+          - 172.16.11.5/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.11.254
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
@@ -122,13 +146,13 @@ nodes:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.13.5/24
+            # addresses:
+            #   - 172.16.13.5/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.14.5/24
+            # addresses:
+            #   - 172.16.14.5/24
 
 
   # ToR1 Port3, ToR2 Port3, 512GB Intel
@@ -143,27 +167,35 @@ nodes:
     networkInterfaces:
       - interface: eth0
         ignore: true
-      - interface: bond0
-        bond:
-          mode: active-backup
-          miimon: 100
-          deviceSelectors:
-            - hardwareAddr: 7c:fe:90:a2:c5:90
-            - hardwareAddr: 7c:fe:90:a2:c5:91
-        dhcp: true
+      - interface: eth2
+        ignore: true
+      # - interface: bond0
+      #   bond:
+      #     mode: active-backup
+      #     miimon: 100
+      #     deviceSelectors:
+      #       - hardwareAddr: 7c:fe:90:a2:c5:90
+      #       - hardwareAddr: 7c:fe:90:a2:c5:91
+      - interface: eth1
+        dhcp: false
+        addresses:
+          - 172.16.11.6/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.11.254
         mtu: 9000
         # VLAN
         vlans:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.13.6/24
+            # addresses:
+            #   - 172.16.13.6/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.14.6/24
+            # addresses:
+            #   - 172.16.14.6/24
 
   # ToR1 Port2, ToR2 Port2, 500GB Samsung EVO 860
   # Rack Position 3rd From right
@@ -176,27 +208,35 @@ nodes:
     networkInterfaces:
       - interface: eth0
         ignore: true
-      - interface: bond0
-        bond:
-          mode: active-backup
-          miimon: 100
-          deviceSelectors:
-            - hardwareAddr: e4:1d:79:67:75:95
-            - hardwareAddr: e4:1d:79:67:75:96
-        dhcp: true
+      - interface: eth2
+        ignore: true
+      # - interface: bond0
+      #   bond:
+      #     mode: active-backup
+      #     miimon: 100
+      #     deviceSelectors:
+      #       - hardwareAddr: e4:1d:79:67:75:95
+      #       - hardwareAddr: e4:1d:79:67:75:96
+      - interface: eth1
+        dhcp: false
+        addresses:
+          - 172.16.11.7/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.11.254
         mtu: 9000
         # VLAN
         vlans:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.13.7/24
+            # addresses:
+            #   - 172.16.13.7/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.14.7/24
+            # addresses:
+            #   - 172.16.14.7/24
 
   # ToR1 Port1, ToR2 Port1, 500GB Samsung EVO 860
   # Rack Position 2nd From right
@@ -209,27 +249,35 @@ nodes:
     networkInterfaces:
       - interface: eth0
         ignore: true
-      - interface: bond0
-        bond:
-          mode: active-backup
-          miimon: 100
-          deviceSelectors:
-            - hardwareAddr: 8c:dc:d4:a8:42:dc
-            - hardwareAddr: 8c:dc:d4:a8:42:dd
-        dhcp: true
+      - interface: eth2
+        ignore: true
+      # - interface: bond0
+      #   bond:
+      #     mode: active-backup
+      #     miimon: 100
+      #     deviceSelectors:
+      #       - hardwareAddr: 8c:dc:d4:a8:42:dc
+      #       - hardwareAddr: 8c:dc:d4:a8:42:dd
+      - interface: eth1
+        dhcp: false
+        addresses:
+          - 172.16.11.8/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.11.254
         mtu: 9000
         # VLAN
         vlans:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.13.8/24
+            # addresses:
+            #   - 172.16.13.8/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            addresses:
-              - 172.16.14.8/24
+            # addresses:
+            #   - 172.16.14.8/24
 
 controlPlane:
   nodeLabels:
