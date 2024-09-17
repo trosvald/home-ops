@@ -3,15 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app cilium
+  name: &app multus
   namespace: flux-system
 spec:
-  targetNamespace: kube-system
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/main/apps/kube-system/cilium/app
-  prune: false # never should be deleted
+  path: ./kubernetes/main/apps/network/multus/app
+  prune: true
   sourceRef:
     kind: GitRepository
     name: prod-kubernetes
@@ -24,21 +24,21 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app cilium-configs
+  name: &app multus-networks
   namespace: flux-system
 spec:
-  targetNamespace: kube-system
+  targetNamespace: network
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: cilium
-  path: ./kubernetes/main/apps/kube-system/cilium/configs
-  prune: false # never should be deleted
+    - name: multus
+  path: ./kubernetes/main/apps/network/multus/networks
+  prune: true
   sourceRef:
     kind: GitRepository
     name: prod-kubernetes
-  wait: false
+  wait: true
   interval: 30m
   retryInterval: 1m
   timeout: 5m

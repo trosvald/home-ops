@@ -51,3 +51,4 @@ endpoints:
       - "[STATUS] == 404"
     alerts:
       - type: pushover
+      - type: telegram

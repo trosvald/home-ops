@@ -61,6 +61,9 @@ spec:
             enabled: true
       network:
         provider: host
+        addressRanges:
+          public: ["${NET_SERVER_CIDR}"]
+          cluster: ["${NET_CEPH_CLUSTER_CIDR}"]
         connections:
           requireMsgr2: true
       storage:

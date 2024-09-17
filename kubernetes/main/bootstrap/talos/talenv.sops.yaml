@@ -1,16 +1,13 @@
 clusterName: ENC[AES256_GCM,data:cpibtA==,iv:zY3OdFm/M9Up5+jK5tI7bZLx1eQGSjrIgGFMx1WL17M=,tag:0jdhmzFAsp+nQVdl54UEtg==,type:str]
 clusterHostname: ENC[AES256_GCM,data:04AX,iv:ofbncFSBXkRNPnKtciQOpMKE4BbDc0Xr2emPHlNYw1E=,tag:4Lqqb3wC9UiYv6TCDHUJ8A==,type:str]
 clusterDNSSuffix: ENC[AES256_GCM,data:zhHNWwLQ+VBxihH3,iv:GzgX2gnWDhjZc9qFoSaTfyIgm5hOS7/3o5xFbsQKkQU=,tag:owg+3Fq7CxJBjt5u40JkMA==,type:str]
-clusterEndpointIP: ENC[AES256_GCM,data:nkX7vot5W/UVDaDo,iv:8FubraxDLv7dQymQ/YzD1NaFiXJvuGK14YdG0rb9t38=,tag:N3FAA7efC6ezvIr/W9bxiQ==,type:str]
-upsmonMasterHost: ENC[AES256_GCM,data:FnF+A5q77f3HvviYVh7kN5tR4jLcCPPSvpR0Fj5as8Nl,iv:yLj8kuItFukLK7etCHj34Tgmlh/yDZ6FGZ6Ohq05WaY=,tag:b0a5FBrfhcB6XW1pp4PNjA==,type:str]
-upsmonMasterUser: ENC[AES256_GCM,data:cnEFeedf29R8,iv:jp7EcduOswSoqPm1+ixPPO2ARVW2SeYdS63wyEVDe9U=,tag:7eoyEEby+1NPVerqJUbuyQ==,type:str]
-upsmonMasterPass: ENC[AES256_GCM,data:0SCsXS8r1atRZA==,iv:WqHR1+8//n+xyZJEjI0gv1G0knMT6cOaNvGV0txmvEw=,tag:Cf5qowXOVfm43A+FhwZwfg==,type:str]
-upsmonWorkerHost: ENC[AES256_GCM,data:xGxjxgfQe6gVu1VVAkwnltqW1aiWZtrMusxNsiOIKVML,iv:T74ZOp1nZRqgH/RdSfb4sOgT5OTptdglhsbyD/DJ9io=,tag:m3eQIywS+RoMnARA54obbw==,type:str]
-upsmonWorkerUser: ENC[AES256_GCM,data:q5VJmaf+xLpg,iv:tb1s0esZQ62BzzJjd+/tIbAzV3pUHICggotg1uNts9A=,tag:WWxvtJd5JTlwJ34A9zCOVA==,type:str]
-upsmonWorkerPass: ENC[AES256_GCM,data:C1X1rP2Kxe9tCQ==,iv:Kp+N68XWbdxOykV7+yvyPguB/akSSWexC+ENMBDZtu4=,tag:RFekv3aFfp0J6Mzb03E9FQ==,type:str]
-vectorAggregatorAddr: ENC[AES256_GCM,data:ajFRu1+tf89NuA==,iv:t6Sgd1OH4YuzcF/jrHfcm9I8xULw49J14yEdDJSRF5Q=,tag:qL6bI7/yG8IPV1qPRTtebQ==,type:str]
+clusterEndpointIP: ENC[AES256_GCM,data:Wjp+uj+u5J0J1K3g,iv:C45XG4D2eQW2zfl4Se6qDUaTVSfFeQ0khUxaDJvY1yU=,tag:zs1hBOf3gkPgimlSSZBsMw==,type:str]
+upsmonHost: ENC[AES256_GCM,data:a7Oo+mhkHa2ArH0S27n/iZrXZPyI,iv:z41F0OuEkpdxrGdkNWZD5h4k+WLkC7AxpddPjoZss2c=,tag:V4wD7LID8yKGt+CvlW1Gew==,type:str]
+upsmonUser: ENC[AES256_GCM,data:xhK+zgwowvA5,iv:U7Eno+wfn1yHjA7ydNrPVqgSZrk+9Wtja7xRc/6GKWY=,tag:6wcwdXYwUsNwPR9MO9RN4A==,type:str]
+upsmonPassword: ENC[AES256_GCM,data:BmdkWNl81s7qdA==,iv:05dQrNNryPeg7Q2gAlQgokn6LffSisOtD8MnY+OIICU=,tag:jxuaCoYob8qF9jwuDKU9KQ==,type:str]
 talosKernelLogPort: ENC[AES256_GCM,data:hwu8Sg==,iv:FNeDpGy74F2K+hHQDv9Q58t9X2nd4c98akRKMEimHmE=,tag:tVAEOT9z95G/ukACSGpJNg==,type:int]
 talosServiceLogPort: ENC[AES256_GCM,data:N/BwJw==,iv:SOaivic3WfLkzPkPAlgLiR+BlTtNkswlRV+Wy4q6Ijs=,tag:FGZJlbo1TQozIGJ2JddpDw==,type:int]
+TALOS_SCHEMATIC_ID: ENC[AES256_GCM,data:JUCoAXHzrrXGDswSRqIuImRbVhmqQrSEn+e5LNkAJU5mM8ve0bMgV/wsyL2UAtCq8PszZDSwb/D+DxLmSLP4UQ==,iv:/5vcjcqDjS4FFNDA5o+txQ26dGEaT+5BeEWINKJoKac=,tag:XhauEJLSHIuMCgTaFt6DRA==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -26,8 +23,8 @@ sops:
             ZmhKWFVGOS9mSkpheUczT1BLbHF6MGcKEcEhHv611lEygGxbTWxFNVcHfKGcKqIF
             bX7HodL86jPYLKo+e+M/xO0OIMpwFt35uGQGOxqLbob3MG23jGKOBg==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2024-08-17T06:59:44Z"
-    mac: ENC[AES256_GCM,data:4UtTOMzUgiVy3iCnt7Nhsil0k97wb0SRyXMVlYBeqhUqCe+XXysqzy4uVDipXSltionJ8RsgLxfpOUD2JV2NJKXE6ZIF6WiXerW2HgNZ/zVyROcr8UrIB2BExBAIiYLC/kSQs4jx61AL2osWKTGXquOcdvIkLnqPMSGpyJleGZI=,iv:8JyBkuMMKtkQmKPYvDspvjWB+ucihUrgDQvWWmv1xsM=,tag:gI9VQ3Gj4mXJ4qujNY7rYQ==,type:str]
+    lastmodified: "2024-09-16T08:53:21Z"
+    mac: ENC[AES256_GCM,data:8T+Ko+DB3x9DpFL3+aKvZbAA/pu10U413ZSEon8xpQz7ICo26jelf3+elb75OOVSI2HbT/1PbsITfrYoVi196jQu3gtJp0+A49y5kg9oufcfiGsLIQNQZFoWkjBH0WLGoROyrQY9WWu9rnzI0RdXmlq7cnyEZX7SadleSjhbCQk=,iv:AWAyX42TPyuQSVx6rRSSp7CmYoiFtEVKTSxIrG2OfvI=,tag:2tRs3x+ovk0kk4DWDW44Dw==,type:str]
     pgp: []
     unencrypted_regex: ^(kind)$
-    version: 3.8.1
+    version: 3.9.0

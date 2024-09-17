@@ -28,87 +28,106 @@ nodes:
   # MAC Address for onboard NIC => e8:6a:64:96:0a:35
   # /dev/disk/by-id/nvme-TEAM_TM8FP6001T_TPBF2312120030301595
   - hostname: p-tlx-k8s-m0.${clusterDNSSuffix}
-    ipAddress: 172.16.11.3
+    ipAddress: 172.16.11.11
     installDisk: /dev/sda
     controlPlane: true
     networkInterfaces:
-      - interface: eth0
+      ## Network Configuration
+      - interface: eno1
         ignore: true
-      - interface: eth2
-        ignore: true
-      # - interface: bond0
-      #   bond:
-      #     mode: active-backup
-      #     miimon: 100
-      #     deviceSelectors:
-      #       - hardwareAddr: e4:1d:85:75:d8:73
-      #       - hardwareAddr: e4:1d:85:75:d8:74
-      - interface: eth1
+      - interface: enp1s0
+        mtu: 9000
+        dhcp: false
+      - interface: enp1s0d1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
+        mtu: 9000
         dhcp: false
         addresses:
-          - 172.16.11.3/24
+          - 172.16.11.11/24
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.11.254
         vip:
           ip: ${clusterEndpointIP}
-        mtu: 9000
-        # VLAN
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0
+            - enp1s0d1
         vlans:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.13.3/24
+            addresses:
+              - 172.16.13.11/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.14.3/24
-
+            addresses:
+              - 172.16.14.11/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.11/24
 
   # ToR1 Port5, ToR2 Port5, 500GB Samsung EVO 860
   # Rack Position 6th From right
   # MAC Address for onboard NIC => 98:fa:9b:19:be:d9
   # /dev/disk/by-id/nvme-TEAM_TM8FP6001T_TPBF2312120030301178
   - hostname: p-tlx-k8s-m1.${clusterDNSSuffix}
-    ipAddress: 172.16.11.4
+    ipAddress: 172.16.11.12
     installDisk: /dev/sda
     controlPlane: true
     networkInterfaces:
-      - interface: eth0
+      ## Network Configuration
+      - interface: eno1
         ignore: true
-      - interface: eth2
-        ignore: true
-      # - interface: bond0
-      #   bond:
-      #     mode: active-backup
-      #     miimon: 100
-      #     deviceSelectors:
-      #       - hardwareAddr: ec:0d:9a:02:85:30
-      #       - hardwareAddr: ec:0d:9a:02:85:31
-      - interface: eth1
+      - interface: enp1s0
+        mtu: 9000
+        dhcp: false
+      - interface: enp1s0d1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
+        mtu: 9000
         dhcp: false
         addresses:
-          - 172.16.11.4/24
+          - 172.16.11.12/24
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.11.254
         vip:
           ip: ${clusterEndpointIP}
-        mtu: 9000
-        # VLAN
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0
+            - enp1s0d1
         vlans:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.13.4/24
+            addresses:
+              - 172.16.13.12/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.14.4/24
+            addresses:
+              - 172.16.14.12/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.12/24
 
   # ToR1 Port4, ToR2 Port4, 512GB Intel
   # Rack Position 5th From right
@@ -116,44 +135,53 @@ nodes:
   # MAC Address for onboard NIC => 98:fa:9b:36:bf:33
   # /dev/disk/by-id/nvme-PNY_CS2241_1TB_SSD_PNY23242306160103994
   - hostname: p-tlx-k8s-m2.${clusterDNSSuffix}
-    ipAddress: 172.16.11.5
+    ipAddress: 172.16.11.13
     installDisk: /dev/sda
     controlPlane: true
     networkInterfaces:
-      - interface: eth0
+      ## Network Configuration
+      - interface: eno1
         ignore: true
-      - interface: eth2
-        ignore: true
-      # - interface: bond0
-      #   bond:
-      #     mode: active-backup
-      #     miimon: 100
-      #     deviceSelectors:
-      #       - hardwareAddr: ec:0d:9a:00:27:90
-      #       - hardwareAddr: ec:0d:9a:00:27:91
-      - interface: eth1
+      - interface: enp1s0
+        mtu: 9000
+        dhcp: false
+      - interface: enp1s0d1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
+        mtu: 9000
         dhcp: false
         addresses:
-          - 172.16.11.5/24
+          - 172.16.11.13/24
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.11.254
         vip:
           ip: ${clusterEndpointIP}
-        mtu: 9000
-        # VLAN
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0
+            - enp1s0d1
         vlans:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.13.5/24
+            addresses:
+              - 172.16.13.13/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.14.5/24
-
+            addresses:
+              - 172.16.14.13/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.13/24
 
   # ToR1 Port3, ToR2 Port3, 512GB Intel
   # Rack Position 4th From right
@@ -161,132 +189,164 @@ nodes:
   # MAC Address for onboard NIC => 98:fa:9b:36:b1:0c
   # /dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY23012301030100E10
   - hostname: p-tlx-k8s-w0.${clusterDNSSuffix}
-    ipAddress: 172.16.11.6
+    ipAddress: 172.16.11.14
     installDisk: /dev/sda
     controlPlane: false
     networkInterfaces:
-      - interface: eth0
+      ## Network Configuration
+      - interface: eno1
         ignore: true
-      - interface: eth2
-        ignore: true
-      # - interface: bond0
-      #   bond:
-      #     mode: active-backup
-      #     miimon: 100
-      #     deviceSelectors:
-      #       - hardwareAddr: 7c:fe:90:a2:c5:90
-      #       - hardwareAddr: 7c:fe:90:a2:c5:91
-      - interface: eth1
+      - interface: enp1s0
+        mtu: 9000
+        dhcp: false
+      - interface: enp1s0d1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
+        mtu: 9000
         dhcp: false
         addresses:
-          - 172.16.11.6/24
+          - 172.16.11.14/24
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.11.254
-        mtu: 9000
-        # VLAN
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0
+            - enp1s0d1
         vlans:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.13.6/24
+            addresses:
+              - 172.16.13.14/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.14.6/24
+            addresses:
+              - 172.16.14.14/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.14/24
 
   # ToR1 Port2, ToR2 Port2, 500GB Samsung EVO 860
   # Rack Position 3rd From right
   # MAC Address for onboard NIC => e8:6a:64:9a:66:97
   # /dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY2301230103010065A
   - hostname: p-tlx-k8s-w1.${clusterDNSSuffix}
-    ipAddress: 172.16.11.7
+    ipAddress: 172.16.11.15
     installDisk: /dev/sda
     controlPlane: false
     networkInterfaces:
-      - interface: eth0
+      ## Network Configuration
+      - interface: eno1
         ignore: true
-      - interface: eth2
-        ignore: true
-      # - interface: bond0
-      #   bond:
-      #     mode: active-backup
-      #     miimon: 100
-      #     deviceSelectors:
-      #       - hardwareAddr: e4:1d:79:67:75:95
-      #       - hardwareAddr: e4:1d:79:67:75:96
-      - interface: eth1
+      - interface: enp1s0
+        mtu: 9000
+        dhcp: false
+      - interface: enp1s0d1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
+        mtu: 9000
         dhcp: false
         addresses:
-          - 172.16.11.7/24
+          - 172.16.11.15/24
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.11.254
-        mtu: 9000
-        # VLAN
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0
+            - enp1s0d1
         vlans:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.13.7/24
+            addresses:
+              - 172.16.13.15/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.14.7/24
+            addresses:
+              - 172.16.14.15/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.15/24
 
   # ToR1 Port1, ToR2 Port1, 500GB Samsung EVO 860
   # Rack Position 2nd From right
   # MAC Address for onboard NIC => e8:6a:64:96:0e:64
   # /dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY2301230103010067A
   - hostname: p-tlx-k8s-w2.${clusterDNSSuffix}
-    ipAddress: 172.16.11.8
+    ipAddress: 172.16.11.16
     installDisk: /dev/sda
     controlPlane: false
     networkInterfaces:
-      - interface: eth0
+      ## Network Configuration
+      - interface: eno1
         ignore: true
-      - interface: eth2
-        ignore: true
-      # - interface: bond0
-      #   bond:
-      #     mode: active-backup
-      #     miimon: 100
-      #     deviceSelectors:
-      #       - hardwareAddr: 8c:dc:d4:a8:42:dc
-      #       - hardwareAddr: 8c:dc:d4:a8:42:dd
-      - interface: eth1
+      - interface: enp1s0f0
+        mtu: 9000
+        dhcp: false
+      - interface: enp1s0f1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
+        mtu: 9000
         dhcp: false
         addresses:
-          - 172.16.11.8/24
+          - 172.16.11.16/24
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.11.254
-        mtu: 9000
-        # VLAN
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0f0
+            - enp1s0f1
         vlans:
           - vlanId: 1613
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.13.8/24
+            addresses:
+              - 172.16.13.16/24
           - vlanId: 1614
             mtu: 1500
             dhcp: false
-            # addresses:
-            #   - 172.16.14.8/24
+            addresses:
+              - 172.16.14.16/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.16/24
 
 controlPlane:
   nodeLabels:
     topology.kubernetes.io/region: main
     topology.kubernetes.io/zone: m
+    factory.talos.dev/schematic-prefix: 03f8321e7acabf80dddbde44cb693f3c
+    factory.talos.dev/schematic-suffix: d7b4d4a571bab9ae5cb74be79872a6e9
+
   schematic:
     customization:
       extraKernelArgs:
-        - net.ifnames=0
         - mitigations=off
         - module_blacklist=e1000e
         - talos.logging.kernel=udp://vector.${clusterDNSSuffix}:${talosKernelLogPort}/
@@ -296,6 +356,14 @@ controlPlane:
           - siderolabs/intel-ucode
           - siderolabs/i915-ucode
           - siderolabs/iscsi-tools
+
+  # extensionServices:
+  #   - name: nut-client
+  #     configFiles:
+  #       - content: |
+  #           MONITOR ${upsmonHost} 1 ${upsmonUser} ${upsmonPassword} slave
+  #           SHUTDOWNCMD "/sbin/poweroff"
+  #         mountPath: /usr/local/etc/nut/upsmon.conf
 
   patches:
     # Configure containerd
@@ -373,7 +441,7 @@ controlPlane:
         network:
           nameservers:
             - 172.16.11.9
-            - 172.16.11.11
+            - 172.16.11.102
 
     # NFS Mount options
     - &nfsPatch |-
@@ -399,8 +467,8 @@ controlPlane:
           disabled: false
           servers:
             - 172.16.11.254
+            - 172.16.11.2
             - 172.16.11.9
-            - 172.16.11.11
 
     # Configure cluster loopback
     - &staticHostEntriesPatch |-
@@ -444,7 +512,7 @@ controlPlane:
 
     # Cluster ETCD configuration
     - |-
-      cluster:
+     cluster:
         etcd:
           extraArgs:
             listen-metrics-urls: http://0.0.0.0:2381
@@ -467,25 +535,16 @@ controlPlane:
             allowedKubernetesNamespaces:
               - system-upgrade
 
-    # Configure master node nut client
-    # - |-
-    #   machine:
-    #     files:
-    #       - op: create
-    #         path: /var/etc/nut/upsmon.conf
-    #         permissions: 0o600
-    #         content: |
-    #           MONITOR ${upsmonMasterHost} 1 ${upsmonMasterUser} ${upsmonMasterPass} slave
-    #           SHUTDOWNCMD "/sbin/poweroff"
-
 worker:
   nodeLabels:
     topology.kubernetes.io/region: main
     topology.kubernetes.io/zone: w
+    factory.talos.dev/schematic-prefix: 03f8321e7acabf80dddbde44cb693f3c
+    factory.talos.dev/schematic-suffix: d7b4d4a571bab9ae5cb74be79872a6e9
+
   schematic:
     customization:
       extraKernelArgs:
-        - net.ifnames=0
         - mitigations=off
         - module_blacklist=e1000e
         - talos.logging.kernel=udp://vector.${clusterDNSSuffix}:${talosKernelLogPort}/
@@ -495,6 +554,14 @@ worker:
           - siderolabs/intel-ucode
           - siderolabs/i915-ucode
           - siderolabs/iscsi-tools
+
+  # extensionServices:
+  #   - name: nut-client
+  #     configFiles:
+  #       - content: |
+  #           MONITOR ${upsmonHost} 1 ${upsmonUser} ${upsmonPassword} slave
+  #           SHUTDOWNCMD "/sbin/poweroff"
+  #         mountPath: /usr/local/etc/nut/upsmon.conf
 
   patches:
     - *containerdPatch
@@ -509,13 +576,3 @@ worker:
     - *ntpServerPatch
     - *staticHostEntriesPatch
     - *sysctlPatch
-    # Configure nut client
-    # - |-
-    #   machine:
-    #     files:
-    #       - op: create
-    #         path: /var/etc/nut/upsmon.conf
-    #         permissions: 0o600
-    #         content: |
-    #           MONITOR ${upsmonWorkerHost} 1 ${upsmonWorkerUser} ${upsmonWorkerPass} slave
-    #           SHUTDOWNCMD "/sbin/poweroff"

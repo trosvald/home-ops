@@ -16,6 +16,9 @@ bpf:
   #    @default -- `false`
   tproxy: true
 
+l2announcements:
+  enabled: true
+
 bgpControlPlane:
   enabled: true
 
@@ -47,6 +50,10 @@ cni:
 #    the cilium_host interface.
 endpointRoutes:
   enabled: true
+
+# -- Disabled Envoy
+envoy:
+  enabled: false
 
 # -- Enable ExternalIPs service support.
 externalIPs:

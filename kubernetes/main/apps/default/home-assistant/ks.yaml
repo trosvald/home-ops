@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app hass-proxy
+  name: &app home-assistant
   namespace: flux-system
 spec:
   targetNamespace: default
@@ -11,8 +11,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: nginx-external
-  path: ./kubernetes/main/apps/default/hass-proxy/app
+    - name: external-secrets-stores
+  path: ./kubernetes/main/apps/default/home-assistant/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -24,4 +24,5 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: ha
+      GATUS_SUBDOMAIN: hass
+      VOLSYNC_CAPACITY: 5Gi

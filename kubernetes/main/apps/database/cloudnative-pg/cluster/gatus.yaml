@@ -19,3 +19,4 @@ data:
           - "[CONNECTED] == true"
         alerts:
           - type: pushover
+          - type: telegram

@@ -34,6 +34,14 @@ spec:
         valueFrom:
           fieldRef:
             fieldPath: status.hostIP
+      - name: SCHEMATIC_PREFIX
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels['factory.talos.dev/schematic-prefix']
+      - name: SCHEMATIC_SUFFIX
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels['factory.talos.dev/schematic-suffix']
     args:
       - --nodes=$(NODE_IP)
       - health
@@ -43,6 +51,6 @@ spec:
     args:
       - --nodes=$(NODE_IP)
       - upgrade
-      - --image=factory.talos.dev/installer/${TALOS_SCHEMATIC_ID}:$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
+      - --image=factory.talos.dev/installer/$(SCHEMATIC_PREFIX)$(SCHEMATIC_SUFFIX):$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
       - --preserve=true
       - --wait=false
