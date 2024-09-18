@@ -62,7 +62,7 @@ spec:
         reporting_enabled: false
       auth:
         oauth_auto_login: true
-        signout_redirect_url: https://auth.monosense.io/application/o/grafana/end-session/
+        signout_redirect_url: https://sso.monosense.io/application/o/grafana/end-session/
         oauth_allow_insecure_email_lookup: true
       auth.basic:
         enabled: false
@@ -72,9 +72,9 @@ spec:
         enabled: true
         name: monosense.io
         icon: signin
-        auth_url: https://auth.monosense.io/application/o/authorize/
-        token_url: https://auth.monosense.io/application/o/token/
-        api_url: https://auth.monosense.io/application/o/userinfo/
+        auth_url: https://sso.monosense.io/application/o/authorize/
+        token_url: https://sso.monosense.io/application/o/token/
+        api_url: https://sso.monosense.io/application/o/userinfo/
         scopes: openid email profile
         use_pkce: true
         skip_org_role_sync: true

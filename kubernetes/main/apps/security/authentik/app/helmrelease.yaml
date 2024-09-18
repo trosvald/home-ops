@@ -48,7 +48,7 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: external.monosense.io
         hosts:
-          - &host auth.monosense.io
+          - &host sso.monosense.io
         paths:
           - /
         tls: [hosts: [*host]]
@@ -59,7 +59,7 @@ spec:
           cpu: 50m
           memory: 500Mi
         limits:
-          memory: 1200Mi
+          memory: 2000Mi
     authentik:
       log_level: debug
       redis:

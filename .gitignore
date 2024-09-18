@@ -16,6 +16,5 @@ Thumbs.db
 kubeconfig
 talosconfig
 config.xml
-tofu.plan
-tf.plan
+*.plan
 Brewfile.lock.json

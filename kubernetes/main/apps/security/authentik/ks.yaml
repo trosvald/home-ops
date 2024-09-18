@@ -24,4 +24,4 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      GATUS_SUBDOMAIN: auth
+      GATUS_SUBDOMAIN: sso
