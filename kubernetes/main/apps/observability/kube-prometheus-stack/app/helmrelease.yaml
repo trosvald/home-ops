@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 61.9.0
+      version: 62.7.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -25,11 +25,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: prometheus-operator-crds
-      namespace: observability
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
   values:
     crds:
       enabled: false
@@ -43,12 +38,13 @@ spec:
         hosts: ["alertmanager.monosense.io"]
         pathType: Prefix
       alertmanagerSpec:
+        replicas: 3
         useExistingSecret: true
         configSecret: alertmanager-secret
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: ceph-block
+              storageClassName: ceph-filesystem
               resources:
                 requests:
                   storage: 1Gi
@@ -76,7 +72,16 @@ spec:
         ingressClassName: internal
         hosts: ["prometheus.monosense.io"]
         pathType: Prefix
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
       prometheusSpec:
+        podMetadata:
+          annotations:
+            secret.reloader.stakater.com/reload: &secret thanos-objectstore-secret
+        replicas: 3
+        replicaExternalLabelName: __replica__
         scrapeInterval: 1m # Must match interval in Grafana Helm chart
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
@@ -89,20 +94,28 @@ spec:
           - auto-gomemlimit
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
-        retention: 14d
-        retentionSize: 80GB
+        externalUrl: https://prometheus.monosense.io
+        thanos:
+          image: quay.io/thanos/thanos:${THANOS_VERSION}
+          version: ${THANOS_VERSION}
+          objectStorageConfig:
+            existingSecret:
+              name: kps-thanos
+              key: objstore.yml
+        retention: 2d
+        retentionSize: 15GB
         resources:
           requests:
             cpu: 100m
           limits:
-            memory: 1500Mi
+            memory: 4Gi
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: ceph-block
+              storageClassName: ceph-filesystem
               resources:
                 requests:
-                  storage: 90Gi
+                  storage: 20Gi
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       prometheus:
@@ -131,4 +144,11 @@ spec:
               targetLabel: kubernetes_node
     grafana:
       enabled: false
-      forceDeployDashboards: true
+      forceDeployDashboards: false
+      # sidecar:
+      #   dashboards:
+      #     annotations:
+      #       grafana_folder: Observability
+      #     multicluster:
+      #       etcd:
+      #         enabled: true

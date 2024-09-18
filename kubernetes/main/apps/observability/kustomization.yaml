@@ -6,13 +6,12 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./blackbox-exporter/ks.yaml
   - ./gatus/ks.yaml
   - ./grafana/ks.yaml
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
+  - ./thanos/ks.yaml
   - ./prometheus-operator-crds/ks.yaml
-  - ./promtail/ks.yaml
-  - ./smartctl-exporter/ks.yaml
-  - ./snmp-exporter/ks.yaml
+  - ./vector/ks.yaml
+  - ./exporters

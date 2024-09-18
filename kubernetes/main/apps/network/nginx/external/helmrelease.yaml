@@ -37,7 +37,7 @@ spec:
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: external.monosense.io
-          io.cilium/lb-ipam-ips: 10.11.11.2
+          io.cilium/lb-ipam-ips: ${NET_SERVICES_EXT_INGRESS_IP}
       ingressClassResource:
         name: external
         default: false

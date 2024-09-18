@@ -33,10 +33,13 @@ spec:
           app:
             image:
               repository: ghcr.io/kashalls/kromgo
-              tag: 0.3.1@sha256:5ba40b2fda00ab7adb039c0be955161b84febfe9e9e7816d5f1f87d9ab41f173
+              tag: v0.4.1@sha256:237e6ac3f3bc791343e1ee84122ce9b97abf7eed86cd522d8bf4cba10a041e9f
             env:
+              HEALTH_HOST: 0.0.0.0
+              HEALTH_PORT: &healthPort 8888
               PROMETHEUS_URL: http://thanos-query-frontend.observability.svc.cluster.local:10902
-              PORT: &port 80
+              SERVER_HOST: 0.0.0.0
+              SERVER_PORT: &port 8080
             probes:
               liveness: &probes
                 enabled: true
@@ -44,7 +47,7 @@ spec:
                 spec:
                   httpGet:
                     path: /-/ready
-                    port: *port
+                    port: *healthPort
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -59,6 +62,7 @@ spec:
                 cpu: 10m
               limits:
                 memory: 64Mi
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -72,12 +76,26 @@ spec:
           labelSelector:
             matchLabels:
               app.kubernetes.io/name: *app
+
     service:
       app:
         controller: kromgo
         ports:
           http:
             port: *port
+          health:
+            port: *healthPort
+
+    serviceMonitor:
+      app:
+        serviceName: *app
+        endpoints:
+          - port: health
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
+
     ingress:
       app:
         annotations:
@@ -90,6 +108,7 @@ spec:
                 service:
                   identifier: app
                   port: http
+
     persistence:
       config-file:
         type: configMap
