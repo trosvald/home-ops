@@ -11,7 +11,7 @@ terraform {
   required_providers {
     authentik = {
       source  = "goauthentik/authentik"
-      version = "2024.6.1"
+      version = "2024.8.3"
     }
   }
 }
@@ -36,6 +36,7 @@ module "secret_ocis" {
 }
 
 provider "authentik" {
-  url   = module.secret_authentik.fields["endpoint_url"]
-  token = module.secret_authentik.fields["api_token"]
+  url   = module.secret_authentik.fields["authentik_endpoint_url"]
+  token = module.secret_authentik.fields["authentik_api_token"]
+
 }
