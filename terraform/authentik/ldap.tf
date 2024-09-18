@@ -17,7 +17,7 @@ resource "authentik_source_ldap" "rh_idm" {
     "authentik default OpenLDAP Mapping: uid"
   ]
   property_mappings_group = ["authentik default OpenLDAP: cn"]
-  additional_user_dn      = "cn=user,cn=accounts"
+  additional_user_dn      = "cn=users,cn=accounts"
   additional_group_dn     = "cn=groups,cn=accounts"
   user_object_filter      = "(objectClass=person)"
   group_object_filter     = "(objectClass=groupofnames)"

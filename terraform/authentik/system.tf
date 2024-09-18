@@ -6,8 +6,8 @@ resource "authentik_brand" "home" {
   domain           = module.secret_authentik.fields["authentik_cluster_domain"]
   default          = false
   branding_title   = "Home"
-  branding_logo    = "https://assets.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/Banner2-white.svg"
-  branding_favicon = "https://assets.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/favicon.png"
+  branding_logo    = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/Banner2-white.svg"
+  branding_favicon = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/favicon.png"
 
   flow_authentication = authentik_flow.authentication.uuid
   flow_invalidation   = authentik_flow.invalidation.uuid
@@ -34,7 +34,7 @@ resource "authentik_outpost" "proxyoutpost" {
     module.proxy-homepage.id
   ]
   config = jsonencode({
-    authentik_host          = "https://auth.${module.secret_authentik.fields["authentik_cluster_domain"]}",
+    authentik_host          = "https://sso.${module.secret_authentik.fields["authentik_cluster_domain"]}",
     authentik_host_insecure = false,
     authentik_host_browser  = "",
     log_level               = "debug",
