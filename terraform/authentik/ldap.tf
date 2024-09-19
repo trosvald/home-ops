@@ -6,8 +6,8 @@ resource "authentik_source_ldap" "rh_idm" {
   bind_cn                 = module.secret_authentik.fields.authentik_ldap_bind
   bind_password           = module.secret_authentik.fields.authentik_ldap_password
   base_dn                 = module.secret_authentik.fields.authentik_ldap_base_dn
-  sync_user               = true
-  sync_user_password      = true
+  sync_users               = true
+  sync_users_password      = true
   sync_groups             = true
   start_tls               = false
   property_mappings       = [

@@ -5,7 +5,7 @@ data "authentik_certificate_key_pair" "generated" {
 resource "authentik_brand" "home" {
   domain           = module.secret_authentik.fields["authentik_cluster_domain"]
   default          = false
-  branding_title   = "Home"
+  branding_title   = "Monosense"
   branding_logo    = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/Banner2-white.svg"
   branding_favicon = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/favicon.png"
 
