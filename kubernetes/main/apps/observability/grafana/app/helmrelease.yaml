@@ -30,7 +30,7 @@ spec:
         image: ghcr.io/onedr0p/postgres-init:16.3
         envFrom:
           - secretRef:
-            name: *secret
+            name: grafana-secret
     persistence:
       enabled: false
     imageRenderer:
@@ -51,10 +51,11 @@ spec:
       hosts:
         - &host grafana.monosense.io
       tls: [hosts: [*host]]
+
     env:
       GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: true
     envFromSecrets:
-      - name: *secret
+      - name: grafana-secret
     grafana.ini:
       analytics:
         check_for_updates: false
