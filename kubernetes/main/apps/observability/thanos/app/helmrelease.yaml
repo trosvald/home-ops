@@ -106,15 +106,15 @@ spec:
       persistence: *persistence
       podAnnotations: *podAnnotations
   valuesFrom:
-    - kind: ConfigMap
+    - kind: Secret
       targetPath: objstoreConfig.value.config.bucket
       name: thanos-objectstore-secret
       valuesKey: S3_BUCKET
-    - kind: ConfigMap
+    - kind: Secret
       targetPath: objstoreConfig.value.config.endpoint
       name: thanos-objectstore-secret
       valuesKey: S3_HOST
-    - kind: ConfigMap
+    - kind: Secret
       targetPath: objstoreConfig.value.config.region
       name: thanos-objectstore-secret
       valuesKey: S3_REGION
