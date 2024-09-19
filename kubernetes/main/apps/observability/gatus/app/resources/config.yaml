@@ -27,7 +27,7 @@ alerting:
       success-threshold: 3
 connectivity:
   checker:
-    target: 203.142.82.222:53
+    target: 1.1.1.1:53
     interval: 1m
 endpoints:
   - name: status
@@ -35,7 +35,7 @@ endpoints:
     url: https://status.monosense.io
     interval: 1m
     client:
-      dns-resolver: tcp://203.142.82.222:53
+      dns-resolver: tcp://1.1.1.1:53
     conditions:
       - "[STATUS] == 200"
     alerts:
@@ -46,7 +46,7 @@ endpoints:
     url: https://flux-webhook.monosense.io
     interval: 1m
     client:
-      dns-resolver: tcp://203.142.82.222:53
+      dns-resolver: tcp://1.1.1.1:53
     conditions:
       - "[STATUS] == 404"
     alerts:

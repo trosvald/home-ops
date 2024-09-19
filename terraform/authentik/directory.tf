@@ -30,21 +30,3 @@ resource "authentik_group" "infrastructure" {
   name         = "infrastructure"
   is_superuser = false
 }
-
-#
-# Users (Directory resources)
-# https://registry.terraform.io/providers/goauthentik/authentik/latest/docs/resources/user
-#
-resource "authentik_user" "orguser" {
-  username  = module.secret_authentik.fields["authentik_org_user"]
-  name      = module.secret_authentik.fields["authentik_org_user_full"]
-  email     = module.secret_authentik.fields["authentik_org_user_email"]
-}
-
-resource "authentik_group" "administrator" {
-  name          = "administrator"
-  users         = [authentik_user.orguser.id]
-  is_superuser  = true
-}
-
-
