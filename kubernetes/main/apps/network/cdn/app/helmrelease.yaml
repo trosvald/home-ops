@@ -35,8 +35,6 @@ spec:
       app:
         enabled: true
         className: external
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: external.monosense.io
         hosts:
           - host: &host cdn.monosense.io
             paths:
