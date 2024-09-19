@@ -23,14 +23,12 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    annotations:
-      secret.reloader.stakater.com/reload: &secret grafana-secret
     extraInitContainers:
       - name: init-db
-        image: ghcr.io/onedr0p/postgres-init:16.3
+        image: ghcr.io/buroa/postgres-init:16.3
         envFrom:
           - secretRef:
-            name: grafana-secret
+              name: &secret grafana-secret
     persistence:
       enabled: false
     imageRenderer:
@@ -55,7 +53,7 @@ spec:
     env:
       GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: true
     envFromSecrets:
-      - name: grafana-secret
+      - name: *secret
     grafana.ini:
       analytics:
         check_for_updates: false
