@@ -6,7 +6,7 @@ resource "authentik_brand" "home" {
   domain           = module.secret_authentik.fields["authentik_cluster_domain"]
   default          = false
   branding_title   = "Monosense"
-  branding_logo    = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/Banner2-white.svg"
+  branding_logo    = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/favicon.png"
   branding_favicon = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/favicon.png"
 
   flow_authentication = authentik_flow.authentication.uuid
