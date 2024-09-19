@@ -20,7 +20,7 @@ spec:
   dependsOn:
     - name: cloudnative-pg-cluster
     - name: dragonfly-cluster
-    - name: external-secrets-store
+    - name: external-secrets-stores
   postBuild:
     substitute:
       APP: *appname
