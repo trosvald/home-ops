@@ -35,7 +35,6 @@ spec:
       app:
         enabled: true
         annotations:
-          annotations:
           external-dns.alpha.kubernetes.io/target: external.monosense.io
         className: external
         hosts:
