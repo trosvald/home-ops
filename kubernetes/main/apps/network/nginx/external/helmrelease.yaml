@@ -114,6 +114,6 @@ spec:
         - name: TEMPLATE_NAME
           value: "app-down"
         - name: SHOW_DETAILS
-          value: "true"
+          value: "false"
         - name: SEND_SAME_HTTP_CODE
           value: "true"
