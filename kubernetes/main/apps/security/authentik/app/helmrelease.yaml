@@ -19,6 +19,8 @@ spec:
       deploymentAnnotations:
         secret.reloader.stakater.com/reload: &secret authentik-secret
       env:
+        - name: TZ
+          value: Asia/Jakarta
         - name: AUTHENTIK_SESSION_STORAGE
           value: db
       envFrom:

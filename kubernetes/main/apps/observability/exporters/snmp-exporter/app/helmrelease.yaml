@@ -38,10 +38,10 @@ spec:
           auth: [public_v2]
           module: [apcups]
           target: p-apc-ups3.monosense.dev
-        - name: ats
-          auth: [public_v2]
-          module: [apcups]
-          target: p-apc-ats.monosense.dev
+        # - name: ats
+        #   auth: [public_v2]
+        #   module: [apcups]
+        #   target: p-apc-ats.monosense.dev
       path: /snmp
       scrapeTimeout: 10s
       relabelings:
