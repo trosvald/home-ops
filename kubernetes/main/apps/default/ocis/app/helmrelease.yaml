@@ -109,6 +109,7 @@ spec:
       app:
         className: external
         annotations:
+          external-dns.alpha.kubernetes.io/target: external.monosense.io
           nginx.ingress.kubernetes.io/custom-http-errors: "418"
         hosts:
           - host: &host ${HOSTNAME}
