@@ -6,5 +6,8 @@ web:
       - search
       - text-editor
       - pdf-viewer
+      - external
       - admin-settings
       - epub-reader
+      - preview
+      - app-store
