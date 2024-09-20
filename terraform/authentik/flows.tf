@@ -7,6 +7,7 @@ resource "authentik_flow" "authenticator-totp-setup" {
   designation    = "stage_configuration"
   authentication = "require_authenticated"
   background     = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/pfbg_2000.jpg"
+  layout         = "sidebar_right"
 
 }
 
@@ -23,6 +24,7 @@ resource "authentik_flow" "authenticator-webauthn-setup" {
   designation    = "stage_configuration"
   authentication = "require_authenticated"
   background     = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/pfbg_2000.jpg"
+  layout         = "sidebar_right"
 
 }
 
@@ -36,11 +38,12 @@ resource "authentik_flow_stage_binding" "authenticator-webauthn-setup-binding-00
 ## Authentication flow
 resource "authentik_flow" "authentication" {
   name               = "authentication-flow"
-  title              = "Welcome!"
+  title              = "SSO Login"
   slug               = "authentication-flow"
   designation        = "authentication"
   policy_engine_mode = "all"
   background         = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/pfbg_2000.jpg"
+  layout             = "sidebar_right"
 }
 
 resource "authentik_flow_stage_binding" "authentication-flow-binding-00" {
@@ -68,6 +71,7 @@ resource "authentik_flow" "passwordless_authentication" {
   designation        = "authentication"
   policy_engine_mode = "all"
   background         = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/pfbg_2000.jpg"
+  layout             = "sidebar_right"
 }
 
 resource "authentik_flow_stage_binding" "passwordless_authentication-binding-00" {
@@ -93,6 +97,7 @@ resource "authentik_flow" "invalidation" {
   designation        = "invalidation"
   denied_action      = "continue"
   background         = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/pfbg_2000.jpg"
+  layout             = "sidebar_right"
 }
 
 resource "authentik_flow_stage_binding" "invalidation-flow-binding-00" {
@@ -109,6 +114,7 @@ resource "authentik_flow" "recovery" {
   designation        = "recovery"
   compatibility_mode = true
   background         = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/pfbg_2000.jpg"
+  layout             = "sidebar_right"
 }
 
 resource "authentik_flow_stage_binding" "recovery-flow-binding-00" {
@@ -143,6 +149,7 @@ resource "authentik_flow" "enrollment-invitation" {
   designation        = "enrollment"
   compatibility_mode = true
   background         = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/pfbg_2000.jpg"
+  layout             = "sidebar_right"
 }
 
 resource "authentik_flow_stage_binding" "enrollment-invitation-flow-binding-00" {
@@ -178,6 +185,7 @@ resource "authentik_flow" "user-settings" {
   denied_action      = "message_continue"
   designation        = "stage_configuration"
   background         = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/pfbg_2000.jpg"
+  layout             = "sidebar_right"
 }
 
 resource "authentik_flow_stage_binding" "user-settings-flow-binding-20" {
@@ -201,4 +209,5 @@ resource "authentik_flow" "provider-authorization-implicit-consent" {
   denied_action      = "message_continue"
   designation        = "authorization"
   background         = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/pfbg_2000.jpg"
+  layout             = "sidebar_right"
 }

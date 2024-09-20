@@ -41,7 +41,7 @@ spec:
   values:
     nameOverride: gha-runner-scale-set
     runnerScaleSetName: gha-runner-scale-set
-    githubConfigUrl: https://github.com/trosvald/k8s-cluster
+    githubConfigUrl: https://github.com/trosvald/home-ops
     minRunners: 1
     maxRunners: 6
     containerMode:

@@ -129,25 +129,25 @@ module "oauth2-grafana" {
 #   redirect_uris      = ["https://documents.monosense.io/accounts/oidc/authentik/login/callback/"]
 # }
 
-# module "oauth2-ocis" {
-#   source             = "./oauth2_application"
-#   name               = "Owncloud"
-#   icon_url           = "https://raw.githubusercontent.com/owncloud/owncloud.github.io/main/static/favicon/favicon.png"
-#   launch_url         = "https://files.monosense.io"
-#   description        = "Files"
-#   newtab             = true
-#   group              = "Selfhosted"
-#   auth_groups        = [authentik_group.users.id]
-#   client_type        = "public"
-#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-#   client_id          = module.secret_ocis.fields["ocis_oidc_client_id"]
-#   # additional_property_mappings = formatlist(authentik_scope_mapping.openid-nextcloud.id)
-#   redirect_uris = [
-#     "https://files.monosense.io",
-#     "https://files.monosense.io/oidc-callback.html",
-#     "https://files.monosense.io/oidc-silent-redirect.html"
-#   ]
-# }
+module "oauth2-ocis" {
+  source             = "./oauth2_application"
+  name               = "Owncloud"
+  icon_url           = "https://raw.githubusercontent.com/owncloud/owncloud.github.io/main/static/favicon/favicon.png"
+  launch_url         = "https://files.monosense.io"
+  description        = "Files"
+  newtab             = true
+  group              = "Selfhosted"
+  auth_groups        = [authentik_group.users.id]
+  client_type        = "public"
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  client_id          = module.secret_ocis.fields["ocis_oidc_client_id"]
+  # additional_property_mappings = formatlist(authentik_scope_mapping.openid-nextcloud.id)
+  redirect_uris = [
+    "https://files.monosense.io",
+    "https://files.monosense.io/oidc-callback.html",
+    "https://files.monosense.io/oidc-silent-redirect.html"
+  ]
+}
 
 module "oauth2-ocis-android" {
   source             = "./oauth2_application"
