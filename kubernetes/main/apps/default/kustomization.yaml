@@ -8,4 +8,4 @@ resources:
   # Flux-Kustomizations
   # - ./atuin/ks.yaml
   # - ./home-assistant/ks.yaml
-  - ./ocis/ks.yaml
+  # - ./ocis/ks.yaml
