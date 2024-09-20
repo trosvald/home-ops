@@ -24,7 +24,6 @@ spec:
     - name: cloudnative-pg-cluster
     - name: dragonfly-cluster
     - name: volsync
-    - name: democratic-csi-nfs
     - name: authentik
   postBuild:
     substitute:
@@ -36,9 +35,3 @@ spec:
       GATUS_SUBDOMAIN: files
       VOLSYNC_CLAIM: ocis-data
       VOLSYNC_CAPACITY: &size 20Gi
-      VOLSYNC_CACHE_CAPACITY: *size
-      VOLSYNC_STORAGECLASS: &class zol-nfs
-      VOLSYNC_CACHE_SNAPSHOTCLASS: *class
-      VOLSYNC_SNAPSHOTCLASS: *class
-      VOLSYNC_ACCESSMODES: ReadWriteMany
-      VOLSYNC_TIME: 0 13 * * *
