@@ -1,14 +1,14 @@
-# module "proxy-transmission" {
-#   source             = "./proxy_application"
-#   name               = "Transmission"
-#   description        = "Torrent client"
-#   icon_url           = "https://github.com/transmission/transmission/raw/main/web/assets/img/logo.png"
-#   group              = "Downloads"
-#   slug               = "qb"
-#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-#   auth_groups        = [authentik_group.media.id]
-# }
+module "proxy-transmission" {
+  source             = "./proxy_application"
+  name               = "Transmission"
+  description        = "Torrent client"
+  icon_url           = "https://github.com/transmission/transmission/raw/main/web/assets/img/logo.png"
+  group              = "Downloads"
+  slug               = "qb"
+  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  auth_groups        = [authentik_group.media.id]
+}
 
 # module "proxy-pinchflat" {
 #   source             = "./proxy_application"
