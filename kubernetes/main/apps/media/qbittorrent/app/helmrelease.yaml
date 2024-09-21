@@ -36,7 +36,7 @@ spec:
               TZ: ${TIMEZONE}
               QBITTORRENT__PORT: &port 80
               QBITTORRENT__BT_PORT: &bittorrentPort 50413
-              QBT_Preferences__WebUI__AlternativeUIEnabled: true
+              QBT_Preferences__WebUI__AlternativeUIEnabled: false
               QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
               QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
                 10.42.0.0/16, 172.16.11.0/24
@@ -74,22 +74,22 @@ spec:
                 cpu: 100m
               limits:
                 memory: 32Gi
-          vuetorrent:
-            dependsOn: app
-            image:
-              repository: registry.k8s.io/git-sync/git-sync
-              tag: v4.2.4
-            args:
-              - --repo=https://github.com/WDaan/VueTorrent
-              - --ref=latest-release
-              - --period=86400s
-              - --root=/addons
-            resources:
-              requests:
-                cpu: 10m
-                memory: 25Mi
-              limits:
-                memory: 50Mi
+          # vuetorrent:
+          #   dependsOn: app
+          #   image:
+          #     repository: registry.k8s.io/git-sync/git-sync
+          #     tag: v4.2.4
+          #   args:
+          #     - --repo=https://github.com/WDaan/VueTorrent
+          #     - --ref=latest-release
+          #     - --period=86400s
+          #     - --root=/addons
+          #   resources:
+          #     requests:
+          #       cpu: 10m
+          #       memory: 25Mi
+          #     limits:
+          #       memory: 50Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
