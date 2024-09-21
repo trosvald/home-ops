@@ -4,7 +4,19 @@ module "proxy-transmission" {
   description        = "Torrent client"
   icon_url           = "https://github.com/transmission/transmission/raw/main/web/assets/img/logo.png"
   group              = "Downloads"
-  slug               = "torrent"
+  slug               = "qb"
+  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  auth_groups        = [authentik_group.media.id]
+}
+
+module "proxy-pinchflat" {
+  source             = "./proxy_application"
+  name               = "Pinchflat"
+  description        = "YouTube Donwloader"
+  icon_url           = "https://cdn.monosense.io/static-contents/brands/yt.png"
+  group              = "Downloads"
+  slug               = "pinchflat"
   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
   auth_groups        = [authentik_group.media.id]
@@ -16,7 +28,7 @@ module "proxy-prowlarr" {
   description        = "Torrent indexer"
   icon_url           = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/develop/Logo/128.png"
   group              = "Downloads"
-  slug               = "indexer"
+  slug               = "prowlarr"
   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
   auth_groups        = [authentik_group.media.id]
@@ -28,7 +40,7 @@ module "proxy-radarr" {
   description        = "Movies"
   icon_url           = "https://github.com/Radarr/Radarr/raw/develop/Logo/128.png"
   group              = "Downloads"
-  slug               = "movies"
+  slug               = "radarr"
   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
   auth_groups        = [authentik_group.media.id]
@@ -40,23 +52,23 @@ module "proxy-sonarr" {
   description        = "TV"
   icon_url           = "https://github.com/Sonarr/Sonarr/raw/develop/Logo/128.png"
   group              = "Downloads"
-  slug               = "tv"
+  slug               = "sonarr"
   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
-module "proxy-lidarr" {
-  source             = "./proxy_application"
-  name               = "Lidarr"
-  description        = "Music"
-  icon_url           = "https://github.com/Lidarr/Lidarr/raw/develop/Logo/128.png"
-  group              = "Downloads"
-  slug               = "music"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  auth_groups        = [authentik_group.media.id]
-}
+# module "proxy-lidarr" {
+#   source             = "./proxy_application"
+#   name               = "Lidarr"
+#   description        = "Music"
+#   icon_url           = "https://github.com/Lidarr/Lidarr/raw/develop/Logo/128.png"
+#   group              = "Downloads"
+#   slug               = "music"
+#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+#   auth_groups        = [authentik_group.media.id]
+# }
 
 module "proxy-bazarr" {
   source             = "./proxy_application"
@@ -70,33 +82,33 @@ module "proxy-bazarr" {
   auth_groups        = [authentik_group.media.id]
 }
 
-module "proxy-navidrome" {
-  source             = "./proxy_application"
-  name               = "Navidrome"
-  description        = "Music player"
-  icon_url           = "https://github.com/navidrome/navidrome/raw/master/resources/logo-192x192.png"
-  group              = "Selfhosted"
-  slug               = "navidrome"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  auth_groups        = [authentik_group.media.id]
-  ignore_paths       = <<-EOT
-  /rest/*
-  /share/*
-  EOT
-}
+# module "proxy-navidrome" {
+#   source             = "./proxy_application"
+#   name               = "Navidrome"
+#   description        = "Music player"
+#   icon_url           = "https://github.com/navidrome/navidrome/raw/master/resources/logo-192x192.png"
+#   group              = "Selfhosted"
+#   slug               = "navidrome"
+#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+#   auth_groups        = [authentik_group.media.id]
+#   ignore_paths       = <<-EOT
+#   /rest/*
+#   /share/*
+#   EOT
+# }
 
-module "proxy-homepage" {
-  source             = "./proxy_application"
-  name               = "Home"
-  description        = "Homepage"
-  icon_url           = "https://raw.githubusercontent.com/gethomepage/homepage/main/public/android-chrome-192x192.png"
-  group              = "Selfhosted"
-  slug               = "home"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  auth_groups        = [authentik_group.users.id]
-}
+# module "proxy-homepage" {
+#   source             = "./proxy_application"
+#   name               = "Home"
+#   description        = "Homepage"
+#   icon_url           = "https://raw.githubusercontent.com/gethomepage/homepage/main/public/android-chrome-192x192.png"
+#   group              = "Selfhosted"
+#   slug               = "home"
+#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+#   auth_groups        = [authentik_group.users.id]
+# }
 
 module "oauth2-grafana" {
   source             = "./oauth2_application"

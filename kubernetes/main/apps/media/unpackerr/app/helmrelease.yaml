@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app smtp-relay
+  name: unpackerr
 spec:
   interval: 30m
   chart:
@@ -24,22 +24,26 @@ spec:
       retries: 3
   values:
     controllers:
-      smtp-relay:
-        strategy: RollingUpdate
+      unpackerr:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
-              repository: ghcr.io/foxcpp/maddy
-              tag: 0.7.1@sha256:6ab538e2f28baf2324f7cb418c7f9476fd9c7e9fa9b14bc3aecf51a9f6962064
+              repository: ghcr.io/unpackerr/unpackerr
+              tag: 0.14.5@sha256:dc72256942ce50d1c8a1aeb5aa85b6ae2680a36eefd2182129d8d210fce78044
             env:
-              SMTP_RELAY_SMTP_PORT: &port 25
-              SMTP_RELAY_METRICS_PORT: &metricsPort 8080
-              SMTP_RELAY_SERVER_PORT: 465
+              TZ: ${TIMEZONE}
+              UN_WEBSERVER_METRICS: true
+              UN_WEBSERVER_LOG_FILE: /logs/webserver.log
+              UN_ACTIVITY: true
+              UN_SONARR_0_URL: http://sonarr.media.svc.cluster.local
+              UN_SONARR_0_PATHS_0: /media/Downloads/qbittorrent/complete/sonarr
+              UN_RADARR_0_URL: http://radarr.media.svc.cluster.local
+              UN_RADARR_0_PATHS_0: /media/Downloads/qbittorrent/complete/radarr
             envFrom:
               - secretRef:
-                  name: smtp-relay-secret
+                  name: unpackerr-secret
             probes:
               liveness:
                 enabled: true
@@ -53,36 +57,25 @@ spec:
               requests:
                 cpu: 10m
               limits:
-                memory: 128Mi
+                memory: 8Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [10000]
         seccompProfile: { type: RuntimeDefault }
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: *app
     service:
       app:
-        controller: smtp-relay
-        type: LoadBalancer
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: smtp-relay.monosense.io
-          io.cilium/lb-ipam-ips: ${NET_L2_SMTP_RELAY_IP}
+        controller: unpackerr
         ports:
           http:
-            primary: true
-            port: *metricsPort
-          smtp:
-            port: *port
+            port: 5656
     serviceMonitor:
       app:
-        serviceName: smtp-relay
+        serviceName: unpackerr
         endpoints:
           - port: http
             scheme: http
@@ -90,14 +83,12 @@ spec:
             interval: 1m
             scrapeTimeout: 10s
     persistence:
-      config:
-        type: configMap
-        name: smtp-relay-configmap
-        globalMounts:
-          - path: /data/maddy.conf
-            subPath: maddy.conf
-            readOnly: true
-      cache:
+      logs:
         type: emptyDir
+      media:
+        type: nfs
+        server: ${NET_STORAGE_SERVER}
+        path: /pool1/Media
         globalMounts:
-          - path: /cache
+          - path: /media/Downloads/qbittorrent
+            subPath: Downloads/qbittorrent
