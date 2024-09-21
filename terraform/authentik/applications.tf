@@ -1,63 +1,76 @@
-module "proxy-transmission" {
-  source             = "./proxy_application"
-  name               = "Transmission"
-  description        = "Torrent client"
-  icon_url           = "https://github.com/transmission/transmission/raw/main/web/assets/img/logo.png"
-  group              = "Downloads"
-  slug               = "qb"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  auth_groups        = [authentik_group.media.id]
-}
+# module "proxy-transmission" {
+#   source             = "./proxy_application"
+#   name               = "Transmission"
+#   description        = "Torrent client"
+#   icon_url           = "https://github.com/transmission/transmission/raw/main/web/assets/img/logo.png"
+#   group              = "Downloads"
+#   slug               = "qb"
+#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+#   auth_groups        = [authentik_group.media.id]
+# }
 
-module "proxy-pinchflat" {
-  source             = "./proxy_application"
-  name               = "Pinchflat"
-  description        = "YouTube Donwloader"
-  icon_url           = "https://cdn.monosense.io/static-contents/brands/yt.png"
-  group              = "Downloads"
-  slug               = "pinchflat"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  auth_groups        = [authentik_group.media.id]
-}
+# module "proxy-pinchflat" {
+#   source             = "./proxy_application"
+#   name               = "Pinchflat"
+#   description        = "YouTube Donwloader"
+#   icon_url           = "https://cdn.monosense.io/static-contents/brands/yt.png"
+#   group              = "Downloads"
+#   slug               = "pinchflat"
+#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+#   auth_groups        = [authentik_group.media.id]
+# }
 
-module "proxy-prowlarr" {
-  source             = "./proxy_application"
-  name               = "Prowlarr"
-  description        = "Torrent indexer"
-  icon_url           = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/develop/Logo/128.png"
-  group              = "Downloads"
-  slug               = "prowlarr"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  auth_groups        = [authentik_group.media.id]
-}
+# module "proxy-prowlarr" {
+#   source             = "./proxy_application"
+#   name               = "Prowlarr"
+#   description        = "Torrent indexer"
+#   icon_url           = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/develop/Logo/128.png"
+#   group              = "Downloads"
+#   slug               = "prowlarr"
+#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+#   auth_groups        = [authentik_group.media.id]
+# }
 
-module "proxy-radarr" {
-  source             = "./proxy_application"
-  name               = "Radarr"
-  description        = "Movies"
-  icon_url           = "https://github.com/Radarr/Radarr/raw/develop/Logo/128.png"
-  group              = "Downloads"
-  slug               = "radarr"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  auth_groups        = [authentik_group.media.id]
-}
+# module "proxy-radarr" {
+#   source             = "./proxy_application"
+#   name               = "Radarr"
+#   description        = "Movies"
+#   icon_url           = "https://github.com/Radarr/Radarr/raw/develop/Logo/128.png"
+#   group              = "Downloads"
+#   slug               = "radarr"
+#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+#   auth_groups        = [authentik_group.media.id]
+# }
 
-module "proxy-sonarr" {
-  source             = "./proxy_application"
-  name               = "Sonarr"
-  description        = "TV"
-  icon_url           = "https://github.com/Sonarr/Sonarr/raw/develop/Logo/128.png"
-  group              = "Downloads"
-  slug               = "sonarr"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  auth_groups        = [authentik_group.media.id]
-}
+# module "proxy-sonarr" {
+#   source             = "./proxy_application"
+#   name               = "Sonarr"
+#   description        = "TV"
+#   icon_url           = "https://github.com/Sonarr/Sonarr/raw/develop/Logo/128.png"
+#   group              = "Downloads"
+#   slug               = "sonarr"
+#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+#   auth_groups        = [authentik_group.media.id]
+# }
 
+# module "proxy-bazarr" {
+#   source             = "./proxy_application"
+#   name               = "Bazarr"
+#   description        = "Subtitles"
+#   icon_url           = "https://github.com/morpheus65535/bazarr/raw/master/frontend/public/images/logo128.png"
+#   group              = "Downloads"
+#   slug               = "bazarr"
+#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+#   auth_groups        = [authentik_group.media.id]
+# }
+
+## UNUSED PROXY
 # module "proxy-lidarr" {
 #   source             = "./proxy_application"
 #   name               = "Lidarr"
@@ -69,18 +82,6 @@ module "proxy-sonarr" {
 #   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
 #   auth_groups        = [authentik_group.media.id]
 # }
-
-module "proxy-bazarr" {
-  source             = "./proxy_application"
-  name               = "Bazarr"
-  description        = "Subtitles"
-  icon_url           = "https://github.com/morpheus65535/bazarr/raw/master/frontend/public/images/logo128.png"
-  group              = "Downloads"
-  slug               = "bazarr"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  auth_groups        = [authentik_group.media.id]
-}
 
 # module "proxy-navidrome" {
 #   source             = "./proxy_application"
@@ -126,21 +127,6 @@ module "oauth2-grafana" {
 }
 
 
-# module "oauth2-paperless" {
-#   source             = "./oauth2_application"
-#   name               = "Paperless"
-#   icon_url           = "https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/dev/resources/logo/web/svg/Color%20logo%20-%20no%20background.svg"
-#   launch_url         = "https://documents.monosense.io"
-#   description        = "Documents"
-#   newtab             = true
-#   group              = "Selfhosted"
-#   auth_groups        = [authentik_group.infrastructure.id]
-#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-#   client_id          = module.secret_paperless.fields["paperless_oidc_client_id"]
-#   client_secret      = module.secret_paperless.fields["paperless_oidc_client_secret"]
-#   redirect_uris      = ["https://documents.monosense.io/accounts/oidc/authentik/login/callback/"]
-# }
-
 module "oauth2-ocis" {
   source             = "./oauth2_application"
   name               = "Owncloud"
@@ -185,6 +171,21 @@ module "oauth2-ocis-desktop" {
     "http://localhost(:.*)?"
   ]
 }
+
+# module "oauth2-paperless" {
+#   source             = "./oauth2_application"
+#   name               = "Paperless"
+#   icon_url           = "https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/dev/resources/logo/web/svg/Color%20logo%20-%20no%20background.svg"
+#   launch_url         = "https://arsip.monosense.io"
+#   description        = "Arsip"
+#   newtab             = true
+#   group              = "Selfhosted"
+#   auth_groups        = [authentik_group.infrastructure.id]
+#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+#   client_id          = module.secret_paperless.fields["paperless_oidc_client_id"]
+#   client_secret      = module.secret_paperless.fields["paperless_oidc_client_secret"]
+#   redirect_uris      = ["https://arsip.monosense.io/accounts/oidc/authentik/login/callback/"]
+# }
 
 # module "oauth2-kyoo" {
 #   source             = "./oauth2_application"

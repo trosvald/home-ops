@@ -27,22 +27,22 @@ resource "authentik_stage_identification" "authentication-identification" {
 }
 
 # Modified default-authentication-password stage
-resource "authentik_stage_password" "default-authentication-password" {
-  name     = "default-authentication-password"
-  backends = [
-    "authentik.core.auth.InbuiltBackend",
-    "authentik.sources.ldap.auth.LDAPBackend",
-    "authentik.core.auth.TokenBackend"
-  ]
-  failed_attempts_before_cancel = 3
-}
+# resource "authentik_stage_password" "default-authentication-password" {
+#   name     = "default-authentication-password"
+#   backends = [
+#     "authentik.core.auth.InbuiltBackend"
+#     # "authentik.sources.ldap.auth.LDAPBackend",
+#     # "authentik.core.auth.TokenBackend"
+#   ]
+#   failed_attempts_before_cancel = 3
+# }
 
 resource "authentik_stage_password" "authentication-password" {
   name     = "authentication-password"
   backends = [
-    "authentik.core.auth.InbuiltBackend",
-    "authentik.sources.ldap.auth.LDAPBackend",
-    "authentik.core.auth.TokenBackend"
+    "authentik.core.auth.InbuiltBackend"
+    # "authentik.sources.ldap.auth.LDAPBackend",
+    # "authentik.core.auth.TokenBackend"
   ]
   # configure_flow                = data.authentik_flow.default-password-change.id
   failed_attempts_before_cancel = 3
