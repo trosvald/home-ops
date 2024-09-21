@@ -31,7 +31,7 @@ homeassistant:
   country: ID
   packages: !include_dir_named packages
   external_url: https://hass.monosense.io
-  internal_url: http://${SVC_HASS_ADDR}:8123
+  internal_url: http://172.16.13.2:8123
   media_dirs:
     media: /media
 

@@ -1,3 +1,4 @@
+
 ## Authenticator setup
 
 resource "authentik_flow" "authenticator-totp-setup" {
