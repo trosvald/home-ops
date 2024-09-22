@@ -26,7 +26,7 @@ resource "authentik_outpost" "proxyoutpost" {
   protocol_providers = [
     # module.proxy-prowlarr.id,
     module.proxy-radarr.id,
-    # module.proxy-sonarr.id,
+    module.proxy-sonarr.id,
     module.proxy-bazarr.id,
     module.proxy-transmission.id
   ]

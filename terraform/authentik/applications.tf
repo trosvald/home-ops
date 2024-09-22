@@ -46,17 +46,17 @@ module "proxy-radarr" {
   auth_groups        = [authentik_group.media.id]
 }
 
-# module "proxy-sonarr" {
-#   source             = "./proxy_application"
-#   name               = "Sonarr"
-#   description        = "TV"
-#   icon_url           = "https://github.com/Sonarr/Sonarr/raw/develop/Logo/128.png"
-#   group              = "Downloads"
-#   slug               = "sonarr"
-#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-#   auth_groups        = [authentik_group.media.id]
-# }
+module "proxy-sonarr" {
+  source             = "./proxy_application"
+  name               = "Sonarr"
+  description        = "TV"
+  icon_url           = "https://github.com/Sonarr/Sonarr/raw/develop/Logo/128.png"
+  group              = "Downloads"
+  slug               = "sonarr"
+  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  auth_groups        = [authentik_group.media.id]
+}
 
 module "proxy-bazarr" {
   source             = "./proxy_application"
