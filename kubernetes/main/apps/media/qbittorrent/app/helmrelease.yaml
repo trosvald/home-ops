@@ -261,14 +261,14 @@ spec:
                   - ALL
 
     defaultPodOptions:
-      # securityContext:
-      #   runAsNonRoot: true
-      #   runAsUser: 568
-      #   runAsGroup: 568
-      #   fsGroup: 568
-      #   fsGroupChangePolicy: OnRootMismatch
-      #   supplementalGroups: [10000]
-      #   seccompProfile: { type: RuntimeDefault }
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [10000]
+        seccompProfile: { type: RuntimeDefault }
       nodeSelector:
         topology.kubernetes.io/zone: w
 
