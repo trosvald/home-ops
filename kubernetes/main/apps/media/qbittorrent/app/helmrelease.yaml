@@ -204,4 +204,4 @@ spec:
           qbittorrent:
             app:
               - path: /media/Downloads/qbittorrent
-                subPath: Downloads/qbittorrent
+                # subPath: Downloads/qbittorrent
