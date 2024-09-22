@@ -283,9 +283,9 @@ spec:
       app:
         annotations:
           external-dns.alpha.kubernetes.io/target: internal.monosense.io
-          # authentik.home.arpa/enabled: "true"
-          # nginx.ingress.kubernetes.io/auth-signin: |-
-          #   https://qb.monosense.io/outpost.goauthentik.io/start?rd=$escaped_request_uri
+          authentik.home.arpa/enabled: "true"
+          nginx.ingress.kubernetes.io/auth-signin: |-
+            https://qb.monosense.io/outpost.goauthentik.io/start?rd=$escaped_request_uri
         className: internal
         hosts:
           - host: qb.monosense.io
