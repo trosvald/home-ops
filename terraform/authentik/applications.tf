@@ -22,17 +22,17 @@ module "proxy-transmission" {
 #   auth_groups        = [authentik_group.media.id]
 # }
 
-# module "proxy-prowlarr" {
-#   source             = "./proxy_application"
-#   name               = "Prowlarr"
-#   description        = "Torrent indexer"
-#   icon_url           = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/develop/Logo/128.png"
-#   group              = "Downloads"
-#   slug               = "prowlarr"
-#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-#   auth_groups        = [authentik_group.media.id]
-# }
+module "proxy-prowlarr" {
+  source             = "./proxy_application"
+  name               = "Prowlarr"
+  description        = "Torrent indexer"
+  icon_url           = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/develop/Logo/128.png"
+  group              = "Downloads"
+  slug               = "prowlarr"
+  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  auth_groups        = [authentik_group.media.id]
+}
 
 module "proxy-radarr" {
   source             = "./proxy_application"
