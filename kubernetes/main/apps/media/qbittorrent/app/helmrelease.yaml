@@ -310,12 +310,19 @@ spec:
         type: configMap
         name: qbittorrent-scripts
         defaultMode: 0775
-        globalMounts:
-          - readOnly: true
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /config/scripts
+
       media:
         type: nfs
         server: ${NET_STORAGE_SERVER}
         path: /pool1/Media
-        globalMounts:
-          - path: /media/Downloads/qbittorrent
-            subPath: Downloads/qbittorrent
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /media/Downloads/qbittorrent
+        # globalMounts:
+        #   - path: /media/Downloads/qbittorrent
+        #     subPath: Downloads/qbittorrent
