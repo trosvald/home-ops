@@ -29,6 +29,13 @@ spec:
           configmap.reloader.stakater.com/reload: qbittorrent-scripts,qbittorrent-dnsdist
           secret.reloader.stakater.com/reload: qbittorrent-secret
 
+        pod:
+          securityContext:
+            fsGroup: 568
+            fsGroupChangePolicy: "OnRootMismatch"
+            supplementalGroups:
+              - 10000
+              - 100
         containers:
           app:
             nameOverride: qbittorrent
@@ -193,6 +200,8 @@ spec:
         type: nfs
         server: ${NET_STORAGE_SERVER}
         path: /pool1/Media
-        globalMounts:
-          - path: /media/Downloads/qbittorrent
-            subPath: Downloads/qbittorrent
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /media/Downloads/qbittorrent
+                subPath: Downloads/qbittorrent
