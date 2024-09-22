@@ -58,17 +58,17 @@ module "proxy-transmission" {
 #   auth_groups        = [authentik_group.media.id]
 # }
 
-# module "proxy-bazarr" {
-#   source             = "./proxy_application"
-#   name               = "Bazarr"
-#   description        = "Subtitles"
-#   icon_url           = "https://github.com/morpheus65535/bazarr/raw/master/frontend/public/images/logo128.png"
-#   group              = "Downloads"
-#   slug               = "bazarr"
-#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-#   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-#   auth_groups        = [authentik_group.media.id]
-# }
+module "proxy-bazarr" {
+  source             = "./proxy_application"
+  name               = "Bazarr"
+  description        = "Subtitles"
+  icon_url           = "https://github.com/morpheus65535/bazarr/raw/master/frontend/public/images/logo128.png"
+  group              = "Downloads"
+  slug               = "bazarr"
+  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  auth_groups        = [authentik_group.media.id]
+}
 
 ## UNUSED PROXY
 # module "proxy-lidarr" {
