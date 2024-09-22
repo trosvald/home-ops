@@ -86,4 +86,3 @@ spec:
         path: /pool1/Media
         globalMounts:
           - path: /media/Downloads
-            subPath: Downloads
