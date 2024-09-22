@@ -159,11 +159,6 @@ spec:
           configmap.reloader.stakater.com/reload: qbittorrent-scripts,qbittorrent-dnsdist
           secret.reloader.stakater.com/reload: qbittorrent-secret
 
-        pod:
-          securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: "OnRootMismatch"
-
         containers:
           app:
             nameOverride: qbittorrent
@@ -173,7 +168,7 @@ spec:
             env:
               TZ: ${TIMEZONE}
               UMASK: "022"
-              QBITTORRENT__PORT: &port 8080
+              QBITTORRENT__PORT: &port 80
               # QBITTORRENT__BT_PORT: &bittorrentPort 50413
               QBT_Preferences__WebUI__AlternativeUIEnabled: false
               QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
@@ -264,21 +259,25 @@ spec:
               capabilities:
                 drop:
                   - ALL
-    nodeSelector:
-      topology.kubernetes.io/zone: w
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [10000]
+        seccompProfile: { type: RuntimeDefault }
+      nodeSelector:
+        topology.kubernetes.io/zone: w
+
     service:
       app:
         controller: qbittorrent
-        # type: LoadBalancer
-        # annotations:
-        #   io.cilium/lb-ipam-ips: ${NET_L2_QB_IP}
         ports:
           http:
             port: *port
-          # bittorrent:
-          #   enabled: true
-          #   port: *bittorrentPort
-          #   protocol: TCP
     ingress:
       app:
         annotations:

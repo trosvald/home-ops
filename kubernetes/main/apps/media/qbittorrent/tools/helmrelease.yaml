@@ -51,7 +51,7 @@ spec:
               "--sites",
               "--unregistered",
               "--server", "qbittorrent.$(POD_NAMESPACE).svc.cluster.local",
-              "--port", "8080",
+              "--port", "80",
               "--config", "/config/config.yaml"
             ]
             securityContext:
@@ -74,7 +74,7 @@ spec:
               "--include-tag", "unregistered",
               # "--dry-run",
               "--server", "qbittorrent.$(POD_NAMESPACE).svc.cluster.local",
-              "--port", "8080"
+              "--port", "80"
             ]
           expired:
             <<: *container
@@ -85,7 +85,7 @@ spec:
               "--include-tag", "expired", # defined in config.yaml
               # "--dry-run",
               "--server", "qbittorrent.$(POD_NAMESPACE).svc.cluster.local",
-              "--port", "8080"
+              "--port", "80"
             ]
         pod:
           restartPolicy: OnFailure
@@ -103,7 +103,7 @@ spec:
               "--exclude-pattern", "*/manual/*",
               # "--dry-run",
               "--server", "qbittorrent.$(POD_NAMESPACE).svc.cluster.local",
-              "--port", "8080"
+              "--port", "80"
             ]
         pod:
           restartPolicy: OnFailure
@@ -115,7 +115,7 @@ spec:
               "reannounce",
               "--process-seeding",
               "--server", "qbittorrent.$(POD_NAMESPACE).svc.cluster.local",
-              "--port", "8080"
+              "--port", "80"
             ]
     defaultPodOptions:
       securityContext:
