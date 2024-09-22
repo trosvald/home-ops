@@ -296,6 +296,10 @@ spec:
     persistence:
       config:
         existingClaim: qbittorrent
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /config
       dnsdist:
         type: configMap
         name: qbittorrent-dnsdist
@@ -314,7 +318,12 @@ spec:
           qbittorrent:
             app:
               - path: /config/scripts
-
+      empty-config:
+        type: emptyDir
+        advancedMounts:
+          qbittorrent:
+            port-forward:
+              - path: /config
       media:
         type: nfs
         server: ${NET_STORAGE_SERVER}
@@ -324,6 +333,4 @@ spec:
             app:
               - path: /media/Downloads/qbittorrent
                 subPath: Downloads/qbittorrent
-        # globalMounts:
-        #   - path: /media/Downloads/qbittorrent
-        #     subPath: Downloads/qbittorrent
+                readOnly: false
