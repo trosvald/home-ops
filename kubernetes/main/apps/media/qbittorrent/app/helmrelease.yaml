@@ -193,10 +193,10 @@ spec:
                   periodSeconds: 5
             resources:
               requests:
-                cpu: 49m
+                cpu: 100m
                 memory: 1024Mi
               limits:
-                memory: 8192Mi
+                memory: 32Gi
             securityContext:
               runAsUser: 568
               runAsGroup: 568
@@ -332,5 +332,4 @@ spec:
           qbittorrent:
             app:
               - path: /media/Downloads/qbittorrent
-                subPath: Downloads/qbittorrent
-                readOnly: false
+                # subPath: Downloads/qbittorrent
