@@ -196,7 +196,7 @@ spec:
           - path: /config
       deploy-key:
         type: secret
-        name: hassio-deploy-key
+        name: home-assistant-deploy-key
         defaultMode: 256
         advancedMounts:
           home-assistant:
