@@ -151,6 +151,7 @@ spec:
       external:
         annotations:
           nginx.org/websocket-services: home-assistant
+          external-dns.alpha.kubernetes.io/target: external.monosense.io
         className: external
         hosts:
           - host: &host hassio.monosense.io
