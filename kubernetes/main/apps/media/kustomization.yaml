@@ -7,7 +7,7 @@ resources:
   - ./bazarr/ks.yaml
   # - ./cross-seed/ks.yaml
   - ./miniflux/ks.yaml
-  # - ./omegabrr/ks.yaml
+  - ./omegabrr/ks.yaml
   - ./overseerr/ks.yaml
   - ./pinchflat/ks.yaml
   - ./plex/ks.yaml
