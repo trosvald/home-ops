@@ -35,7 +35,7 @@ spec:
             env:
               TZ: ${TIMEZONE}
               FB_DATABASE: /config/filebrowser.db
-              FB_ROOT: /eros
+              FB_ROOT: /media
               FB_LOG: stdout
               FB_NOAUTH: true
             probes:
@@ -90,9 +90,9 @@ spec:
     persistence:
       config:
         existingClaim: filebrowser
-      eros:
+      media:
         type: nfs
         server: ${NET_STORAGE_SERVER}
         path: /pool1/Media
         globalMounts:
-          - path: /pool1/Media
+          - path: /media
