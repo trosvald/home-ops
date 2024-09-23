@@ -22,3 +22,7 @@ spec:
   dependsOn:
     - name: volsync
     - name: rook-ceph-cluster
+  postBuild:
+    substitute:
+      APP: *app
+      GATUS_SUBDOMAIN: irc
