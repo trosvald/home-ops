@@ -93,6 +93,6 @@ spec:
       eros:
         type: nfs
         server: ${NET_STORAGE_SERVER}
-        path: /pool1
+        path: /pool1/Media
         globalMounts:
-          - path: /pool1
+          - path: /pool1/Media
