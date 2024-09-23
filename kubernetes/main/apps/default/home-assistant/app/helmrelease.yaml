@@ -121,8 +121,6 @@ spec:
                 "name": "multus-iot",
                 "namespace": "network",
                 "ips": ["172.16.13.2/24"],
-                "mac": "25:09:83:10:01:13",
-                "gateway": "172.16.13.254"
               }]
 
     defaultPodOptions:
