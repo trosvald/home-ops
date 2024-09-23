@@ -30,7 +30,7 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Asia/Jakarta
   country: ID
-  packages: !include_dir_named packages
+  # packages: !include_dir_named packages
   external_url: https://hassio.monosense.io
   internal_url: http://172.16.13.2:8123
   media_dirs:
@@ -39,13 +39,13 @@ homeassistant:
 recorder:
   db_url: !env_var HASS_RECORDER_DB_URL
 
-automation: !include automations.yaml
-script: !include_dir_merge_named scripts
-sensor: !include_dir_merge_list sensors
-binary_sensor: !include_dir_merge_list binary_sensors
-input_boolean: !include_dir_merge_named input_booleans
-scene: !include scenes.yaml
-group: !include_dir_merge_named groups
+# automation: !include automations.yaml
+# script: !include_dir_merge_named scripts
+# sensor: !include_dir_merge_list sensors
+# binary_sensor: !include_dir_merge_list binary_sensors
+# input_boolean: !include_dir_merge_named input_booleans
+# scene: !include scenes.yaml
+# group: !include_dir_merge_named groups
 
-frontend:
-  themes: !include_dir_merge_named themes
+# frontend:
+#   themes: !include_dir_merge_named themes
