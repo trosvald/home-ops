@@ -44,7 +44,7 @@ jobs:
           enablement: true
 
       - name: Build docs
-        uses: docker://ghcr.io/bjw-s/mdbook:0.4.40@sha256:65d1487f1e68f7bda001004a323831e913417fdc06e65db5ea937b564aedc5f7
+        uses: docker://ghcr.io/bjw-s/mdbook:0.4.40@sha256:45d5e892790f6ab94820f602a277fe6e0730b50daa4663f83b8ae9d369ca75fc
         with:
           args: mdbook build docs
 
