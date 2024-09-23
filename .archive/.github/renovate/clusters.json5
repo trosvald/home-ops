@@ -6,11 +6,11 @@
                 "Separate PRs for k8s cluster"
             ],
             "matchFileNames": [
-                "**/kubernetes/k8s/**",
-                "**/ansible/k8s/**",
-                "**/terraform/k8s/**"
+                "**/kubernetes/main/**",
+                "**/ansible/main/**",
+                "**/terraform/main/**"
             ],
-            "additionalBranchPrefix": "k8s-"
+            "additionalBranchPrefix": "main-"
         },
         {
             "description": [
