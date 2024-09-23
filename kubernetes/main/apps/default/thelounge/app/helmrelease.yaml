@@ -44,19 +44,19 @@ spec:
                 cpu: 10m
               limits:
                 memory: 512Mi
-            # securityContext:
-            #   allowPrivilegeEscalation: false
-            #   readOnlyRootFilesystem: true
-            #   capabilities:
-            #     drop:
-            #       - ALL
-    # defaultPodOptions:
-    #   securityContext:
-    #     runAsNonRoot: true
-    #     runAsUser: 568
-    #     runAsGroup: 568
-    #     fsGroup: 568
-    #     fsGroupChangePolicy: OnRootMismatch
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
     ingress:
       app:
         annotations:
