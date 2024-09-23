@@ -1,0 +1,252 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app home-assistant
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: multus
+      namespace: network
+    - name: external-secrets-stores
+      namespace: external-secrets
+  values:
+    controllers:
+      home-assistant:
+        annotations:
+          reloader.stakater.com/reload: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom: &envFrom
+              - secretRef:
+                  name: hassio-secret
+          git-sync:
+            env:
+              GITSYNC_REPO: git@github.com:trosvald/hass-config
+              GITSYNC_REF: main
+              GITSYNC_PERIOD: 10s # 1 day
+              GITSYNC_ROOT: /config
+              GITSYNC_ADD_USER: ${UID}
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.2.4@sha256:8bfbf28623690fba06c65ec392e42023d28ecfc7e0fbfd4443388d020dc112ea
+            restartPolicy: Always
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 128Mi
+            securityContext:
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
+        containers:
+          app:
+            image:
+              repository: ghcr.io/onedr0p/home-assistant
+              tag: 2024.9.2@sha256:2ed30ce9d13cdc6b284fcd55596849e130fbe116a3b5cee546d810957b1b5693
+            env:
+              TZ: ${TIMEZONE}
+              HASS_HTTP_TRUSTED_PROXY_1: 172.16.11.0/24
+              HASS_HTTP_TRUSTED_PROXY_2: 10.42.0.0/16
+            envFrom:
+              - secretRef:
+                  name: hassio-secret
+            ports:
+              - containerPort: 8123
+                name: http
+            probes:
+              liveness:
+                custom: true
+                spec:
+                  httpGet:
+                    port: 8123
+                    path: /manifest.json
+                  initialDelaySeconds: 3
+                  periodSeconds: 3
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 250m
+                memory: 1Gi
+              limits:
+                memory: 8Gi
+
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"]}
+
+          codeserver:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.92.2@sha256:f32cfa5e7cc768f60969f1d2183fc4c7aa093b80b93c365535e83f79ccf004f2
+            args: [
+              "--auth", "none",
+              "--user-data-dir", "/config/.vscode",
+              "--extensions-dir", "/config/.vscode",
+              "--port", "12321",
+              "/config"
+            ]
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 512Mi
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name": "multus-iot",
+                "namespace": "network",
+                "ips": ["172.16.13.2/24"],
+                "mac": "25:09:83:10:01:13",
+                "gateway": "172.16.13.254"
+              }]
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+
+    service:
+      home-assistant:
+        controller: home-assistant
+        type: LoadBalancer
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: hassio.monosense.io
+          io.cilium/lb-ipam-ips: 10.11.11.6
+        ports:
+          http:
+            port: &port 8123
+          code:
+            port: &codePort 12321
+
+    ingress:
+      external:
+        annotations:
+          nginx.org/websocket-services: home-assistant
+        className: external
+        hosts:
+          - host: &host hassio.monosense.io
+            paths:
+              - path: /
+                service:
+                  identifier: home-assistant
+                  port: *port
+        tls:
+          - hosts:
+              - *host
+      code:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: internal.monosense.io
+        className: internal
+        hosts:
+          - host: &codeHost code.monosense.io
+            paths:
+              - path: /
+                service:
+                  identifier: home-assistant
+                  port: *codePort
+        tls:
+          - hosts:
+              - *codeHost
+
+    serviceMonitors:
+      home-assistant:
+        endpoints:
+          - port: http
+            scheme: http
+            path: /api/prometheus
+            interval: 30s
+            scrapeTimeout: 10s
+            bearerTokenSecret:
+              name: hassio-secret
+              key: HASS_BEARER_TOKEN
+
+    persistence:
+      config:
+        existingClaim: home-assistant
+        globalMounts:
+          - path: /config
+      deploy-key:
+        type: secret
+        name: hassio-deploy-key
+        defaultMode: 256
+        advancedMounts:
+          home-assistant:
+            git-sync:
+              - path: /etc/git-secret/ssh
+                subPath: ssh-privatekey
+                readOnly: true
+              - path: /etc/git-secret/known_hosts
+                subPath: known_hosts
+            app: &sshmounts
+              - path: /root/.ssh/id_rsa
+                subPath: ssh-privatekey
+                readOnly: true
+              - path: /root/.ssh/known_hosts
+                subPath: known_hosts
+            codeserver: *sshmounts
+      configuration:
+        type: configMap
+        name: hassio-config
+        globalMounts:
+          - path: /config/configuration.yaml
+            subPath: configuration.yaml
+
+      backups:
+        type: custom
+        volumeSpec:
+          nfs:
+            server: ${NET_STORAGE_SERVER}
+            path: /pool0/backup/hassio
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /config/backups
+
+      media:
+        type: custom
+        volumeSpec:
+          nfs:
+            server: ${NET_STORAGE_SERVER}
+            path: /pool1/Media
+        advancedMounts:
+          home-assistant:
+            app:
+              - path: /media
+
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          home-assistant:
+            git-sync:
+              - path: /tmp
