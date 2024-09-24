@@ -129,8 +129,9 @@ spec:
         type: LoadBalancer
         annotations:
           external-dns.alpha.kubernetes.io/hostname: hassio.monosense.io
-          io.cilium/lb-ip-pool: l2-iot
           io.cilium/lb-ipam-ips: ${NET_L2_IOT_HASSIO_IP}
+        labels:
+          io.cilium/lb-ip-pool: l2-iot
         ports:
           http:
             port: &port 8123
