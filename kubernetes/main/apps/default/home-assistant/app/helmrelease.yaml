@@ -114,6 +114,16 @@ spec:
                 cpu: 10m
               limits:
                 memory: 512Mi
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name":"iot-vlan",
+                "namespace": "network",
+                "ips": ["172.16.13.2/24"],
+                "mac": "de:41:11:c5:8b:eb",
+                "gateway": "172.16.13.254"
+              }]
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -129,9 +139,8 @@ spec:
         type: LoadBalancer
         annotations:
           external-dns.alpha.kubernetes.io/hostname: hassio.monosense.io
-          io.cilium/lb-ipam-ips: ${NET_L2_IOT_HASSIO_IP}
         labels:
-          io.cilium/lb-ip-pool: l2-iot
+          io.cilium/ip-pool: l2-infra
         ports:
           http:
             port: &port 8123
