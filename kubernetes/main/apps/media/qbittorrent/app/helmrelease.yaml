@@ -35,6 +35,7 @@ spec:
             fsGroupChangePolicy: "OnRootMismatch"
             supplementalGroups:
               - 1000
+              - 2000
         containers:
           app:
             nameOverride: qbittorrent
@@ -46,11 +47,13 @@ spec:
               UMASK: "022"
               QBITTORRENT__PORT: &port 80
               # QBITTORRENT__BT_PORT: &bittorrentPort 50413
-              QBT_Preferences__WebUI__AlternativeUIEnabled: false
+              QBT_Preferences__WebUI__AlternativeUIEnabled: true
               QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
               QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
-                10.42.0.0/16, 10.43.0.0/16, 172.16.11.0/24
+                10.42.0.0/16, 10.43.0.0/16
               QBT_Preferences__WebUI__LocalHostAuth: false
+              QBT_Preferences__WebUI__RootFolder: /addons/VueTorrent
+              QBT_Preferences__WebUI__UseUPNP: false
               CROSS_SEED_HOST: cross-seed.media.svc.cluster.local
               CROSS_SEED_PORT: 80
               CROSS_SEED_SLEEP_INTERVAL: 0
@@ -82,6 +85,23 @@ spec:
               capabilities:
                 drop:
                   - ALL
+
+          vuetorrent:
+            dependsOn: app
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.2.4
+            args:
+              - --repo=https://github.com/WDaan/VueTorrent
+              - --ref=latest-release
+              - --period=86400s
+              - --root=/addons
+            resources:
+              requests:
+                cpu: 10m
+                memory: 25Mi
+              limits:
+                memory: 50Mi
 
           dnsdist:
             image:
@@ -189,12 +209,19 @@ spec:
               - path: /scripts/post-process.sh
                 subPath: post-process.sh
                 readOnly: true
+
       empty-config:
         type: emptyDir
         advancedMounts:
           qbittorrent:
             port-forward:
               - path: /config
+
+      addons:
+        type: emptyDir
+        globalMounts:
+          - /addons
+
       media:
         type: nfs
         server: ${NET_STORAGE_SERVER}
