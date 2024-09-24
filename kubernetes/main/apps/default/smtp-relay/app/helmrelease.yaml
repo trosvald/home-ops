@@ -73,7 +73,8 @@ spec:
         type: LoadBalancer
         annotations:
           external-dns.alpha.kubernetes.io/hostname: smtp-relay.monosense.io
-          io.cilium/lb-ipam-ips: ${NET_L2_SMTP_RELAY_IP}
+          io.cilium/lb-ip-pool: l2-infra
+          # io.cilium/lb-ipam-ips: ${NET_L2_SMTP_RELAY_IP}
         ports:
           http:
             primary: true
