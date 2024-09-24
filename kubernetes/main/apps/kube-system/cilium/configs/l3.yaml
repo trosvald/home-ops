@@ -26,6 +26,18 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: l3-ip-pool
 spec:
-  allowFirstLastIPs: "Yes"
+  allowFirstLastIPs: "No"
   blocks:
     - cidr: ${NET_L3_POOL_CIDR}
+  serviceSelector:
+    matchExpressions:
+      - key: io.cilium/lb-ip-pool
+        operator: In
+        values:
+          - l3
+      - key: io.cilium/lb-ip-pool
+        operator: NotIn
+        values:
+          - l2-infra
+          - l2-iot
+          - l2-cctv

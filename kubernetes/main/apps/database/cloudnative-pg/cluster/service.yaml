@@ -6,6 +6,8 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/hostname: postgres.monosense.io
     io.cilium/lb-ipam-ips: ${NET_SERVICES_PGSQL_IP}
+  labels:
+    io.cilium/lb-ip-pool: l3
 spec:
   type: LoadBalancer
   ports:

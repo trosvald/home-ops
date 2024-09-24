@@ -80,6 +80,8 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: vector.monosense.io
           io.cilium/lb-ipam-ips: ${NET_SERVICES_VECTOR_IP}
+        labels:
+          io.cilium/lb-ip-pool: l3
         ports:
           http:
             port: *port

@@ -62,5 +62,7 @@ spec:
     metadata:
       annotations:
         io.cilium/lb-ipam-ips: ${NET_SERVICES_EMQX}
+      labels:
+        io.cilium/lb-ip-pool: l3
     spec:
       type: LoadBalancer
