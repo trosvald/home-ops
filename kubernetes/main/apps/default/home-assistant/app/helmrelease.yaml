@@ -38,26 +38,26 @@ spec:
             envFrom: &envFrom
               - secretRef:
                   name: hassio-secret
-          # git-sync:
-          #   env:
-          #     GITSYNC_REPO: git@github.com:trosvald/hass-config
-          #     GITSYNC_REF: main
-          #     GITSYNC_PERIOD: 10s # 1 day
-          #     GITSYNC_ROOT: /config
-          #     GITSYNC_ADD_USER: ${UID}
-          #   image:
-          #     repository: registry.k8s.io/git-sync/git-sync
-          #     tag: v4.2.4@sha256:8bfbf28623690fba06c65ec392e42023d28ecfc7e0fbfd4443388d020dc112ea
-          #   restartPolicy: Always
-          #   resources:
-          #     requests:
-          #       cpu: 10m
-          #     limits:
-          #       memory: 128Mi
-          #   securityContext:
-          #     readOnlyRootFilesystem: true
-          #     allowPrivilegeEscalation: false
-          #     capabilities: { drop: ["ALL"] }
+          git-sync:
+            env:
+              GITSYNC_REPO: git@github.com:trosvald/hass-config
+              GITSYNC_REF: main
+              GITSYNC_PERIOD: 10s # 1 day
+              GITSYNC_ROOT: /config
+              GITSYNC_ADD_USER: ${UID}
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.2.4@sha256:8bfbf28623690fba06c65ec392e42023d28ecfc7e0fbfd4443388d020dc112ea
+            restartPolicy: Always
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 128Mi
+            securityContext:
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities: { drop: ["ALL"] }
         containers:
           app:
             image:
