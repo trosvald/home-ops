@@ -243,9 +243,9 @@ spec:
             app:
               - path: /media
 
-      # tmp:
-      #   type: emptyDir
-      #   advancedMounts:
-      #     home-assistant:
-      #       git-sync:
-      #         - path: /tmp
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          home-assistant:
+            git-sync:
+              - path: /tmp
