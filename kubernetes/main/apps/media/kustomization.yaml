@@ -6,6 +6,7 @@ resources:
   - ./autobrr/ks.yaml
   - ./bazarr/ks.yaml
   # - ./cross-seed/ks.yaml
+  - ./lidarr/ks.yaml
   - ./miniflux/ks.yaml
   - ./omegabrr/ks.yaml
   - ./overseerr/ks.yaml
