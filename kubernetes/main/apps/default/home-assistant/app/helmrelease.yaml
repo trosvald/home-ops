@@ -23,8 +23,8 @@ spec:
       strategy: rollback
       retries: 3
   dependsOn:
-    - name: multus
-      namespace: network
+    - name: cloudnative-pg-cluster
+      namespace: database
   values:
     controllers:
       home-assistant:
