@@ -92,4 +92,4 @@ spec:
           music-assistant:
             music-assistant:
               - path: /media/music
-                subPath: music
+                subPath: musics
