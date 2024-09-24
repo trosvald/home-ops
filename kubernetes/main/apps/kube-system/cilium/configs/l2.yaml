@@ -17,6 +17,7 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: l2-infra-pool
 spec:
+  allowFirstLastIPs: "No"
   blocks:
     - cidr: ${NET_L2_POOL_CIDR}
   serviceSelector:

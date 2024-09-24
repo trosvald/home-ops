@@ -17,6 +17,7 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: l2-cctv-pool
 spec:
+  allowFirstLastIPs: "No"
   blocks:
     - cidr: 172.16.14.0/27
   serviceSelector:

@@ -17,6 +17,7 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: l2-iot-pool
 spec:
+  allowFirstLastIPs: "No"
   blocks:
     - cidr: 172.16.13.0/27
   serviceSelector:
