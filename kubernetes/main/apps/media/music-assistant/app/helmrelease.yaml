@@ -61,6 +61,8 @@ spec:
         ports:
           http:
             port: &port 8095
+          stream:
+            port: 8098
 
     ingress:
       internal:
