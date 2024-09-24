@@ -140,7 +140,7 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: hassio.monosense.io
         labels:
-          io.cilium/ip-pool: l2-infra
+          io.cilium/ip-ip-pool: l2-infra
         ports:
           http:
             port: &port 8123
