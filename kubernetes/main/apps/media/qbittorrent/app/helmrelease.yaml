@@ -220,7 +220,7 @@ spec:
       addons:
         type: emptyDir
         globalMounts:
-          - /addons
+          - path: /addons
 
       media:
         type: nfs
