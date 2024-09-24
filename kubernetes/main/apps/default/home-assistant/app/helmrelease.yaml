@@ -193,8 +193,14 @@ spec:
     persistence:
       config:
         existingClaim: home-assistant
-        globalMounts:
-          - path: /config
+        # globalMounts:
+        #   - path: /config
+        advancedMounts:
+          home-assistant:
+            git-sync:
+              - path: /config
+            app:
+              - path: /config
       deploy-key:
         type: secret
         name: home-assistant-deploy-key
