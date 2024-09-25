@@ -18,3 +18,5 @@ talosconfig
 config.xml
 *.plan
 Brewfile.lock.json
+disk.yaml
+wipe-data.yaml
