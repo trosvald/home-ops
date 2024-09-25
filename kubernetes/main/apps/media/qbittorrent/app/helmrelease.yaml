@@ -30,6 +30,9 @@ spec:
           secret.reloader.stakater.com/reload: qbittorrent-secret
 
         pod:
+          labels:
+            gluetun: "true"
+          hostname: qbittorrent
           securityContext:
             fsGroup: 568
             fsGroupChangePolicy: "OnRootMismatch"
@@ -155,10 +158,7 @@ spec:
               capabilities:
                 drop:
                   - ALL
-        pod:
-          labels:
-            gluetun: "true"
-          hostname: qbittorrent
+
     defaultPodOptions:
       nodeSelector:
         topology.kubernetes.io/zone: w
