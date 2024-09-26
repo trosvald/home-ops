@@ -5,7 +5,7 @@ resources:
   - ./namespace.yaml
   # - ./autobrr/ks.yaml
   - ./bazarr/ks.yaml
-  - ./cross-seed/ks.yaml
+  # - ./cross-seed/ks.yaml
   - ./lidarr/ks.yaml
   - ./miniflux/ks.yaml
   # - ./music-assistant/ks.yaml
