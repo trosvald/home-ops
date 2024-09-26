@@ -240,6 +240,16 @@ spec:
         globalMounts:
           - path: /media/Downloads/qbittorrent
             subPath: Downloads/qbittorrent
+      dnsdist:
+        type: configMap
+        name: qbittorrent-dnsdist
+        defaultMode: 0755
+        advancedMounts:
+          qbittorrent:
+            dnsdist:
+              - path: /etc/dnsdist/dnsdist.conf
+                subPath: dnsdist.conf
+                readOnly: true
       run:
         type: emptyDir
         medium: Memory
