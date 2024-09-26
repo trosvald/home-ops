@@ -40,8 +40,7 @@ spec:
           #     - 1000
           #     - 2000
         containers:
-          app:
-            nameOverride: qbittorrent
+          qbittorrent:
             image:
               repository: ghcr.io/onedr0p/qbittorrent
               tag: 4.6.7@sha256:5391f94b321d563c3b44136a5e799b7e4e4888926c1c31d3081a1cf3e74a9aec
@@ -90,7 +89,7 @@ spec:
                   - ALL
 
           vuetorrent:
-            dependsOn: app
+            dependsOn: qbittorrent
             image:
               repository: registry.k8s.io/git-sync/git-sync
               tag: v4.3.0
@@ -190,7 +189,7 @@ spec:
         existingClaim: qbittorrent
         advancedMounts:
           qbittorrent:
-            app:
+            qbittorrent:
               - path: /config
       dnsdist:
         type: configMap
@@ -208,7 +207,7 @@ spec:
         defaultMode: 0775
         advancedMounts:
           qbittorrent:
-            app:
+            qbittorrent:
               - path: /scripts/post-process.sh
                 subPath: post-process.sh
                 readOnly: true
@@ -231,7 +230,7 @@ spec:
         path: /pool1/Media
         advancedMounts:
           qbittorrent:
-            app:
+            qbittorrent:
               - path: /media/Downloads/qbittorrent
                 subPath: Downloads/qbittorrent
                 # subPath: Downloads/qbittorrent
