@@ -6,5 +6,5 @@ resources:
   - ./kyverno-policies.yaml
   - ./kyverno.yaml
   # - ./prometheus-community.yaml
-  # - ./spegel.yaml
+  - ./spegel.yaml
   # - ./stakater.yaml

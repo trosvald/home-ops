@@ -6,29 +6,23 @@ metadata:
   name: spegel
 spec:
   interval: 30m
-  chart:
-    spec:
-      chart: spegel
-      version: v0.0.24
-      sourceRef:
-        kind: HelmRepository
-        name: spegel
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: spegel-jfroy
+    namespace: flux-system
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
       retries: 3
   valuesFrom:
     - kind: ConfigMap
       name: spegel-helm-values
   values:
-    image:
-      repository: ghcr.io/deedee-ops/spegel-hack
-      digest: sha256:7de27625da39e0524982c3075c1bc724224dedd2f6b2f3cf51535a943a3a8586
     grafanaDashboard:
       enabled: true
     serviceMonitor:
