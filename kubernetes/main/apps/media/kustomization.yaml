@@ -8,7 +8,7 @@ resources:
   # - ./cross-seed/ks.yaml
   - ./lidarr/ks.yaml
   - ./miniflux/ks.yaml
-  - ./music-assistant/ks.yaml
+  # - ./music-assistant/ks.yaml
   - ./omegabrr/ks.yaml
   - ./overseerr/ks.yaml
   - ./pinchflat/ks.yaml
