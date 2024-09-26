@@ -23,6 +23,9 @@ spec:
     - kind: ConfigMap
       name: spegel-helm-values
   values:
+    image:
+      repository: ghcr.io/deedee-ops/spegel-hack
+      digest: sha256-50f6e296cb4083033148e6e609f6fa97028b9c17eff6ca26584471b856aa0264
     grafanaDashboard:
       enabled: true
     serviceMonitor:
