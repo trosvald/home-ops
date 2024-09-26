@@ -257,15 +257,15 @@ spec:
         globalMounts:
           - path: /run
           - path: /var/run
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              group: apps
-              version: v1
-              kind: Deployment
-              name: qbittorrent
-            patch: |
-              - op: add
-                path: /spec/template/spec/shareProcessNamespace
-                value: true
+  # postRenderers:
+  #   - kustomize:
+  #       patches:
+  #         - target:
+  #             group: apps
+  #             version: v1
+  #             kind: Deployment
+  #             name: qbittorrent
+  #           patch: |
+  #             - op: add
+  #               path: /spec/template/spec/shareProcessNamespace
+  #               value: true
