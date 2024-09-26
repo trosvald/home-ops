@@ -83,7 +83,7 @@ spec:
         annotations:
           io.cilium/lb-ipam-ips: ${NET_L2_PLEX_IP}
         labels:
-          io.cilium/lb-ip-pool: l2-infra
+          io.cilium/lb-ip-pool: l2
         ports:
           http:
             port: 32400
