@@ -6,5 +6,4 @@ resources:
   - ./l3.yaml
   - ./lrp.yaml
   - ./l2.yaml
-  - ./l2-iot.yaml
-  - ./l2-cctv.yaml
+
