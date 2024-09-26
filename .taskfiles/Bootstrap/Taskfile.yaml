@@ -67,7 +67,7 @@ tasks:
   flux:
     internal: true
     cmds:
-      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux
+      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap
       - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml | kubectl apply --server-side --filename -
       - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml | kubectl apply --server-side --filename -
       - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | kubectl apply --server-side --filename -
