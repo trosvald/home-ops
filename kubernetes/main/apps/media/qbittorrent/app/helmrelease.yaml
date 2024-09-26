@@ -33,12 +33,12 @@ spec:
           labels:
             gluetun: "true"
           hostname: qbittorrent
-          securityContext:
-            fsGroup: 568
-            fsGroupChangePolicy: "OnRootMismatch"
-            supplementalGroups:
-              - 1000
-              - 2000
+          # securityContext:
+          #   fsGroup: 568
+          #   fsGroupChangePolicy: "OnRootMismatch"
+          #   supplementalGroups:
+          #     - 1000
+          #     - 2000
         containers:
           app:
             nameOverride: qbittorrent
