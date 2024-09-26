@@ -39,11 +39,11 @@ spec:
           #   supplementalGroups:
           #     - 1000
           #     - 2000
-        initContainers:
-          dnsdist:
-            image:
-              repository: docker.io/powerdns/dnsdist-19
-              tag: 1.9.6
+        # initContainers:
+        #   dnsdist:
+        #     image:
+        #       repository: docker.io/powerdns/dnsdist-19
+        #       tag: 1.9.6
 
           # gluetun:
           #   image:
@@ -196,16 +196,16 @@ spec:
           qbittorrent:
             qbittorrent:
               - path: /config
-      dnsdist:
-        type: configMap
-        name: qbittorrent-dnsdist
-        defaultMode: 0755
-        advancedMounts:
-          qbittorrent:
-            dnsdist:
-              - path: /etc/dnsdist/dnsdist.conf
-                subPath: dnsdist.conf
-                readOnly: true
+      # dnsdist:
+      #   type: configMap
+      #   name: qbittorrent-dnsdist
+      #   defaultMode: 0755
+      #   advancedMounts:
+      #     qbittorrent:
+      #       dnsdist:
+      #         - path: /etc/dnsdist/dnsdist.conf
+      #           subPath: dnsdist.conf
+      #           readOnly: true
       scripts:
         type: configMap
         name: qbittorrent-scripts
