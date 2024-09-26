@@ -2,7 +2,7 @@
 apiVersion: cilium.io/v2alpha1
 kind: CiliumL2AnnouncementPolicy
 metadata:
-  name: l2-infra-policy
+  name: l2-policy
 spec:
   loadBalancerIPs: true
   interfaces:
@@ -15,8 +15,9 @@ spec:
 apiVersion: cilium.io/v2alpha1
 kind: CiliumLoadBalancerIPPool
 metadata:
-  name: l2-infra-pool
+  name: l2-ip-pool
 spec:
+  ## This needs to set explicitly prior to v1.16
   allowFirstLastIPs: "No"
   blocks:
     - cidr: ${NET_L2_POOL_CIDR}
@@ -25,10 +26,8 @@ spec:
       - key: io.cilium/lb-ip-pool
         operator: In
         values:
-          - l2-infra
+          - l2
       - key: io.cilium/lb-ip-pool
         operator: NotIn
         values:
-          - l2-cctv
-          - l2-iot
           - l3
