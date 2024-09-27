@@ -39,8 +39,14 @@ spec:
           #   supplementalGroups:
           #     - 1000
           #     - 2000
-        initContainers:
+
+        containers:
+          dnsdist:
+            image:
+              repository: docker.io/powerdns/dnsdist-19
+              tag: 1.9.6
           gluetun:
+            dependsOn: dnsdist
             image:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.39.0
@@ -69,13 +75,8 @@ spec:
               limits:
                 kernel.org/tun: "1"
 
-        containers:
-          dnsdist:
-            image:
-              repository: docker.io/powerdns/dnsdist-19
-              tag: 1.9.6
-
           qbittorrent:
+            dependsOn: gluetun
             image:
               repository: ghcr.io/onedr0p/qbittorrent
               tag: 4.6.7@sha256:5391f94b321d563c3b44136a5e799b7e4e4888926c1c31d3081a1cf3e74a9aec
