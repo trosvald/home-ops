@@ -103,7 +103,7 @@ spec:
               name: kps-thanos
               key: objstore.yml
         retention: 2d
-        retentionSize: 15GB
+        retentionSize: 20GB
         resources:
           requests:
             cpu: 100m
@@ -115,7 +115,7 @@ spec:
               storageClassName: ceph-filesystem
               resources:
                 requests:
-                  storage: 20Gi
+                  storage: 120Gi
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       prometheus:

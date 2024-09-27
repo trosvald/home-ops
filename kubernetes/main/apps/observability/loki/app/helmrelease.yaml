@@ -85,7 +85,7 @@ spec:
     backend:
       replicas: 3
       persistence:
-        size: 20Gi
+        size: 60Gi
         storageClass: ceph-block
     gateway:
       replicas: 3

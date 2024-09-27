@@ -46,7 +46,7 @@ spec:
       persistence: &persistence
         enabled: true
         storageClass: ceph-block
-        size: 15Gi
+        size: 120Gi
     query:
       replicas: 3
       extraArgs:
