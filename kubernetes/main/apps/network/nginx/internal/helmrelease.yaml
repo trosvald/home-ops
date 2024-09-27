@@ -56,6 +56,7 @@ spec:
         hsts-max-age: 31449600
         keep-alive-requests: 10000
         keep-alive: 120
+        custom-http-errors: 400,401,403,404,500,502,503,504
         log-format-escape-json: "true"
         log-format-upstream: >
           {"time": "$time_iso8601", "remote_addr": "$proxy_protocol_addr", "x_forwarded_for": "$proxy_add_x_forwarded_for",
@@ -91,4 +92,21 @@ spec:
         limits:
           memory: 500Mi
     defaultBackend:
-      enabled: false
+      enabled: true
+      image:
+        repository: ghcr.io/tarampampam/error-pages
+        tag: 3.3.0
+      replicaCount: 1
+      resources:
+        requests:
+          cpu: 15m
+          memory: 50Mi
+        limits:
+          memory: 128Mi
+      extraEnvs:
+        - name: TEMPLATE_NAME
+          value: "app-down"
+        - name: SHOW_DETAILS
+          value: "true"
+        - name: SEND_SAME_HTTP_CODE
+          value: "true"
