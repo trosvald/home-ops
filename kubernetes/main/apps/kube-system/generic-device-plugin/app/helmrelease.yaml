@@ -34,6 +34,7 @@ spec:
           effect: "NoSchedule"
     controllers:
       generic-device-plugin:
+        type: daemonset
         containers:
           generic-device-plugin:
             image:
