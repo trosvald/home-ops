@@ -85,6 +85,10 @@ spec:
               UMASK: "022"
               QBITTORRENT__PORT: &port 80
               # QBITTORRENT__BT_PORT: &bittorrentPort 50413
+              QBT_BitTorrent__Session__Interface: wg0
+              QBT_BitTorrent__Session__InterfaceAddress: 0.0.0.0
+              QBT_BitTorrent__Session__InterfaceName: wg0
+              QBT_BitTorrent__Session__LSDEnabled: "false"
               QBT_Preferences__WebUI__AlternativeUIEnabled: true
               QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
               QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
