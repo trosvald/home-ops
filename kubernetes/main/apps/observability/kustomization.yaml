@@ -9,10 +9,10 @@ resources:
   # - ./alertmanager-telegram/ks.yaml
   # - ./gatus/ks.yaml
   # - ./grafana/ks.yaml
-  - ./kromgo/ks.yaml
-  - ./kube-prometheus-stack/ks.yaml
-  - ./loki/ks.yaml
-  - ./thanos/ks.yaml
-  - ./prometheus-operator-crds/ks.yaml
-  - ./vector/ks.yaml
-  - ./exporters
+  # - ./kromgo/ks.yaml
+  # - ./kube-prometheus-stack/ks.yaml
+  # - ./loki/ks.yaml
+  # - ./thanos/ks.yaml
+  # - ./prometheus-operator-crds/ks.yaml
+  # - ./vector/ks.yaml
+  # - ./exporters
