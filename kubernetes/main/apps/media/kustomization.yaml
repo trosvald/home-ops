@@ -4,21 +4,21 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   # - ./autobrr/ks.yaml
-  - ./bazarr/ks.yaml
-  # - ./cross-seed/ks.yaml
-  - ./flaresolverr/ks.yaml
-  - ./lidarr/ks.yaml
+  # - ./bazarr/ks.yaml
+  # # - ./cross-seed/ks.yaml
+  # - ./flaresolverr/ks.yaml
+  # - ./lidarr/ks.yaml
   - ./miniflux/ks.yaml
-  # - ./music-assistant/ks.yaml
-  - ./omegabrr/ks.yaml
-  - ./overseerr/ks.yaml
-  - ./pinchflat/ks.yaml
-  - ./plex/ks.yaml
-  - ./prowlarr/ks.yaml
-  - ./qbittorrent/ks.yaml
-  - ./radarr/ks.yaml
-  - ./recyclarr/ks.yaml
-  # - ./sabnzbd/ks.yaml
-  - ./sonarr/ks.yaml
-  - ./tautulli/ks.yaml
-  - ./unpackerr/ks.yaml
+  # # - ./music-assistant/ks.yaml
+  # - ./omegabrr/ks.yaml
+  # - ./overseerr/ks.yaml
+  # - ./pinchflat/ks.yaml
+  # - ./plex/ks.yaml
+  # - ./prowlarr/ks.yaml
+  # - ./qbittorrent/ks.yaml
+  # - ./radarr/ks.yaml
+  # - ./recyclarr/ks.yaml
+  # # - ./sabnzbd/ks.yaml
+  # - ./sonarr/ks.yaml
+  # - ./tautulli/ks.yaml
+  # - ./unpackerr/ks.yaml
