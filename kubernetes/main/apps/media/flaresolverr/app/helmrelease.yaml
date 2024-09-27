@@ -14,80 +14,34 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
   install:
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       flaresolverr:
+        replicas: 2
+        strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
               repository: ghcr.io/flaresolverr/flaresolverr
-              tag: v3.3.21@sha256:f104ee51e5124d83cf3be9b37480649355d223f7d8f9e453d0d5ef06c6e3b31b
-            env:
-              PORT: &port 80
-              PROMETHEUS_ENABLED: true
-              TZ: ${TIMEZONE}
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: *port
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
-              startup:
-                enabled: true
+              tag: v3.3.21
             resources:
-              limits:
-                memory: 1Gi
               requests:
-                cpu: 25m
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities: { drop: ["ALL"] }
-              readOnlyRootFilesystem: false
-        pod:
-          automountServiceAccountToken: false
-          securityContext:
-            runAsGroup: 1000
-            runAsUser: 1000
-            runAsNonRoot: true
-            seccompProfile: { type: RuntimeDefault }
-    persistence:
-      tmp:
-        type: emptyDir
-        globalMounts:
-          - path: /tmp
-          - path: /.local
+                cpu: 15m
+                memory: 150Mi
     service:
       app:
-        controller: flaresolverr
+        controller: *app
+        type: ClusterIP
         ports:
           http:
-            port: *port
-          metrics:
-            port: 8192
-    serviceMonitor:
-      app:
-        serviceName: *app
-        endpoints:
-          - port: metrics
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
+            port: 8191
