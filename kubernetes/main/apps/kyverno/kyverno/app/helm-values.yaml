@@ -1,5 +1,0 @@
----
-fullnameOverride: kyverno
-features:
-  backgroundScan:
-    skipResourceFilters: false
