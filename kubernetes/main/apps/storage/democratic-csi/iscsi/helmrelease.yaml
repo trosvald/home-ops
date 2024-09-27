@@ -24,6 +24,11 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 5
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+    - name: external-secrets
+      namespace: external-secrets
   uninstall:
     keepHistory: false
   values:

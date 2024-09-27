@@ -22,6 +22,11 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  dependsOn:
+    - name: external-secrets
+      namespace: external-secrets
+    - name: qbittorrent
+      namespace: media
   values:
     controllers:
       unpackerr:

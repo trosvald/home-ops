@@ -25,6 +25,8 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: database
+    - name: external-secrets
+      namespace: external-secrets
   values:
     controllers:
       home-assistant:

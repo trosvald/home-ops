@@ -25,6 +25,9 @@ spec:
       strategy: uninstall
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: observability
   values:
     controllers:
       alertmanager-telegram:

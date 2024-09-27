@@ -20,3 +20,4 @@ data:
         alerts:
           - type: pushover
           - type: telegram
+            send_on_resolved: true
