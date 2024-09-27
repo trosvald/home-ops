@@ -25,6 +25,8 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
+    - name: cloudnative-pg
+      namespace: database
   values:
     controllers:
       gatus:

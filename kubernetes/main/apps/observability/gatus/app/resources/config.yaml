@@ -8,8 +8,15 @@ storage:
   caching: true
 metrics: true
 debug: false
+security:
+  oidc:
+    issuer-url: https://sso.monosense.io/application/o/gatus
+    client-id: $${CLIENT_ID}
+    client-secret: $${CLIENT_SECRET}
+    redirect-url: https://status.monosense.io/authorization-code/callback
+    scopes: [openid]
 ui:
-  title: Status | Gatus
+  title: Status | Services
   header: Status
 alerting:
   telegram:
@@ -41,6 +48,7 @@ endpoints:
     alerts:
       - type: pushover
       - type: telegram
+        send-on-resolved: true
   - name: flux-webhook
     group: external
     url: https://flux-webhook.monosense.io
@@ -52,3 +60,4 @@ endpoints:
     alerts:
       - type: pushover
       - type: telegram
+        send-on-resolved: true

@@ -127,6 +127,21 @@ module "oauth2-grafana" {
   redirect_uris      = ["https://grafana.${module.secret_authentik.fields["authentik_cluster_domain"]}/login/generic_oauth"]
 }
 
+module "oauth2-gatus" {
+  source             = "./oauth2_application"
+  name               = "Gatus"
+  icon_url           = "https://gatus.io/img/logo-with-light-text.svg"
+  launch_url         = "https://status.${module.secret_authentik.fields["authentik_cluster_domain"]}"
+  description        = "Uptime Monitor"
+  newtab             = true
+  group              = "Infrastructure"
+  auth_groups        = [authentik_group.infrastructure.id]
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  client_id          = module.secret_gatus.fields["gatus_oidc_client_id"]
+  client_secret      = module.secret_gatus.fields["gatus_oidc_client_secret"]
+  redirect_uris      = ["https://status.${module.secret_authentik.fields["authentik_cluster_domain"]}/authorization-code/callback"]
+}
+
 
 module "oauth2-ocis" {
   source             = "./oauth2_application"
