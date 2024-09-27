@@ -173,7 +173,7 @@ spec:
         controller: qbittorrent
         ports:
           http:
-            port: *port
+            port: 80
     ingress:
       app:
         annotations:
