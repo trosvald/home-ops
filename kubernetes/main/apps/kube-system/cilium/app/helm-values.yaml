@@ -14,7 +14,7 @@ cgroup:
   hostRoot: /sys/fs/cgroup
 cluster:
   id: 1
-  name: kantai
+  name: main
 cni:
   exclusive: false
 devices: bond0
