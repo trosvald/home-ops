@@ -18,7 +18,7 @@ cluster:
 cni:
   exclusive: false
 
-devices: bond0
+# devices: bond0
 # Enables IPv4 BIG TCP support which increases maximum IPv4 GSO/GRO limits for nodes and pods
 enableIPv4BIGTCP: true
 # Pod, service, and load-balancer IPs are allocated from a publicly routable CIDR.
@@ -71,5 +71,6 @@ securityContext:
 # https://elixir.bootlin.com/linux/v6.7.2/source/drivers/net/bonding/bond_main.c#L327
 # socketLB:
 #   enabled: true
+
 # envoy:
 #   enabled: false
