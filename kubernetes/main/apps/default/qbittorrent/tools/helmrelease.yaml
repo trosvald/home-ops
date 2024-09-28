@@ -22,16 +22,13 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: qbittorrent
-      namespace: default
   values:
     controllers:
       tagging:
         type: cronjob
         cronjob: &cronJobSpec
           schedule: "@hourly"
-          timeZone: &timeZone America/New_York
+          timeZone: &timeZone ${TIMEZONE}
           concurrencyPolicy: Forbid
           successfulJobsHistory: 1
           failedJobsHistory: 1
@@ -85,7 +82,6 @@ spec:
               "prune",
               "--exclude-category", "manual",
               "--exclude-category", "music",
-              "--exclude-tag", "added:24h",
               "--include-tag", "expired", # defined in config.yaml
               # "--dry-run",
               "--server", "qbittorrent.$(POD_NAMESPACE).svc.cluster.local",
@@ -137,8 +133,8 @@ spec:
             readOnly: true
       media:
         type: nfs
-        server: expanse.internal
-        path: /eros/Media
+        server: ${NET_STORAGE_SERVER}
+        path: /pool1/Media
         advancedMounts:
           orphaned:
             app:

@@ -10,8 +10,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: external-secrets-stores
   path: ./kubernetes/main/apps/default/qbittorrent/app
   prune: true
   sourceRef:
@@ -21,6 +19,10 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  dependsOn:
+    - name: external-secrets-stores
+    - name: rook-ceph-cluster
+    - name: volsync
   postBuild:
     substitute:
       APP: *app
@@ -50,3 +52,5 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  dependsOn:
+    - name: qbittorrent
