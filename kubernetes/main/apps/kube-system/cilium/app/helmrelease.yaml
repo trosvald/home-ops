@@ -69,9 +69,9 @@ spec:
             external-dns.alpha.kubernetes.io/target: internal.monosense.io
           className: internal
           hosts: ["hubble.monosense.io"]
-    loadBalancer:
-      l7:
-        backend: envoy
+    # loadBalancer:
+    #   l7:
+    #     backend: envoy
     operator:
       prometheus:
         enabled: true

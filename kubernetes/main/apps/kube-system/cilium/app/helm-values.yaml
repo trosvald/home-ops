@@ -74,5 +74,5 @@ securityContext:
 # Supported NICs for BIG TCP: mlx4, mlx5, ice
 # enableIPv4BIGTCP: true
 
-# envoy:
-#   enabled: false
+envoy:
+  enabled: false
