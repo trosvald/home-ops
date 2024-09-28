@@ -10,9 +10,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  dependsOn:
-    - name: cloudnative-pg-cluster
-    - name: external-secrets-stores
   path: ./kubernetes/main/apps/default/sonarr/app
   prune: true
   sourceRef:
@@ -22,6 +19,10 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  dependsOn:
+    - name: cloudnative-pg-cluster
+    - name: external-secrets-stores
+    - name: rook-ceph-cluster
   postBuild:
     substitute:
       APP: *app

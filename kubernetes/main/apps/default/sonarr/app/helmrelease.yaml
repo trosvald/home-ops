@@ -23,8 +23,10 @@ spec:
       strategy: rollback
       retries: 3
   dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: external-secrets
+      namespace: external-secrets
+    - name: cloudnative-pg
+      namespace: database
   values:
     controllers:
       sonarr:
@@ -42,17 +44,17 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/sonarr-develop
-              tag: 4.0.9.2457@sha256:d981084e9534a6f4a089926625ba4679089dbced7693460df7d83233177c1f92
+              tag: 4.0.9.2421@sha256:e171727fd08b9f35a0a54b79398f152da57338ef19fb088684e1a4641726dd54
             env:
               SONARR__APP__INSTANCENAME: Sonarr
               SONARR__APP__THEME: dark
-              SONARR__AUTH__METHOD: External
+              # SONARR__AUTH__METHOD: External
               SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
               SONARR__LOG__DBENABLED: "False"
               SONARR__LOG__LEVEL: info
               SONARR__SERVER__PORT: &port 80
               SONARR__UPDATE__BRANCH: develop
-              TZ: America/New_York
+              TZ: ${TIMEZONE}
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -95,6 +97,9 @@ spec:
       app:
         annotations:
           external-dns.alpha.kubernetes.io/target: internal.monosense.io
+          # authentik.home.arpa/enabled: "true"
+          # nginx.ingress.kubernetes.io/auth-signin: |-
+          #   https://sonarr.monosense.io/outpost.goauthentik.io/start?rd=$escaped_request_uri
         className: internal
         hosts:
           - host: "{{ .Release.Name }}.monosense.io"
@@ -121,7 +126,7 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: expanse.internal
-        path: /eros/Media
+        server: ${NET_STORAGE_SERVER}
+        path: /pool1/Media
         globalMounts:
           - path: /media

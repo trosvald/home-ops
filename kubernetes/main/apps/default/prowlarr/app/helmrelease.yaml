@@ -22,6 +22,13 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  dependsOn:
+    - name: external-secrets
+      namespace: external-secrets
+    - name: cloudnative-pg
+      namespace: database
+    - name: qbittorrent
+      namespace: media
   values:
     controllers:
       prowlarr:
@@ -43,13 +50,13 @@ spec:
             env:
               PROWLARR__APP__INSTANCENAME: Prowlarr
               PROWLARR__APP__THEME: dark
-              PROWLARR__AUTH__METHOD: External
+              # PROWLARR__AUTH__METHOD: External
               PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
               PROWLARR__LOG__DBENABLED: "False"
               PROWLARR__LOG__LEVEL: info
               PROWLARR__SERVER__PORT: &port 80
               PROWLARR__UPDATE__BRANCH: develop
-              TZ: America/New_York
+              TZ: ${TIMEZONE}
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -91,6 +98,9 @@ spec:
       app:
         annotations:
           external-dns.alpha.kubernetes.io/target: internal.monosense.io
+          # authentik.home.arpa/enabled: "true"
+          # nginx.ingress.kubernetes.io/auth-signin: |-
+          #   https://prowlarr.monosense.io/outpost.goauthentik.io/start?rd=$escaped_request_uri
         className: internal
         hosts:
           - host: "{{ .Release.Name }}.monosense.io"

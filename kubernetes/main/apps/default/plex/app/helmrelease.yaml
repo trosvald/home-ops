@@ -40,9 +40,10 @@ spec:
               repository: ghcr.io/onedr0p/plex
               tag: 1.41.0.8994-f2c27da23@sha256:8e1a094b0cd9c980e2b2e22daf2c2b212893bdb8e1e9e6452aefba9448466ff1
             env:
-              TZ: America/New_York
-              PLEX_ADVERTISE_URL: https://plex.monosense.io:443,http://192.168.42.128:32400
-              PLEX_NO_AUTH_NETWORKS: 192.168.10.0/24
+              TZ: ${TIMEZONE}
+              PLEX_ADVERTISE_URL: https://plex.monosense.io:443,http://${SVC_PLEX_IP}:32400
+              PLEX_NO_AUTH_NETWORKS: 172.16.11.0/24
+              PLEX_CLAIM: "claim-TwBb6w5pmkHrn1p2s4fw"
             probes:
               liveness: &probes
                 enabled: true
@@ -87,7 +88,7 @@ spec:
         controller: plex
         type: LoadBalancer
         annotations:
-          io.cilium/lb-ipam-ips: 192.168.42.128
+          io.cilium/lb-ipam-ips: ${SVC_PLEX_IP}
         ports:
           http:
             port: 32400
@@ -108,8 +109,8 @@ spec:
       config:
         existingClaim: plex
         # TODO: If setting up Plex for the first time, you'll want to add the globalMounts section
-        # globalMounts:
-        #   - path: /config/Library/Application Support/Plex Media Server
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server
       # Separate PVC for cache to avoid backing up cache files
       cache:
         existingClaim: plex-cache
@@ -125,15 +126,15 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: expanse.internal
-        path: /eros/Media
+        server: ${NET_STORAGE_SERVER}
+        path: /pool1/Media
         globalMounts:
           - path: /media
             readOnly: true
       music:
         type: nfs
-        server: expanse.internal
-        path: /eros/Music
+        server: ${NET_STORAGE_SERVER}
+        path: /pool1/Music
         globalMounts:
           - path: /music
             readOnly: true

@@ -19,6 +19,9 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  dependsOn:
+    - name: rook-ceph-cluster
+    - name: volsync
   postBuild:
     substitute:
       APP: *app
