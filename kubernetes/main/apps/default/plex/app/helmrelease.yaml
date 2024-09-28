@@ -95,9 +95,9 @@ spec:
     ingress:
       app:
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.monosense.io
+          external-dns.alpha.kubernetes.io/target: internal.monosense.io
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-        className: external
+        className: internal
         hosts:
           - host: "{{ .Release.Name }}.monosense.io"
             paths:
