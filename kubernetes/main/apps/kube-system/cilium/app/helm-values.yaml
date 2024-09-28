@@ -17,6 +17,7 @@ cluster:
   name: main
 cni:
   exclusive: false
+
 devices: bond0
 # Enables IPv4 BIG TCP support which increases maximum IPv4 GSO/GRO limits for nodes and pods
 enableIPv4BIGTCP: true
@@ -66,7 +67,9 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
-socketLB:
-  enabled: true
-envoy:
-  enabled: false
+# The kernel bonding driver only supports XDP for a limited set of bond modes:
+# https://elixir.bootlin.com/linux/v6.7.2/source/drivers/net/bonding/bond_main.c#L327
+# socketLB:
+#   enabled: true
+# envoy:
+#   enabled: false
