@@ -3,4 +3,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./l2.yaml
+  - ./bgpadvertisement.yaml
+  - ./bgpcluster.yaml
+  - ./bgpippool.yaml
+  - ./bgppeer.yaml
+  - ./lrp.yaml

@@ -63,6 +63,7 @@
     "yaml.schemaStore.enable": true,
     "yaml.schemas": {
       "ansible": "./ansible/**/*.yaml",
-      "kubernetes": "./kubernetes/**/*.yaml"
+      "kubernetes": "./kubernetes/**/*.yaml",
+      "https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json": "file:///home/monosense/iac/home-ops/kubernetes/main/apps/observability/headlamp/helmrelease.yaml"
     }
 }

@@ -1,10 +1,12 @@
 ---
 autoDirectNodeRoutes: true
+bgpControlPlane:
+  enabled: true
 bandwidthManager:
   enabled: true
   bbr: true
 bpf:
-  masquerade: true
+  masquerade: true # Incompatible with Talos forwardKubeDNSToHost. siderolabs/talos/#8836
   tproxy: true
 cgroup:
   automount:
@@ -12,29 +14,37 @@ cgroup:
   hostRoot: /sys/fs/cgroup
 cluster:
   id: 1
-  name: main
-devices: bond+
-enableRuntimeDeviceDetection: true
+  name: kantai
+cni:
+  exclusive: false
+devices: bond0
+# Enables IPv4 BIG TCP support which increases maximum IPv4 GSO/GRO limits for nodes and pods
+enableIPv4BIGTCP: true
+# Pod, service, and load-balancer IPs are allocated from a publicly routable CIDR.
 endpointRoutes:
   enabled: true
-envoy:
-  enabled: false
 hubble:
   enabled: false
 ipam:
   mode: kubernetes
+ipv4:
+  enabled: true
 ipv4NativeRoutingCIDR: 10.42.0.0/16
+ipv6:
+  enabled: false
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 l2announcements:
-  enabled: true
+  enabled: false
 loadBalancer:
+  acceleration: native
   algorithm: maglev
   mode: dsr
 localRedirectPolicy: true
 operator:
+  replicas: 1
   rollOutPods: true
 rollOutCiliumPods: true
 routingMode: native
@@ -56,3 +66,5 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
+socketLB:
+  enabled: true

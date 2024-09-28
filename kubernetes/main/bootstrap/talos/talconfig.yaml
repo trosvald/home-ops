@@ -399,6 +399,8 @@ controlPlane:
               disabled: false
 
     # Enable host dns
+    # Incompatible with Cilium bpf masquerade. siderolabs/talos/#8836
+    # Replaced by a Cilium redirect policy.
     - &hostDnsPatch |-
       machine:
         features:

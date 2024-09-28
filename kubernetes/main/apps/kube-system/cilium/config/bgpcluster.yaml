@@ -1,0 +1,19 @@
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPClusterConfig
+metadata:
+  name: cilium-bgp
+spec:
+  nodeSelector:
+    matchExpressions:
+      # - {key: somekey, operator: NotIn, values: ["never-used-value"]}
+      - {key: node-role.kubernetes.io/control-plane, operator: NotIn, values: [""]}
+  bgpInstances:
+    - name: cilium
+      localASN: 64513
+      peers:
+        - name: srx320
+          peerASN: 64512
+          peerAddress: 172.16.11.254
+          peerConfigRef:
+            name: srx320-bgp

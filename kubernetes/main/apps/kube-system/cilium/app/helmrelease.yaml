@@ -14,13 +14,14 @@ spec:
         kind: HelmRepository
         name: cilium
         namespace: flux-system
+  driftDetection:
+    mode: enabled
   install:
     remediation:
       retries: 3
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
       retries: 3
   valuesFrom:
     - kind: ConfigMap
@@ -41,9 +42,21 @@ spec:
           enabled: true
         dashboards:
           enabled: true
+          annotations:
+            grafana_folder: Cilium
+      # tls:
+      #   auto:
+      #     method: certmanager
+      #     certManagerIssuerRef:
+      #       name: cluster-ca
+      #       kind: ClusterIssuer
+      #       group: cert-manager.io
       relay:
         enabled: true
         rollOutPods: true
+        tls:
+          server:
+            enabled: true
         prometheus:
           serviceMonitor:
             enabled: true
@@ -56,13 +69,28 @@ spec:
             external-dns.alpha.kubernetes.io/target: internal.monosense.io
           className: internal
           hosts: ["hubble.monosense.io"]
+    loadBalancer:
+      l7:
+        backend: envoy
     operator:
       prometheus:
         enabled: true
         serviceMonitor:
           enabled: true
+          metricRelabelings:
+            - action: drop
+              regex: workqueue_(work|queue)_duration_seconds_bucket
+              sourceLabels: ["__name__"]
+            - action: drop
+              regex: controller_runtime_reconcile_time_seconds_bucket
+              sourceLabels: ["__name__"]
+            - action: drop
+              regex: cilium_k8s_client_(rate_limiter_duration|api_latency_time)_seconds_bucket
+              sourceLabels: ["__name__"]
       dashboards:
         enabled: true
+        annotations:
+          grafana_folder: Cilium
     prometheus:
       enabled: true
       serviceMonitor:
@@ -70,3 +98,19 @@ spec:
         trustCRDsExist: true
     dashboards:
       enabled: true
+      annotations:
+        grafana_folder: Cilium
+  # postRenderers:
+  #   - kustomize:
+  #       patches:
+  #         # hubble-ui backend container file permissions issue on loading client cert for hubble-relay
+  #         # https://github.com/cilium/cilium/issues/18816
+  #         - target:
+  #             group: apps
+  #             version: v1
+  #             kind: Deployment
+  #             name: hubble-ui
+  #           patch: |
+  #             - op: replace
+  #               path: /spec/template/spec/volumes/2/projected/defaultMode
+  #               value: 0404

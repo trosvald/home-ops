@@ -1,0 +1,19 @@
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeerConfig
+metadata:
+  name: srx320-bgp
+spec:
+  families:
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          advertise: "bgp"
+  gracefulRestart:
+    enabled: true
+    restartTimeSeconds: 30
+  timers:
+    connectRetryTimeSeconds: 12
+    holdTimeSeconds: 9
+    keepAliveTimeSeconds: 3
