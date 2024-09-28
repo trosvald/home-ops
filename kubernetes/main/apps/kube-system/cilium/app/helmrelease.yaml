@@ -41,8 +41,6 @@ spec:
           enabled: true
         dashboards:
           enabled: true
-          annotations:
-            grafana_folder: Networking
       relay:
         enabled: true
         rollOutPods: true
@@ -65,8 +63,6 @@ spec:
           enabled: true
       dashboards:
         enabled: true
-        annotations:
-          grafana_folder: Networking
     prometheus:
       enabled: true
       serviceMonitor:

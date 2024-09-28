@@ -54,7 +54,7 @@ spec:
         enabled: true
         urlPrefix: /
         ssl: false
-        prometheusEndpoint: http://thanos-query-frontend.observability.svc.cluster.local:10902
+        prometheusEndpoint: http://prometheus-operated.observability.svc.cluster.local:9090
       mgr:
         modules:
           - name: pg_autoscaler
@@ -67,6 +67,11 @@ spec:
         connections:
           requireMsgr2: true
       storage:
+        # useAllNodes: true
+        # useAllDevices: true
+        # deviceFilter: nvme0n1
+        # config:
+        #   osdsPerDevice: "1"
         useAllNodes: false
         useAllDevices: false
         # deviceFilter: nvme0n1

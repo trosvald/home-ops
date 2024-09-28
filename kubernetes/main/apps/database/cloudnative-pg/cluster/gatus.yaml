@@ -18,6 +18,5 @@ data:
         conditions:
           - "[CONNECTED] == true"
         alerts:
-          - type: pushover
           - type: telegram
-            send_on_resolved: true
+            send-on-resolved: true

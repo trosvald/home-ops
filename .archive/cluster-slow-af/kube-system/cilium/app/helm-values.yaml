@@ -1,0 +1,115 @@
+---
+# -- Enable installation of PodCIDR routes between worker
+#    nodes if worker nodes share a common L2 network segment.
+autoDirectNodeRoutes: true
+
+bandwidthManager:
+  enabled: true
+  bbr: true
+
+bpf:
+  # -- (bool) Enable native IP masquerade support in eBPF
+  #    @default -- `false`
+  masquerade: true
+  # -- (bool) Configure the eBPF-based TPROXY to reduce reliance on iptables rules
+  #    for implementing Layer 7 policy.
+  #    @default -- `false`
+  tproxy: true
+
+l2announcements:
+  enabled: true
+
+bgpControlPlane:
+  enabled: true
+
+# -- Configure cgroup related configuration
+cgroup:
+  automount:
+    # -- Enable auto mount of cgroup2 filesystem.
+    #    When `autoMount` is enabled, cgroup2 filesystem is mounted at
+    #    `cgroup.hostRoot` path on the underlying host and inside the cilium agent pod.
+    #    If users disable `autoMount`, it's expected that users have mounted
+    #    cgroup2 filesystem at the specified `cgroup.hostRoot` volume, and then the
+    #    volume will be mounted inside the cilium agent pod at the same path.
+    enabled: false
+  # -- Configure cgroup root where cgroup2 filesystem is mounted on the host (see also: `cgroup.autoMount`)
+  hostRoot: /sys/fs/cgroup
+
+cluster:
+  # -- (int) Unique ID of the cluster. Must be unique across all connected
+  #    clusters and in the range of 1 to 255. Only required for Cluster Mesh,
+  #    may be 0 if Cluster Mesh is not used.
+  id: 1
+  # -- Name of the cluster. Only required for Cluster Mesh.
+  name: main
+
+cni:
+  exclusive: false
+
+# -- Enable use of per endpoint routes instead of routing via
+#    the cilium_host interface.
+endpointRoutes:
+  enabled: true
+
+# -- Disabled Envoy
+envoy:
+  enabled: false
+
+# -- Enable ExternalIPs service support.
+externalIPs:
+  enabled: true
+
+hubble:
+  enabled: false
+
+ipam:
+  mode: kubernetes
+
+# -- Enable Layer 7 network policy.
+l7Proxy: true
+
+ipv4NativeRoutingCIDR: 10.42.0.0/16
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 7445
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+
+# -- Configure service load balancing
+loadBalancer:
+  # -- algorithm is the name of the load balancing algorithm for backend
+  #    selection e.g. random or maglev
+  algorithm: maglev
+  # -- mode is the operation mode of load balancing for remote backends
+  #    e.g. snat, dsr, hybrid
+  mode: dsr
+
+# -- Enables pod traffic destined to an IP address and port/protocol
+#    tuple or Kubernetes service to be redirected locally to backend pod(s) within a node, using eBPF
+localRedirectPolicy: true
+
+operator:
+  rollOutPods: true
+
+# -- Roll out cilium agent pods automatically when configmap is updated
+rollOutCiliumPods: true
+
+routingMode: native
+
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE

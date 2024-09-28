@@ -22,9 +22,6 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: external-secrets
-      namespace: external-secrets
   values:
     controllers:
       smtp-relay:
@@ -76,9 +73,7 @@ spec:
         type: LoadBalancer
         annotations:
           external-dns.alpha.kubernetes.io/hostname: smtp-relay.monosense.io
-          io.cilium/lb-ipam-ips: ${NET_L2_SMTP_RELAY_IP}
-        labels:
-          io.cilium/lb-ip-pool: l2
+          io.cilium/lb-ipam-ips: ${SVC_SMTP_RELAY_IP}
         ports:
           http:
             primary: true

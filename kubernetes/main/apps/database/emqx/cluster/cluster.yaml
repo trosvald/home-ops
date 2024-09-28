@@ -48,6 +48,6 @@ spec:
   listenersServiceTemplate:
     metadata:
       annotations:
-        io.cilium/lb-ipam-ips: ${NET_SERVICES_EMQX}
+        io.cilium/lb-ipam-ips: ${SVC_EMQX_IP}
     spec:
       type: LoadBalancer

@@ -5,9 +5,7 @@ metadata:
   name: postgres-lb
   annotations:
     external-dns.alpha.kubernetes.io/hostname: postgres.monosense.io
-    io.cilium/lb-ipam-ips: ${NET_SERVICES_PGSQL_IP}
-  labels:
-    io.cilium/lb-ip-pool: l3
+    io.cilium/lb-ipam-ips: ${SVC_PGSQL_IP}
 spec:
   type: LoadBalancer
   ports:
@@ -17,4 +15,4 @@ spec:
       targetPort: 5432
   selector:
     cnpg.io/cluster: postgres16
-    role: primary
+    cnpg.io/instanceRole: primary

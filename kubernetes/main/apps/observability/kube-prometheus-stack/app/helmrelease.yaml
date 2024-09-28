@@ -26,6 +26,8 @@ spec:
       strategy: rollback
       retries: 3
   dependsOn:
+    - name: prometheus-operator-crds
+      namespace: observability
     - name: rook-ceph-cluster
       namespace: rook-ceph
   values:
@@ -41,13 +43,12 @@ spec:
         hosts: ["alertmanager.monosense.io"]
         pathType: Prefix
       alertmanagerSpec:
-        replicas: 3
         useExistingSecret: true
         configSecret: alertmanager-secret
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: ceph-filesystem
+              storageClassName: openebs-hostpath
               resources:
                 requests:
                   storage: 1Gi
@@ -75,50 +76,34 @@ spec:
         ingressClassName: internal
         hosts: ["prometheus.monosense.io"]
         pathType: Prefix
-      thanosService:
-        enabled: true
-      thanosServiceMonitor:
-        enabled: true
       prometheusSpec:
-        podMetadata:
-          annotations:
-            secret.reloader.stakater.com/reload: &secret thanos-objectstore-secret
-        replicas: 3
-        replicaExternalLabelName: __replica__
         scrapeInterval: 1m # Must match interval in Grafana Helm chart
-        ruleSelectorNilUsesHelmValues: false
-        serviceMonitorSelectorNilUsesHelmValues: false
-        podMonitorSelectorNilUsesHelmValues: false
-        probeSelectorNilUsesHelmValues: false
-        scrapeConfigSelectorNilUsesHelmValues: false
+        podMonitorSelector: &selector
+          matchLabels: null
+        probeSelector: *selector
+        ruleSelector: *selector
+        scrapeConfigSelector: *selector
+        serviceMonitorSelector: *selector
         enableAdminAPI: true
         walCompression: true
         enableFeatures:
           - auto-gomemlimit
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
-        externalUrl: https://prometheus.monosense.io
-        thanos:
-          image: quay.io/thanos/thanos:${THANOS_VERSION}
-          version: ${THANOS_VERSION}
-          objectStorageConfig:
-            existingSecret:
-              name: kps-thanos
-              key: objstore.yml
-        retention: 2d
-        retentionSize: 20GB
+        retention: 14d
+        retentionSize: 70GB
         resources:
           requests:
             cpu: 100m
           limits:
-            memory: 4Gi
+            memory: 1500Mi
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: ceph-filesystem
+              storageClassName: ceph-block
               resources:
                 requests:
-                  storage: 120Gi
+                  storage: 80Gi
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       prometheus:
@@ -147,11 +132,4 @@ spec:
               targetLabel: kubernetes_node
     grafana:
       enabled: false
-      forceDeployDashboards: false
-      # sidecar:
-      #   dashboards:
-      #     annotations:
-      #       grafana_folder: Observability
-      #     multicluster:
-      #       etcd:
-      #         enabled: true
+      forceDeployDashboards: true

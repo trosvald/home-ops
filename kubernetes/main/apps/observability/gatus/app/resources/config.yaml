@@ -8,22 +8,15 @@ storage:
   caching: true
 metrics: true
 debug: false
-security:
-  oidc:
-    issuer-url: https://sso.monosense.io/application/o/gatus/
-    client-id: $${CLIENT_ID}
-    client-secret: $${CLIENT_SECRET}
-    redirect-url: https://status.monosense.io/authorization-code/callback
-    scopes: [openid]
 ui:
-  title: Status | Services
+  title: Uptime Monitor
   header: Status
 alerting:
   telegram:
     id: $${TELEGRAM_CHANNEL_ID}
     token: $${TELEGRAM_TOKEN}
   pushover:
-    title: Gatus (Kubernetes)
+    title: Gatus
     application-token: $${PUSHOVER_TOKEN}
     user-key: $${PUSHOVER_USER_KEY}
     priority: 1
@@ -46,7 +39,6 @@ endpoints:
     conditions:
       - "[STATUS] == 200"
     alerts:
-      - type: pushover
       - type: telegram
         send-on-resolved: true
   - name: flux-webhook
@@ -58,6 +50,5 @@ endpoints:
     conditions:
       - "[STATUS] == 404"
     alerts:
-      - type: pushover
       - type: telegram
         send-on-resolved: true

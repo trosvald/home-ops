@@ -29,9 +29,7 @@ spec:
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: internal.monosense.io
-          io.cilium/lb-ipam-ips: ${NET_SERVICES_INT_INGRESS_IP}
-        labels:
-          io.cilium/lb-ip-pool: l3
+          io.cilium/lb-ipam-ips: ${SVC_INT_INGRESS_IP}
       ingressClassResource:
         name: internal
         default: true
@@ -56,7 +54,6 @@ spec:
         hsts-max-age: 31449600
         keep-alive-requests: 10000
         keep-alive: 120
-        custom-http-errors: 400,401,403,404,500,502,503,504
         log-format-escape-json: "true"
         log-format-upstream: >
           {"time": "$time_iso8601", "remote_addr": "$proxy_protocol_addr", "x_forwarded_for": "$proxy_add_x_forwarded_for",
@@ -66,6 +63,7 @@ spec:
           "http_user_agent": "$http_user_agent"}
         proxy-body-size: 0
         proxy-buffer-size: 16k
+        custom-http-errors: 400,401,403,404,500,501,502,503,504
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
       metrics:
@@ -105,7 +103,7 @@ spec:
           memory: 128Mi
       extraEnvs:
         - name: TEMPLATE_NAME
-          value: "app-down"
+          value: "connection"
         - name: SHOW_DETAILS
           value: "true"
         - name: SEND_SAME_HTTP_CODE

@@ -21,6 +21,12 @@ spec:
       - key: feature.node.kubernetes.io/system-os_release.VERSION_ID
         operator: NotIn
         values: ["${TALOS_VERSION}"]
+      - key: factory.talos.dev/schematic-prefix
+        operator: In
+        values: ["${TALOS_SCHEMATIC_ID:0:32}"]
+      - key: factory.talos.dev/schematic-suffix
+        operator: In
+        values: ["${TALOS_SCHEMATIC_ID:32}"]
   tolerations:
     - key: CriticalAddonsOnly
       operator: Exists
@@ -34,14 +40,6 @@ spec:
         valueFrom:
           fieldRef:
             fieldPath: status.hostIP
-      - name: SCHEMATIC_PREFIX
-        valueFrom:
-          fieldRef:
-            fieldPath: metadata.labels['factory.talos.dev/schematic-prefix']
-      - name: SCHEMATIC_SUFFIX
-        valueFrom:
-          fieldRef:
-            fieldPath: metadata.labels['factory.talos.dev/schematic-suffix']
     args:
       - --nodes=$(NODE_IP)
       - health
@@ -51,6 +49,6 @@ spec:
     args:
       - --nodes=$(NODE_IP)
       - upgrade
-      - --image=factory.talos.dev/installer/$(SCHEMATIC_PREFIX)$(SCHEMATIC_SUFFIX):$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
+      - --image=factory.talos.dev/installer/${TALOS_SCHEMATIC_ID}:$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
       - --preserve=true
       - --wait=false
