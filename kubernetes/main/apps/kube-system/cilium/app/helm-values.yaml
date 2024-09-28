@@ -20,7 +20,7 @@ cni:
 
 # devices: bond0
 # Enables IPv4 BIG TCP support which increases maximum IPv4 GSO/GRO limits for nodes and pods
-enableIPv4BIGTCP: true
+# enableIPv4BIGTCP: true
 # Pod, service, and load-balancer IPs are allocated from a publicly routable CIDR.
 endpointRoutes:
   enabled: true
