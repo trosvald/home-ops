@@ -104,7 +104,7 @@ spec:
               QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
               QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
                 10.42.0.0/16, 10.43.0.0/16
-              # QBT_Preferences__WebUI__LocalHostAuth: false
+              QBT_Preferences__WebUI__LocalHostAuth: false
               QBT_Preferences__WebUI__RootFolder: /addons/VueTorrent
               QBT_Preferences__WebUI__UseUPNP: false
               CROSS_SEED_HOST: cross-seed.media.svc.cluster.local
@@ -193,15 +193,15 @@ spec:
       gluetun:
         controller: qbittorrent
         ports:
-          http:
+          sock:
             port: 8388
     ingress:
       app:
         annotations:
           external-dns.alpha.kubernetes.io/target: internal.monosense.io
-          # authentik.home.arpa/enabled: "true"
-          # nginx.ingress.kubernetes.io/auth-signin: |-
-          #   https://qb.monosense.io/outpost.goauthentik.io/start?rd=$escaped_request_uri
+          authentik.home.arpa/enabled: "true"
+          nginx.ingress.kubernetes.io/auth-signin: |-
+            https://qb.monosense.io/outpost.goauthentik.io/start?rd=$escaped_request_uri
         className: internal
         hosts:
           - host: qb.monosense.io

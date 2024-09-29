@@ -98,9 +98,9 @@ spec:
       app:
         annotations:
           external-dns.alpha.kubernetes.io/target: internal.monosense.io
-          # authentik.home.arpa/enabled: "true"
-          # nginx.ingress.kubernetes.io/auth-signin: |-
-          #   https://prowlarr.monosense.io/outpost.goauthentik.io/start?rd=$escaped_request_uri
+          authentik.home.arpa/enabled: "true"
+          nginx.ingress.kubernetes.io/auth-signin: |-
+            https://prowlarr.monosense.io/outpost.goauthentik.io/start?rd=$escaped_request_uri
         className: internal
         hosts:
           - host: "{{ .Release.Name }}.monosense.io"
