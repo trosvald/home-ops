@@ -16,7 +16,7 @@ resources:
   # - ./omegabrr/ks.yaml
   # - ./overseerr/ks.yaml
   # - ./pinchflat/ks.yaml
-  # - ./plex/ks.yaml
+  - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
@@ -24,4 +24,5 @@ resources:
   - ./smtp-relay/ks.yaml
   - ./sonarr/ks.yaml
   # - ./tautulli/ks.yaml
+  - ./thelounge/ks.yaml
   # - ./unpackerr/ks.yaml
