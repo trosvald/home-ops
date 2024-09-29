@@ -66,6 +66,8 @@ spec:
               FIREWALL_INPUT_PORTS: 80
               FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16 # Allow access to k8s subnets
               WIREGUARD_MTU: 8900
+              SHADOWSOCKS: on
+              SHADOWSOCKS_LOG: on
             envFrom:
               - secretRef:
                   name: qbittorrent-secret
