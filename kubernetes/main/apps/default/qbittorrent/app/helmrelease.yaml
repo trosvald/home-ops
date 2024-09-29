@@ -52,7 +52,7 @@ spec:
             dependsOn: dnsdist
             image:
               repository: ghcr.io/qdm12/gluetun
-              tag: v3.39.0
+              tag: v3.39.1
             env:
               TZ: ${TIMEZONE}
               DOT: "off"
