@@ -47,7 +47,31 @@ spec:
       enabled: true
     serviceAccount:
       autoMount: true
+    # TEST PHASE : add mimir for redis cache
+    mimir:
+      structuredConfig:
+        blocks_storage:
+          bucket_store:
+            chunks_cache:
+              backend: redis
+              redis:
+                endpoint: dragonfly.database.svc.cluster.local:6379
+            index_cache:
+              backend: redis
+              redis:
+                endpoint: dragonfly.database.svc.cluster.local:6379
+            metadata_cache:
+              backend: redis
+              redis:
+                endpoint: dragonfly.database.svc.cluster.local:6379
+        frontend:
+          cache_results: true
+          results_cache:
+            backend: redis
+            redis:
+              endpoint: dragonfly.database.svc.cluster.local:6379
 
+    # TEST ENDS
     ingress:
       enabled: true
       annotations:
