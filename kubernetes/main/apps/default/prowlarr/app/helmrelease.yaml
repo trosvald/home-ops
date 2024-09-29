@@ -28,7 +28,7 @@ spec:
     - name: cloudnative-pg
       namespace: database
     - name: qbittorrent
-      namespace: media
+      namespace: default
   values:
     controllers:
       prowlarr:
