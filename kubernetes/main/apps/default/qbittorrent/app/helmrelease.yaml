@@ -190,6 +190,11 @@ spec:
         ports:
           http:
             port: *port
+      gluetun:
+        controller: qbittorrent
+        ports:
+          http:
+            port: 8388
     ingress:
       app:
         annotations:
