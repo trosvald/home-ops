@@ -129,4 +129,4 @@ tasks:
       vars: ["cluster"]
     preconditions:
       - test -f /usr/local/bin/envsubst
-      - host {{.HOME_SERVICE_ADDR}}
+      # - host {{.HOME_SERVICE_ADDR}}

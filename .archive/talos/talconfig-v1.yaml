@@ -3,10 +3,10 @@
 clusterName: ${clusterName}
 endpoint: "https://k8s.${clusterDNSSuffix}:6443"
 
-# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.8.0
-# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.31.1
+# renovate: depName=ghcr.io/siderolabs/installer datasource=docker extractVersion=^(?<version>.*)$
+talosVersion: v1.7.6
+# renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker extractVersion=^v(?<version>.*)$
+kubernetesVersion: v1.30.3
 
 clusterPodNets:
   - 10.42.0.0/16
@@ -38,6 +38,12 @@ nodes:
       - interface: enp1s0
         mtu: 9000
         dhcp: false
+      - interface: enp1s0d1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
+        mtu: 9000
+        dhcp: false
         addresses:
           - 172.16.11.11/24
         routes:
@@ -45,6 +51,14 @@ nodes:
             gateway: 172.16.11.254
         vip:
           ip: ${clusterEndpointIP}
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0
+            - enp1s0d1
         vlans:
           - vlanId: 1613
             mtu: 1500
@@ -56,14 +70,11 @@ nodes:
             dhcp: false
             addresses:
               - 172.16.14.11/24
-
-      # Rook Ceph private Network
-      # VLAN1615
-      - interface: enp1s0d1
-        mtu: 9000
-        dhcp: false
-        addresses:
-          - 172.16.15.11/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.11/24
 
   # ToR1 Port5, ToR2 Port5, 500GB Samsung EVO 860
   # Rack Position 6th From right
@@ -80,6 +91,12 @@ nodes:
       - interface: enp1s0
         mtu: 9000
         dhcp: false
+      - interface: enp1s0d1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
+        mtu: 9000
+        dhcp: false
         addresses:
           - 172.16.11.12/24
         routes:
@@ -87,6 +104,14 @@ nodes:
             gateway: 172.16.11.254
         vip:
           ip: ${clusterEndpointIP}
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0
+            - enp1s0d1
         vlans:
           - vlanId: 1613
             mtu: 1500
@@ -98,14 +123,11 @@ nodes:
             dhcp: false
             addresses:
               - 172.16.14.12/24
-
-      # Rook Ceph private Network
-      # VLAN1615
-      - interface: enp1s0d1
-        mtu: 9000
-        dhcp: false
-        addresses:
-          - 172.16.15.12/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.12/24
 
   # ToR1 Port4, ToR2 Port4, 512GB Intel
   # Rack Position 5th From right
@@ -117,10 +139,16 @@ nodes:
     installDisk: /dev/sda
     controlPlane: true
     networkInterfaces:
-    ## Network Configuration
+      ## Network Configuration
       - interface: eno1
         ignore: true
       - interface: enp1s0
+        mtu: 9000
+        dhcp: false
+      - interface: enp1s0d1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
         mtu: 9000
         dhcp: false
         addresses:
@@ -130,6 +158,14 @@ nodes:
             gateway: 172.16.11.254
         vip:
           ip: ${clusterEndpointIP}
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0
+            - enp1s0d1
         vlans:
           - vlanId: 1613
             mtu: 1500
@@ -141,14 +177,11 @@ nodes:
             dhcp: false
             addresses:
               - 172.16.14.13/24
-
-      # Rook Ceph private Network
-      # VLAN1615
-      - interface: enp1s0d1
-        mtu: 9000
-        dhcp: false
-        addresses:
-          - 172.16.15.13/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.13/24
 
   # ToR1 Port3, ToR2 Port3, 512GB Intel
   # Rack Position 4th From right
@@ -160,10 +193,16 @@ nodes:
     installDisk: /dev/sda
     controlPlane: false
     networkInterfaces:
-    ## Network Configuration
+      ## Network Configuration
       - interface: eno1
         ignore: true
       - interface: enp1s0
+        mtu: 9000
+        dhcp: false
+      - interface: enp1s0d1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
         mtu: 9000
         dhcp: false
         addresses:
@@ -171,6 +210,14 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.11.254
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0
+            - enp1s0d1
         vlans:
           - vlanId: 1613
             mtu: 1500
@@ -182,14 +229,11 @@ nodes:
             dhcp: false
             addresses:
               - 172.16.14.14/24
-
-      # Rook Ceph private Network
-      # VLAN1615
-      - interface: enp1s0d1
-        mtu: 9000
-        dhcp: false
-        addresses:
-          - 172.16.15.14/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.14/24
 
   # ToR1 Port2, ToR2 Port2, 500GB Samsung EVO 860
   # Rack Position 3rd From right
@@ -200,10 +244,16 @@ nodes:
     installDisk: /dev/sda
     controlPlane: false
     networkInterfaces:
-    ## Network Configuration
+      ## Network Configuration
       - interface: eno1
         ignore: true
       - interface: enp1s0
+        mtu: 9000
+        dhcp: false
+      - interface: enp1s0d1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
         mtu: 9000
         dhcp: false
         addresses:
@@ -211,6 +261,14 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.11.254
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0
+            - enp1s0d1
         vlans:
           - vlanId: 1613
             mtu: 1500
@@ -222,14 +280,11 @@ nodes:
             dhcp: false
             addresses:
               - 172.16.14.15/24
-
-      # Rook Ceph private Network
-      # VLAN1615
-      - interface: enp1s0d1
-        mtu: 9000
-        dhcp: false
-        addresses:
-          - 172.16.15.15/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.15/24
 
   # ToR1 Port1, ToR2 Port1, 500GB Samsung EVO 860
   # Rack Position 2nd From right
@@ -241,10 +296,15 @@ nodes:
     controlPlane: false
     networkInterfaces:
       ## Network Configuration
-      ## Network Configuration
       - interface: eno1
         ignore: true
       - interface: enp1s0f0
+        mtu: 9000
+        dhcp: false
+      - interface: enp1s0f1
+        mtu: 9000
+        dhcp: false
+      - interface: bond0
         mtu: 9000
         dhcp: false
         addresses:
@@ -252,6 +312,14 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 172.16.11.254
+        bond:
+          mode: active-backup
+          miimon: 100
+          updelay: 100
+          downdelay: 100
+          interfaces:
+            - enp1s0f0
+            - enp1s0f1
         vlans:
           - vlanId: 1613
             mtu: 1500
@@ -263,28 +331,25 @@ nodes:
             dhcp: false
             addresses:
               - 172.16.14.16/24
-
-      # Rook Ceph private Network
-      # VLAN1615
-      - interface: enp1s0f1
-        mtu: 9000
-        dhcp: false
-        addresses:
-          - 172.16.15.16/24
+          - vlanId: 1615
+            mtu: 9000
+            dhcp: false
+            addresses:
+              - 172.16.15.16/24
 
 controlPlane:
   nodeLabels:
     topology.kubernetes.io/region: main
     topology.kubernetes.io/zone: m
-    factory.talos.dev/schematic-prefix: e866d6d9706ab985d1afb439bdf57188
-    factory.talos.dev/schematic-suffix: 637abbc1a586f2b3a7eadbceed5a9776
+    factory.talos.dev/schematic-prefix: 03f8321e7acabf80dddbde44cb693f3c
+    factory.talos.dev/schematic-suffix: d7b4d4a571bab9ae5cb74be79872a6e9
 
   schematic:
     customization:
       extraKernelArgs:
         - mitigations=off
         - module_blacklist=e1000e
-        # - talos.logging.kernel=udp://vector.${clusterDNSSuffix}:${talosKernelLogPort}/
+        - talos.logging.kernel=udp://vector.${clusterDNSSuffix}:${talosKernelLogPort}/
       systemExtensions:
         officialExtensions:
           # - siderolabs/nut-client
@@ -365,12 +430,12 @@ controlPlane:
             port: 7445
 
     # Enable logging
-    # - &loggingPatch |-
-    #   machine:
-    #     logging:
-    #       destinations:
-    #         - endpoint: udp://vector.${clusterDNSSuffix}:${talosServiceLogPort}
-    #           format: json_lines
+    - &loggingPatch |-
+      machine:
+        logging:
+          destinations:
+            - endpoint: udp://vector.${clusterDNSSuffix}:${talosServiceLogPort}
+              format: json_lines
 
     # Force nameserver
     - &nameServerPatch |-
@@ -449,7 +514,7 @@ controlPlane:
 
     # Cluster ETCD configuration
     - |-
-      cluster:
+     cluster:
         etcd:
           extraArgs:
             listen-metrics-urls: http://0.0.0.0:2381
@@ -484,7 +549,7 @@ worker:
       extraKernelArgs:
         - mitigations=off
         - module_blacklist=e1000e
-        # - talos.logging.kernel=udp://vector.${clusterDNSSuffix}:${talosKernelLogPort}/
+        - talos.logging.kernel=udp://vector.${clusterDNSSuffix}:${talosKernelLogPort}/
       systemExtensions:
         officialExtensions:
           # - siderolabs/nut-client
@@ -507,7 +572,7 @@ worker:
     - *hostDnsPatch
     - *kubeletPatch
     - *kubePrismPatch
-    # - *loggingPatch
+    - *loggingPatch
     - *nameServerPatch
     - *nfsPatch
     - *ntpServerPatch
