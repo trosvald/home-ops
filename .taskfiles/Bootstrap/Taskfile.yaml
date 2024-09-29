@@ -64,24 +64,24 @@ tasks:
       - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/talosconfig
       - talosctl --context {{.cluster}} config info >/dev/null 2>&1
 
-  flux:
-    internal: true
-    cmds:
-      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap
-      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml | kubectl apply --server-side --filename -
-      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml | kubectl apply --server-side --filename -
-      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | kubectl apply --server-side --filename -
-      - kubectl apply --server-side --filename {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
-      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/flux/config
-    preconditions:
-      - test -f {{.ROOT_DIR}}/age.key
-      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml
-      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml
-      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml
-      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
-      - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml | jq --exit-status '.encrypted'
-      - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml | jq --exit-status '.encrypted'
-      - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | jq --exit-status '.encrypted'
+  # flux:
+  #   internal: true
+  #   cmds:
+  #     - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap
+  #     - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml | kubectl apply --server-side --filename -
+  #     - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml | kubectl apply --server-side --filename -
+  #     - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | kubectl apply --server-side --filename -
+  #     - kubectl apply --server-side --filename {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
+  #     - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/flux/config
+  #   preconditions:
+  #     - test -f {{.ROOT_DIR}}/age.key
+  #     - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml
+  #     - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml
+  #     - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml
+  #     - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
+  #     - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml | jq --exit-status '.encrypted'
+  #     - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml | jq --exit-status '.encrypted'
+  #     - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | jq --exit-status '.encrypted'
 
   rook:
     internal: true
