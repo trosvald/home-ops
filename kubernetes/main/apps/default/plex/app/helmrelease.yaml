@@ -43,7 +43,7 @@ spec:
               TZ: ${TIMEZONE}
               PLEX_ADVERTISE_URL: https://plex.monosense.io:443,http://${SVC_PLEX_IP}:32400
               PLEX_NO_AUTH_NETWORKS: 172.16.11.0/24
-              PLEX_CLAIM: claim-fUcSyAXK_LzPrSWjyAjp
+              PLEX_CLAIM: claim-D8r3-UKjndte3NVPxQ3L
             probes:
               liveness: &probes
                 enabled: true
@@ -109,8 +109,8 @@ spec:
       config:
         existingClaim: plex
         # TODO: If setting up Plex for the first time, you'll want to add the globalMounts section
-        globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server
+        # globalMounts:
+        #   - path: /config/Library/Application Support/Plex Media Server
       # Separate PVC for cache to avoid backing up cache files
       cache:
         existingClaim: plex-cache
