@@ -15,5 +15,6 @@ resources:
   - ./loki/ks.yaml
   - ./prometheus-operator-crds/ks.yaml
   - ./promtail/ks.yaml
+  - ./qbittorrent-exporter.yaml
   - ./smartctl-exporter/ks.yaml
   - ./snmp-exporter/ks.yaml
