@@ -8,6 +8,13 @@ storage:
   caching: true
 metrics: true
 debug: false
+security:
+  oidc:
+    issuer-url: https://sso.monosense.io/application/o/gatus/
+    client-id: $${CLIENT_ID}
+    client-secret: $${CLIENT_SECRET}
+    redirect-url: https://status.monosense.io/authorization-code/callback
+    scopes: [openid]
 ui:
   title: Uptime Monitor
   header: Status
