@@ -10,19 +10,19 @@ resources:
   # - ./autobrr/ks.yaml
   # - ./bazarr/ks.yaml
   # - ./cross-seed/ks.yaml
-  - ./filebrowser/ks.yaml
+  # - ./filebrowser/ks.yaml
   # - ./go2rtc/ks.yaml
   # - ./miniflux/ks.yaml
   # - ./omegabrr/ks.yaml
   # - ./overseerr/ks.yaml
   # - ./pinchflat/ks.yaml
   # - ./plex/ks.yaml
-  - ./prowlarr/ks.yaml
-  - ./qbittorrent/ks.yaml
-  - ./radarr/ks.yaml
+  # - ./prowlarr/ks.yaml
+  # - ./qbittorrent/ks.yaml
+  # - ./radarr/ks.yaml
   # - ./recyclarr/ks.yaml
-  - ./smtp-relay/ks.yaml
-  - ./sonarr/ks.yaml
+  # - ./smtp-relay/ks.yaml
+  # - ./sonarr/ks.yaml
   # - ./tautulli/ks.yaml
-  - ./thelounge/ks.yaml
+  # - ./thelounge/ks.yaml
   # - ./unpackerr/ks.yaml
