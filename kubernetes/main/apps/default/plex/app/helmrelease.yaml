@@ -104,6 +104,8 @@ spec:
       config:
         enabled: true
         existingClaim: plex
+        globalMounts:
+          - path: /config/Library/Application Support/Plex Media Server
       media:
         enabled: true
         type: nfs
