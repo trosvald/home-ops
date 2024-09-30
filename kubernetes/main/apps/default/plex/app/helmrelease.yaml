@@ -59,7 +59,7 @@ spec:
               TZ: ${TIMEZONE}
               PLEX_ADVERTISE_URL: https://plex.monosense.io:443,http://${SVC_PLEX_IP}:32400
               PLEX_NO_AUTH_NETWORKS: ${NET_SERVER_CIDR}
-              PLEX_CLAIM: "claim-rYkpjvczjEfEq1qC1d1n"
+              PLEX_CLAIM: "claim-bn3MBPQURrshjwYvMJMd"
             resources:
               requests:
                 cpu: 100m
