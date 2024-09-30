@@ -38,6 +38,10 @@ spec:
           module: ["dell"]
           target: p-del-oob-01.monosense.dev
           auth: ["public_v2"]
+        - name: apcats
+          module: ["apcups"]
+          target: p-apc-ats.monosense.dev
+          auth: ["public_v2"]
       path: /snmp
       scrapeTimeout: 10s
       relabelings:

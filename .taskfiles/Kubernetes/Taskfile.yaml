@@ -4,10 +4,15 @@ version: "3"
 
 tasks:
 
-  bootstrap:
-    desc: Bootstrap flux
+  flux-boot:
+    desc: Bootstrap flux to your existing cluster, cluster name are required
     summary: |
       cluster: Cluster to run command against (required)
+    prompt: Bootstrap flux to your existing {{.cluster}} ... continue?
+    vars:
+      cluster: '{{.cluster}}'
+    requires:
+      vars: ["cluster"]
     cmds:
       - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap
       - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml | kubectl apply --server-side --filename -
