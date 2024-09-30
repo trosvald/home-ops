@@ -59,7 +59,7 @@ spec:
               TZ: ${TIMEZONE}
               PLEX_ADVERTISE_URL: https://plex.monosense.io:443,http://${SVC_PLEX_IP}:32400
               PLEX_NO_AUTH_NETWORKS: ${NET_SERVER_CIDR}
-              PLEX_CLAIM: "claim-gDazYfg4fnJoPjQJt6nh"
+              PLEX_CLAIM: "claim-ySmHacsJZYXBHqNBAAhL"
             resources:
               requests:
                 cpu: 100m
@@ -85,9 +85,10 @@ spec:
     ingress:
       app:
         enabled: true
-        className: internal
+        className: external
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.monosense.io
+          external-dns.alpha.kubernetes.io/target: external.monosense.io
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
           - host: &host "{{ .Release.Name }}.monosense.io"
             paths:
