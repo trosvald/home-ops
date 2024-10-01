@@ -5,10 +5,17 @@ metadata:
   name: hass-proxy
   annotations:
     external-dns.alpha.kubernetes.io/target: external.monosense.io
-    nginx.org/websocket-services: hass-proxy
+    # nginx.org/websocket-services: hass-proxy
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header Upgrade "websocket";
-      proxy_set_header Connection "Upgrade";
+      location / {
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+      }
+      location /api/websocket {
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+      }
+
 spec:
   ingressClassName: external
   rules:
