@@ -5,6 +5,7 @@ metadata:
   name: hass-proxy
   annotations:
     external-dns.alpha.kubernetes.io/target: external.monosense.io
+    nginx.org/websocket-services: hass-proxy
 spec:
   ingressClassName: external
   rules:
