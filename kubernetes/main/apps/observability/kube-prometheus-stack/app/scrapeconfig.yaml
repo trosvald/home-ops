@@ -40,8 +40,8 @@ spec:
   metricsPath: /api/prometheus
   authorization:
     credentials:
-      key: hassio-kps-secret
-      name: HASS_TOKEN
+      key: HASS_TOKEN
+      name: hassio-kps-secret
   relabelings:
     - action: replace
       targetLabel: job
