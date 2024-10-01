@@ -29,3 +29,20 @@ spec:
     - action: replace
       targetLabel: job
       replacement: *name
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: &name hassio
+spec:
+  staticConfigs: [targets: ["172.16.13.1:8123"]]
+  metricsPath: /api/prometheus
+  authorization:
+    credentials:
+      key: hassio-kps-secret
+      name: HASS_TOKEN
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: *name
