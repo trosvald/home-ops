@@ -8,14 +8,16 @@ metadata:
     # nginx.org/websocket-services: hass-proxy
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
+    nginx.ingress.kubernetes.io/server-snippets: |
       location / {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
+        proxy_cache_bypass $http_upgrade;
       }
       location /api/websocket {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
+        proxy_cache_bypass $http_upgrade;
       }
 
 spec:
