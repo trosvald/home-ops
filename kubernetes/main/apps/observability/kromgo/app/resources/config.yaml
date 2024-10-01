@@ -46,7 +46,8 @@ metrics:
     title: Memory
 
   - name: cluster_power_usage
-    query: round(upsHighPrecOutputLoad, 0.1)
+    # query: round(upsHighPrecOutputLoad, 0.1)
+    query: homeassistant_sensor_power_w
     suffix: "w"
     colors:
       - { color: "green", min: 0, max: 400 }
