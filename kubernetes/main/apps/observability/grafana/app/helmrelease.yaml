@@ -312,6 +312,13 @@ spec:
         nginx-request-handling-performance:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource: Prometheus
+        nginx-analytics:
+          # renovate: depName="Analytics - NGINX / LOKI v2+ Data Source / Promtail v2+ Tool"
+          gnetId: 13865
+          revision: 6
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
         speedtest-exporter:
           # renovate: depName="Speedtest-Exporter Dashboard"
           gnetId: 13665
