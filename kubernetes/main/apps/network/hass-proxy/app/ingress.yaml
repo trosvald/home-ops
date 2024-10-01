@@ -7,7 +7,6 @@ metadata:
     external-dns.alpha.kubernetes.io/target: external.monosense.io
     nginx.org/websocket-services: hass-proxy
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_http_version 1.1;
       proxy_set_header Upgrade "websocket";
       proxy_set_header Connection "Upgrade";
 spec:
