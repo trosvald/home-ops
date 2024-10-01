@@ -8,7 +8,7 @@ metadata:
 data:
   config.yaml: |
     endpoints:
-      - name: Home Assistant
+      - name: hassio
         group: guarded
         url: http://hassio.monosense.dev:8123
         interval: 1m
