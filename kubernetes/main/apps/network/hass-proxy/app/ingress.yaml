@@ -6,6 +6,8 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/target: external.monosense.io
     # nginx.org/websocket-services: hass-proxy
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/configuration-snippet: |
       location / {
         proxy_set_header Upgrade $http_upgrade;
