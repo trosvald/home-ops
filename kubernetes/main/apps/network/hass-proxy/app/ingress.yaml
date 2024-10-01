@@ -5,20 +5,17 @@ metadata:
   name: hass-proxy
   annotations:
     external-dns.alpha.kubernetes.io/target: external.monosense.io
-    nginx.org/websocket-services: hass-proxy
+    # nginx.org/websocket-services: hass-proxy
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/server-snippets: |
-      location / {
+        proxy_set_header X-Forwarded-Host $http_host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_cache_bypass $http_upgrade;
-      }
-      location /api/websocket {
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_cache_bypass $http_upgrade;
-      }
 
 spec:
   ingressClassName: external
