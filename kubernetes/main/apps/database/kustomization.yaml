@@ -9,4 +9,4 @@ resources:
   - ./cloudnative-pg/ks.yaml
   - ./crunchy-pgo/ks.yaml
   - ./dragonfly/ks.yaml
-  # - ./emqx/ks.yaml
+  - ./mosquitto/ks.yaml
