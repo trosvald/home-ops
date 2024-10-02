@@ -36,3 +36,4 @@ resources:
   - ./spegel.yaml
   - ./stakater.yaml
   - ./stevehipwell.yaml
+  - ./userinit-controller.yaml
