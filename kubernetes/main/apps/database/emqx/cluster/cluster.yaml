@@ -6,25 +6,25 @@ metadata:
   name: &app emqx
 spec:
   image: public.ecr.aws/emqx/emqx:5.8.0
-  config:
-    data: |
-      authentication {
-        backend = "built_in_database"
-        mechanism = "password_based"
-        password_hash_algorithm {
-            name = "bcrypt",
-        }
-        user_id_type = "username"
-      }
-      authorization {
-        sources = [
-          {
-            type = built_in_database
-            enable = true
-          }
-        ]
-        no_match: "deny"
-      }
+  # config:
+  #   data: |
+  #     authentication {
+  #       backend = "built_in_database"
+  #       mechanism = "password_based"
+  #       password_hash_algorithm {
+  #           name = "bcrypt",
+  #       }
+  #       user_id_type = "username"
+  #     }
+  #     authorization {
+  #       sources = [
+  #         {
+  #           type = built_in_database
+  #           enable = true
+  #         }
+  #       ]
+  #       no_match: "deny"
+  #     }
   bootstrapAPIKeys:
     - secretRef:
         key:
