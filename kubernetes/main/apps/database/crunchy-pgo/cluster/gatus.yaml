@@ -14,8 +14,8 @@ data:
         interval: 1m
         conditions: ["[CONNECTED] == true"]
         alerts:
-          type: telegram
-          send-on-resolved: true
+          - type: telegram
+            send-on-resolved: true
         ui:
           hide-url: true
           hide-hostname: true
