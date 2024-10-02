@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: emqx.monosense.io
+    - host: &host emqx.monosense.io
       http:
         paths:
           - path: /
