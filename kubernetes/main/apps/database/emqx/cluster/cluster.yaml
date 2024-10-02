@@ -28,10 +28,10 @@ spec:
   bootstrapAPIKeys:
     - secretRef:
         key:
-          secretName: *app
+          secretName: emqx-secret
           secretKey: X_EMQX_APIKEY_KEY
         secret:
-          secretName: *app
+          secretName: emqx-secret
           secretKey: X_EMQX_APIKEY_SECRET
   coreTemplate:
     metadata:
@@ -41,7 +41,7 @@ spec:
       replicas: 3
       envFrom: &envFrom
         - secretRef:
-            name: *app
+            name: emqx-secret
       extraContainers:
         - name: init-mqtt
           image: docker.io/library/python:3.12-alpine
