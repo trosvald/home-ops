@@ -1,0 +1,93 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Monosense Homelab",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "theme": "prism",
+  "colors": {
+    "primary": "#5D4CFE",
+    "light": "#8477FF",
+    "dark": "#5D4CFE",
+    "anchors": {
+      "from": "#0D9373",
+      "to": "#07C983"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Discord",
+      "url": "https://discord.gg/home-operations"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Github",
+    "url": "https://github.com/trosvald/home-ops"
+  },
+  "primaryTab": {
+    "name": "Home Lab"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Kubernetes Docs",
+      "icon": "book-open-cover",
+      "url": "https://kubernetes.io/docs/home/"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Welcome",
+      "pages": [
+        "introduction",
+        "special-thanks"
+      ]
+    },
+    {
+      "group": "My Home Operations",
+      "pages": [
+        "homelab/cloud-dependencies",
+        "homelab/github-repository",
+        "homelab/hardware",
+        "homelab/networking",
+        "homelab/monitoring"
+      ]
+    },
+    {
+      "group": "Kubernetes and You",
+      "pages": [
+        "kubernetes/talos",
+        "kubernetes/configuration",
+        "kubernetes/deployment"
+      ]
+    },
+    {
+      "group": "Storage",
+      "pages": [
+        "storage/previous-installations",
+        "storage/truenas"
+      ]
+    },
+    {
+      "group": "Guides",
+      "pages": [
+        "guides/overview",
+        "guides/understanding-talos",
+        "guides/proxy-dhcp-booting",
+        "guides/ms01-secure-boot",
+        "guides/seperating-ingress-traffic"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/kashalls",
+    "linkedin": "https://www.linkedin.com/in/jordpjones/"
+  }
+}
