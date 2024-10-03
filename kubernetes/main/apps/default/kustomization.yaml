@@ -15,6 +15,7 @@ resources:
   # - ./miniflux/ks.yaml
   # - ./omegabrr/ks.yaml
   - ./overseerr/ks.yaml
+  - ./pgadmin/ks.yaml
   # - ./pinchflat/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
