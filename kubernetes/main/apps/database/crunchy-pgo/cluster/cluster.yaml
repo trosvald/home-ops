@@ -15,14 +15,14 @@ spec:
             memory: 64M
           limits:
             memory: 512M
-  # patroni: # turn on sync writes to at least 1 other replica
-  #   dynamicConfiguration:
-  #     synchronous_mode: true
-  #     postgresql:
-  #       max_wal_size: 5GB
-  #       synchronous_commit: "on"
-  #       parameters:
-  #         max_connections: 500
+  patroni: # turn on sync writes to at least 1 other replica
+    dynamicConfiguration:
+      synchronous_mode: true
+      postgresql:
+        max_wal_size: 5GB
+        synchronous_commit: "on"
+        parameters:
+          max_connections: 500
   instances:
     - name: postgres
       metadata:
