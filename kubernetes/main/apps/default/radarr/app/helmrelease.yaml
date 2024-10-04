@@ -25,10 +25,8 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-    - name: cloudnative-pg
+    - name: crunchy-postgres-operator
       namespace: database
-    - name: qbittorrent
-      namespace: default
   values:
     controllers:
       radarr:
