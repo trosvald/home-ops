@@ -14,7 +14,7 @@ module "proxy-pinchflat" {
   source             = "./proxy_application"
   name               = "Pinchflat"
   description        = "YouTube Donwloader"
-  icon_url           = "https://cdn.monosense.io/static-contents/brands/yt.png"
+  icon_url           = "https://cdn.monosense.io/branding/yt.png"
   group              = "Downloads"
   slug               = "pinchflat"
   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
