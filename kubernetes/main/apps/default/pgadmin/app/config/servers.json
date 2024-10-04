@@ -11,18 +11,6 @@
         "UseSSHTunnel": 0,
         "TunnelPort": "22",
         "TunnelAuthentication": 0
-      },
-      "2": {
-        "Name": "cnpg",
-        "Group": "Servers",
-        "Host": "postgres16-rw.database.svc.cluster.local",
-        "Port": 5432,
-        "MaintenanceDB": "postgres",
-        "Username": "postgres",
-        "Timeout": 10,
-        "UseSSHTunnel": 0,
-        "TunnelPort": "22",
-        "TunnelAuthentication": 0
       }
     }
 }
