@@ -33,12 +33,12 @@ spec:
             name: *secret
     server:
       replicas: 1
-      initContainers:
-        - name: init-db
-          image: ghcr.io/onedr0p/postgres-init:16.3
-          envFrom:
-            - secretRef:
-                name: *secret
+      # initContainers:
+      #   - name: init-db
+      #     image: ghcr.io/onedr0p/postgres-init:16.3
+      #     envFrom:
+      #       - secretRef:
+      #           name: *secret
       resources:
         requests:
           cpu: 50m
