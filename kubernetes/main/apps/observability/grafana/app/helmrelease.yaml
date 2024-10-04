@@ -25,17 +25,11 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-    - name: cloudnative-pg
+    - name: crunchy-postgres-operator
       namespace: database
     - name: authentik
       namespace: security
   values:
-    extraInitContainers:
-      - name: init-db
-        image: ghcr.io/buroa/postgres-init:16.3
-        envFrom:
-          - secretRef:
-              name: &secret grafana-secret
     persistence:
       enabled: false
     imageRenderer:
@@ -58,8 +52,12 @@ spec:
 
     env:
       GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: true
+      GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
+      GF_EXPLORE_ENABLED: true
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
+      GF_SERVER_ROOT_URL: https://grafana.monosense.io
     envFromSecrets:
-      - name: *secret
+      - name: &secret grafana-secret
     grafana.ini:
       analytics:
         check_for_updates: false
@@ -365,6 +363,9 @@ spec:
           # renovate: depName="Ceph - Pools"
           gnetId: 5342
           revision: 9
+          datasource: Prometheus
+        host-overview:
+          url: https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/hosts-overview.json
           datasource: Prometheus
         # synology-nas-details:
         #   # renovate: depName="Synology NAS Details"
