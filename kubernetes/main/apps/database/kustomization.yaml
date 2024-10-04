@@ -6,7 +6,6 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./cloudnative-pg/ks.yaml
-  - ./crunchy-pgo/ks.yaml
-  - ./dragonfly/ks.yaml
-  - ./mosquitto/ks.yaml
+  # - ./crunchy-pgo/ks.yaml
+  # - ./dragonfly/ks.yaml
+  # - ./mosquitto/ks.yaml
