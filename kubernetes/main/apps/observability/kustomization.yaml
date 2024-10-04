@@ -9,17 +9,17 @@ resources:
   - ./alertmanager-telegram/ks.yaml
   - ./blackbox-exporter/ks.yaml
   - ./gatus/ks.yaml
-  - ./grafana/ks.yaml
+  # - ./grafana/ks.yaml
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
-  - ./overseerr-exporter/ks.yaml
+  # - ./overseerr-exporter/ks.yaml
   - ./prometheus-operator-crds/ks.yaml
   - ./promtail/ks.yaml
-  - ./prowlarr-exporter/ks.yaml
-  - ./qbittorrent-exporter/ks.yaml
+  # - ./prowlarr-exporter/ks.yaml
+  # - ./qbittorrent-exporter/ks.yaml
   - ./radarr-exporter/ks.yaml
   - ./smartctl-exporter/ks.yaml
   - ./snmp-exporter/ks.yaml
-  - ./sonarr-exporter/ks.yaml
-  - ./tautulli-exporter/ks.yaml
+  # - ./sonarr-exporter/ks.yaml
+  # - ./tautulli-exporter/ks.yaml
