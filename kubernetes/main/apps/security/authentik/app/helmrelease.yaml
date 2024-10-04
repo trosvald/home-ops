@@ -15,11 +15,11 @@ spec:
         namespace: flux-system
   interval: 30m
   dependsOn:
-    - name: cloudnative-pg
+    - name: crunchy-postgres-operator-cluster
       namespace: database
-    - name: dragonfly-operator
+    - name: dragonfly-cluster
       namespace: database
-    - name: external-secrets
+    - name: external-secrets-stores
       namespace: external-secrets
   values:
     global:
@@ -46,7 +46,7 @@ spec:
           cpu: 50m
           memory: 500Mi
         limits:
-          memory: 800Mi
+          memory: 2Gi
       metrics:
         enabled: true
         serviceMonitor:
