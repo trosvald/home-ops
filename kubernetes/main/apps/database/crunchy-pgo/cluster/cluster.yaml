@@ -15,14 +15,14 @@ spec:
             memory: 64M
           limits:
             memory: 512M
-  patroni: # turn on sync writes to at least 1 other replica
-    dynamicConfiguration:
-      synchronous_mode: true
-      postgresql:
-        max_wal_size: 5GB
-        synchronous_commit: "on"
-        parameters:
-          max_connections: 500
+  # patroni: # turn on sync writes to at least 1 other replica
+  #   dynamicConfiguration:
+  #     synchronous_mode: true
+  #     postgresql:
+  #       max_wal_size: 5GB
+  #       synchronous_commit: "on"
+  #       parameters:
+  #         max_connections: 500
   instances:
     - name: postgres
       metadata:
@@ -34,7 +34,7 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 40Gi
+            storage: 60Gi
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: "kubernetes.io/hostname"
@@ -62,10 +62,6 @@ spec:
       databases: ["bazarr"]
       password:
         type: AlphaNumeric
-    - name: "lubelog"
-      databases: ["lubelog"]
-      password:
-        type: AlphaNumeric
     - name: "gatus"
       databases: ["gatus"]
       password:
@@ -74,24 +70,12 @@ spec:
       databases: ["grafana"]
       password:
         type: AlphaNumeric
-    - name: "kyoo"
-      databases: ["kyoo"]
-      password:
-        type: AlphaNumeric
-    - name: "paperless"
-      databases: ["paperless"]
-      password:
-        type: AlphaNumeric
     - name: "prowlarr"
       databases: ["prowlarr_main"]
       password:
         type: AlphaNumeric
     - name: "radarr"
       databases: ["radarr_main"]
-      password:
-        type: AlphaNumeric
-    - name: "readarr"
-      databases: ["readarr_main", "readarr_cache", "readarr_log"]
       password:
         type: AlphaNumeric
     - name: "sonarr"
