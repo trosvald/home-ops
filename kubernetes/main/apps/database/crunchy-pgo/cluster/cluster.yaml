@@ -6,6 +6,10 @@ metadata:
   name: &name postgres
 spec:
   postgresVersion: 16
+  metadata:
+    labels:
+      crunchy-userinit.ramblurr.github.com/enabled: "true"
+      crunchy-userinit.ramblurr.github.com/superuser: "postgres"
   monitoring:
     pgmonitor:
       exporter:
@@ -46,6 +50,12 @@ spec:
     # Superuser
     - name: "postgres"
       databases: ["postgres"]
+      options: "SUPERUSER"
+      password:
+        type: AlphaNumeric
+    - name: "monosense"
+      databases:
+        - "postgres"
       options: "SUPERUSER"
       password:
         type: AlphaNumeric
