@@ -1,11 +1,8 @@
 {
   "$schema": "https://mintlify.com/schema.json",
   "name": "Monosense Homelab",
-  "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
-  },
-  "favicon": "/favicon.svg",
+  "logo": "/.assets/logo.svg",
+  "favicon": "/.assets/favicon.svg",
   "theme": "prism",
   "colors": {
     "primary": "#5D4CFE",
@@ -46,12 +43,11 @@
     {
       "group": "Welcome",
       "pages": [
-        "introduction",
-        "special-thanks"
+        "introduction"
       ]
     },
     {
-      "group": "My Home Operations",
+      "group": "My Home Ops",
       "pages": [
         "homelab/cloud-dependencies",
         "homelab/github-repository",
@@ -61,7 +57,7 @@
       ]
     },
     {
-      "group": "Kubernetes and You",
+      "group": "Kubernetes",
       "pages": [
         "kubernetes/talos",
         "kubernetes/configuration",
@@ -81,13 +77,12 @@
         "guides/overview",
         "guides/understanding-talos",
         "guides/proxy-dhcp-booting",
-        "guides/ms01-secure-boot",
         "guides/seperating-ingress-traffic"
       ]
     }
   ],
   "footerSocials": {
-    "github": "https://github.com/kashalls",
-    "linkedin": "https://www.linkedin.com/in/jordpjones/"
+    "github": "https://github.com/trosvald",
+    "twitter": "https://twitter.com/cdisp"
   }
 }
