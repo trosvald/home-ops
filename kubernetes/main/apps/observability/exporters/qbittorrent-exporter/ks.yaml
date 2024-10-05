@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/main/apps/observability/qbittorrent-exporter/app
+  path: ./kubernetes/main/apps/observability/exporters/qbittorrent-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository

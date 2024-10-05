@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: tautulli
     - name: external-secrets-stores
-  path: ./kubernetes/main/apps/observability/tautulli-exporter/app
+  path: ./kubernetes/main/apps/observability/exporters/tautulli-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository

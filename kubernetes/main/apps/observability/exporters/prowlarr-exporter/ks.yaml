@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: prowlarr
     - name: external-secrets-stores
-  path: ./kubernetes/main/apps/observability/prowlarr-exporter/app
+  path: ./kubernetes/main/apps/observability/exporters/prowlarr-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository
