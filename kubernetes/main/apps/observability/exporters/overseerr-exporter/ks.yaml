@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: overseerr
     - name: external-secrets-stores
-  path: ./kubernetes/main/apps/observability/overseerr-exporter/app
+  path: ./kubernetes/main/apps/observability/exporters/overseerr-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository

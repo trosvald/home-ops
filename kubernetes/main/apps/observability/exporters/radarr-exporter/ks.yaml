@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: radarr
     - name: external-secrets-stores
-  path: ./kubernetes/main/apps/observability/radarr-exporter/app
+  path: ./kubernetes/main/apps/observability/exporters/radarr-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository
