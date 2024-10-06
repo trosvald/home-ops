@@ -90,7 +90,3 @@ spec:
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: "${CLUSTER_SECRET_BIZ_DOMAIN/./-}-tls"
