@@ -10,7 +10,7 @@ data:
     endpoints:
       - name: hassio
         group: guarded
-        url: http://hassio.monosense.dev:8123
+        url: http://hassio.${CLUSTER_SECRET_DEV_DOMAIN}:8123
         interval: 1m
         ui:
           hide-hostname: true

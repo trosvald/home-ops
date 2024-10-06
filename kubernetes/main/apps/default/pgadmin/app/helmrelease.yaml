@@ -65,7 +65,7 @@ spec:
         enabled: true
         className: internal
         hosts:
-          - host: pgadmin.monosense.io
+          - host: pgadmin.${CLUSTER_SECRET_PRD_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix

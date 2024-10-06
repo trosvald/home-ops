@@ -32,15 +32,15 @@ spec:
       params:
         - name: apcups
           module: ["apcups"]
-          target: p-apc-ups3.monosense.dev
+          target: p-apc-ups3.${CLUSTER_SECRET_DEV_DOMAIN}
           auth: ["public_v2"]
         - name: dell
           module: ["dell"]
-          target: p-del-oob-01.monosense.dev
+          target: p-del-oob-01.${CLUSTER_SECRET_DEV_DOMAIN}
           auth: ["public_v2"]
         # - name: apcats
         #   module: ["apcups"]
-        #   target: p-apc-ats.monosense.dev
+        #   target: p-apc-ats.${CLUSTER_SECRET_DEV_DOMAIN}
         #   auth: ["public_v2"]
       path: /snmp
       scrapeTimeout: 10s

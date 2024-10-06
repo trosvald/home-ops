@@ -10,10 +10,10 @@ metrics: true
 debug: false
 security:
   oidc:
-    issuer-url: https://sso.monosense.io/application/o/gatus/
+    issuer-url: https://sso.${CLUSTER_SECRET_PRD_DOMAIN}/application/o/gatus/
     client-id: $${CLIENT_ID}
     client-secret: $${CLIENT_SECRET}
-    redirect-url: https://status.monosense.io/authorization-code/callback
+    redirect-url: https://status.${CLUSTER_SECRET_PRD_DOMAIN}/authorization-code/callback
     scopes: [openid]
 ui:
   title: Uptime Monitor
@@ -39,7 +39,7 @@ connectivity:
 endpoints:
   - name: status
     group: external
-    url: https://status.monosense.io
+    url: https://status.${CLUSTER_SECRET_PRD_DOMAIN}
     interval: 1m
     client:
       dns-resolver: tcp://1.1.1.1:53
@@ -50,7 +50,7 @@ endpoints:
         send-on-resolved: true
   - name: flux-webhook
     group: external
-    url: https://flux-webhook.monosense.io
+    url: https://flux-webhook.${CLUSTER_SECRET_PRD_DOMAIN}
     interval: 1m
     client:
       dns-resolver: tcp://1.1.1.1:53

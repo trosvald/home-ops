@@ -10,5 +10,5 @@ resources:
   - ./cloudflared/ks.yaml
   - ./external-dns/ks.yaml
   - ./hass-proxy/ks.yaml
-  - ./multus/ks.yaml
+  # - ./multus/ks.yaml
   - ./nginx/ks.yaml

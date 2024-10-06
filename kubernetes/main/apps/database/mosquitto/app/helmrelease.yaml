@@ -67,7 +67,7 @@ spec:
         controller: *app
         type: LoadBalancer
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: mqtt.monosense.io
+          external-dns.alpha.kubernetes.io/hostname: mqtt.${CLUSTER_SECRET_PRD_DOMAIN}
           lbipam.cilium.io/ips: ${SVC_EMQX_IP}
         ports:
           http:

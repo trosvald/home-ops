@@ -42,7 +42,7 @@ spec:
               repository: ghcr.io/miniflux/miniflux
               tag: 2.2.0-distroless@sha256:497cd57e0dd596b5f7c7f7e6c1fc7efd1bde02d52174c1f43d38122e2b67b748
             env:
-              BASE_URL: https://miniflux.monosense.io
+              BASE_URL: https://miniflux.${CLUSTER_SECRET_PRD_DOMAIN}
               CREATE_ADMIN: "1"
               # DEBUG: "1"
               LOG_DATE_TIME: "1"
@@ -99,10 +99,10 @@ spec:
     ingress:
       app:
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.monosense.io
+          external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
         className: external
         hosts:
-          - host: "{{ .Release.Name }}.monosense.io"
+          - host: "{{ .Release.Name }}.${CLUSTER_SECRET_PRD_DOMAIN}"
             paths:
               - path: /
                 service:

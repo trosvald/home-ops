@@ -4,11 +4,11 @@ kind: Ingress
 metadata:
   name: webhook-receiver
   annotations:
-    external-dns.alpha.kubernetes.io/target: external.monosense.io
+    external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
 spec:
   ingressClassName: external
   rules:
-    - host: flux-webhook.monosense.io
+    - host: flux-webhook.${CLUSTER_SECRET_PRD_DOMAIN}
       http:
         paths:
           - path: /hook/
