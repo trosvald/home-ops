@@ -57,7 +57,7 @@ spec:
               tag: 1.41.0.8994-f2c27da23@sha256:78503348483ea5a4925f8a689a820fee0a083b8733d943405454084a616c0ecd
             env:
               TZ: ${TIMEZONE}
-              PLEX_ADVERTISE_URL: https://plex.monosense.io:443,http://${SVC_PLEX_IP}:32400
+              PLEX_ADVERTISE_URL: https://plex.${CLUSTER_SECRET_PRD_DOMAIN}:443,http://${SVC_PLEX_IP}:32400
               # PLEX_CLAIM:
               #   valueFrom:
               #     secretKeyRef:
@@ -86,11 +86,11 @@ spec:
         enabled: true
         className: external
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.monosense.io
+          external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           nginx.ingress.kubernetes.io/app-root: /web
         hosts:
-          - host: &host "{{ .Release.Name }}.monosense.io"
+          - host: &host "{{ .Release.Name }}.${CLUSTER_SECRET_PRD_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix

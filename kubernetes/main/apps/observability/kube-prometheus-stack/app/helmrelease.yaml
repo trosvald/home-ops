@@ -38,9 +38,9 @@ spec:
       ingress:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.monosense.io
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
         ingressClassName: internal
-        hosts: ["alertmanager.monosense.io"]
+        hosts: ["alertmanager.${CLUSTER_SECRET_PRD_DOMAIN}"]
         pathType: Prefix
       alertmanagerSpec:
         useExistingSecret: true
@@ -72,9 +72,9 @@ spec:
       ingress:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.monosense.io
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
         ingressClassName: internal
-        hosts: ["prometheus.monosense.io"]
+        hosts: ["prometheus.${CLUSTER_SECRET_PRD_DOMAIN}"]
         pathType: Prefix
       prometheusSpec:
         scrapeInterval: 1m # Must match interval in Grafana Helm chart

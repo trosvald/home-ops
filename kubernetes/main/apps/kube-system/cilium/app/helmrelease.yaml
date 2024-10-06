@@ -66,9 +66,9 @@ spec:
         ingress:
           enabled: true
           annotations:
-            external-dns.alpha.kubernetes.io/target: internal.monosense.io
+            external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
           className: internal
-          hosts: ["hubble.monosense.io"]
+          hosts: ["hubble.${CLUSTER_SECRET_PRD_DOMAIN}"]
     # loadBalancer:
     #   l7:
     #     backend: envoy

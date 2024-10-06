@@ -23,7 +23,7 @@ spec:
         secret.reloader.stakater.com/reload: &secret authentik-secret
       env:
         - name: TZ
-          value: Asia/Jakarta
+          value: ${TIMEZONE}
         - name: AUTHENTIK_SESSION_STORAGE
           value: db
       envFrom:
@@ -31,12 +31,6 @@ spec:
             name: *secret
     server:
       replicas: 1
-      # initContainers:
-      #   - name: init-db
-      #     image: ghcr.io/onedr0p/postgres-init:16.3
-      #     envFrom:
-      #       - secretRef:
-      #           name: *secret
       resources:
         requests:
           cpu: 50m
@@ -51,9 +45,9 @@ spec:
         enabled: true
         ingressClassName: external
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.monosense.io
+          external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
         hosts:
-          - &host sso.monosense.io
+          - &host sso.${CLUSTER_SECRET_PRD_DOMAIN}
         paths:
           - /
         tls: [hosts: [*host]]

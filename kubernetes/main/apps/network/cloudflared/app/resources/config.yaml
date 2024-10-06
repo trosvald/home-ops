@@ -1,10 +1,30 @@
 ---
 originRequest:
-  originServerName: external.monosense.io
+  http2Origin: true
 
 ingress:
-  - hostname: monosense.io
+  - hostname: "${CLUSTER_SECRET_PRD_DOMAIN}"
     service: https://nginx-external-controller.network.svc.cluster.local:443
-  - hostname: "*.monosense.io"
+    originRequest:
+      originServerName: external.${CLUSTER_SECRET_PRD_DOMAIN}
+  - hostname: "*.${CLUSTER_SECRET_PRD_DOMAIN}"
     service: https://nginx-external-controller.network.svc.cluster.local:443
+    originRequest:
+      originServerName: external.${CLUSTER_SECRET_PRD_DOMAIN}
+  - hostname: "${CLUSTER_SECRET_DEV_DOMAIN}"
+    service: https://nginx-external-controller.network.svc.cluster.local:443
+    originRequest:
+      originServerName: external.${CLUSTER_SECRET_DEV_DOMAIN}
+  - hostname: "*.${CLUSTER_SECRET_DEV_DOMAIN}"
+    service: https://nginx-external-controller.network.svc.cluster.local:443
+    originRequest:
+      originServerName: external.${CLUSTER_SECRET_DEV_DOMAIN}
+  - hostname: "${CLUSTER_SECRET_BIZ_DOMAIN}"
+    service: https://nginx-external-controller.network.svc.cluster.local:443
+    originRequest:
+      originServerName: external.${CLUSTER_SECRET_BIZ_DOMAIN}
+  - hostname: "*.${CLUSTER_SECRET_BIZ_DOMAIN}"
+    service: https://nginx-external-controller.network.svc.cluster.local:443
+    originRequest:
+      originServerName: external.${CLUSTER_SECRET_BIZ_DOMAIN}
   - service: http_status:404

@@ -87,8 +87,8 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: expanse.internal
-        path: /eros/Media
+        server: ${NET_STORAGE_SERVER}
+        path: /pool1/Media
         globalMounts:
           - path: /media/Downloads/qbittorrent
             subPath: Downloads/qbittorrent

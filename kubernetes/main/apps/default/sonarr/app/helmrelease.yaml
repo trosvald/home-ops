@@ -90,13 +90,13 @@ spec:
     ingress:
       app:
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.monosense.io
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
           authentik.home.arpa/enabled: "true"
           nginx.ingress.kubernetes.io/auth-signin: |-
-            https://sonarr.monosense.io/outpost.goauthentik.io/start?rd=$escaped_request_uri
+            https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}/outpost.goauthentik.io/start?rd=$escaped_request_uri
         className: internal
         hosts:
-          - host: "{{ .Release.Name }}.monosense.io"
+          - host: "{{ .Release.Name }}.${CLUSTER_SECRET_PRD_DOMAIN}"
             paths:
               - path: /
                 service:

@@ -72,7 +72,7 @@ spec:
         controller: smtp-relay
         type: LoadBalancer
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: smtp-relay.monosense.io
+          external-dns.alpha.kubernetes.io/hostname: smtp-relay.${CLUSTER_SECRET_PRD_DOMAIN}
           io.cilium/lb-ipam-ips: ${SVC_SMTP_RELAY_IP}
         ports:
           http:

@@ -75,10 +75,10 @@ spec:
     ingress:
       app:
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.monosense.io
+          external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
         className: external
         hosts:
-          - host: requests.monosense.io
+          - host: requests.${CLUSTER_SECRET_PRD_DOMAIN}
             paths:
               - path: /
                 service:

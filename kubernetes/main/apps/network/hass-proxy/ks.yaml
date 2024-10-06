@@ -22,4 +22,4 @@ spec:
   # postBuild:
   #   substitute:
   #     APP: *appname
-  #     HOSTNAME: hassio.monosense.io
+  #     HOSTNAME: hassio.${CLUSTER_SECRET_PRD_DOMAIN}

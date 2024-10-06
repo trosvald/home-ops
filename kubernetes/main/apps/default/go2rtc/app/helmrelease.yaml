@@ -65,7 +65,7 @@ spec:
         controller: go2rtc
         type: LoadBalancer
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: go2rtc-streams.monosense.io
+          external-dns.alpha.kubernetes.io/hostname: go2rtc-streams.${CLUSTER_SECRET_PRD_DOMAIN}
           io.cilium/lb-ipam-ips: ${SVC_GO2RTC_IP}
         ports:
           http:
@@ -81,10 +81,10 @@ spec:
     ingress:
       app:
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.monosense.io
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
         className: internal
         hosts:
-          - host: go2rtc.monosense.io
+          - host: go2rtc.${CLUSTER_SECRET_PRD_DOMAIN}
             paths:
               - path: /
                 service:

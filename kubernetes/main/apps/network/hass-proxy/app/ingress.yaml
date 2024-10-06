@@ -4,14 +4,14 @@ kind: Ingress
 metadata:
   name: hass-proxy
   annotations:
-    external-dns.alpha.kubernetes.io/target: external.monosense.io
+    external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 
 spec:
   ingressClassName: external
   rules:
-    - host: &host ha.monosense.io
+    - host: &host ha.${CLUSTER_SECRET_PRD_DOMAIN}
       http:
         paths:
           - backend:
