@@ -83,7 +83,7 @@ spec:
         skip_org_role_sync: true
       auth.generic.oauth.group.mapping:
         role_attribute_path: |
-          contains(groups[*], 'administrator') && 'Admin' || 'Viewer'
+          contains(groups[*], 'superusers') && 'Admin' || 'Viewer'
         org_id: 1
       log:
         mode: console
