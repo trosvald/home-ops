@@ -17,33 +17,33 @@ spec:
     - "*.${CLUSTER_SECRET_DEV_DOMAIN}"
     - "${CLUSTER_SECRET_BIZ_DOMAIN}"
     - "*.${CLUSTER_SECRET_BIZ_DOMAIN}"
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: "${CLUSTER_SECRET_DEV_DOMAIN/./-}"
-spec:
-  secretName: "${CLUSTER_SECRET_DEV_DOMAIN/./-}-tls"
-  issuerRef:
-    name: letsencrypt-production
-    kind: ClusterIssuer
-  commonName: "${CLUSTER_SECRET_DEV_DOMAIN}"
-  dnsNames:
-    - "${CLUSTER_SECRET_DEV_DOMAIN}"
-    - "*.${CLUSTER_SECRET_DEV_DOMAIN}"
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: "${CLUSTER_SECRET_BIZ_DOMAIN/./-}"
-spec:
-  secretName: "${CLUSTER_SECRET_BIZ_DOMAIN/./-}-tls"
-  issuerRef:
-    name: letsencrypt-production
-    kind: ClusterIssuer
-  commonName: "${CLUSTER_SECRET_BIZ_DOMAIN}"
-  dnsNames:
-    - "${CLUSTER_SECRET_BIZ_DOMAIN}"
-    - "*.${CLUSTER_SECRET_BIZ_DOMAIN}"
+# ---
+# # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
+# apiVersion: cert-manager.io/v1
+# kind: Certificate
+# metadata:
+#   name: "${CLUSTER_SECRET_DEV_DOMAIN/./-}"
+# spec:
+#   secretName: "${CLUSTER_SECRET_DEV_DOMAIN/./-}-tls"
+#   issuerRef:
+#     name: letsencrypt-production
+#     kind: ClusterIssuer
+#   commonName: "${CLUSTER_SECRET_DEV_DOMAIN}"
+#   dnsNames:
+#     - "${CLUSTER_SECRET_DEV_DOMAIN}"
+#     - "*.${CLUSTER_SECRET_DEV_DOMAIN}"
+# ---
+# # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
+# apiVersion: cert-manager.io/v1
+# kind: Certificate
+# metadata:
+#   name: "${CLUSTER_SECRET_BIZ_DOMAIN/./-}"
+# spec:
+#   secretName: "${CLUSTER_SECRET_BIZ_DOMAIN/./-}-tls"
+#   issuerRef:
+#     name: letsencrypt-production
+#     kind: ClusterIssuer
+#   commonName: "${CLUSTER_SECRET_BIZ_DOMAIN}"
+#   dnsNames:
+#     - "${CLUSTER_SECRET_BIZ_DOMAIN}"
+#     - "*.${CLUSTER_SECRET_BIZ_DOMAIN}"
