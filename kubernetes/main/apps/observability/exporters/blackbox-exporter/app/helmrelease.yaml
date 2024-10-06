@@ -27,10 +27,10 @@ spec:
     ingress:
       enabled: true
       annotations:
-        external-dns.alpha.kubernetes.io/target: internal.monosense.io
+        external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
       className: internal
       hosts:
-        - host: blackbox-exporter.monosense.io
+        - host: blackbox-exporter.${CLUSTER_SECRET_PRD_DOMAIN}
           paths:
             - path: /
               pathType: Prefix

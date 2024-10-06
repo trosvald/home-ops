@@ -19,10 +19,10 @@ data:
         listen 80;
         client_max_body_size 128M;
         location / {
-        proxy_set_header Host "s3.monosense.io";
+        proxy_set_header Host "s3.${CLUSTER_SECRET_PRD_DOMAIN}";
         proxy_hide_header "Set-Cookie";
         proxy_intercept_errors on;
-        proxy_pass https://s3.monosense.io/static-content/;
+        proxy_pass https://s3.${CLUSTER_SECRET_PRD_DOMAIN}/static-content/;
         }
       }
     }

@@ -35,10 +35,10 @@ spec:
     ingress:
       dashboard:
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.monosense.io
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
         ingressClassName: internal
         host:
-          name: rook.monosense.io
+          name: rook.${CLUSTER_SECRET_PRD_DOMAIN}
           path: /
     toolbox:
       enabled: true
@@ -246,10 +246,10 @@ spec:
         ingress:
           enabled: true
           annotations:
-            external-dns.alpha.kubernetes.io/target: internal.monosense.io
+            external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
             nginx.ingress.kubernetes.io/proxy-body-size: "0"
             nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
           ingressClassName: internal
           host:
-            name: rgw.monosense.io
+            name: rgw.${CLUSTER_SECRET_PRD_DOMAIN}
             path: /

@@ -38,10 +38,10 @@ spec:
       app:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.monosense.io
+          external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
         className: external
         hosts:
-          - host: &host cdn.monosense.io
+          - host: &host cdn.${CLUSTER_SECRET_PRD_DOMAIN}
             paths:
               - path: /
                 service:

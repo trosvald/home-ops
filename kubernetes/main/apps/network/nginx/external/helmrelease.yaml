@@ -33,7 +33,7 @@ spec:
       replicaCount: 2
       service:
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: external.monosense.io
+          external-dns.alpha.kubernetes.io/hostname: external.${CLUSTER_SECRET_PRD_DOMAIN}
           io.cilium/lb-ipam-ips: ${SVC_EXT_INGRESS_IP}
       ingressClassResource:
         name: external
@@ -79,7 +79,7 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        default-ssl-certificate: network/monosense-io-tls
+        default-ssl-certificate: network/${CLUSTER_SECRET_PRD_DOMAIN/./-}-tls
       terminationGracePeriodSeconds: 120
       topologySpreadConstraints:
         - maxSkew: 1

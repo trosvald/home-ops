@@ -51,7 +51,10 @@ spec:
     sources: ["crd", "ingress"]
     txtOwnerId: default
     txtPrefix: k8s.
-    domainFilters: ["monosense.io"]
+    domainFilters:
+      - "${CLUSTER_SECRET_PRD_DOMAIN}"
+      - "${CLUSTER_SECRET_DEV_DOMAIN}"
+      - "${CLUSTER_SECRET_BIZ_DOMAIN}"
     serviceMonitor:
       enabled: true
     podAnnotations:

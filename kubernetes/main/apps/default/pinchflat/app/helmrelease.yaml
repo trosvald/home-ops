@@ -38,7 +38,7 @@ spec:
               repository: ghcr.io/kieraneglin/pinchflat
               tag: v2024.10.2@sha256:78cdb8887b5a52026b8cab150b65577fc97c4c41d8da340f2e4e70ed79bd15f8
             env:
-              TZ: America/New_York
+              TZ: ${TIMEZONE}
               TZ_DATA_DIR: /tmp/elixir_tz_data
               PORT: &port 80
             probes:
@@ -84,10 +84,10 @@ spec:
     ingress:
       app:
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.monosense.io
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
         className: internal
         hosts:
-          - host: "{{ .Release.Name }}.monosense.io"
+          - host: "{{ .Release.Name }}.${CLUSTER_SECRET_PRD_DOMAIN}"
             paths:
               - path: /
                 service:
@@ -102,7 +102,7 @@ spec:
         type: emptyDir
       media:
         type: nfs
-        server: expanse.internal
+        server: ${NET_STORAGE_SERVER}
         path: /eros/Media
         globalMounts:
           - path: /media/Library/YouTube

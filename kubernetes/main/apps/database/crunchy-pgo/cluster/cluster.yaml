@@ -153,7 +153,7 @@ spec:
       service:
         metadata:
           annotations:
-            external-dns.alpha.kubernetes.io/hostname: postgres.monosense.io
+            external-dns.alpha.kubernetes.io/hostname: postgres.${CLUSTER_SECRET_PRD_DOMAIN}
             lbipam.cilium.io/ips: ${SVC_CPGO_IP}
         type: LoadBalancer
       port: 5432

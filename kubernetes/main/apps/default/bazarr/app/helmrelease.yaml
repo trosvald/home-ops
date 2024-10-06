@@ -97,10 +97,10 @@ spec:
     ingress:
       app:
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.monosense.io
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
         className: internal
         hosts:
-          - host: bazarr.monosense.io
+          - host: bazarr.${CLUSTER_SECRET_PRD_DOMAIN}
             paths:
               - path: /
                 service:

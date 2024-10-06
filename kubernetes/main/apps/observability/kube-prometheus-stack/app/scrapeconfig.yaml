@@ -7,8 +7,8 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - p-rh8-zfs.monosense.dev:9100
-        - p-fdi40-svc.monosense.dev:9100
+        - p-rh8-zfs.${CLUSTER_SECRET_DEV_DOMAIN}:9100
+        - p-fdi40-svc.${CLUSTER_SECRET_DEV_DOMAIN}:9100
         # - voyager.internal:9100
   metricsPath: /metrics
   relabelings:
@@ -22,7 +22,7 @@ kind: ScrapeConfig
 metadata:
   name: &name minio
 spec:
-  staticConfigs: [targets: ["s3.monosense.io"]]
+  staticConfigs: [targets: ["s3.${CLUSTER_SECRET_PRD_DOMAIN}"]]
   metricsPath: /minio/v2/metrics/cluster
   scheme: HTTPS
   relabelings:
