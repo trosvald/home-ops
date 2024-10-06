@@ -93,4 +93,4 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: ${CLUSTER_SECRET_BIZ_DOMAIN\.\-}-tls
+            secretName: "${CLUSTER_SECRET_BIZ_DOMAIN/./-}-tls"
