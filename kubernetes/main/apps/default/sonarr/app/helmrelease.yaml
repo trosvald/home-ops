@@ -83,7 +83,10 @@ spec:
         seccompProfile: { type: RuntimeDefault }
     service:
       app:
+        type: LoadBalancer
         controller: sonarr
+        annotations:
+          io.cilium/lb-ipam-ips: ${SVC_SONARR_IP}
         ports:
           http:
             port: *port
