@@ -4,6 +4,10 @@
   "logo": "/.assets/logo.svg",
   "favicon": "/.assets/favicon.svg",
   "theme": "prism",
+  "modeToggle": {
+    "default": "dark",
+    "isHidden": true
+  },
   "colors": {
     "primary": "#5D4CFE",
     "light": "#8477FF",
@@ -24,12 +28,24 @@
     "url": "https://github.com/trosvald/home-ops"
   },
   "primaryTab": {
-    "name": "Home Lab"
+    "name": "Documentation"
   },
   "tabs": [
     {
       "name": "API Reference",
       "url": "api-reference"
+    },
+    {
+      "name": "Concepts",
+      "url": "concepts"
+    },
+    {
+      "name": "Guides",
+      "url": "guides"
+    },
+    {
+      "name": "Notes",
+      "url": "notes"
     }
   ],
   "anchors": [
@@ -43,16 +59,23 @@
     {
       "group": "Welcome",
       "pages": [
-        "introduction"
+        "introduction",
+        {
+          "group": "Hardware",
+          "icon": "server",
+          "pages": [
+            "hardware/compute",
+            "hardware/network",
+            "hardware/others"
+          ]
+        }
       ]
     },
     {
       "group": "My Home Ops",
       "pages": [
         "homelab/cloud-dependencies",
-        "homelab/github-repository",
-        "homelab/hardware",
-        "homelab/networking",
+        "homelab/github",
         "homelab/monitoring"
       ]
     },
@@ -65,19 +88,41 @@
       ]
     },
     {
-      "group": "Storage",
-      "pages": [
-        "storage/previous-installations",
-        "storage/truenas"
-      ]
-    },
-    {
       "group": "Guides",
       "pages": [
         "guides/overview",
-        "guides/understanding-talos",
-        "guides/proxy-dhcp-booting",
-        "guides/seperating-ingress-traffic"
+        {
+          "group": "NAS",
+          "icon": "bars-progress",
+          "pages": [
+            "guides/nas/zfs",
+            "guides/nas/minio",
+            "guides/nas/bacula"
+          ]
+        },
+        {
+          "group": "Talos",
+          "icon": "linux",
+          "pages": [
+            "guides/talos/pxe"
+          ]
+        },
+        {
+          "group": "Terraform",
+          "icon": "wand-magic-sparkles",
+          "pages": [
+            "guides/terraform/authentik",
+            "guides/terraform/minio"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Notes",
+      "icon": "books",
+      "pages": [
+        "notes/infra-notes",
+        "notes/k8s-notes"
       ]
     }
   ],

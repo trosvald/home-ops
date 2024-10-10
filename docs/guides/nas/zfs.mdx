@@ -1,0 +1,224 @@
+---
+title: 'ZFS On Linux'
+icon: 'database'
+description: 'Setting up your ZFS storage server (NAS)'
+---
+<Note>
+
+These `docs` contain information that relates to my setup. They may or may not work for you.
+Im using [RHEL 8](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8) as my current NAS operating system.
+OS Install are out of scope from this docs, please consult related documentation for your OS.
+</Note>
+
+## Installing NFS & iSCSI Initiator
+<Warning>
+**I'm Lazy AF** so i disabled [SELinux](https://en.wikipedia.org/wiki/Security-Enhanced_Linux#:~:text=Security%2DEnhanced%20Linux%20(SELinux),SELinux), please mind your own setup and dont be like me!!
+</Warning>
+
+```bash
+[root@host ~]# sed -i 's/enforcing/disabled/g' /etc/selinux/config
+[root@host ~]# reboot now
+```
+### NFS setup and configuration
+<Tip>
+If you do not have any `NFSv3` clients in your network, you can configure the NFS server to support only `NFSv4` or specific minor protocol versions of it.
+Using only `NFSv4` on the server reduces the number of ports that are open to the network.
+</Tip>
+
+1. Install `nfs-utils` package
+```bash
+[user@host ~]$ sudo dnf install nfs-utils
+```
+2. Edit the `/etc/nfs.conf` file, and make following changes for disabling `NFSv3`
+```bash
+[user@host ~]$ sudo vi /etc/nfs.conf
+
+# My /etc/nfs.conf configuration
+[nfsd]
+threads=16
+vers3=n
+# vers4=y
+vers4.0=n
+vers4.1=n
+vers4.2=y
+```
+<Info>
+ With this configuration, the server provides only NFS version 4.2.
+</Info>
+
+<Warning>
+If you require only a specific `NFSv4` minor version, set only the parameters for the minor versions.
+Do not uncomment the `vers4` parameter to avoid an unpredictable activation or deactivation of minor
+versions. By default, the `vers4` parameter enables or disables all `NFSv4` minor versions. However,
+this behavior changes if you set `vers4` in conjunction with other vers parameters.
+</Warning>
+
+3. Disabled all `NFSv3`-related services :
+```bash
+[user@host ~]$ sudo systemctl mask --now rpc-statd.service rpcbind.service rpcbind.socket
+```
+4. Configure the `rpc.mountd` daemon to not listen for `NFSv3` mount requests. Create a `/etc/systemd/system/nfs-mountd.service.d/v4only.conf` file with the following content:
+```bash
+[Service]
+ExecStart=
+ExecStart=/usr/sbin/rpc.mountd --no-tcp --no-udp
+```
+5. Reload the `systemd` manager configuration and restart the `nfs-mountd` service:
+```bash
+[user@host ~]$ sudo systemctl daemon-reload
+[user@host ~]$ sudo systemctl restart nfs-mountd
+```
+6. **Optional** Create a directory that you want to share, for example:
+```bash
+[user@host ~]$ sudo mkdir -p /nfs/shares
+[user@host ~]$ sudo chmod 2770 /nfs/shares/
+[user@host ~]$ sudo chgrp users /nfs/shares/
+```
+<Info>
+Last two commands set write permissions for the `users` group on the `/nfs/shares/` directory and ensure that the same group is automatically set on new entries created in this directory.
+</Info>
+
+7. **Optional** Add an export point to the `/etc/exports` file for each directory that you want to share :
+```bash
+/nfs/shares/     192.0.2.0/24(rw) 2001:db8::/32(rw)
+```
+8. Open relevant ports in `frewalld` :
+```bash
+[user@host ~]$ sudo firewall-cmd --permanent --add-service nfs
+[user@host ~]$ sudo firewall-cmd --reload
+```
+9. Enable and start NFS server :
+```bash
+[user@host ~]$ sudo systemctl enable --now nfs-server
+```
+10. Verify that the server provides only NFS version that you have configured :
+```bash
+[user@host ~]$ sudo cat /proc/fs/nfsd/versions
+-2 -3 +4 -4.0 -4.1 +4.2
+```
+
+<Tip>
+We dont need to perform **Optional** steps, rather we will be using `zfs set sharenfs` for creating and configuring `NFS` shares
+</Tip>
+
+### iSCSI setup and configuration
+
+I'll be using iSCSI target on this NAS machine to provides block persistent volume for my main [Kubernetes](https://kubernetes.io/) cluster
+with [democratic-csi](https://github.com/democratic-csi/democratic-csi) csi-driver, [democratic-csi](https://github.com/democratic-csi/democratic-csi) implements
+[csi](https://kubernetes.io/blog/2019/01/15/container-storage-interface-ga/) (container storage interface) spec providing storage for various orchestration system.
+
+iSCSI is even easier to set up than NFS.Basically, we just need to install `targetcli` and start the iSCSI service
+```bash
+[user@host ~]$ sudo dnf install iscsi-initiator-utils targetcli -y
+[user@host ~]$ sudo systemctl enable --now iscsid
+
+# Take notes for your system IQN, we need for democratic-csi deployment on kubernetes
+[user@host ~]$ sudo cat /etc/iscsi/initiatorname.iscsi
+InitiatorName=iqn.1994-05.com.redhat:88aa24ccc9121
+```
+
+## Install ZFS
+Installing [ZFS](https://en.wikipedia.org/wiki/ZFS) on [RHEL](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8) is actually pretty straighforward, but
+due to incompatible licensing schemes, RHEL can't be shipped with ZFS, manually adding it to an existing system is easy.This guide is based on OpenZFS documentation, so please
+visit the [docs](https://openzfs.github.io/openzfs-docs/Getting%20Started/RHEL-based%20distro/index.html) for more detailed information.
+
+### Prepared Your System
+Since the EPEL packages may depend on packages from `codeready-builder-for-rhel-8-*-rpms`, you need to enable the `codeready-builder-for-rhel-8-*-rpms` repository using the following command.
+
+```bash
+[user@host ~]$ sudo subscription-manager repos --enable "codeready-builder-for-rhel-8-*-rpms"
+# Now you can install epel release & openzfs repo
+[user@host ~]$ sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+[user@host ~]$ sudo dnf install https://zfsonlinux.org/epel/zfs-release-2-3$(rpm --eval "%{dist}").noarch.rpm
+```
+<Note>
+[DKMS](https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support) and [kABI-tracking kmod](https://elrepoproject.blogspot.com/2016/02/kabi-tracking-kmod-packages.html) style packages are provided for x86_64 RHEL and CentOS based
+distributions from the [OpenZFS](https://openzfs.org/) repository. For my current setup i prefer using [kABI-tracking kmod](https://elrepoproject.blogspot.com/2016/02/kabi-tracking-kmod-packages.html) style packages.
+</Note>
+
+By default the zfs-release package is configured to install [DKMS](https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support) style packages so they will work with a wide range of kernels.
+In order to install the [kABI-tracking kmod](https://elrepoproject.blogspot.com/2016/02/kabi-tracking-kmod-packages.html) the default repository must be switched from `zfs` to `zfs-kmod`.
+
+Keep in mind that the [kABI-tracking kmod](https://elrepoproject.blogspot.com/2016/02/kabi-tracking-kmod-packages.html) are only verified to work with the distribution-provided, non-Stream kernel.
+
+```bash
+[user@host ~]$ sudo dnf config-manager --disable zfs
+[user@host ~]$ sudo dnf config-manager --enable zfs-kmod
+# After change default repo to zfs-kmod then we can start installing ZFS on our system
+[user@host ~]$ sudo dnf install zfs
+```
+By default the OpenZFS kernel modules are automatically loaded when a ZFS pool is detected. If you would prefer to always load the modules at boot time you can create such configuration in `/etc/modules-load.d`:
+
+```bash
+[user@host ~]$ sudo echo zfs >/etc/modules-load.d/zfs.conf
+```
+<Warning>
+When updating to a new EL minor release the existing kmod packages may not work due to upstream kABI changes in the kernel.
+The configuration of the current release package may have already made an updated package available, but the package manager may not know to install that package if the version number isn’t newer.
+When upgrading, users should verify that the `kmod-zfs` package is providing suitable kernel modules, reinstalling the `kmod-zfs` package if necessary.
+</Warning>
+
+### Creating ZFS Pool
+
+My zfs pool are consists of two pool types `mirror` pool named **pool0** and `raid-z1` pool named **pool1**.My **pool0** will be using 4x 12TB WD DCHC520 and **pool1** will be using 8x 4TB mixed Toshiba and Seagate EXOS drives.
+
+#### Mirror Pool
+
+```bash
+# Create initial mirror pool and set configuration
+[user@host ~]$ sudo zpool create -o ashift=12 -f pool0 mirror \
+    /dev/disk/by-id/scsi-SATA_HGST_HUH721212AL_XXXXXXXX \
+    /dev/disk/by-id/scsi-SATA_HGST_HUH721212AL_XXXXXXXX
+
+[user@host ~]$ sudo zfs set atime=off pool0
+[user@host ~]$ sudo zfs set compression=lz4 pool0
+# Add remaining disk for pool0
+[user@host ~]$ sudo zpool add pool0 mirror \
+    /dev/disk/by-id/scsi-SATA_HGST_HUH721212AL_XXXXXXXX \
+    /dev/disk/by-id/scsi-SATA_HGST_HUH721212AL_XXXXXXXX
+```
+
+#### RAIDZ1 Pool
+
+```bash
+# Create raidz1 pool and set configuration
+[user@host ~]$ sudo zpool create -o ashift=12 -f pool1 raidz1 \
+    /dev/disk/by-id/scsi-SATA_TOSHIBA_HDWQ140_8XXXXXXXXXXX \
+    /dev/disk/by-id/scsi-SATA_TOSHIBA_HDWQ140_8XXXXXXXXXXX \
+    /dev/disk/by-id/scsi-SATA_TOSHIBA_HDWQ140_8XXXXXXXXXXX \
+    /dev/disk/by-id/scsi-SATA_TOSHIBA_HDWQ140_8XXXXXXXXXXX \
+    /dev/disk/by-id/scsi-SATA_TOSHIBA_HDWQ140_8XXXXXXXXXXX \
+    /dev/disk/by-id/scsi-SATA_TOSHIBA_HDWQ140_8XXXXXXXXXXX \
+    /dev/disk/by-id/scsi-SATA_TOSHIBA_HDWQ140_8XXXXXXXXXXX \
+    /dev/disk/by-id/scsi-SATA_TOSHIBA_HDWQ140_8XXXXXXXXXXX
+[user@host ~]$ sudo zfs set atime=off pool0
+[user@host ~]$ zfs set compression=lz4 pool0
+
+# You can list previous created pool using this command
+[user@host ~]$ sudo zfs list
+NAME                    USED  AVAIL     REFER  MOUNTPOINT
+pool0                  3.32T  19.2T       96K  /pool0
+pool1                  4.99T  19.4T      189K  /pool1
+```
+### Creating ZFS Dataset
+
+1. Create dataset
+```bash
+# Create dataset for NFS Shares
+[user@host ~]$ sudo zfs create pool1/Media
+# Create minio pool for MinIO setup
+[user@host ~]$ sudo zfs create pool1/minio
+```
+
+2. Share dataset over NFS
+```bash
+# Create NFS share
+[user@host ~]$ sudo zfs set \
+    sharenfs="no_subtree_check,all_squash,anonuid=568,anongid=100,rw=@172.16.11.0/24,rw=@172.16.12.0/24,ro=172.16.13.1/32" \
+    pool1/Media
+```
+<Info>
+Im not sharing `pool1/minio` over NFS,I'll setup Single-Node Single-Drive MinIO on this machine later.
+</Info>
+
+Now you've already setup your NAS/SAN for your homelab.
