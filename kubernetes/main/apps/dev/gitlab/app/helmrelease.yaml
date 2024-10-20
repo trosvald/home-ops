@@ -68,14 +68,14 @@ spec:
           database: gitlab
           password:
             useSecret: true
-            secret: &maindb gitlab-db-secret
+            secret: *secret
             key: MAIN_DB_PASSWORD
         ci:
           database: gitlab-ci
           enabled: true
           password:
             useSecret: true
-            secret: &cidb gitlab-ci-db-secret
+            secret: *secret
             key: CI_DB_PASSWORD
       redis:
         host: gitlab-dragonfly.dev.svc.cluster.local
@@ -279,28 +279,28 @@ spec:
   valuesFrom:
     # MAIN DB
     - kind: Secret
-      name: *maindb
+      name: *secret
       valuesKey: MAIN_DB_HOST
       targetPath: global.psql.main.host
     - kind: Secret
-      name: *maindb
+      name: *secret
       valuesKey: MAIN_DB_NAME
       targetPath: global.psql.main.database
     - kind: Secret
-      name: *maindb
+      name: *secret
       valuesKey: MAIN_DB_USER
       targetPath: global.psql.main.username
     # CI DB
     - kind: Secret
-      name: *cidb
+      name: *secret
       valuesKey: CI_DB_HOST
       targetPath: global.psql.ci.host
     - kind: Secret
-      name: *cidb
+      name: *secret
       valuesKey: CI_DB_NAME
       targetPath: global.psql.ci.database
     - kind: Secret
-      name: *cidb
+      name: *secret
       valuesKey: CI_DB_USER
       targetPath: global.psql.ci.username
     # EMAIL & SMTP
