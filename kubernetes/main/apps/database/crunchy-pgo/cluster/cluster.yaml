@@ -92,10 +92,10 @@ spec:
       databases: ["sonarr_main"]
       password:
         type: AlphaNumeric
-    - name: "gitlab"
-      databases: ["gitlab-ci", "gitlab"]
-      password:
-        type: AlphaNumeric
+    # - name: "gitlab"
+    #   databases: ["gitlab-ci", "gitlab"]
+    #   password:
+    #     type: AlphaNumeric
 
   backups:
     pgbackrest:
