@@ -200,7 +200,7 @@ spec:
     registry:
       enabled: true
       storage:
-        secret: gitlab-registry-secret
+        secret: gitlab-registry-s3
         key: config
     gitlab-runner:
       install: false
