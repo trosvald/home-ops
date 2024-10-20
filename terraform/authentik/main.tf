@@ -29,6 +29,12 @@ module "secret_grafana" {
   item   = "grafana"
 }
 
+module "secret_gitlab" {
+  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  vault  = "Automation"
+  item   = "gitlab"
+}
+
 module "secret_ocis" {
   source = "github.com/bjw-s/terraform-1password-item?ref=main"
   vault  = "Automation"

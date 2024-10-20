@@ -17,6 +17,11 @@ resource "authentik_group" "external" {
   is_superuser = false
 }
 
+resource "authentik_group" "developers" {
+  name         = "developers"
+  is_superuser = false
+}
+
 resource "authentik_group" "media" {
   name         = "media"
   is_superuser = false
@@ -47,6 +52,7 @@ resource "authentik_user" "monosense" {
     authentik_group.superusers.id,
     authentik_group.media.id,
     authentik_group.infrastructure.id,
-    authentik_group.nextcloud.id
+    authentik_group.nextcloud.id,
+    authentik_group.developers.id
   ]
 }
