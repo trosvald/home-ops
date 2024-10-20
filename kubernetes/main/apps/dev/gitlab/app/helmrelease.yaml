@@ -103,36 +103,36 @@ spec:
         lfs:
           enabled: true
           bucket: gitlab-lfs
-          connection: *conn
+          # connection: *conn
         artifacts:
           enabled: true
           bucket: gitlab-artifacts
-          connection: *conn
+          # connection: *conn
         uploads:
           enabled: true
           bucket: gitlab-uploads
-          connection: *conn
+          # connection: *conn
         packages:
           enabled: true
           bucket: gitlab-packages
-          connection: *conn
+          # connection: *conn
         externalDiffs:
           enabled: true
           when: outdated
           bucket: gitlab-external-diffs
-          connection: *conn
+          # connection: *conn
         terraformState:
           enabled: true
           bucket: gitlab-terraform-state
-          connection: *conn
+          # connection: *conn
         ciSecureFiles:
           enabled: true
           bucket: gitlab-ci-secure-files
-          connection: *conn
+          # connection: *conn
         dependencyProxy:
           enabled: true
           bucket: gitlab-dependency-proxy
-          connection: *conn
+          # connection: *conn
         backups:
           bucket: gitlab-backups
           tmpBucket: gitlab-tmp
