@@ -49,7 +49,6 @@ resource "minio_iam_user" "user" {
   #   secret        = var.user_secret
 }
 
-
 resource "minio_iam_user_policy_attachment" "user_rw" {
   user_name   = minio_iam_user.user.id
   policy_name = minio_iam_policy.rw_policy.id

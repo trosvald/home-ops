@@ -21,6 +21,8 @@ resources:
   - ./emqx.yaml
   - ./external-dns.yaml
   - ./external-secrets.yaml
+  - ./gitlab-workspace.yaml
+  - ./gitlab.yaml
   - ./grafana.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml

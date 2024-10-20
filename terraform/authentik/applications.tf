@@ -112,6 +112,22 @@ module "proxy-lidarr" {
 #   auth_groups        = [authentik_group.users.id]
 # }
 
+module "oauth2-gitlab" {
+  source             = "./oauth2_application"
+  name               = "GitLab"
+  icon_url           = "https://cdn.monosense.io/branding/gitlab.png"
+  launch_url         = "https://gitlab.${module.secret_authentik.fields["authentik_cluster_domain"]}"
+  description        = "Private SCM"
+  newtab             = true
+  group              = "Developers"
+  sub_mode           = "user_email"
+  auth_groups        = [authentik_group.developers.id]
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  client_id          = module.secret_gitlab.fields["gitlab_oidc_client_id"]
+  client_secret      = module.secret_gitlab.fields["gitlab_oidc_client_secret"]
+  redirect_uris      = ["https://gitlab.${module.secret_authentik.fields["authentik_cluster_domain"]}/users/auth/openid_connect/callback"]
+}
+
 module "oauth2-grafana" {
   source             = "./oauth2_application"
   name               = "Grafana"
