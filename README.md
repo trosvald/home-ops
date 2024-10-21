@@ -4,7 +4,7 @@
 
 ### My Home Operations Repository
 
-_... managed with Flux, Renovate, and GitHub Actions_ 🤖
+_... managed with Flux, Renovate, GitHub Actions, GitLab CI_ 🤖
 
 </div>
 
