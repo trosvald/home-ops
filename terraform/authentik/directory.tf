@@ -56,3 +56,17 @@ resource "authentik_user" "monosense" {
     authentik_group.developers.id
   ]
 }
+
+resource "authentik_user" "trosvald" {
+  username = module.secret_authentik.fields.authentik_dev_user
+  name     = module.secret_authentik.fields.authentik_org_user_full
+  password = module.secret_authentik.fields.authentik_dev_password
+  email    = module.secret_authentik.fields.authentik_dev_email
+  groups    = [
+    authentik_group.superusers.id,
+    authentik_group.media.id,
+    authentik_group.infrastructure.id,
+    authentik_group.nextcloud.id,
+    authentik_group.developers.id
+  ]
+}
