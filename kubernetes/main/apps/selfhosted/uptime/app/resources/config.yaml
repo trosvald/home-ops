@@ -122,7 +122,8 @@ endpoints:
     client:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
-      - "[BODY] == 200 OK"
+      - "[STATUS] == 200"
+      # - "[BODY] == 200 OK"
       - "[CERTIFICATE_EXPIRATION] > 336h"
     alerts:
       - type: telegram
@@ -137,7 +138,8 @@ endpoints:
     client:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
-      - "[BODY] == 200 OK"
+      - "[STATUS] == 200"
+      # - "[BODY] == 200 OK"
       - "[CERTIFICATE_EXPIRATION] > 336h"
     alerts:
       - type: telegram
@@ -152,7 +154,8 @@ endpoints:
     client:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
-      - "[BODY] == 200 OK"
+      - "[STATUS] == 200"
+      # - "[BODY] == 200 OK"
       - "[CERTIFICATE_EXPIRATION] > 336h"
     alerts:
       - type: telegram
@@ -167,7 +170,8 @@ endpoints:
     client:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
-      - "[BODY] == 200 OK"
+      - "[STATUS] == 200"
+      # - "[BODY] == 200 OK"
       - "[CERTIFICATE_EXPIRATION] > 336h"
     alerts:
       - type: telegram
@@ -182,7 +186,8 @@ endpoints:
     client:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
-      - "[BODY] == 200 OK"
+      - "[STATUS] == 200"
+      # - "[BODY] == 200 OK"
       - "[CERTIFICATE_EXPIRATION] > 336h"
     alerts:
       - type: telegram
@@ -197,7 +202,8 @@ endpoints:
     client:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
-      - "[BODY] == 200 OK"
+      - "[STATUS] == 200"
+      # - "[BODY] == 200 OK"
       - "[CERTIFICATE_EXPIRATION] > 336h"
     alerts:
       - type: telegram
@@ -212,7 +218,8 @@ endpoints:
     client:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
-      - "[BODY] == 200 OK"
+      - "[STATUS] == 200"
+      # - "[BODY] == 200 OK"
       - "[CERTIFICATE_EXPIRATION] > 336h"
     alerts:
       - type: telegram
