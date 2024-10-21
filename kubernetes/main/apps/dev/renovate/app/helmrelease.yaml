@@ -52,7 +52,7 @@ spec:
               MEND_RNV_PLATFORM: 'gitlab'
               MEND_RNV_ENDPOINT: 'https://gitlab.${CLUSTER_SECRET_PRD_DOMAIN}/api/v4/'
               MEND_RNV_CRON_JOB_SCHEDULER_ALL: '0 */1 * * *'
-              MEND_RNV_CRON_APP_SYNC: "0 */2 * * *"
+              MEND_RNV_CRON_APP_SYNC: "0 */1 * * *"
 
               RENOVATE_PAGINATE_ALL: "true"
 
