@@ -69,22 +69,22 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: *secret
-                    key: DATABASE_NAME
+                    key: PG_DB_NAME
               PGUSER:
                 valueFrom:
                   secretKeyRef:
                     name: *secret
-                    key: LOGIN
+                    key: PG_DB_USER
               PGPASSWORD:
                 valueFrom:
                   secretKeyRef:
                     name: *secret
-                    key: PASSWORD
+                    key: PG_DB_PASSWORD
               PGHOST:
                 valueFrom:
                   secretKeyRef:
                     name: *secret
-                    key: HOST
+                    key: PG_DB_HOST
               PGPORT: 5432
 
               RENOVATE_ALLOW_CUSTOM_CRATE_REGISTRIES: 'false'
