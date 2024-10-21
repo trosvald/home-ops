@@ -108,7 +108,7 @@ endpoints:
     client:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
-      - "[CONNECTED]"
+      - "[CONNECTED] == true"
     alerts:
       - type: telegram
         send-on-resolved: true
