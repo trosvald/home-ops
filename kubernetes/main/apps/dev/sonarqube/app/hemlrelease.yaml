@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: sonarqube
-      version: 10.6.1+3163
+      version: 10.7.0+3598
       sourceRef:
         kind: HelmRepository
         name: sonarqube
