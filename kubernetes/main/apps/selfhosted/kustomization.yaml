@@ -8,4 +8,4 @@ resources:
   # Flux-Kustomizations
   # - ./mattermost/ks.yaml
   # - ./openproject/ks.yaml
-  # - ./uptime/ks.yaml
+  - ./uptime/ks.yaml
