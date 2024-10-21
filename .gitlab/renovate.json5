@@ -1,0 +1,73 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        "docker:enableMajor",
+        "replacements:k8s-registry-move",
+        ":disableRateLimiting",
+        ":dependencyDashboard",
+        ":enablePreCommit",
+        ":semanticCommits",
+        ":timezone(Asia/Jakarta)",
+        "github>whitesource/merge-confidence:beta",
+        "local>homelab/home-ops//.gitlab/renovate/commitMessage.json5",
+        "local>homelab/home-ops//.gitlab/renovate/customManagers.json5",
+        "local>homelab/home-ops//.gitlab/renovate/grafanaDashboards.json5",
+        "local>homelab/home-ops//.gitlab/renovate/groups.json5",
+        "local>homelab/home-ops//.gitlab/renovate/labels.json5",
+        "local>homelab/home-ops//.gitlab/renovate/packageRules.json5",
+        "local>homelab/home-ops//.gitlab/renovate/semanticCommits.json5",
+        "security:openssf-scorecard",
+        "github>aquaproj/aqua-renovate-config#2.3.0"
+    ],
+    "enabled": true,
+    "prConcurrentLimit": 3,
+    "configWarningReuseIssue": true,
+    "configMigration": true,
+    "dependencyDashboard": true,
+    "dependencyDashboardTitle": "Renovate Dashboard",
+    "gitLabIgnoreApprovals": false,
+    "suppressNotifications": [
+        "prEditedNotification",
+        "prIgnoreNotification"
+    ],
+    "rebaseWhen": "behind-base-branch",
+    "assigneesFromCodeOwners": true,
+    "reviewersFromCodeOwners": true,
+    "ignorePaths": [
+        "**/*.sops.*",
+        "**/.archive/**",
+        "**/resources/**"
+    ],
+    "lockFileMaintenance": {
+        "enabled": true
+    },
+    "poetry": {
+        "enabled": true,
+        "rangeStrategy": "bump"
+    },
+    "flux": {
+        "fileMatch": [
+            "(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"
+        ]
+    },
+    "helm-values": {
+        "fileMatch": [
+            "(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"
+        ]
+    },
+    "kubernetes": {
+        "fileMatch": [
+            "(^|/)\\.taskfiles/.+\\.ya?ml(?:\\.j2)?$",
+            "(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"
+        ]
+    },
+    "ignoreDeps": [
+        "ghcr.io/fluxcd/helm-controller",
+        "ghcr.io/fluxcd/image-automation-controller",
+        "ghcr.io/fluxcd/image-reflector-controller",
+        "ghcr.io/fluxcd/kustomize-controller",
+        "ghcr.io/fluxcd/notification-controller",
+        "ghcr.io/fluxcd/source-controller"
+    ]
+}

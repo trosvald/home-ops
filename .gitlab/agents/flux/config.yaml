@@ -1,0 +1,23 @@
+---
+ci_access:
+  projects:
+    - id: homelab/home-ops
+
+user_access:
+  access_as:
+    agent: {}
+
+  projects:
+    - id: homelab/home-ops
+
+remote_development:
+  enabled: true
+  dns_zone: workspace.monosense.io
+  gitlab_workspaces_proxy:
+    namespace: gitlab-workspace
+
+container_scanning:
+  cadence: '0 13 * * *' # Daily at 13:00 (Kubernetes cluster time)
+
+# cilium:
+#   hubble_relay_address: hubble-relay.kube-system.svc.cluster.local:80

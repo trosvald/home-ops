@@ -1,0 +1,11 @@
+---
+exclude_paths:
+  - .ansible
+  - .idea
+  - .taskfiles/
+  - cluster/
+  - cluster-wip/
+  - Taskfile.yaml
+
+enable_list:
+  - yaml
