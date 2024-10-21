@@ -35,6 +35,7 @@ resources:
   - ./postfinance.yaml
   - ./prometheus-community.yaml
   - ./rook-ceph.yaml
+  - ./sonarqube.yaml
   - ./spegel.yaml
   - ./stakater.yaml
   - ./stevehipwell.yaml
