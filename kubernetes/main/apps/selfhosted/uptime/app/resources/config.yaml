@@ -22,16 +22,6 @@ alerting:
   telegram:
     id: $${TELEGRAM_CHANNEL_ID}
     token: $${TELEGRAM_TOKEN}
-  # pushover:
-  #   title: Uptime Monitor
-  #   application-token: $${PUSHOVER_TOKEN}
-  #   user-key: $${PUSHOVER_USER_KEY}
-  #   priority: 1
-  #   default-alert:
-  #     description: health-check failed
-  #     send-on-resolved: true
-  #     failure-threshold: 3
-  #     success-threshold: 3
 connectivity:
   checker:
     target: 1.1.1.1:53
@@ -39,7 +29,7 @@ connectivity:
 endpoints:
   - name: uptime
     group: monitoring
-    url: https://uptime.${CLUSTER_EXTERNAL_DOMAIN}
+    url: https://uptime.${CLUSTER_SECRET_PRD_DOMAIN}
     interval: 1m
     client:
       dns-resolver: tcp://1.1.1.1:53
@@ -54,6 +44,51 @@ endpoints:
   - name: simfoni
     group: apps
     url: https://simfoni.${CLUSTER_EXTERNAL_DOMAIN}
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 336h"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
+  - name: cloud
+    group: apps
+    url: https://cloud.${CLUSTER_EXTERNAL_DOMAIN}
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 336h"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
+  - name: simfoni-office
+    group: apps
+    url: https://onlyoffice-simfoni.${CLUSTER_EXTERNAL_DOMAIN}
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 200"
+      - "[CERTIFICATE_EXPIRATION] > 336h"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
+  - name: cloud-office
+    group: apps
+    url: https://onlyoffice-cloud.${CLUSTER_EXTERNAL_DOMAIN}
     interval: 1m
     client:
       dns-resolver: tcp://1.1.1.1:53
