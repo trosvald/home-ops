@@ -10,7 +10,7 @@ data:
     endpoints:
       - name: Renovate
         group: external
-        url: https://renovate.${CLUSTER_SECRET_PRD_DOMAIN/
+        url: https://renovate.${CLUSTER_SECRET_PRD_DOMAIN}/
         interval: 1m
         conditions:
           - "[STATUS] == 403"
