@@ -92,6 +92,11 @@ spec:
       databases: ["sonarr_main"]
       password:
         type: AlphaNumeric
+    ### DONT DELETE UPTIME
+    - name: "uptime"
+      databases: ["uptime"]
+      password:
+        type: AlphaNumeric
   backups:
     pgbackrest:
       configuration: &backupConfig
