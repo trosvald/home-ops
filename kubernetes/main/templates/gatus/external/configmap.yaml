@@ -13,7 +13,7 @@ data:
         url: "https://${GATUS_SUBDOMAIN:-${APP}}.monosense.io${GATUS_PATH:-/}"
         interval: 1m
         client:
-          dns-resolver: tcp://203.142.82.222:53
+          dns-resolver: tcp://1.1.1.1:53
         conditions:
           - "[STATUS] == ${GATUS_STATUS:-200}"
         alerts:
