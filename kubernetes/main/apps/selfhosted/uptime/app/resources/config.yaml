@@ -101,3 +101,122 @@ endpoints:
     ui:
       hide-url: true
       hide-hostname: true
+  - name: mx
+    group: messaging
+    url: tcp://${CLUSTER_MX_EXTERNAL_ADDR}:465
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[CONNECTED]"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
+  - name: active-sync
+    group: messaging
+    url: https://mail.${CLUSTER_EXTERNAL_DOMAIN}/microsoft-server-activesync/healthcheck.htm
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[BODY] == 200 OK"
+      - "[CERTIFICATE_EXPIRATION] > 336h"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
+  - name: autodiscover
+    group: messaging
+    url: https://mail.${CLUSTER_EXTERNAL_DOMAIN}/autodiscover/healthcheck.htm
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[BODY] == 200 OK"
+      - "[CERTIFICATE_EXPIRATION] > 336h"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
+  - name: ecp
+    group: messaging
+    url: https://mail.${CLUSTER_EXTERNAL_DOMAIN}/ecp/healthcheck.htm
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[BODY] == 200 OK"
+      - "[CERTIFICATE_EXPIRATION] > 336h"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
+  - name: ews
+    group: messaging
+    url: https://mail.${CLUSTER_EXTERNAL_DOMAIN}/ews/healthcheck.htm
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[BODY] == 200 OK"
+      - "[CERTIFICATE_EXPIRATION] > 336h"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
+  - name: mapi
+    group: messaging
+    url: https://mail.${CLUSTER_EXTERNAL_DOMAIN}/mapi/healthcheck.htm
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[BODY] == 200 OK"
+      - "[CERTIFICATE_EXPIRATION] > 336h"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
+  - name: owa
+    group: messaging
+    url: https://mail.${CLUSTER_EXTERNAL_DOMAIN}/owa/healthcheck.htm
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[BODY] == 200 OK"
+      - "[CERTIFICATE_EXPIRATION] > 336h"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
+  - name: rpc
+    group: messaging
+    url: https://mail.${CLUSTER_EXTERNAL_DOMAIN}/rpc/healthcheck.htm
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[BODY] == 200 OK"
+      - "[CERTIFICATE_EXPIRATION] > 336h"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
