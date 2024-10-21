@@ -44,30 +44,30 @@ spec:
   retryInterval: 1m
   timeout: 5m
 ---
-# # yaml-language-server: $schema=https://kube-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: &app crunchy-postgres-gitlab-cluster
-#   namespace: flux-system
-# spec:
-#   targetNamespace: database
-#   commonMetadata:
-#     labels:
-#       app.kubernetes.io/name: *app
-#   dependsOn:
-#     - name: crunchy-postgres-operator
-#     - name: external-secrets-stores
-#   path: ./kubernetes/main/apps/database/crunchy-pgo/cluster-gitlab
-#   prune: true
-#   sourceRef:
-#     kind: GitRepository
-#     name: prod-kubernetes
-#   wait: true
-#   interval: 30m
-#   retryInterval: 1m
-#   timeout: 5m
-# ---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app crunchy-postgres-gitlab-cluster
+  namespace: flux-system
+spec:
+  targetNamespace: database
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: crunchy-postgres-operator
+    - name: external-secrets-stores
+  path: ./kubernetes/main/apps/database/crunchy-pgo/cluster-gitlab
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: prod-kubernetes
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+---
 # yaml-language-server: $schema=https://kube-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
