@@ -10,11 +10,11 @@ user_access:
   projects:
     - id: homelab/home-ops
 
-remote_development:
-  enabled: true
-  dns_zone: workspace.monosense.io
-  gitlab_workspaces_proxy:
-    namespace: ci
+# remote_development:
+#   enabled: true
+#   dns_zone: workspace.monosense.io
+#   gitlab_workspaces_proxy:
+#     namespace: ci
 
 container_scanning:
   cadence: '0 13 * * *' # Daily at 13:00 (Kubernetes cluster time)
