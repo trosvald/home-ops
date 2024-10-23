@@ -256,6 +256,8 @@ spec:
           configureCertmanager: false
           annotations:
             external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
       gitlab-pages:
         ingress:
           enabled: true
