@@ -28,12 +28,12 @@
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
         paths:
-          - cluster/**/*
+          - kubernetes/**/*
         compare_to: $CI_DEFAULT_BRANCH
     - when: never
 
 flux-local-diff:
   extends: .flux-local-diff
   variables:
-    CLUSTER_PATH: cluster
+    CLUSTER_PATH: kubernetes
     COMMENT_MODE: recreate
