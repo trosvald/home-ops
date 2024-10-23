@@ -27,14 +27,14 @@ stages:
   # - sonarqube-report
   # - triggers
 
-trigger_devcontainer:
-  stage: triggers
-  trigger:
-    include: .gitlab/ci/devcontainer.yaml
-  rules:
-    - changes:
-        - .devcontainer/ci/*
-        - .gitlab/ci/devcontainer.json
-        - pyproject.toml
-        - poetry.lock
-      if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+# trigger_devcontainer:
+#   stage: triggers
+#   trigger:
+#     include: .gitlab/ci/devcontainer.yaml
+#   rules:
+#     - changes:
+#         - .devcontainer/ci/*
+#         - .gitlab/ci/devcontainer.json
+#         - pyproject.toml
+#         - poetry.lock
+#       if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
