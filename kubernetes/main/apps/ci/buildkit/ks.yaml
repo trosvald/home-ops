@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname buildkit
+  namespace: flux-system
+spec:
+  path: ./kubernetes/main/apps/ci/buildkit/app
+  targetNamespace: ci
+  sourceRef:
+    kind: GitRepository
+    name: prod-kubernetes
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  prune: true
+  wait: false
+  interval: 10m

@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "home-ops"
+version = "0.1.0"
+description = ""
+authors = ["mono-bot <infra@monosense.io>"]
+readme = "README.md"
+package-mode = false
+
+
+[tool.poetry.dependencies]
+python = "^3.13.0"
+pre-commit = "^4.0.1"
+
+prettier = "^0.0.7"
+yamllint = "^1.35.1"
+
+[tool.poetry.group.ansible.dependencies]
+ansible = "^10.5.0"
+ansible-inventory-grapher = "^2.6.0"
+
+jmespath = "^1.0.1"
+netaddr = "^1.3.0"
+
+[tool.poetry.group.ci.dependencies]
+flux-local = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

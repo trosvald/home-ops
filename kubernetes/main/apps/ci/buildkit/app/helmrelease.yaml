@@ -1,0 +1,70 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: buildkitd
+spec:
+  chart:
+    spec:
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      version: 3.5.1
+  interval: 10m
+  values:
+    controllers:
+      buildkitd:
+        containers:
+          app:
+            args:
+            - --root
+            - /cache
+            - --addr
+            - unix:///run/buildkit/buildkitd.sock
+            - --addr
+            - tcp://0.0.0.0:1234
+            - --tlscacert
+            - /certs/ca.pem
+            - --tlscert
+            - /certs/cert.pem
+            - --tlskey
+            - /certs/key.pem
+            image:
+              repository: ghcr.io/vaskozl/buildkit
+              tag: 0.16.0@sha256:bb8a5b528a5a3a403aa8e526205e5ad674ca13bc2bbbaa0511c8025835c80f69
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              limits:
+                cpu: 2
+                memory: 0.6Gi
+              requests:
+                cpu: 200m
+                ephemeral-storage: 30Gi
+                memory: 0.6Gi
+            securityContext:
+              privileged: true
+    defaultPodOptions:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+    persistence:
+      cache:
+        type: emptyDir
+      certs:
+        globalMounts:
+        - path: /certs
+        name: buildkit-daemon-certs
+        type: secret
+    service:
+      app:
+        controller: buildkitd
+        ports:
+          mtls:
+            enabled: true
+            port: 1234
