@@ -45,10 +45,10 @@ spec:
         class: &class external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
-          nginx.ingress.kubernetes.io/proxy-body-size: 5g
-          nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
-          nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-          nginx.ingress.kubernetes.io/service-upstream: "true"
+          # nginx.ingress.kubernetes.io/proxy-body-size: 5g
+          # nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+          # nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+          # nginx.ingress.kubernetes.io/service-upstream: "true"
         tls:
           enabled: false
       monitoring:
