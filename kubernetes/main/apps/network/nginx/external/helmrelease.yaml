@@ -74,6 +74,12 @@ spec:
         ssl-protocols: TLSv1.3 TLSv1.2
         use-geoip2: true
         use-forwarded-headers: "true"
+      # TEST ADD CONFIG FOR WSS
+      addHeaders:
+        Connection: "upgrade"
+      proxySetHeaders:
+        Upgrade: "$http_upgrade"
+        Connection: "$connection_upgrade"
       metrics:
         enabled: true
         serviceMonitor:
