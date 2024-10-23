@@ -250,6 +250,12 @@ spec:
         maxReplicas: 2
         maxUnavailable: 1
         minReplicas: 1
+        ingress:
+          enabled: true
+          class: external
+          configureCertmanager: false
+          annotations:
+            external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
       gitlab-pages:
         ingress:
           enabled: true
