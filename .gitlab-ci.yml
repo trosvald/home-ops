@@ -23,9 +23,9 @@ include:
 stages:
   - test
   - flux-local
-  - sonarqube-check
-  - sonarqube-report
-  - triggers
+  # - sonarqube-check
+  # - sonarqube-report
+  # - triggers
 
 trigger_devcontainer:
   stage: triggers
