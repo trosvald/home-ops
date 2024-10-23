@@ -189,6 +189,11 @@ spec:
     ## https://docs.gitlab.com/charts/charts/gitlab/kas/
     kas:
       enabled: true
+      customConfig:
+        observability:
+          logging:
+            level: debug
+            grpc_level: debug
     ## https://docs.gitlab.com/charts/charts/registry/
     registry:
       enabled: true
