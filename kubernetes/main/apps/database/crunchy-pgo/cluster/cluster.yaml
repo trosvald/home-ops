@@ -141,14 +141,14 @@ spec:
             full: "30 1 * * 0" # Sunday at 01:30
             differential: "30 1 * * 1-6" # Mon-Sat at 01:30
             incremental: "30 3-23 * * *" # Every hour except 01:30-2:30
-        - name: repo2
-          s3: &r2
-            bucket: crunchy-pgo
-            endpoint: ${CLUSTER_SECRET_CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com
-            region: us-east-1 #https://developers.cloudflare.com/r2/api/s3/api/#bucket-region
-          schedules:
-            full: "30 2 * * 0" # Sunday at 02:30
-            incremental: "30 2 * * 1-6/2" # Mon-Sat at 02:30, every 2nd day
+        # - name: repo2
+        #   s3: &r2
+        #     bucket: crunchy-pgo
+        #     endpoint: ${CLUSTER_SECRET_CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com
+        #     region: us-east-1 #https://developers.cloudflare.com/r2/api/s3/api/#bucket-region
+        #   schedules:
+        #     full: "30 2 * * 0" # Sunday at 02:30
+        #     incremental: "30 2 * * 1-6/2" # Mon-Sat at 02:30, every 2nd day
   # dataSource:
   #   pgbackrest:
   #     stanza: db
