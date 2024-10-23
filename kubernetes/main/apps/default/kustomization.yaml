@@ -9,12 +9,12 @@ resources:
   # - ./atuin/ks.yaml
   - ./filebrowser/ks.yaml
   # - ./go2rtc/ks.yaml
-  - ./overseerr/ks.yaml
-  - ./pgadmin/ks.yaml
-  - ./plex/ks.yaml
-  - ./prowlarr/ks.yaml
-  - ./qbittorrent/ks.yaml
-  - ./radarr/ks.yaml
+  # - ./overseerr/ks.yaml
+  # - ./pgadmin/ks.yaml
+  # - ./plex/ks.yaml
+  # - ./prowlarr/ks.yaml
+  # - ./qbittorrent/ks.yaml
+  # - ./radarr/ks.yaml
   - ./smtp-relay/ks.yaml
-  - ./sonarr/ks.yaml
-  - ./tautulli/ks.yaml
+  # - ./sonarr/ks.yaml
+  # - ./tautulli/ks.yaml
