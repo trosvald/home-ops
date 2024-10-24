@@ -40,15 +40,13 @@ spec:
         domain: ${CLUSTER_SECRET_PRD_DOMAIN}
         pages:
           name: ${CLUSTER_SECRET_DEV_DOMAIN}
+        kas:
+          name: kas.${CLUSTER_SECRET_PRD_DOMAIN}
       ingress:
         configureCertmanager: false
         class: &class external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
-          # nginx.ingress.kubernetes.io/proxy-body-size: 5g
-          # nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
-          # nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-          # nginx.ingress.kubernetes.io/service-upstream: "true"
         tls:
           enabled: false
       monitoring:
@@ -259,6 +257,14 @@ spec:
         maxReplicas: 2
         maxUnavailable: 1
         minReplicas: 1
+        ingress:
+          enabled: true
+          class: external
+          configureCertmanager: false
+          annotations:
+            external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
       gitlab-pages:
         ingress:
           enabled: true
