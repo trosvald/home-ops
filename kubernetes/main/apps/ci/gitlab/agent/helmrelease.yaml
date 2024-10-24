@@ -29,7 +29,7 @@ spec:
 
   values:
     config:
-      kasAddress: wss://gitlab.${CLUSTER_SECRET_PRD_DOMAIN}/-/kubernetes-agent/
+      kasAddress: wss://kas.${CLUSTER_SECRET_PRD_DOMAIN}/-/kubernetes-agent/
       secretName: gitlab-agent-secret
 
     serviceMonitor:
