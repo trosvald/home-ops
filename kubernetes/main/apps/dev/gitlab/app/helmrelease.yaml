@@ -31,7 +31,7 @@ spec:
   # https://gitlab.com/gitlab-org/charts/gitlab/-/blob/master/values.yaml
   values:
     global:
-      edition: ee
+      edition: ce
       time_zone: ${TIMEZONE}
       extraEnv:
         GITLAB_LOG_LEVEL: 'info'
