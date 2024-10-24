@@ -65,10 +65,10 @@ spec:
       databases: ["atuin"]
       password:
         type: AlphaNumeric
-    # - name: "renovate"
-    #   databases: ["renovate"]
-    #   password:
-    #     type: AlphaNumeric
+    - name: "renovate"
+      databases: ["renovate"]
+      password:
+        type: AlphaNumeric
     - name: "authentik"
       databases: ["authentik"]
       password:
