@@ -10,7 +10,7 @@ data:
     endpoints:
       - name: Database
         group: infrastructure
-        url: tcp://postgres-pgbouncer.database.svc.cluster.local:5432
+        url: tcp://postgres-main-pgbouncer.database.svc.cluster.local:5432
         interval: 1m
         conditions: ["[CONNECTED] == true"]
         alerts:

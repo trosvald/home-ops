@@ -8,4 +8,4 @@ resources:
   # Flux-Kustomizations
   - ./gitlab/ks.yaml
   - ./gitlab-redis/ks.yaml
-  # - ./renovate/ks.yaml
+  - ./renovate/ks.yaml
