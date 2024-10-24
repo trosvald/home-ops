@@ -55,14 +55,14 @@ spec:
       password:
         type: AlphaNumeric
     # Applications
-    # - name: "gitlab"
-    #   databases: ["gitlab"]
-    #   password:
-    #     type: AlphaNumeric
-    # - name: "gitlab-ci"
-    #   databases: ["gitlab-ci"]
-    #   password:
-    #     type: AlphaNumeric
+    - name: "gitlab"
+      databases: ["gitlab"]
+      password:
+        type: AlphaNumeric
+    - name: "gitlab-ci"
+      databases: ["gitlab-ci"]
+      password:
+        type: AlphaNumeric
   backups:
     pgbackrest:
       configuration: &backupConfig
