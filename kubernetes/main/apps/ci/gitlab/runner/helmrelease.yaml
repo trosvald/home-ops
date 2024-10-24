@@ -89,7 +89,7 @@ spec:
 
       config: |
         [[runners]]
-          name="n5o_LaX1"
+          name="prod-kubernetes"
           environment = ["FF_GITLAB_REGISTRY_HELPER_IMAGE=true"]
           builds_dir = "/builds"
 
@@ -108,14 +108,6 @@ spec:
           [runners.kubernetes]
             namespace = "{{.Release.Namespace}}"
             image = "ubuntu:22.04"
-
-            [runners.kubernetes.affinity]
-              [runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution]
-                [[runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms]]
-                  [[runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms.match_expressions]]
-                    key = "node-role.kubernetes.io/control-plane"
-                    operator = "DoesNotExist"
-
 
             [[runners.kubernetes.pod_spec]]
               name = "ephemeral-builds"
@@ -141,11 +133,3 @@ spec:
                           requests:
                             storage: 20Gi
               '''
-
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: DoesNotExist
