@@ -7,4 +7,4 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./buildkit/ks.yaml
-  # - ./gitlab/ks.yaml
+  - ./gitlab/ks.yaml
