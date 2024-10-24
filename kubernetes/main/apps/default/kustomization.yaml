@@ -10,7 +10,7 @@ resources:
   - ./filebrowser/ks.yaml
   # - ./go2rtc/ks.yaml
   # - ./overseerr/ks.yaml
-  # - ./pgadmin/ks.yaml
+  - ./pgadmin/ks.yaml
   # - ./plex/ks.yaml
   # - ./prowlarr/ks.yaml
   # - ./qbittorrent/ks.yaml
