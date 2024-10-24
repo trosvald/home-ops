@@ -145,8 +145,8 @@ spec:
         ## https://docs.gitlab.com/charts/charts/globals#kas-settings
         gitlab_kas:
           enabled: true
-          secret: *secret
-          key: GITLAB_KAS_SHARED_SECRET
+          # secret: *secret
+          # key: GITLAB_KAS_SHARED_SECRET
 
       ## End of global.appConfig
       ## https://docs.gitlab.com/charts/charts/globals#configure-registry-settings
