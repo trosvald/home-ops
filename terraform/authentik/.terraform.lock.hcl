@@ -28,20 +28,7 @@ provider "registry.opentofu.org/goauthentik/authentik" {
   version     = "2024.8.4"
   constraints = "2024.8.4"
   hashes = [
-    "h1:8Xv5wta3hIIkK42Io8K0SyPYoWOpaFpPY9QapGddpjI=",
-    "h1:D7ubAOqNdetqacJgTRjLbbrcOxooXCO0Lyp62OvI8yo=",
-    "h1:ESLExFZhUZ7waYS/R0bYT+QSIQMlGzu/38j0rS3Lp5c=",
-    "h1:M/wlTfeq/7P2O+SCIMQZGNX79H8rKZC64SoB6BjqjOg=",
-    "h1:Ov4eV/U1qYkr1nPLEZGH2W+ehL/VoS3PO6nRcgnZ18U=",
-    "h1:QdMNGXTpTnw+dB2l1h3iCmz2kaxr/5yOqc02ixxsQWg=",
-    "h1:SyTR+nvSWpqhwqyUHDGxrRnKp5KXQwJLUZgPxkHad4c=",
-    "h1:U3sDctMTEHA2HFpzYhfFyDycKoB4Rk7n9RQZ1RdS+UU=",
-    "h1:V949CiGQmZxaAbnJxPzom3ie//dTUuxO3B+tMq3CIB8=",
-    "h1:VnjNTGyEtKuhE+nZupVIfXZ6XgqQRLF3vyu7WW8ynrM=",
-    "h1:Wj3W1TDkn/FcDFQiT5g+GbOUSjUSmGdXfGrJNdWfen8=",
     "h1:bZS9RwjEc1FlLFMidiCzyUrFTC7VONufHBDgGjAtSWs=",
-    "h1:deAiR6R2FBDLmBAFL0D/UG7Uu3MgiI5RL2Zen0PecAA=",
-    "h1:fY36N5ASC+z8LqowzgasNz0xJSWbdjJGeHdPPf6yMlo=",
     "zh:13040879209e226ba73dd3492849301f5d6233098decf4789dde4e75a7db00a3",
     "zh:21e5b1403749e4577c85efe1e1ffbc7f70f910c9b025a66ee36d6d9e7a26834d",
     "zh:3290e95ff74aa269031df2d9604526c977826d76c4c1c03b61c61d4767775f44",
