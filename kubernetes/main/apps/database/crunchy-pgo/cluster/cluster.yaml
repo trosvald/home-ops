@@ -3,7 +3,7 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: &name postgres
+  name: &name postgres-main
 spec:
   postgresVersion: 16
   metadata:
@@ -28,24 +28,25 @@ spec:
         parameters:
           max_connections: 500
   instances:
-    - name: postgres
+    - name: *name
       metadata:
         labels:
-          app.kubernetes.io/name: crunchy-postgres
-      replicas: &replicas 6
+          app.kubernetes.io/name: crunchy-postgres-main
+      replicas: &replicas 3
       dataVolumeClaimSpec:
         storageClassName: ceph-block
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 60Gi
+            storage: 40Gi
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: "kubernetes.io/hostname"
           whenUnsatisfiable: "DoNotSchedule"
           labelSelector:
             matchLabels:
-              postgres-operator.crunchydata.com/data: postgres
+              postgres-operator.crunchydata.com/cluster: *name
+              postgres-operator.crunchydata.com/data: *name
   users:
     # Superuser
     - name: "postgres"
@@ -113,14 +114,14 @@ spec:
         # Minio
         repo1-block: "y"
         repo1-bundle: "y"
-        repo1-path: /crunchy-pgo
+        repo1-path: /main-pgo
         repo1-retention-full: "30" # days
         repo1-retention-full-type: "time"
         repo1-s3-uri-style: path
         # R2
         repo2-block: "y"
         repo2-bundle: "y"
-        repo2-path: /crunchy-pgo
+        repo2-path: /main-pgo
         repo2-retention-full: "7" # days
         repo2-retention-full-type: time
         repo2-s3-uri-style: path
@@ -149,14 +150,15 @@ spec:
           schedules:
             full: "30 2 * * 0" # Sunday at 02:30
             incremental: "30 2 * * 1-6/2" # Mon-Sat at 02:30, every 2nd day
-  dataSource:
-    pgbackrest:
-      stanza: db
-      configuration: *backupConfig
-      global: *backupFlag
-      repo:
-        name: repo1
-        s3: *minio
+  ## ENABLE TO RESTORE
+  # dataSource:
+  #   pgbackrest:
+  #     stanza: db
+  #     configuration: *backupConfig
+  #     global: *backupFlag
+  #     repo:
+  #       name: repo1
+  #       s3: *minio
   proxy:
     pgBouncer:
       service:
@@ -182,4 +184,4 @@ spec:
           labelSelector:
             matchLabels:
               postgres-operator.crunchydata.com/cluster: *name
-              postgres-operator.crunchydata.com/role: pgbouncer
+              postgres-operator.crunchydata.com/role: pgbouncer-main
