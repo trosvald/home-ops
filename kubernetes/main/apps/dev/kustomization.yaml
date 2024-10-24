@@ -7,5 +7,5 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   # - ./gitlab/ks.yaml
-  # - ./gitlab-redis/ks.yaml
+  - ./gitlab-redis/ks.yaml
   # - ./renovate/ks.yaml
