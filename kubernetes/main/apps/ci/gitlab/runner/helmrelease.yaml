@@ -89,7 +89,7 @@ spec:
 
       config: |
         [[runners]]
-          name="X8Dr9i-qb"
+          name="n5o_LaX1"
           environment = ["FF_GITLAB_REGISTRY_HELPER_IMAGE=true"]
           builds_dir = "/builds"
 
