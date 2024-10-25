@@ -98,7 +98,7 @@ spec:
       type: Recreate
     # debug, info, warning, error or fatal
     logLevel: warning
-    existingSecretSecretKey: "harbor-secrets"
+    existingSecretSecretKey: &secret harbor-secrets
 
     portal:
       image:
@@ -111,7 +111,7 @@ spec:
         tag: v2.11.0
       revisionHistoryLimit: 3
       podAnnotations:
-        secret.reloader.stakater.com/reload: "harbor-secrets"
+        secret.reloader.stakater.com/reload: *secret
     jobservice:
       image:
         repository: ghcr.io/octohelm/harbor/harbor-jobservice
