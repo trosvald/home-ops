@@ -24,6 +24,7 @@ resources:
   - ./gitlab-workspace.yaml
   - ./gitlab.yaml
   - ./grafana.yaml
+  - ./harbor.yaml
   - ./ingress-nginx.yaml
   - ./intel.yaml
   - ./jetstack.yaml
