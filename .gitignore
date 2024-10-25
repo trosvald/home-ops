@@ -3,6 +3,8 @@ Thumbs.db
 .private/
 .venv/
 .task/
+docs/.docusaurus
+docs/node_modules/
 .terraform
 *.tfvars
 .decrypted~*

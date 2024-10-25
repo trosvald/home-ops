@@ -1,0 +1,38 @@
+@import url('https://use.typekit.net/baz1roy.css');
+
+@import '~@eightshift/ui-components/dist/assets/fonts.css';
+@import '~@eightshift/ui-components/dist/assets/style.css';
+
+.esd-full-fixed {
+	position: fixed;
+	inset: 0;
+}
+
+.esd-hide-bg-on-hover.es-uic-bg-violet-50:hover,
+.esd-hide-bg-on-hover:hover .es-uic-bg-violet-50,
+.esd-hide-bg-on-hover.es-uic-bg-gray-50:hover,
+.esd-hide-bg-on-hover:hover .es-uic-bg-gray-50 {
+	--tw-bg-opacity: 0 !important;
+}
+
+.esd-white-space-pre {
+	white-space: break-spaces;
+}
+
+.esd-icon-showcase-button {
+	width: 3.25rem !important;
+	height: 3.25rem !important;
+
+}
+
+.esd-icon-showcase-button svg {
+	width: 1.5rem !important;
+	height: 1.5rem !important;
+}
+
+.esd-legacy-docs-iframe {
+	min-width: 64vw;
+
+	border: 1px solid #D1D5DB !important;
+	border-radius: 0.5rem !important;
+}
