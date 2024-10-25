@@ -98,7 +98,7 @@ spec:
       type: Recreate
     # debug, info, warning, error or fatal
     logLevel: warning
-    existingSecretSecretKey: &secret harbor-secrets
+    existingSecretSecretKey: &secret harbor-secret
 
     portal:
       image:
