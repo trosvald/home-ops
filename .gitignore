@@ -24,4 +24,5 @@ disk.yaml
 wipe-data.yaml
 00-wipe-data.yaml
 01-wipe-disk.yaml
+wipe-data.yaml
 .work/
