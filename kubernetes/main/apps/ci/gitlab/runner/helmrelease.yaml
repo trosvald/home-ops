@@ -127,7 +127,7 @@ spec:
                   ephemeral:
                     volumeClaimTemplate:
                       spec:
-                        storageClassName: ceph-block
+                        storageClassName: zol-iscsi
                         accessModes: [ ReadWriteOnce ]
                         resources:
                           requests:
