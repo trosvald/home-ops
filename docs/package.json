@@ -61,6 +61,6 @@
 		"raw-loader": "^4.0.2"
 	},
 	"overrides": {
-		"jiti": "1.21.6"
+		"jiti": "2.3.3"
 	}
 }
