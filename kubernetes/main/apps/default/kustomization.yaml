@@ -12,9 +12,9 @@ resources:
   # - ./overseerr/ks.yaml
   - ./pgadmin/ks.yaml
   # - ./plex/ks.yaml
-  # - ./prowlarr/ks.yaml
-  # - ./qbittorrent/ks.yaml
-  # - ./radarr/ks.yaml
+  - ./prowlarr/ks.yaml
+  - ./qbittorrent/ks.yaml
+  - ./radarr/ks.yaml
   - ./smtp-relay/ks.yaml
-  # - ./sonarr/ks.yaml
+  - ./sonarr/ks.yaml
   # - ./tautulli/ks.yaml
