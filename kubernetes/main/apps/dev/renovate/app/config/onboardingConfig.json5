@@ -14,7 +14,7 @@
     "configMigration": true,
 
     "dependencyDashboard": true,
-    "dependencyDashboardTitle": "Renovate Dashboard",
+    "dependencyDashboardTitle": "Renovate Dashboard 🤖",
 
     "rebaseWhen": "behind-base-branch"
 }
