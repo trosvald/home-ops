@@ -9,11 +9,7 @@
                 "docker"
             ],
             "registryUrls": [
-                "https://registry.monosense.dev/docker.io",
-                "https://registry.monosense.dev/ghcr.io",
-                "https://registry.monosense.dev/gitlab.com",
-                "https://registry.monosense.dev/registry.k8s.io",
-                "https://registry.monosense.dev/quay.io"
+                "https://registry.monosense.dev/ghcr.io"
             ],
             "versioning": "loose",
             "matchPackagePatterns": [
@@ -29,11 +25,7 @@
                 "docker"
             ],
             "registryUrls": [
-                "https://registry.monosense.dev/docker.io",
-                "https://registry.monosense.dev/ghcr.io",
-                "https://registry.monosense.dev/gitlab.com",
-                "https://registry.monosense.dev/registry.k8s.io",
-                "https://registry.monosense.dev/quay.io"
+                "https://registry.monosense.dev/docker.io"
             ],
             "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(-(?<compatibility>beta)(?<build>\\d+))?$",
             "matchPackagePatterns": [
@@ -60,11 +52,7 @@
                 "docker"
             ],
             "registryUrls": [
-                "https://registry.monosense.dev/docker.io",
-                "https://registry.monosense.dev/ghcr.io",
-                "https://registry.monosense.dev/gitlab.com",
-                "https://registry.monosense.dev/registry.k8s.io",
-                "https://registry.monosense.dev/quay.io"
+                "https://registry.monosense.dev/docker.io"
             ],
             "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<compatibility>)$",
             "matchPackagePatterns": [
@@ -79,10 +67,6 @@
                 "docker"
             ],
             "registryUrls": [
-                "https://registry.monosense.dev/docker.io",
-                "https://registry.monosense.dev/ghcr.io",
-                "https://registry.monosense.dev/gitlab.com",
-                "https://registry.monosense.dev/registry.k8s.io",
                 "https://registry.monosense.dev/quay.io"
             ],
             "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
