@@ -33,8 +33,8 @@ spec:
               - --tlskey
               - /certs/key.pem
             image:
-              repository: registry.monosense.dev/ghcr.io/vaskozl/buildkit
-              tag: 0.16.0@sha256:bb8a5b528a5a3a403aa8e526205e5ad674ca13bc2bbbaa0511c8025835c80f69
+              repository: registry.monosense.dev/docker.io/moby/buildkit
+              tag: v0.16.0@sha256:bc1fe18224dbcb92599139db0c745696c48ba9fd4ac24038d1fa81fdd7dcac27
             probes:
               liveness:
                 enabled: true
