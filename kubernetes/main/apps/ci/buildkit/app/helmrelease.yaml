@@ -34,7 +34,7 @@ spec:
               - /certs/key.pem
             image:
               repository: registry.monosense.dev/docker.io/moby/buildkit
-              tag: v0.16.0@sha256:bc1fe18224dbcb92599139db0c745696c48ba9fd4ac24038d1fa81fdd7dcac27
+              tag: master@sha256:a9774d7709f7f8d17c1fb70f386c2413f1cf467fb95319d645d339a00cfe4a26
             probes:
               liveness:
                 enabled: true
@@ -43,11 +43,11 @@ spec:
             resources:
               limits:
                 cpu: 2
-                memory: 0.6Gi
+                memory: 2Gi
               requests:
                 cpu: 200m
                 ephemeral-storage: 30Gi
-                memory: 0.6Gi
+                memory: 500Mi
             securityContext:
               privileged: true
     defaultPodOptions:
