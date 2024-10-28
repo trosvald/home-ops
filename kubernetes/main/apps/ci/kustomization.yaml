@@ -6,5 +6,5 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./buildkit/ks.yaml
+  # - ./buildkit/ks.yaml
   - ./gitlab/ks.yaml
