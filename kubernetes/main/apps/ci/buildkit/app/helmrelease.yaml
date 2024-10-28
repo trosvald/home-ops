@@ -52,7 +52,7 @@ spec:
             securityContext:
               # needs kubernetes >= 1.19
               seccompProfile:
-                type: unconfined
+                type: Unconfined
               runAsUser: 1000
               runAsGroup: 1000
     defaultPodOptions:
