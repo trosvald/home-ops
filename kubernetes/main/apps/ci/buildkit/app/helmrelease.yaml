@@ -17,8 +17,6 @@ spec:
   values:
     controllers:
       buildkitd:
-        annotations:
-          container.apparmor.security.beta.kubernetes.io/buildkitd: unconfined
         containers:
           app:
             args:
