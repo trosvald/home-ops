@@ -49,6 +49,11 @@ spec:
               - { name: POSTGRES_DB, value: "authentik,gatus,grafana,harbor,radarr,renovate,sonarr,uptime,prowlarr" }
               # - { name: POSTGRES_HOST, value: "postgres-ro.dbms.svc.cluster.local" }
               # - { name: POSTGRES_PORT, value: 5432 }
+              - name: POSTGRES_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: crunchy-main-backup-secret
+                    key: POSTGRES_HOST
               - name: POSTGRES_USER
                 valueFrom:
                   secretKeyRef:
