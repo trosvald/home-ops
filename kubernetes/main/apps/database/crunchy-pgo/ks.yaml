@@ -113,28 +113,28 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
-# ---
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: &app crunchy-backup
-#   namespace: flux-system
-# spec:
-#   targetNamespace: database
-#   commonMetadata:
-#     labels:
-#       app.kubernetes.io/name: *app
-#   path: ./kubernetes/main/apps/database/crunchy-pgo/backup
-#   prune: true
-#   sourceRef:
-#     kind: GitRepository
-#     name: prod-kubernetes
-#   wait: true
-#   interval: 30m
-#   retryInterval: 1m
-#   timeout: 5m
-#   dependsOn:
-#     - name: crunchy-postgres-operator
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app crunchy-main-backup
+  namespace: flux-system
+spec:
+  targetNamespace: database
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/main/apps/database/crunchy-pgo/backup
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: prod-kubernetes
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  dependsOn:
+    - name: crunchy-postgres-operator
 # ---
 # apiVersion: kustomize.toolkit.fluxcd.io/v1
 # kind: Kustomization
