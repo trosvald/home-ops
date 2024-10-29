@@ -46,7 +46,7 @@ spec:
               - /backup.sh
             env:
               - { name: TZ, value: "${TIMEZONE:=Asia/Jakarta}" }
-              - { name: POSTGRES_DB, value: "authentik,gatus,grafana,harbor,renovate,sonarr,uptime,prowlarr" }
+              - { name: POSTGRES_DB, value: "authentik,gatus,grafana,harbor,renovate,sonarr,uptime,prowlarr_main,sonarr_main,radarr_main" }
               # - { name: POSTGRES_HOST, value: "postgres-ro.dbms.svc.cluster.local" }
               # - { name: POSTGRES_PORT, value: 5432 }
               - name: POSTGRES_HOST
