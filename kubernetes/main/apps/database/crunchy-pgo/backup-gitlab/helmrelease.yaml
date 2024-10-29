@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app crunchy-gitlab-backup
+  name: crunchy-gitlab-backup
 spec:
   interval: 30m
   chart:
@@ -14,7 +14,6 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
-  maxHistory: 2
   install:
     remediation:
       retries: 3
@@ -25,53 +24,47 @@ spec:
       retries: 3
   values:
     controllers:
-      crunchy-backup:
+      postgres-backup:
         type: cronjob
         cronjob:
-          schedule: "@daily"
           concurrencyPolicy: Forbid
-          successfulJobsHistory: 1
-          failedJobsHistory: 1
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/drag0n141/postgres-init
-              tag: 16
-            command: /scripts/list_dbs.sh
-            env:
-              EXCLUDE_DBS: postgres template0 template1
-            envFrom: &envFrom
-              - secretRef:
-                  name: crunchy-gitlab-backup-secret
+          schedule: "30 5 * * *"
+        pod:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
         containers:
           app:
             image:
-              repository: docker.io/prodrigestivill/postgres-backup-local
+              repository: registry.monosense.dev/docker.io/prodrigestivill/postgres-backup-local
               tag: 17@sha256:8d74e85ac86825950bd9fa0f84ea8f5db55ba94c3dd238e9045e2d9a922bcfcc
-            command: ["/bin/bash", "/backup.sh"]
+            command:
+              - /bin/bash
+              - -x
+              - /backup.sh
             env:
-              TZ: ${TIMEZONE}
-              POSTGRES_DB_FILE: /config/db_list
-              POSTGRES_EXTRA_OPTS: "--blobs --clean --create --compress=9"
-              BACKUP_DIR: /backups/database/postgresql-gitlab
-              BACKUP_KEEP_DAYS: "7"
-              BACKUP_KEEP_WEEKS: "4"
-              BACKUP_KEEP_MONTHS: "6"
-              BACKUP_LATEST_TYPE: none
-            envFrom: *envFrom
+              - { name: TZ, value: "${TIMEZONE:=Asia/Jakarta}" }
+              - { name: POSTGRES_DB, value: "gitlab,gitlab-ci" }
+              # - { name: POSTGRES_HOST, value: "postgres-ro.dbms.svc.cluster.local" }
+              # - { name: POSTGRES_PORT, value: 5432 }
+              - name: POSTGRES_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: crunchy-gitlab-backup-secret
+                    key: POSTGRES_HOST
+              - name: POSTGRES_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: crunchy-gitlab-backup-secret
+                    key: POSTGRES_USER
+              - name: POSTGRES_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: crunchy-gitlab-backup-secret
+                    key: POSTGRES_PASSWORD
     persistence:
-      config:
-        type: emptyDir
-        globalMounts:
-          - path: /config
-      script:
-        type: configMap
-        name: crunchy-gitlab-backup-scripts
-        defaultMode: 0775
-        globalMounts:
-          - path: /scripts/list_dbs.sh
-            subPath: list_dbs.sh
-            readOnly: true
       nas:
         type: nfs
         server: ${NET_STORAGE_SERVER}

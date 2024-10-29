@@ -4,11 +4,3 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-configMapGenerator:
-  - name: crunchy-gitlab-backup-scripts
-    files:
-      - list_dbs.sh=./resources/list_dbs.sh
-generatorOptions:
-  disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
