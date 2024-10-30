@@ -38,7 +38,7 @@ spec:
         containers:
           app:
             image:
-              repository: registry.monosense.dev/docker.io/prodrigestivill/postgres-backup-local
+              repository: docker.io/prodrigestivill/postgres-backup-local
               tag: 17@sha256:8d74e85ac86825950bd9fa0f84ea8f5db55ba94c3dd238e9045e2d9a922bcfcc
             command:
               - /bin/bash
@@ -70,4 +70,5 @@ spec:
         server: ${NET_STORAGE_SERVER}
         path: /pool0/backup/postgres
         globalMounts:
-          - path: /backups
+          - path: /main/backups
+            subPath: backups
