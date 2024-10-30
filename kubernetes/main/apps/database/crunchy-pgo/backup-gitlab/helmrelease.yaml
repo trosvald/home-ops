@@ -70,5 +70,5 @@ spec:
         server: ${NET_STORAGE_SERVER}
         path: /pool0/backup/postgres
         globalMounts:
-          - path: /gitlab/backups
-            subPath: backups
+          - path: /backups
+            subPath: gitlab/backups
