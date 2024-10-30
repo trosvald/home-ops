@@ -25,3 +25,4 @@ spec:
     substitute:
       APP: *appname
       GATUS_SUBDOMAIN: gitlab
+      GATUS_PATH: /-/health
