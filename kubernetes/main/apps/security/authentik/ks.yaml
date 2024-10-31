@@ -25,3 +25,4 @@ spec:
     substitute:
       APP: *appname
       GATUS_SUBDOMAIN: sso
+      GATUS_PATH: /-/health/ready/
