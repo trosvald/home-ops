@@ -6,7 +6,7 @@ metadata:
   name: &appname synapse
   namespace: flux-system
 spec:
-  path: ./kubernetes/main/apps/comms/matrix-synapse/app
+  path: ./kubernetes/main/apps/comms/synapse/app
   targetNamespace: comms
   sourceRef:
     kind: GitRepository
