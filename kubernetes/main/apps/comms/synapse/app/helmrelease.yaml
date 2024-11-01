@@ -126,8 +126,8 @@ spec:
           idp_name: SSO
           discover: true
           issuer: "https://sso.${CLUSTER_SECRET_PRD_DOMAIN}/application/o/synapse/"
-          #client_id:
-          #client_secret:
+          client_id: ${SYNAPSE_OIDC_CLIENT_ID}
+          client_secret: ${SYNAPSE_OIDC_CLIENT_SECRET}
           scopes:
             - "openid"
             - "profile"
@@ -207,12 +207,3 @@ spec:
       name: *secret
       targetPath: externalPostgresql.database
       valuesKey: PG_DB_NAME
-    # OIDC Test
-    - kind: Secret
-      name: *secret
-      targetPath: extraConfig.oidc_providers.client_id
-      valuesKey: SYNAPSE_OIDC_CLIENT_ID
-    - kind: Secret
-      name: *secret
-      targetPath: extraConfig.oidc_providers.client_secret
-      valuesKey: SYNAPSE_OIDC_CLIENT_SECRET
