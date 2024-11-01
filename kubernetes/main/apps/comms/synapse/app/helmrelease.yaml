@@ -32,6 +32,8 @@ spec:
         tag: 1.4.76
 
     workers:
+      annotations:
+        secret.reloader.stakater.com/reload: &secret synapse-secret
       default:
         resources:
           limits:
