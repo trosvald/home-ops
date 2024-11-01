@@ -157,7 +157,7 @@ spec:
     externalPostgresql:
       port: 5432
       existingSecret: *secret
-      existingSecretPasswordKey: PG_DB_PASSWORD
+      existingSecretPasswordKey: PG_PASSWORD
 
     # Will not want to work w/o pass
     #externalRedis:
@@ -198,12 +198,12 @@ spec:
     - kind: Secret
       name: *secret
       targetPath: externalPostgresql.host
-      valuesKey: PG_DB_HOST
+      valuesKey: PG_HOST
     - kind: Secret
       name: *secret
       targetPath: externalPostgresql.username
-      valuesKey: PG_DB_USER
+      valuesKey: PG_USER
     - kind: Secret
       name: *secret
       targetPath: externalPostgresql.database
-      valuesKey: PG_DB_NAME
+      valuesKey: PG_NAME
