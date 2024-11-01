@@ -128,12 +128,27 @@ module "oauth2-gitlab" {
   redirect_uris      = ["https://gitlab.${module.secret_authentik.fields["authentik_cluster_domain"]}/users/auth/openid_connect/callback"]
 }
 
+module "oauth2-synapse" {
+  source             = "./oauth2_application"
+  name               = "Synapse"
+  icon_url           = "https://cdn.monosense.io/branding/element250.png"
+  launch_url         = "https://matrix.${module.secret_authentik.fields["authentik_cluster_domain"]}"
+  description        = "Messaging"
+  newtab             = true
+  group              = "Selfhosted"
+  auth_groups        = [authentik_group.users.id]
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  client_id          = module.secret_synapse.fields["synapse_oidc_client_id"]
+  client_secret      = module.secret_synapse.fields["synapse_oidc_client_secret"]
+  redirect_uris      = ["https://matrix.${module.secret_authentik.fields["authentik_cluster_domain"]}/_synapse/client/oidc/callback"]
+}
+
 module "oauth2-grafana" {
   source             = "./oauth2_application"
   name               = "Grafana"
   icon_url           = "https://raw.githubusercontent.com/grafana/grafana/main/public/img/icons/mono/grafana.svg"
   launch_url         = "https://grafana.${module.secret_authentik.fields["authentik_cluster_domain"]}"
-  description        = "Infrastructure graphs"
+  description        = "Infrastructure monitoring"
   newtab             = true
   group              = "Infrastructure"
   auth_groups        = [authentik_group.infrastructure.id]
