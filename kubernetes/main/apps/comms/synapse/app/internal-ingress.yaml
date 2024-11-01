@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    cert-manager.io/cluster-issuer: zerossl-production
+    cert-manager.io/cluster-issuer: buypass-production
     nginx.ingress.kubernetes.io/use-regex: "true"
   labels:
     app.kubernetes.io/instance: synapse
