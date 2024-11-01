@@ -19,7 +19,7 @@ spec:
   interval: 10m
   dependsOn:
     - name: crunchy-postgres-main-cluster
-    - name: externa-secrets-stores
+    - name: external-secrets-stores
     - name: nginx-external
   postBuild:
     substitute:
