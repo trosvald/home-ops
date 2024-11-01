@@ -24,7 +24,7 @@ spec:
             pathType: ImplementationSpecific
           - backend:
               service:
-                name: synapse
+                name: synapse-matrix-synapse
                 port:
                   number: 8008
             path: /_matrix
@@ -118,14 +118,14 @@ spec:
             pathType: ImplementationSpecific
           - backend:
               service:
-                name: synapse
+                name: synapse-matrix-synapse
                 port:
                   number: 8008
             path: /_matrix
             pathType: Prefix
           - backend:
               service:
-                name: synapse
+                name: synapse-matrix-synapse
                 port:
                   number: 8008
             path: /_synapse
