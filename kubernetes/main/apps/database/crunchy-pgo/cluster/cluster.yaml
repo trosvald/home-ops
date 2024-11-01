@@ -61,6 +61,10 @@ spec:
       password:
         type: AlphaNumeric
     # Applications
+    - name: "synapse"
+      databases: ["synapse"]
+      password:
+        type: AlphaNumeric
     - name: "harbor"
       databases: ["harbor"]
       password:
