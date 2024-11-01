@@ -20,6 +20,8 @@ spec:
     - name: authentik
       namespace: security
   values:
+    annotations:
+        secret.reloader.stakater.com/reload: &secret synapse-secret
     image:
       repository: ghcr.io/element-hq/synapse
       tag: v1.118.0
@@ -32,8 +34,6 @@ spec:
         tag: 1.4.76
 
     workers:
-      annotations:
-        secret.reloader.stakater.com/reload: &secret synapse-secret
       default:
         resources:
           limits:
