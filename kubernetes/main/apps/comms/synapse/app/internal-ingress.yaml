@@ -3,10 +3,15 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: buypass-production
+    external-dns-cf/is-dns-public: "true"
+    external-dns-cf/is-public: "true"
+    external-dns.target/enabled: "true"
+    meta.helm.sh/release-name: synapse
     nginx.ingress.kubernetes.io/use-regex: "true"
   labels:
     app.kubernetes.io/instance: synapse
     app.kubernetes.io/name: synapse
+    app.kubernetes.io/managed-by: Helm
   name: synapse-int
   namespace: comms
 spec:
