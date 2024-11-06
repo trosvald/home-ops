@@ -10,7 +10,7 @@ on:
 jobs:
   sync:
     name: Flux Kustomization Sync
-    runs-on: ["gha-runner-scale-set"]
+    runs-on: ["gha-runner-home-ops"]
     strategy:
       matrix:
         cluster: ["main"]
