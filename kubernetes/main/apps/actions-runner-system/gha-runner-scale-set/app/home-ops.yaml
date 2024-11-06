@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: gha-runner-docusaurus-theme
+  name: gha-runner-home-ops
 spec:
   interval: 30m
   chart:
@@ -40,10 +40,10 @@ spec:
       valuesKey: ACTION_RUNNER_CONTROLLER_GITHUB_PRIVATE_KEY
   values:
     nameOverride: gha-runner-docusaurus-theme
-    runnerScaleSetName: gha-runner-docusaurus-theme
-    githubConfigUrl: https://github.com/trosvald/docusaurus-theme
+    runnerScaleSetName: gha-runner-home-ops
+    githubConfigUrl: https://github.com/trosvald/home-ops
     minRunners: 1
-    maxRunners: 3
+    maxRunners: 10
     containerMode:
       type: dind
     template:
