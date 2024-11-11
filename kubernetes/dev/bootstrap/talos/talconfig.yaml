@@ -9,9 +9,9 @@ talosVersion: v1.8.2
 kubernetesVersion: v1.31.2
 
 clusterPodNets:
-  - 10.42.0.0/16
+  - 10.44.0.0/16
 clusterSvcNets:
-  - 10.43.0.0/16
+  - 10.45.0.0/16
 
 cniConfig:
   name: none
@@ -24,9 +24,15 @@ additionalMachineCertSans: *san
 
 nodes:
   # MAC Address for onboard NIC => e8:6a:64:96:0a:35
+  # SSD 800GB for OS and democratic-csi localpath
+  # NvME 512GB for openebs-localpath
   - hostname: k0.${clusterDNSSuffix}
-    ipAddress: 172.16.16.11
+    ipAddress: 172.16.16.2
     installDisk: /dev/sda
+    machineDisks:
+      - device: /dev/nvme0n1
+        partitions:
+          - mountpoint: /var/mnt/nvme
     controlPlane: true
     networkInterfaces:
       ## Network Configuration
@@ -45,6 +51,10 @@ nodes:
   - hostname: k1.${clusterDNSSuffix}
     ipAddress: 172.16.16.3
     installDisk: /dev/sda
+    machineDisks:
+      - device: /dev/nvme0n1
+        partitions:
+          - mountpoint: /var/mnt/nvme
     controlPlane: true
     networkInterfaces:
       ## Network Configuration
@@ -63,6 +73,10 @@ nodes:
   - hostname: k2.${clusterDNSSuffix}
     ipAddress: 172.16.16.4
     installDisk: /dev/sda
+    machineDisks:
+      - device: /dev/nvme0n1
+        partitions:
+          - mountpoint: /var/mnt/nvme
     controlPlane: true
     networkInterfaces:
     ## Network Configuration
@@ -81,8 +95,8 @@ controlPlane:
   nodeLabels:
     topology.kubernetes.io/region: dev
     topology.kubernetes.io/zone: d
-    factory.talos.dev/schematic-prefix: e866d6d9706ab985d1afb439bdf57188
-    factory.talos.dev/schematic-suffix: 637abbc1a586f2b3a7eadbceed5a9776
+    # factory.talos.dev/schematic-prefix: e866d6d9706ab985d1afb439bdf57188
+    # factory.talos.dev/schematic-suffix: 637abbc1a586f2b3a7eadbceed5a9776
 
   schematic:
     customization:
@@ -96,7 +110,7 @@ controlPlane:
 
   patches:
     # Configure containerd
-    - &containerdPatch |-
+    - |-
       machine:
         files:
           - op: create
@@ -111,14 +125,40 @@ controlPlane:
                 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
                   discard_unpacked_layers = false
 
+    # dcsi localpath directory
+    - |-
+      machine:
+        kubelet:
+          extraMounts:
+            - destination: /var/localpath
+              type: bind
+              source: /var/localpath
+              options:
+                - bind
+                - rshared
+                - rw
+
+    # Mount nvme for openebs
+    - |-
+      machine:
+        kubelet:
+          extraMounts:
+            - destination: /var/mnt/nvme
+              type: bind
+              source: /var/mnt/nvme
+              options:
+                - bind
+                - rshared
+                - rw
+
     # Disable search domain everywhere
-    - &disableSearchDomainPatch |-
+    - |-
       machine:
         network:
           disableSearchDomain: true
 
     # Enable cluster discovery
-    - &discoveryPatch |-
+    - |-
       cluster:
         discovery:
           registries:
@@ -130,7 +170,7 @@ controlPlane:
     # Enable host dns
     # Incompatible with Cilium bpf masquerade. siderolabs/talos/#8836
     # Replaced by a Cilium redirect policy.
-    - &hostDnsPatch |-
+    - |-
       machine:
         features:
           hostDNS:
@@ -139,7 +179,7 @@ controlPlane:
             forwardKubeDNSToHost: false
 
     # Configure kubelet
-    - &kubeletPatch |-
+    - |-
       machine:
         kubelet:
           extraArgs:
@@ -151,7 +191,7 @@ controlPlane:
           disableManifestsDirectory: true
 
     # Enable KubePrism
-    - &kubePrismPatch |-
+    - |-
       machine:
         features:
           kubePrism:
@@ -159,7 +199,7 @@ controlPlane:
             port: 7445
 
     # Force nameserver
-    - &nameServerPatch |-
+    - |-
       machine:
         network:
           nameservers:
@@ -167,7 +207,7 @@ controlPlane:
             - 172.16.11.102
 
     # NFS Mount options
-    - &nfsPatch |-
+    - |-
       machine:
         files:
           - op: overwrite
@@ -184,7 +224,7 @@ controlPlane:
               nconnect=8
 
     # Configure NTP
-    - &ntpServerPatch |-
+    - |-
       machine:
         time:
           disabled: false
@@ -193,7 +233,7 @@ controlPlane:
             - 172.16.11.2
 
     # Configure cluster loopback
-    - &staticHostEntriesPatch |-
+    - |-
       machine:
         network:
           extraHostEntries:
@@ -203,7 +243,7 @@ controlPlane:
                 - ${clusterName}.${clusterDNSSuffix}
 
     # Custom sysctl settings
-    - &sysctlPatch |-
+    - |-
       machine:
         sysctls:
           fs.inotify.max_user_watches: 1048576

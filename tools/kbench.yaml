@@ -4,9 +4,9 @@ apiVersion: v1
 metadata:
   name: kbench-pvc
 spec:
-  storageClassName: democratic-csi-local-hostpath
+  #storageClassName: democratic-csi-local-hostpath
   # storageClassName: zol-iscsi
-  # storageClassName: ceph-block
+  storageClassName: ceph-block
   accessModes:
     - ReadWriteOnce
   resources:
