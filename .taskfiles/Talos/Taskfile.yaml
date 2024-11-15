@@ -98,15 +98,16 @@ tasks:
         --out-dir {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/clusterconfig
       - cp -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/clusterconfig/talosconfig {{.KUBERNETES_DIR}}/{{.cluster}}
       - rm -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets/*.yaml
-      - cp -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/clusterconfig/main-* {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets
-      - rename 's/main-//;' {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets/*.yaml
-      - rename 's/\.monosense.io.yaml$/\.secret.sops.yaml/' {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets/*.yaml
+      - cp -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/clusterconfig/*.yaml {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets
+      - perl-rename 's/(prod|dev)-//;' {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets/*.yaml
+      - perl-rename 's/(\.monosense.dev.yaml|\.monosense.io.yaml)$/\.secret.sops.yaml/' {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets/*.yaml
       - find {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/assets -type f | xargs -I{} sh -c "sops  --encrypt --encrypted-regex '^(token|crt|key|id|secret|secretboxEncryptionSecret|ca)$' --in-place {}"
       # - { task: bootstrap-matchbox, vars: *vars }
     requires:
       vars:
         - cluster
     preconditions:
+      - which perl-rename
       - which talhelper
       - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/talenv.sops.yaml
       - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/talsecret.sops.yaml

@@ -106,7 +106,7 @@ controlPlane:
         officialExtensions:
           - siderolabs/intel-ucode
           - siderolabs/i915-ucode
-          - siderolabs/iscsi-tools
+          # - siderolabs/iscsi-tools
 
   patches:
     # Configure containerd
@@ -187,7 +187,7 @@ controlPlane:
           defaultRuntimeSeccompProfileEnabled: true
           nodeIP:
             validSubnets:
-              - 172.16.11.0/24
+              - 172.16.16.0/24
           disableManifestsDirectory: true
 
     # Enable KubePrism
@@ -203,8 +203,7 @@ controlPlane:
       machine:
         network:
           nameservers:
-            - 172.16.11.101
-            - 172.16.11.102
+            - 172.16.16.254
 
     # NFS Mount options
     - |-
@@ -229,8 +228,9 @@ controlPlane:
         time:
           disabled: false
           servers:
-            - 172.16.11.254
-            - 172.16.11.2
+            - time.google.com
+            - time.cloudflare.com
+            - 172.16.16.254
 
     # Configure cluster loopback
     - |-
