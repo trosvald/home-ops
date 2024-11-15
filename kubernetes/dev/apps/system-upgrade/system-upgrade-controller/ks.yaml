@@ -48,6 +48,6 @@ spec:
     substitute:
       TALOS_SCHEMATIC_ID: d152f0ec8d9723a3e237a09d746cd4cf6d1862afc14ba89c022fecef76617ca8
       # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-      TALOS_VERSION: v1.8.2
+      TALOS_VERSION: v1.8.3
       # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
       KUBERNETES_VERSION: v1.31.2
