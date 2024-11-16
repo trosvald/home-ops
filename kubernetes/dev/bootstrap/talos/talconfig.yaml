@@ -32,7 +32,7 @@ nodes:
     machineDisks:
       - device: /dev/nvme0n1
         partitions:
-          - mountpoint: /var/mnt/nvme
+          - mountpoint: /var/mnt/longhorn
     controlPlane: true
     networkInterfaces:
       ## Network Configuration
@@ -54,7 +54,7 @@ nodes:
     machineDisks:
       - device: /dev/nvme0n1
         partitions:
-          - mountpoint: /var/mnt/nvme
+          - mountpoint: /var/mnt/longhorn
     controlPlane: true
     networkInterfaces:
       ## Network Configuration
@@ -76,7 +76,7 @@ nodes:
     machineDisks:
       - device: /dev/nvme0n1
         partitions:
-          - mountpoint: /var/mnt/nvme
+          - mountpoint: /var/mnt/longhorn
     controlPlane: true
     networkInterfaces:
     ## Network Configuration
@@ -95,8 +95,8 @@ controlPlane:
   nodeLabels:
     topology.kubernetes.io/region: dev
     topology.kubernetes.io/zone: d
-    # factory.talos.dev/schematic-prefix: e866d6d9706ab985d1afb439bdf57188
-    # factory.talos.dev/schematic-suffix: 637abbc1a586f2b3a7eadbceed5a9776
+    factory.talos.dev/schematic-prefix: ${DEV_SCHEMATIC_PREFIX}
+    factory.talos.dev/schematic-suffix: ${DEV_SCHEMATIC_SUFFIX}
 
   schematic:
     customization:
@@ -106,7 +106,7 @@ controlPlane:
         officialExtensions:
           - siderolabs/intel-ucode
           - siderolabs/i915-ucode
-          # - siderolabs/iscsi-tools
+          - siderolabs/iscsi-tools
 
   patches:
     # Configure containerd
@@ -143,9 +143,9 @@ controlPlane:
       machine:
         kubelet:
           extraMounts:
-            - destination: /var/mnt/nvme
+            - destination: /var/mnt/longhorn
               type: bind
-              source: /var/mnt/nvme
+              source: /var/mnt/longhorn
               options:
                 - bind
                 - rshared
