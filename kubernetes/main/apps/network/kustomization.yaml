@@ -12,4 +12,4 @@ resources:
   - ./hass-proxy/ks.yaml
   # - ./multus/ks.yaml
   - ./nginx/ks.yaml
-  # - ./omada/ks.yaml
+  - ./omada/ks.yaml
