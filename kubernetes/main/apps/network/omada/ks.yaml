@@ -26,5 +26,5 @@ spec:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: omada
-      VOLSYNC_CLAIM: omada-data
+      VOLSYNC_CLAIM: omada-controller
       VOLSYNC_CAPACITY: 10Gi
