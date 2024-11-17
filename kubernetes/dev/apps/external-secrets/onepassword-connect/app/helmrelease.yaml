@@ -128,7 +128,7 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_DEV_DOMAIN}
         hosts:
-          - host: opconnect.${CLUSTER_SECRET_DEV_DOMAIN}
+          - host: &host opconnect.${CLUSTER_SECRET_DEV_DOMAIN}
             paths:
               - path: /
                 service:
