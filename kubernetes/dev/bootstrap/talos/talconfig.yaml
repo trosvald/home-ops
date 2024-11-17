@@ -25,7 +25,7 @@ additionalMachineCertSans: *san
 nodes:
   # MAC Address for onboard NIC => e8:6a:64:96:0a:35
   # SSD 800GB for OS and democratic-csi localpath
-  # NvME 512GB for openebs-localpath
+  # NvME 512GB for longhorn
   - hostname: k0.${clusterDNSSuffix}
     ipAddress: 172.16.16.2
     installDisk: /dev/sda

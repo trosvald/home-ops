@@ -103,7 +103,7 @@ spec:
           memory: 128Mi
       extraEnvs:
         - name: TEMPLATE_NAME
-          value: "connection"
+          value: "orient"
         - name: SHOW_DETAILS
           value: "true"
         - name: SEND_SAME_HTTP_CODE
