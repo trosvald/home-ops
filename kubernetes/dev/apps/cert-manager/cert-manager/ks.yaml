@@ -34,7 +34,7 @@ spec:
   dependsOn:
     - name: cert-manager
     - name: external-secrets-stores
-  path: ./kubernetes/dev/aps/cert-manager/cert-manager/issuers
+  path: ./kubernetes/dev/apps/cert-manager/cert-manager/issuers
   prune: true
   sourceRef:
     kind: GitRepository
