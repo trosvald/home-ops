@@ -64,7 +64,7 @@ spec:
       annotations:
         external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_DEV_DOMAIN}
       hosts:
-        - host: headlamp.${CLUSTER_SECRET_DEV_DOMAIN
+        - host: headlamp.${CLUSTER_SECRET_DEV_DOMAIN}
           paths:
             - path: /
               type: Prefix
