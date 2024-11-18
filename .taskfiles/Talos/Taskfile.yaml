@@ -91,6 +91,7 @@ tasks:
   generate-clusterconfig:
     desc: Generate clusterconfig for Talos
     cmds:
+      - which rename
       - talhelper genconfig
         --env-file {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/talenv.sops.yaml
         --secret-file {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/talos/talsecret.sops.yaml
