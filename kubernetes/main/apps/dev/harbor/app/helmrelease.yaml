@@ -140,7 +140,7 @@ spec:
       enabled: true
       image:
         repository: ghcr.io/octohelm/harbor/trivy-adapter-photon
-        tag: v2.11.0
+        tag: v2.12.0
     notary:
       enabled: false
 
