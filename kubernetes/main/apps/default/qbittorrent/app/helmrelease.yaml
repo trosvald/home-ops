@@ -56,7 +56,7 @@ spec:
             env:
               TZ: ${TIMEZONE}
               DOT: "off"
-              DNS_ADDRESS: "10.16.16.4"
+              DNS_ADDRESS: "10.2.0.1"
               VPN_SERVICE_PROVIDER: custom
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
