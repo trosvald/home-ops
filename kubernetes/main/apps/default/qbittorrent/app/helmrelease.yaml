@@ -44,19 +44,19 @@ spec:
           #     - 2000
 
         containers:
-          # dnsdist:
-          #   image:
-          #     repository: docker.io/powerdns/dnsdist-19
-          #     tag: 1.9.7
+          dnsdist:
+            image:
+              repository: docker.io/powerdns/dnsdist-19
+              tag: 1.9.7
           gluetun:
-            # dependsOn: dnsdist
+            dependsOn: dnsdist
             image:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.39.1
             env:
               TZ: ${TIMEZONE}
               DOT: "off"
-              DNS_ADDRESS: "172.16.11.254"
+              DNS_ADDRESS: "127.0.0.2"
               VPN_SERVICE_PROVIDER: custom
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
