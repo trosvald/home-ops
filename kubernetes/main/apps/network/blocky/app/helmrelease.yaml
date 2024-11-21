@@ -104,9 +104,9 @@ spec:
       app:
         className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PROD_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
         hosts:
-          - host: "{{ .Release.Name }}.${CLUSTER_SECRET_PROD_DOMAIN}"
+          - host: blocky.${CLUSTER_SECRET_PRD_DOMAIN}
             paths:
               - path: /
                 service:
