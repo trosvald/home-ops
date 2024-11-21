@@ -14,21 +14,21 @@ tasks:
     requires:
       vars: ["cluster"]
     cmds:
-      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap
-      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml | kubectl apply --server-side --filename -
-      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml | kubectl apply --server-side --filename -
-      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | kubectl apply --server-side --filename -
-      - kubectl apply --server-side --filename {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
-      - kubectl apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/flux/config
+      - kubectl --context {{.cluster}} apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap
+      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml | kubectl --context {{.cluster}} apply --server-side --filename -
+      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml | kubectl --context {{.cluster}} apply --server-side --filename -
+      - sops --decrypt {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | kubectl --context {{.cluster}} apply --server-side --filename -
+      - kubectl --context {{.cluster}} apply --server-side --filename {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
+      - kubectl --context {{.cluster}} apply --server-side --kustomize {{.KUBERNETES_DIR}}/{{.cluster}}/flux/config
     preconditions:
       - test -f {{.ROOT_DIR}}/age.key
       - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml
       - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml
-      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml
-      - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
+      # - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml
+      # - test -f {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-settings.yaml
       - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/age-key.secret.sops.yaml | jq --exit-status '.encrypted'
       - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/bootstrap/flux/github-deploy-key.secret.sops.yaml | jq --exit-status '.encrypted'
-      - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | jq --exit-status '.encrypted'
+        # - sops filestatus {{.KUBERNETES_DIR}}/{{.cluster}}/flux/vars/cluster-secrets.secret.sops.yaml | jq --exit-status '.encrypted'
 
   apply-ks:
     desc: Apply a Flux Kustomization resource for a cluster
@@ -68,7 +68,7 @@ tasks:
     requires:
       vars: ["claim"]
     preconditions:
-      - kubectl --namespace {{.ns}} get persistentvolumeclaims {{.claim}}
+      - kubectl --context {{.cluster}} --namespace {{.ns}} get persistentvolumeclaims {{.claim}}
 
   delete-failed-pods:
     desc: Delete all pods with an Evicted/Failed/Succeeded status
@@ -76,7 +76,7 @@ tasks:
       cluster: Cluster to run command against (default: main)
     cmds:
       - for: ["Evicted", "Failed", "Succeeded"]
-        cmd: kubectl delete pods --field-selector status.phase={{.ITEM}} -A --ignore-not-found=true
+        cmd: kubectl --context {{.cluster}} delete pods --field-selector status.phase={{.ITEM}} -A --ignore-not-found=true
     vars:
       cluster: '{{.cluster | default "main"}}'
 
@@ -88,10 +88,10 @@ tasks:
       secret: Secret to sync (default: unset/all secrets)
     cmd: |
       {{if eq .secret ""}}
-        kubectl get externalsecret --all-namespaces --no-headers -A | awk '{print $1, $2}' \
+        kubectl --context {{.cluster}} get externalsecret --all-namespaces --no-headers -A | awk '{print $1, $2}' \
           | xargs --max-procs=2 -l bash -c 'kubectl -n $0 annotate externalsecret $1 force-sync=$(date +%s) --overwrite'
       {{else}}
-        kubectl --namespace {{.ns}} annotate externalsecret {{.secret}} force-sync=$(date +%s) --overwrite
+        kubectl --context {{.cluster}} --namespace {{.ns}} annotate externalsecret {{.secret}} force-sync=$(date +%s) --overwrite
       {{end}}
     vars:
       secret: '{{ .secret | default ""}}'
