@@ -3,12 +3,16 @@
 version: "3"
 
 vars:
-  ANSIBLE_DIR: "{{.ROOT_DIR}}/ansible"
-  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
+  CLUSTER: '{{.CLUSTER | default "main"}}'
+  CLUSTER_DIR: '{{.ROOT_DIR}}/kubernetes/{{.CLUSTER}}'
 
 env:
-  KUBECONFIG: "{{.KUBERNETES_DIR}}/kubernetes/main/kubeconfig"
+  GOPATH: '{{.ROOT_DIR}}/.go'
+  KUBECONFIG: "{{.CLUSTER_DIR}}/kubeconfig"
+  MINIJINJA_CONFIG_FILE: '{{.ROOT_DIR}}/.minijinja.toml'
   SOPS_AGE_KEY_FILE: "{{.ROOT_DIR}}/age.key"
+  TALOSCONFIG: '{{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig'
+  VIRTUAL_ENV: '{{.ROOT_DIR}}/.venv'
 
 includes:
   ansible: .taskfiles/Ansible
