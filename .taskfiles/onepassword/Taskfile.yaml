@@ -21,7 +21,7 @@ tasks:
     preconditions:
       - which op
 
-  push-utility:
+  push-infra:
     desc: Push infra kubeconfig to OnePassword
     cmds:
       - op item edit kubernetes KUBECONFIG_INFRA[text]="$(cat {{.ROOT_DIR}}/kubernetes/infra/kubeconfig)" &>/dev/null
