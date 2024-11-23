@@ -23,19 +23,17 @@ additionalApiServerCertSans: &san
 additionalMachineCertSans: *san
 
 nodes:
-  # MAC Address for onboard NIC => e8:6a:64:96:0a:35
   # SSD 800GB for OS and democratic-csi localpath
   # NvME 512GB for longhorn
   - hostname: k0.${clusterDNSSuffix}
     ipAddress: 172.16.16.2
-    installDisk: /dev/sda
+    installDisk: /dev/sdb
     machineDisks:
       - device: /dev/nvme0n1
         partitions:
           - mountpoint: /var/mnt/longhorn
     controlPlane: true
     networkInterfaces:
-      ## Network Configuration
       - interface: eno1
         mtu: 1500
         dhcp: false
@@ -46,11 +44,18 @@ nodes:
             gateway: 172.16.16.254
         vip:
           ip: ${clusterEndpointIP}
+        vlans:
+          - &vlan1613
+            vlanId: 1613
+            mtu: 1500
+            dhcp: true
+            dhcpOptions:
+              routeMetric: 4096
 
-  # MAC Address for onboard NIC => 98:fa:9b:19:be:d9
+
   - hostname: k1.${clusterDNSSuffix}
     ipAddress: 172.16.16.3
-    installDisk: /dev/sda
+    installDisk: /dev/sdb
     machineDisks:
       - device: /dev/nvme0n1
         partitions:
@@ -68,11 +73,12 @@ nodes:
             gateway: 172.16.16.254
         vip:
           ip: ${clusterEndpointIP}
+        vlans:
+          - *vlan1613
 
-  # MAC Address for onboard NIC => 98:fa:9b:36:bf:33
   - hostname: k2.${clusterDNSSuffix}
     ipAddress: 172.16.16.4
-    installDisk: /dev/sda
+    installDisk: /dev/sdb
     machineDisks:
       - device: /dev/nvme0n1
         partitions:
@@ -90,6 +96,8 @@ nodes:
             gateway: 172.16.16.254
         vip:
           ip: ${clusterEndpointIP}
+        vlans:
+          - *vlan1613
 
 controlPlane:
   nodeLabels:
@@ -204,6 +212,7 @@ controlPlane:
         network:
           nameservers:
             - 172.16.16.254
+            - 10.11.11.12
 
     # NFS Mount options
     - |-

@@ -15,13 +15,23 @@ env:
   VIRTUAL_ENV: '{{.ROOT_DIR}}/.venv'
 
 includes:
-  ansible: .taskfiles/Ansible
-  bootstrap: .taskfiles/Bootstrap
-  kubernetes: .taskfiles/Kubernetes
-  talos: .taskfiles/Talos
-  volsync: .taskfiles/VolSync
-  postgres: .taskfiles/Postgresql
+  ansible: .taskfiles/ansible
+  bootstrap: .taskfiles/bootstrap
+  kubernetes: .taskfiles/kubernetes
+  talos: .taskfiles/talos
+  volsync: .taskfiles/volsync
+  postgres: .taskfiles/postgresql
+  op: .taskfiles/onepassword
+  sops: .taskfiles/sops
+  workstation: .taskfiles/workstation
 
 tasks:
 
-  default: task -l
+  default: 
+    cmd: task --list
+    silent: true
+  
+  noop:
+    internal: true
+    silent: true
+    cmd: noop() { :; }
