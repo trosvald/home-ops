@@ -10,14 +10,15 @@ tasks:
   brew:
     desc: Set up homebrew tools
     cmds:
-      - brew bundle --file {{.WORKSTATION_RESOURCES_DIR}}/Brewfile
+      - echo $PATH
+      - brew bundle --file {{.WORKSTATION_RESOURCE_DIR}}/Brewfile
     sources:
-      - '{{.WORKSTATION_RESOURCES_DIR}}/Brewfile'
+      - '{{.WORKSTATION_RESOURCE_DIR}}/Brewfile'
     generates:
-      - '{{.WORKSTATION_RESOURCES_DIR}}/Brewfile.lock.json'
+      - '{{.WORKSTATION_RESOURCE_DIR}}/Brewfile.lock.json'
     preconditions:
-      - which brew
-      - test -f {{.WORKSTATION_RESOURCES_DIR}}/Brewfile
+      # - which brew
+      - test -f {{.WORKSTATION_RESOURCE_DIR}}/Brewfile
 
   brew-update:
     desc: Clean up brew
@@ -53,11 +54,11 @@ tasks:
     cmds:
       - python3 -m venv {{.VIRTUAL_ENV}}
       - '{{.VIRTUAL_ENV}}/bin/python3 -m pip install --upgrade pip'
-      - '{{.VIRTUAL_ENV}}/bin/python3 -m pip install --upgrade --requirement "{{.WORKSTATION_RESOURCES_DIR}}/requirements.txt"'
+      - '{{.VIRTUAL_ENV}}/bin/python3 -m pip install --upgrade --requirement "{{.WORKSTATION_RESOURCE_DIR}}/requirements.txt"'
     sources:
-      - '{{.WORKSTATION_RESOURCES_DIR}}/requirements.txt'
+      - '{{.WORKSTATION_RESOURCE_DIR}}/requirements.txt'
     generates:
       - '{{.VIRTUAL_ENV}}/.pyenv.cfg'
     preconditions:
       - which python3
-      - test -f {{.WORKSTATION_RESOURCES_DIR}}/requirements.txt
+      - test -f {{.WORKSTATION_RESOURCE_DIR}}/requirements.txt

@@ -1,7 +1,8 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
-
+set: [pipefail]
+shopt: [globstar]
 vars:
   CLUSTER: '{{.CLUSTER | default "main"}}'
   CLUSTER_DIR: '{{.ROOT_DIR}}/kubernetes/{{.CLUSTER}}'
@@ -27,10 +28,10 @@ includes:
 
 tasks:
 
-  default: 
+  default:
     cmd: task --list
     silent: true
-  
+
   noop:
     internal: true
     silent: true

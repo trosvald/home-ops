@@ -5,12 +5,26 @@ version: "3"
 tasks:
   genconfig:
     desc: Generate the Talos configs
-    cmd: talhelper -c {{.CLUSTER_DIR}}/talos/talconfig.yaml genconfig -s {{.CLUSTER_DIR}}/talos/talsecret.sops.yaml -o {{.CLUSTER_DIR}}/talos/clusterconfig
+    cmds:
+      - rm -f {{.CLUSTER_DIR}}/talos/assets/*.yaml.j2; rm -f {{.CLUSTER_DIR}}/talos/clusterconfig/*.yaml; rm -f {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig
+      - talhelper genconfig
+        -c {{.CLUSTER_DIR}}/talos/talconfig.yaml
+        -s {{.CLUSTER_DIR}}/talos/talsecret.sops.yaml
+        -e {{.CLUSTER_DIR}}/talos/talenv.sops.yaml
+        -o {{.CLUSTER_DIR}}/talos/clusterconfig
+      - cp -f {{.CLUSTER_DIR}}/talos/clusterconfig/*.yaml {{.CLUSTER_DIR}}/talos/assets
+      - rename 's/(prod|infra)-//;' {{.CLUSTER_DIR}}/talos/assets/*.yaml
+      - rename 's/\.yaml/\.sops.yaml/;' {{.CLUSTER_DIR}}/talos/assets/*.yaml
+      - find {{.CLUSTER_DIR}}/talos/assets -type f | xargs -I{} sh -c "sops  --encrypt --encrypted-regex '^(token|crt|key|id|secret|secretboxEncryptionSecret|ca)$' --in-place {}"
+      - rename 's/\.sops.yaml/\.sops.yaml.j2/;' {{.CLUSTER_DIR}}/talos/assets/*.yaml
+
     requires:
       vars: [CLUSTER]
     preconditions:
+      - which talhelper
       - test -f {{.CLUSTER_DIR}}/talos/talconfig.yaml
       - test -f {{.CLUSTER_DIR}}/talos/talsecret.sops.yaml
+      - test -f {{.CLUSTER_DIR}}/talos/talenv.sops.yaml
 
   apply-node:
     desc: Apply Talos config to a node [CLUSTER=main] [HOSTNAME=required]
