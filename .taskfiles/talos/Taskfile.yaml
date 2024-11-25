@@ -5,8 +5,9 @@ version: "3"
 tasks:
   genconfig:
     desc: Generate the Talos configs
+    prompt: Generate talos config for '{{.CLUSTER}}' cluster ... continue?
     cmds:
-      - rm -f {{.CLUSTER_DIR}}/talos/assets/*.yaml.j2; rm -f {{.CLUSTER_DIR}}/talos/clusterconfig/*.yaml; rm -f {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig
+      - rm -f {{.CLUSTER_DIR}}/talos/assets/*.yaml; rm -f {{.CLUSTER_DIR}}/talos/assets/*.yaml.j2; rm -f {{.CLUSTER_DIR}}/talos/clusterconfig/*.yaml; rm -f {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig
       - talhelper genconfig
         -c {{.CLUSTER_DIR}}/talos/talconfig.yaml
         -s {{.CLUSTER_DIR}}/talos/talsecret.sops.yaml
@@ -14,13 +15,14 @@ tasks:
         -o {{.CLUSTER_DIR}}/talos/clusterconfig
       - cp -f {{.CLUSTER_DIR}}/talos/clusterconfig/*.yaml {{.CLUSTER_DIR}}/talos/assets
       - rename 's/(prod|infra)-//;' {{.CLUSTER_DIR}}/talos/assets/*.yaml
-      - rename 's/\.yaml/\.sops.yaml/;' {{.CLUSTER_DIR}}/talos/assets/*.yaml
-      - find {{.CLUSTER_DIR}}/talos/assets -type f | xargs -I{} sh -c "sops  --encrypt --encrypted-regex '^(token|crt|key|id|secret|secretboxEncryptionSecret|ca)$' --in-place {}"
-      - rename 's/\.sops.yaml/\.sops.yaml.j2/;' {{.CLUSTER_DIR}}/talos/assets/*.yaml
+      - rename 's/(\.monosense.dev.yaml|\.monosense.io.yaml)$/\.sops.yaml/;' {{.CLUSTER_DIR}}/talos/assets/*.yaml
+      - '{{if eq .CLUSTER "infra"}}sh -c "{{.ROOT_DIR}}/tools/infra.sh" {{else}}sh -c "{{.ROOT_DIR}}/tools/main.sh"{{end}}'
+      - find {{.CLUSTER_DIR}}/talos/assets -type f | xargs -I{} sh -c "sops --encrypt --in-place {}"
 
     requires:
       vars: [CLUSTER]
     preconditions:
+      - which rename
       - which talhelper
       - test -f {{.CLUSTER_DIR}}/talos/talconfig.yaml
       - test -f {{.CLUSTER_DIR}}/talos/talsecret.sops.yaml
