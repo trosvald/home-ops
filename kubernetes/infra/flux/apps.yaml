@@ -1,27 +1,36 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: dev-cluster-apps
+  name: cluster-apps
   namespace: flux-system
 spec:
-  interval: 10m
-  path: ./kubernetes/dev/apps
+  interval: 30m
+  path: ./kubernetes/infra/apps
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   decryption:
     provider: sops
     secretRef:
       name: sops-age
   postBuild:
     substituteFrom:
-      - kind: ConfigMap
-        name: dev-cluster-settings
-      - kind: Secret
-        name: dev-cluster-secrets
+      - name: cluster-settings
+        kind: ConfigMap
+        optional: true
+      - name: cluster-settings-infra
+        kind: ConfigMap
+        optional: true
+      - name: cluster-secrets
+        kind: Secret
+        optional: true
+      - name: cluster-secrets-infra
+        kind: Secret
+        optional: true
+
   patches:
     - patch: |-
         apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -35,10 +44,19 @@ spec:
               name: sops-age
           postBuild:
             substituteFrom:
-              - kind: ConfigMap
-                name: dev-cluster-settings
-              - kind: Secret
-                name: dev-cluster-secrets
+              - name: cluster-settings
+                kind: ConfigMap
+                optional: true
+              - name: cluster-settings-infra
+                kind: ConfigMap
+                optional: true
+              - name: cluster-secrets
+                kind: Secret
+                optional: true
+              - name: cluster-secrets-infra
+                kind: Secret
+                optional: true
+
       target:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization

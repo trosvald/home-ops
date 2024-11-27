@@ -17,7 +17,7 @@ tasks:
       - rename 's/(prod|infra)-//;' {{.CLUSTER_DIR}}/talos/assets/*.yaml
       - rename 's/(\.monosense.dev.yaml|\.monosense.io.yaml)$/\.sops.yaml/;' {{.CLUSTER_DIR}}/talos/assets/*.yaml
       - '{{if eq .CLUSTER "infra"}}sh -c "{{.ROOT_DIR}}/tools/infra.sh" {{else}}sh -c "{{.ROOT_DIR}}/tools/main.sh"{{end}}'
-      - find {{.CLUSTER_DIR}}/talos/assets -type f | xargs -I{} sh -c "sops --encrypt --in-place {}"
+      - find {{.CLUSTER_DIR}}/talos/assets -type f | xargs -I{} sh -c "sops  --encrypt --encrypted-regex '^(token|crt|key|id|secret|secretboxEncryptionSecret|ca)$' --in-place {}"
 
     requires:
       vars: [CLUSTER]
