@@ -29,7 +29,8 @@ nodes:
     ipAddress: 172.16.16.2
     installDisk: /dev/sdb
     machineDisks:
-      - device: /dev/nvme0n1
+      - &longhorn
+        device: /dev/nvme0n1
         partitions:
           - mountpoint: /var/mnt/longhorn
     controlPlane: true
@@ -57,9 +58,7 @@ nodes:
     ipAddress: 172.16.16.3
     installDisk: /dev/sdb
     machineDisks:
-      - device: /dev/nvme0n1
-        partitions:
-          - mountpoint: /var/mnt/longhorn
+      - *longhorn
     controlPlane: true
     networkInterfaces:
       ## Network Configuration
@@ -80,9 +79,7 @@ nodes:
     ipAddress: 172.16.16.4
     installDisk: /dev/sdb
     machineDisks:
-      - device: /dev/nvme0n1
-        partitions:
-          - mountpoint: /var/mnt/longhorn
+      - *longhorn
     controlPlane: true
     networkInterfaces:
     ## Network Configuration
@@ -130,6 +127,19 @@ controlPlane:
                   discard_unpacked_layers = false
                 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
                   discard_unpacked_layers = false
+
+    # longhorn
+    - |-
+      machine:
+        kubelet:
+          extraMounts:
+            - destination: /var/mnt/longhorn
+              type: bind
+              source: /var/mnt/longhorn
+              options:
+                - bind
+                - rshared
+                - rw
 
     # dcsi localpath directory
     - |-
@@ -264,6 +274,19 @@ controlPlane:
         proxy:
           disabled: true
         scheduler:
+          config:
+            apiVersion: kubescheduler.config.k8s.io/v1
+            kind: KubeSchedulerConfiguration
+            profiles:
+              - schedulerName: default-scheduler
+                pluginConfig:
+                  - name: PodTopologySpread
+                    args:
+                      defaultingType: List
+                      defaultConstraints:
+                        - maxSkew: 1
+                          topologyKey: kubernetes.io/hostname
+                          whenUnsatisfiable: ScheduleAnyway
           extraArgs:
             bind-address: 0.0.0.0
 
