@@ -10,11 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/dev/apps/kube-system/cilium/app
+  path: ./kubernetes/infra/apps/kube-system/cilium/app
   prune: false # never should be deleted
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -33,11 +33,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cilium
-  path: ./kubernetes/dev/apps/kube-system/cilium/config
+  path: ./kubernetes/infra/apps/kube-system/cilium/config
   prune: false # never should be deleted
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

@@ -10,11 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/dev/apps/volsync-system/snapshot-controller/app
+  path: ./kubernetes/infra/apps/volsync-system/snapshot-controller/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

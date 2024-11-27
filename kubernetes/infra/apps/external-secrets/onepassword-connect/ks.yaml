@@ -10,11 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/dev/apps/external-secrets/onepassword-connect/app
+  path: ./kubernetes/infra/apps/external-secrets/onepassword-connect/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

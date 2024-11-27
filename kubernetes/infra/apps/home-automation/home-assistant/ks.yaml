@@ -12,11 +12,11 @@ spec:
       app.kubernetes.io/name: *appname
   interval: 30m
   timeout: 5m
-  path: "./kubernetes/dev/apps/home-automation/home-assistant/app"
+  path: "./kubernetes/infra/apps/home-automation/home-assistant/app"
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: false
   dependsOn:
     - name: multus-config

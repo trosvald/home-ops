@@ -10,11 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/dev/apps/network/multus/app
+  path: ./kubernetes/infra/apps/network/multus/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -33,11 +33,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: multus
-  path: ./kubernetes/dev/apps/network/multus/configs
+  path: ./kubernetes/infra/apps/network/multus/configs
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m

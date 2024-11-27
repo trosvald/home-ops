@@ -12,11 +12,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
-  path: ./kubernetes/dev/apps/database/emqx/operator
+  path: ./kubernetes/infra/apps/database/emqx/operator
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -35,11 +35,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: emqx-operator
-  path: ./kubernetes/dev/apps/database/emqx/cluster
+  path: ./kubernetes/infra/apps/database/emqx/cluster
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m

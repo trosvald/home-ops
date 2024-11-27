@@ -2,9 +2,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
-  - ./kyverno-policies.yaml
+resources: []
+  # - ./kyverno-policies.yaml
   # - ./kyverno.yaml
   # - ./prometheus-community.yaml
-  - ./spegel.yaml
+  # - ./spegel.yaml
   # - ./stakater.yaml

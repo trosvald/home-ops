@@ -7,5 +7,3 @@ resources:
   - ./bgpcluster.yaml
   - ./bgpippool.yaml
   - ./bgppeer.yaml
-  # - ./l2config.yaml
-  # - ./lrp.yaml

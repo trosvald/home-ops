@@ -12,11 +12,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
-  path: ./kubernetes/dev/apps/flux-system/addons/app
+  path: ./kubernetes/infra/apps/flux-system/addons/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

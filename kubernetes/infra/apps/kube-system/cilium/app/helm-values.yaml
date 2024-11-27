@@ -1,6 +1,6 @@
 ---
 cluster:
-  name: dev
+  name: infra
   id: 0
 bandwidthManager:
   enabled: true

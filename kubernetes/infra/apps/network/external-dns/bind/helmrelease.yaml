@@ -45,8 +45,8 @@ spec:
             key: EXTERNAL_DNS_RFC2136_TSIG_SECRET
     policy: sync
     sources: ["ingress", "service"]
-    txtOwnerId: dev
-    txtPrefix: k8s.dev.
+    txtOwnerId: infra
+    txtPrefix: k8s.infra.
     domainFilters: [*domain]
     serviceMonitor:
       enabled: true

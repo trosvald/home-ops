@@ -10,11 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/dev/apps/kube-system/intel-device-plugin/app
+  path: ./kubernetes/infra/apps/kube-system/intel-device-plugin/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m
@@ -31,11 +31,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/dev/apps/kube-system/intel-device-plugin/gpu
+  path: ./kubernetes/infra/apps/kube-system/intel-device-plugin/gpu
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

@@ -12,8 +12,8 @@ spec:
     - name: cilium
       localASN: 64514
       peers:
-        - name: srx320
+        - name: opnsense-bgp-peer
           peerASN: 64512
           peerAddress: 172.16.11.254
           peerConfigRef:
-            name: srx320-bgp
+            name: opnsense-bgp-peer

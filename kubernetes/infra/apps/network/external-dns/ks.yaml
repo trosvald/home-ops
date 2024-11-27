@@ -12,11 +12,11 @@
 #       app.kubernetes.io/name: *app
 #   dependsOn:
 #     - name: external-secrets-stores
-#   path: ./kubernetes/dev/apps/network/external-dns/cloudflare
+#   path: ./kubernetes/infra/apps/network/external-dns/cloudflare
 #   prune: false
 #   sourceRef:
 #     kind: GitRepository
-#     name: dev-kubernetes
+#     name: home-ops
 #   wait: true
 #   interval: 30m
 #   retryInterval: 1m
@@ -35,11 +35,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
-  path: ./kubernetes/dev/apps/network/external-dns/bind
+  path: ./kubernetes/infra/apps/network/external-dns/bind
   prune: false
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m

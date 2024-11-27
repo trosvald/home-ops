@@ -9,11 +9,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/dev/apps/kube-system/kubelet-csr-approver/app
+  path: ./kubernetes/infra/apps/kube-system/kubelet-csr-approver/app
   prune: false # never should be deleted
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

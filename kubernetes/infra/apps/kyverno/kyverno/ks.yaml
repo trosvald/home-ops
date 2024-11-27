@@ -10,11 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/dev/apps/kyverno/kyverno/app
+  path: ./kubernetes/infra/apps/kyverno/kyverno/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   timeout: 5m
@@ -32,11 +32,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: kyverno
-  path: ./kubernetes/dev/apps/kyverno/kyverno/policies
+  path: ./kubernetes/infra/apps/kyverno/kyverno/policies
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   timeout: 5m

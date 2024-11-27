@@ -10,11 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/dev/apps/database/crunchy-pgo/app
+  path: ./kubernetes/infra/apps/database/crunchy-pgo/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -34,11 +34,11 @@ spec:
   dependsOn:
     - name: crunchy-postgres-operator
     - name: external-secrets-stores
-  path: ./kubernetes/dev/apps/database/crunchy-pgo/cluster
+  path: ./kubernetes/infra/apps/database/crunchy-pgo/cluster
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -57,11 +57,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: crunchy-postgres-operator
-  path: ./kubernetes/dev/apps/database/crunchy-pgo/userinit-controller
+  path: ./kubernetes/infra/apps/database/crunchy-pgo/userinit-controller
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -80,34 +80,12 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets
-  path: ./kubernetes/dev/apps/database/crunchy-pgo/clustersecretstore
+  path: ./kubernetes/infra/apps/database/crunchy-pgo/clustersecretstore
   prune: true
   sourceRef:
     kind: GitRepository
-    name: dev-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m
   timeout: 5m
-# ---
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: &app crunchy-dev-backup
-#   namespace: flux-system
-# spec:
-#   targetNamespace: database
-#   commonMetadata:
-#     labels:
-#       app.kubernetes.io/name: *app
-#   path: ./kubernetes/dev/apps/database/crunchy-pgo/backup
-#   prune: true
-#   sourceRef:
-#     kind: GitRepository
-#     name: dev-kubernetes
-#   wait: true
-#   interval: 30m
-#   retryInterval: 1m
-#   timeout: 5m
-#   dependsOn:
-#     - name: crunchy-postgres-operator
