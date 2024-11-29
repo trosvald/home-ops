@@ -53,7 +53,6 @@ nodes:
             dhcpOptions:
               routeMetric: 4096
 
-
   - hostname: k1.${clusterDNSSuffix}
     ipAddress: 172.16.16.3
     installDisk: /dev/sdb

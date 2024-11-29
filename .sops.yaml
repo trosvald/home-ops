@@ -12,15 +12,11 @@ creation_rules:
     key_groups:
       - age:
           - age1j3hsfptdfsfwvkf504etjkrtmajny9csrfh5s24uqh6fchmg5dgqg087ek
-  # - path_regex: terraform/.+\.secret(\.sops)?\.ya?ml
-  #   unencrypted_regex: "^(kind)$"
-  #   key_groups:
-  #     - age:
-  #         - age1j3hsfptdfsfwvkf504etjkrtmajny9csrfh5s24uqh6fchmg5dgqg087ek
-  # - path_regex: kubernetes/.+\.secret(\.sops)?\.env
-  #   key_groups:
-  #     - age:
-  #         - age1j3hsfptdfsfwvkf504etjkrtmajny9csrfh5s24uqh6fchmg5dgqg087ek
+  - path_regex: terraform/.+\.secret(\.sops)?\.ya?ml
+    unencrypted_regex: "^(kind)$"
+    key_groups:
+      - age:
+          - age1j3hsfptdfsfwvkf504etjkrtmajny9csrfh5s24uqh6fchmg5dgqg087ek
 stores:
   yaml:
     indent: 2

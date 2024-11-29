@@ -44,29 +44,29 @@ tasks:
   talos:
     desc: Bootstrap Talos [CLUSTER=main]
     cmds:
-      - until talosctl --nodes {{.TALOS_CONTROLLER}} bootstrap; do sleep 5; done
-      - talosctl kubeconfig --nodes {{.TALOS_CONTROLLER}} --force --force-context-name {{.CLUSTER}} {{.CLUSTER_DIR}}
+      - until talosctl --talosconfig {{.CLUSTER_DIR}}/talosconfig --nodes {{.TALOS_CONTROLLER}} bootstrap; do sleep 5; done
+      - talosctl --talosconfig {{.CLUSTER_DIR}}/talosconfig kubeconfig --nodes {{.TALOS_CONTROLLER}} --force --force-context-name {{.CLUSTER}} {{.CLUSTER_DIR}}
     vars:
       TALOS_CONTROLLER:
-        sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
+        sh: talosctl --talosconfig {{.CLUSTER_DIR}}/talosconfig config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
     requires:
       vars: [CLUSTER]
     preconditions:
-      - talosctl config info
-      - test -f {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig
+      - test -f {{.CLUSTER_DIR}}/talosconfig
+      - talosctl --talosconfig {{.CLUSTER_DIR}}/talosconfig config info
       - which talosctl
 
   rook:
     desc: Bootstrap Rook-Ceph [CLUSTER=main] [MODEL=required] ## Figure this bs out
     cmds:
-      - minijinja-cli {{.BOOTSTRAP_RESOURCES_DIR}}/wipe-rook.yaml.j2 | kubectl apply --server-side --filename -
-      - until kubectl --namespace default get job/wipe-rook &>/dev/null; do sleep 5; done
-      - kubectl --namespace default wait job/wipe-rook --for=condition=complete --timeout=5m
-      - stern --namespace default job/wipe-rook --no-follow
-      - kubectl --namespace default delete job wipe-rook
+      - minijinja-cli {{.BOOTSTRAP_RESOURCES_DIR}}/wipe-rook.yaml.j2 | kubectl --context {{.CLUSTER}} apply --server-side --filename -
+      - until kubectl --context {{.CLUSTER}} --namespace default get job/wipe-rook &>/dev/null; do sleep 5; done
+      - kubectl --context {{.CLUSTER}} --namespace default wait job/wipe-rook --for=condition=complete --timeout=5m
+      - stern --context {{.CLUSTER}} --namespace default job/wipe-rook --no-follow
+      - kubectl --context {{.CLUSTER}} --namespace default delete job wipe-rook
     env:
       NODES:
-        sh: talosctl config info --output json | jq --raw-output '.nodes | length'
+        sh: talosctl --talosconfig {{.CLUSTER_DIR}}/talosconfig config info --output json | jq --raw-output '.nodes | length'
     preconditions:
       - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/wipe-rook.yaml.j2
       - which kubectl minijinja-cli stern talosctl
@@ -74,13 +74,13 @@ tasks:
   apps:
     desc: Bootstrap Apps [CLUSTER=main]
     cmds:
-      - until kubectl wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 5; done
-      - helmfile --quiet --file {{.CLUSTER_DIR}}/bootstrap/apps/helmfile.yaml apply --skip-diff-on-install --suppress-diff
-      - until kubectl wait nodes --for=condition=Ready --all --timeout=10m; do sleep 5; done
+      - until kubectl --context {{.CLUSTER}} wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 5; done
+      - helmfile --kube-context {{.CLUSTER}} --quiet --file {{.CLUSTER_DIR}}/bootstrap/apps/helmfile.yaml apply --skip-diff-on-install --suppress-diff
+      - until kubectl --context {{.CLUSTER}} wait nodes --for=condition=Ready --all --timeout=10m; do sleep 5; done
     requires:
       vars: [CLUSTER]
     preconditions:
-      - talosctl config info
+      - talosctl --context {{.CLUSTER}} config info
       - test -f {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig
       - test -f {{.CLUSTER_DIR}}/bootstrap/apps/helmfile.yaml
       - which helmfile kubectl
@@ -88,16 +88,16 @@ tasks:
   flux:
     desc: Bootstrap Flux [CLUSTER=main]
     cmds:
-      - kubectl apply --server-side --kustomize {{.CLUSTER_DIR}}/bootstrap/apps
+      - kubectl --context {{.CLUSTER}} apply --server-side --kustomize {{.CLUSTER_DIR}}/bootstrap/apps
       - for: { var: TEMPLATES }
-        cmd: op run --env-file {{.CLUSTER_DIR}}/bootstrap/bootstrap.env --no-masking -- minijinja-cli {{.ITEM}} | kubectl apply --server-side --filename -
-      - kubectl apply --server-side --filename {{.CLUSTER_DIR}}/flux/vars/cluster-settings.yaml
-      - kubectl apply --server-side --kustomize {{.CLUSTER_DIR}}/flux/config
+        cmd: op run --env-file {{.CLUSTER_DIR}}/bootstrap/bootstrap.env --no-masking -- minijinja-cli {{.ITEM}} | kubectl --context {{.CLUSTER}} apply --server-side --filename -
+      - kubectl --context {{.CLUSTER}} apply --server-side --filename {{.CLUSTER_DIR}}/flux/vars/cluster-settings.yaml
+      - kubectl --context {{.CLUSTER}} apply --server-side --kustomize {{.CLUSTER_DIR}}/flux/config
     vars:
       TEMPLATES:
         sh: ls {{.CLUSTER_DIR}}/bootstrap/apps/*.j2
     env:
-      VAULT: '{{if eq .CLUSTER "main"}}kubernetes{{else}}{{.CLUSTER}}{{end}}' # ¯\_(ツ)_/¯
+      VAULT: '{{if eq .CLUSTER "main"}}prod{{else}}{{.CLUSTER}}{{end}}' # ¯\_(ツ)_/¯
       FLUX_GITHUB_PUBLIC_KEYS:
         sh: curl -fsSL https://api.github.com/meta | jq --raw-output '"github.com "+.ssh_keys[]'
     requires:
