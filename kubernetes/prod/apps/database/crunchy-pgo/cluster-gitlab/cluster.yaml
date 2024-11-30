@@ -1,0 +1,149 @@
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/postgres-operator.crunchydata.com/postgrescluster_v1beta1.json
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: &name postgres-gitlab
+spec:
+  postgresVersion: 15
+  metadata:
+    labels:
+      crunchy-userinit.ramblurr.github.com/enabled: "true"
+      crunchy-userinit.ramblurr.github.com/superuser: "postgres"
+  monitoring:
+    pgmonitor:
+      exporter:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64M
+          limits:
+            memory: 512M
+  patroni: # turn on sync writes to at least 1 other replica
+    dynamicConfiguration:
+      synchronous_mode: true
+      postgresql:
+        max_wal_size: 5GB
+        synchronous_commit: "on"
+        parameters:
+          max_connections: 500
+  instances:
+    - name: *name
+      metadata:
+        labels:
+          app.kubernetes.io/name: crunchy-postgres-gitlab
+      replicas: &replicas 3
+      dataVolumeClaimSpec:
+        storageClassName: ceph-block
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 20Gi
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: "kubernetes.io/hostname"
+          whenUnsatisfiable: "DoNotSchedule"
+          labelSelector:
+            matchLabels:
+              postgres-operator.crunchydata.com/cluster: *name
+              postgres-operator.crunchydata.com/data: *name
+  users:
+    # Superuser
+    - name: "postgres"
+      databases: ["postgres"]
+      options: "SUPERUSER"
+      password:
+        type: AlphaNumeric
+    # Applications
+    - name: "gitlab"
+      databases: ["gitlab"]
+      password:
+        type: AlphaNumeric
+    - name: "gitlab-ci"
+      databases: ["gitlab-ci"]
+      password:
+        type: AlphaNumeric
+  backups:
+    pgbackrest:
+      configuration: &backupConfig
+        - secret:
+            name: crunchy-pgo-gitlab-secret
+      global: &backupFlag
+        # Global
+        compress-type: "bz2"
+        compress-level: "9"
+        # Minio
+        repo1-block: "y"
+        repo1-bundle: "y"
+        repo1-path: /gitlab-pgo
+        repo1-retention-full: "30" # days
+        repo1-retention-full-type: "time"
+        repo1-s3-uri-style: path
+        # R2
+        repo2-block: "y"
+        repo2-bundle: "y"
+        repo2-path: /gitlab-pgo
+        repo2-retention-full: "7" # days
+        repo2-retention-full-type: time
+        repo2-s3-uri-style: path
+      manual:
+        repoName: repo1
+        options:
+          - --type=full
+      metadata:
+        labels:
+          app.kubernetes.io/name: crunchy-postgres-gitlab-backup
+      repos:
+        - name: repo1
+          s3: &minio
+            bucket: crunchy-pgo
+            endpoint: s3.monosense.io
+            region: p-rh8-zfs
+          schedules:
+            full: "0 2 * * 0" # Sunday at 02:00
+            differential: "0 2 * * 1-6" # Mon-Sat at 02:00
+            incremental: "0 3-23 * * *" # Every hour except 01:30-2:30
+        - name: repo2
+          s3: &r2
+            bucket: crunchy-pgo
+            endpoint: ${CLUSTER_SECRET_CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com
+            region: us-east-1 #https://developers.cloudflare.com/r2/api/s3/api/#bucket-region
+          schedules:
+            full: "30 4 * * 0" # Sunday at 04:30
+            incremental: "30 4 * * 1-6/2" # Mon-Sat at 04:30, every 2nd day
+  # dataSource:
+  #   pgbackrest:
+  #     stanza: db
+  #     configuration: *backupConfig
+  #     global: *backupFlag
+  #     repo:
+  #       name: repo1
+  #       s3: *minio
+  proxy:
+    pgBouncer:
+      service:
+        metadata:
+          labels:
+            app.kubernetes.io/name: crunchy-postgres-gitlab-pgbouncer
+          annotations:
+            external-dns.alpha.kubernetes.io/hostname: postgres.${CLUSTER_SECRET_PRD_DOMAIN}
+            lbipam.cilium.io/ips: ${SVC_CPGO_GITLAB_IP}
+        type: LoadBalancer
+      port: 5432
+      replicas: 3
+      config:
+        global:
+          # Grafana requires session
+          # Ref: https://github.com/grafana/grafana/issues/74260
+          pool_mode: session
+          client_tls_sslmode: prefer
+          default_pool_size: "100"
+          max_client_conn: "500"
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              postgres-operator.crunchydata.com/cluster: *name
+              postgres-operator.crunchydata.com/role: pgbouncer-gitlab

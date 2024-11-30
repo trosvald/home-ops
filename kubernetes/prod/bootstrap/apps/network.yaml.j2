@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: network
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ ENV.PROD_DOMAIN_CERT_NAME }}-tls
+  namespace: network
+  annotations:
+    cert-manager.io/alt-names: '*.{{ ENV.PROD_DOMAIN_COMMON_NAME }},{{ ENV.PROD_DOMAIN_COMMON_NAME }}'
+    cert-manager.io/certificate-name: {{ ENV.PROD_DOMAIN_CERT_NAME }}
+    cert-manager.io/common-name: {{ ENV.PROD_DOMAIN_COMMON_NAME }}
+    cert-manager.io/ip-sans: ""
+    cert-manager.io/issuer-group: ""
+    cert-manager.io/issuer-kind: ClusterIssuer
+    cert-manager.io/issuer-name: letsencrypt-production
+    cert-manager.io/uri-sans: ""
+  labels:
+    controller.cert-manager.io/fao: "true"
+type: kubernetes.io/tls
+data:
+  tls.crt: {{ ENV.INGRESS_NGINX_TLS_CRT }}
+  tls.key: {{ ENV.INGRESS_NGINX_TLS_KEY }}

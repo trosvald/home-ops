@@ -1,0 +1,241 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor
+  namespace: dev
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: harbor
+      version: 1.16.0
+      sourceRef:
+        kind: HelmRepository
+        name: harbor
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    expose:
+      type: ingress
+      tls:
+        # ! ingress=none/secret, clusterip=auto
+        certSource: secret
+        # auto:
+        #   commonName: "cr.${SECRET_EXT_DOMAIN}"
+        secret:
+          secretName: "${CLUSTER_SECRET_PRD_DOMAIN/./-}-tls"
+      ingress:
+        hosts:
+          core: registry.${CLUSTER_SECRET_DEV_DOMAIN}
+        controller: default
+        className: external
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          nginx.ingress.kubernetes.io/client-body-buffer-size: "10g"
+          cert-manager.io/cluster-issuer: letsencrypt-production
+          # Remember to NOT use CF proxying due to 100M upload limit though it
+          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+          external-dns.alpha.kubernetes.io/target: "external.${CLUSTER_SECRET_DEV_DOMAIN}"
+          nginx.ingress.kubernetes.io/custom-http-errors: "418"
+          nginx.ingress.kubernetes.io/proxy-connect-timeout: "480"
+    externalURL: https://registry.${CLUSTER_SECRET_DEV_DOMAIN}
+    persistence:
+      enabled: true
+      persistentVolumeClaim:
+        # registry:
+        #   existingClaim: "harbor-registry"
+        jobservice:
+          jobLog:
+            existingClaim: harbor-jobservice
+          scanDataExports:
+            existingClaim: harbor-jobservice-scandata
+        trivy:
+          existingClaim: harbor-trivy-v2
+
+      imageChartStorage:
+        # Specify whether to disable `redirect` for images and chart storage, for
+        # backends which not supported it (such as using minio for `s3` storage type), please disable
+        # it. To disable redirects, simply set `disableredirect` to `true` instead.
+        disableredirect: true
+        type: s3
+        s3:
+          v4auth: true
+          bucket: harbor
+          secure: true
+          skipverify: false
+          rootdirectory: /s3/object
+          # Set an existing secret for S3 accesskey and secretkey
+          # keys in the secret should be AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY for chartmuseum
+          # keys in the secret should be REGISTRY_STORAGE_S3_ACCESSKEY and REGISTRY_STORAGE_S3_SECRETKEY for registry
+          # existingSecret: ""
+          # accesskey: awsaccesskey
+          # secretkey: awssecretkey
+          # regionendpoint: http://myobjects.local
+          # encrypt: false
+          # keyid: mykeyid
+          # secure: true
+          # skipverify: false
+          # v4auth: true
+          # chunksize: "5242880"
+          # rootdirectory: /s3/object/name/prefix
+          # storageclass: STANDARD
+          # multipartcopychunksize: "33554432"
+          # multipartcopymaxconcurrency: 100
+          # multipartcopythresholdsize: "33554432"
+
+    imagePullPolicy: Always
+    updateStrategy:
+      type: Recreate
+    # debug, info, warning, error or fatal
+    logLevel: warning
+    existingSecretSecretKey: &secret harbor-secret
+
+    portal:
+      image:
+        repository: ghcr.io/octohelm/harbor/harbor-portal
+        tag: v2.12.0
+      revisionHistoryLimit: 3
+    core:
+      image:
+        repository: ghcr.io/octohelm/harbor/harbor-core
+        tag: v2.12.0
+      revisionHistoryLimit: 3
+      podAnnotations:
+        secret.reloader.stakater.com/reload: *secret
+    jobservice:
+      image:
+        repository: ghcr.io/octohelm/harbor/harbor-jobservice
+        tag: v2.12.0
+      revisionHistoryLimit: 3
+    registry:
+      registry:
+        image:
+          repository: ghcr.io/octohelm/harbor/registry-photon
+          tag: v2.12.0
+      controller:
+        image:
+          repository: ghcr.io/octohelm/harbor/harbor-registryctl
+          tag: v2.12.0
+      upload_purging:
+        enabled: true
+        # remove files in _upload directories which exist for a period of time, default is one week.
+        age: 168h
+        # the interval of the purge operations
+        interval: 24h
+        dryrun: false
+      revisionHistoryLimit: 3
+    chartmuseum:
+      enabled: false
+    trivy:
+      enabled: true
+      image:
+        repository: ghcr.io/octohelm/harbor/trivy-adapter-photon
+        tag: v2.12.0
+    notary:
+      enabled: false
+
+    database:
+      # if external database is used, set "type" to "external"
+      # and fill the connection information in "external" section
+      type: external
+      external:
+        port: 5432
+        sslmode: require
+      maxIdleConns: 50
+      maxOpenConns: 100
+
+    redis:
+      type: internal
+      internal:
+        image:
+          repository: ghcr.io/octohelm/harbor/redis-photon
+          tag: v2.12.0
+      # external:
+      #   # support redis, redis+sentinel
+      #   # addr for redis: <host_redis>:<port_redis>
+      #   # addr for redis+sentinel: <host_sentinel1>:<port_sentinel1>,<host_sentinel2>:<port_sentinel2>,<host_sentinel3>:<port_sentinel3>
+      # addr: dragonfly.database.svc.cluster.local:6379
+      # coreDatabaseIndex: 0
+      # jobserviceDatabaseIndex: 2
+      # registryDatabaseIndex: 4
+      # # chartmuseumDatabaseIndex: "3"
+      # trivyAdapterIndex: 5
+
+    exporter:
+      replicas: 1
+      revisionHistoryLimit: 3
+      image:
+        repository: ghcr.io/octohelm/harbor/harbor-exporter
+        tag: v2.11.0
+    metrics:
+      enabled: true
+      core:
+        path: /metrics
+        port: 8001
+      registry:
+        path: /metrics
+        port: 8001
+      jobservice:
+        path: /metrics
+        port: 8001
+      exporter:
+        path: /metrics
+        port: 8001
+      serviceMonitor:
+        enabled: true
+    trace:
+      enabled: false
+    cache:
+      enabled: false
+      expireHours: 24
+
+  valuesFrom:
+    - targetPath: harborAdminPassword
+      kind: Secret
+      name: *secret
+      valuesKey: HARBOR_ADMIN_PASSWORD
+    # DB
+    - targetPath: database.external.host
+      kind: Secret
+      name: *secret
+      valuesKey: PG_DB_HOST
+    - targetPath: database.external.username
+      kind: Secret
+      name: *secret
+      valuesKey: PG_DB_USER
+    - targetPath: database.external.password
+      kind: Secret
+      name: *secret
+      valuesKey: PG_DB_PASSWORD
+    - targetPath: database.external.coreDatabase
+      kind: Secret
+      name: *secret
+      valuesKey: PG_DB_NAME
+    # S3
+    - targetPath: persistence.imageChartStorage.s3.accesskey
+      kind: Secret
+      name: *secret
+      valuesKey: REGISTRY_STORAGE_S3_ACCESSKEY
+    - targetPath: persistence.imageChartStorage.s3.secretkey
+      kind: Secret
+      name: *secret
+      valuesKey: REGISTRY_STORAGE_S3_SECRETKEY
+    - targetPath: persistence.imageChartStorage.s3.regionendpoint
+      kind: Secret
+      name: *secret
+      valuesKey: S3_ENDPOINT
+    - targetPath: persistence.imageChartStorage.s3.region
+      kind: Secret
+      name: *secret
+      valuesKey: S3_REGION
+

@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hass-proxy
+spec:
+  externalName: hassio.${CLUSTER_SECRET_DEV_DOMAIN}
+  ports:
+    - name: http
+      port: 8123
+      protocol: TCP
+      targetPort: 8123
+  type: ExternalName
