@@ -15,11 +15,11 @@ spec:
   dependsOn:
     - name: external-dns-cloudflare
     - name: external-secrets-stores
-  path: ./kubernetes/main/apps/network/cloudflared/app
+  path: ./kubernetes/prod/apps/network/cloudflared/app
   prune: false
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m

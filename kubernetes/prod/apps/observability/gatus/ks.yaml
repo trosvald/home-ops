@@ -13,11 +13,11 @@ spec:
   dependsOn:
     - name: crunchy-postgres-main-cluster
     - name: external-secrets-stores
-  path: ./kubernetes/main/apps/observability/gatus/app
+  path: ./kubernetes/prod/apps/observability/gatus/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

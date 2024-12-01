@@ -13,11 +13,11 @@ spec:
   dependsOn:
     # - name: external-secrets-stores
     - name: snapshot-controller
-  path: ./kubernetes/main/apps/storage/democratic-csi/local-path
+  path: ./kubernetes/prod/apps/storage/democratic-csi/local-path
   prune: true
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m
@@ -37,11 +37,11 @@ spec:
   dependsOn:
     # - name: external-secrets-stores
     - name: snapshot-controller
-  path: ./kubernetes/main/apps/storage/democratic-csi/nfs
+  path: ./kubernetes/prod/apps/storage/democratic-csi/nfs
   prune: true
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m
@@ -61,11 +61,11 @@ spec:
   dependsOn:
     # - name: external-secrets-stores
     - name: snapshot-controller
-  path: ./kubernetes/main/apps/storage/democratic-csi/iscsi
+  path: ./kubernetes/prod/apps/storage/democratic-csi/iscsi
   prune: true
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

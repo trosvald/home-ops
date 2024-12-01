@@ -12,11 +12,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
-  path: ./kubernetes/main/apps/rook-ceph/rook-ceph/app
+  path: ./kubernetes/prod/apps/rook-ceph/rook-ceph/app
   prune: false # never should be deleted
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m
@@ -35,11 +35,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
-  path: ./kubernetes/main/apps/rook-ceph/rook-ceph/cluster
+  path: ./kubernetes/prod/apps/rook-ceph/rook-ceph/cluster
   prune: false # never should be deleted
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

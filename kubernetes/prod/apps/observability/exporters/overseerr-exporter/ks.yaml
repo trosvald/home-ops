@@ -13,11 +13,11 @@ spec:
   dependsOn:
     - name: overseerr
     - name: external-secrets-stores
-  path: ./kubernetes/main/apps/observability/exporters/overseerr-exporter/app
+  path: ./kubernetes/prod/apps/observability/exporters/overseerr-exporter/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: true
   interval: 30m
   retryInterval: 1m

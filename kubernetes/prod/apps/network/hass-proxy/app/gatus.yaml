@@ -16,7 +16,7 @@ data:
           hide-hostname: true
           hide-url: true
         client:
-          dns-resolver: tcp://172.16.11.102:53
+          dns-resolver: tcp://172.16.11.254:53
         conditions:
           - "[STATUS] == 200"
         alerts:

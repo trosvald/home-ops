@@ -10,11 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/main/apps/observability/alertmanager-telegram/app
+  path: ./kubernetes/prod/apps/observability/alertmanager-telegram/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

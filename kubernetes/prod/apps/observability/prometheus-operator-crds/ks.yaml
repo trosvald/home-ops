@@ -10,11 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/main/apps/observability/prometheus-operator-crds/app
+  path: ./kubernetes/prod/apps/observability/prometheus-operator-crds/app
   prune: false # never should be deleted
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

@@ -13,11 +13,11 @@ spec:
   dependsOn:
     # - name: certificates
     - name: external-secrets-stores
-  path: ./kubernetes/main/apps/network/omada/app
+  path: ./kubernetes/prod/apps/network/omada/app
   prune: false
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m

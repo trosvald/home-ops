@@ -6,11 +6,11 @@ metadata:
   name: mattermost
   namespace: flux-system
 spec:
-  path: ./kubernetes/main/apps/selfhosted/mattermost/app
+  path: ./kubernetes/prod/apps/selfhosted/mattermost/app
   targetNamespace: selfhosted
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   commonMetadata:
     labels:
       app.kubernetes.io/name: &appname mattermost

@@ -6,11 +6,11 @@ metadata:
   name: authentik
   namespace: flux-system
 spec:
-  path: ./kubernetes/main/apps/security/authentik/app
+  path: ./kubernetes/prod/apps/security/authentik/app
   targetNamespace: security
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   commonMetadata:
     labels:
       app.kubernetes.io/name: &appname authentik

@@ -12,11 +12,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
-  path: ./kubernetes/main/apps/observability/kube-prometheus-stack/app
+  path: ./kubernetes/prod/apps/observability/kube-prometheus-stack/app
   prune: true
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m
@@ -35,11 +35,11 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: kube-prometheus-stack
-  path: ./kubernetes/main/apps/observability/kube-prometheus-stack/tools
+  path: ./kubernetes/prod/apps/observability/kube-prometheus-stack/tools
   prune: true
   sourceRef:
     kind: GitRepository
-    name: prod-kubernetes
+    name: home-ops
   wait: false
   interval: 30m
   retryInterval: 1m
