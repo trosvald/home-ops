@@ -9,6 +9,7 @@ tasks:
 
   gen-secrets:
     desc: Generate the Talos secrets
+    prompt: Generate talos secrets for '{{.CLUSTER}}' cluster ... continue?
     cmds:
       - talhelper -f {{.CLUSTER_DIR}}/talos/talconfig.yaml gensecret > {{.CLUSTER_DIR}}/talos/talsecret.sops.yaml
       - task: :sops:.encrypt-file
@@ -21,10 +22,16 @@ tasks:
     status:
       - test -f "{{.CLUSTER_DIR}}/talos/talsecret.sops.yaml"
 
-
   gen-config:
     desc: Generate the Talos configs
-    cmd: talhelper -c {{.CLUSTER_DIR}}/talos/talconfig.yaml genconfig -s {{.CLUSTER_DIR}}/talos/talsecret.sops.yaml -o {{.CLUSTER_DIR}}/talos/clusterconfig
+    prompt: Generate talos config for '{{.CLUSTER}}' cluster ... continue?
+    cmds:
+      - talhelper genconfig
+        -c {{.CLUSTER_DIR}}/talos/talconfig.yaml
+        -s {{.CLUSTER_DIR}}/talos/talsecret.sops.yaml
+        -e {{.CLUSTER_DIR}}/talos/talenv.sops.yaml
+        -o {{.CLUSTER_DIR}}/talos/clusterconfig
+      - cp {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig {{.CLUSTER_DIR}}
     requires:
       vars: [CLUSTER]
     preconditions:
@@ -33,6 +40,7 @@ tasks:
 
   apply-config:
     desc: Apply the Talos config on a nodes for a new cluster
+    prompt: Apply talos config for '{{.CLUSTER}}' cluster ... continue?
     dir: "{{.CLUSTER_DIR}}/talos/"
     cmd: talhelper gencommand apply --extra-flags=--insecure | bash
     requires:
@@ -43,6 +51,7 @@ tasks:
 
   talos:
     desc: Bootstrap Talos [CLUSTER=main]
+    prompt: Bootstrap talos for '{{.CLUSTER}}' cluster ... continue?
     cmds:
       - until talosctl --talosconfig {{.CLUSTER_DIR}}/talosconfig --nodes {{.TALOS_CONTROLLER}} bootstrap; do sleep 5; done
       - talosctl --talosconfig {{.CLUSTER_DIR}}/talosconfig kubeconfig --nodes {{.TALOS_CONTROLLER}} --force --force-context-name {{.CLUSTER}} {{.CLUSTER_DIR}}
@@ -74,30 +83,31 @@ tasks:
   apps:
     desc: Bootstrap Apps [CLUSTER=main]
     cmds:
-      - until kubectl --context {{.CLUSTER}} wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 5; done
-      - helmfile --kube-context {{.CLUSTER}} --quiet --file {{.CLUSTER_DIR}}/bootstrap/apps/helmfile.yaml apply --skip-diff-on-install --suppress-diff
-      - until kubectl --context {{.CLUSTER}} wait nodes --for=condition=Ready --all --timeout=10m; do sleep 5; done
+      - until kubectl --cluster {{.CLUSTER}} wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 5; done
+      - helmfile --kube-context admin@{{.CLUSTER}} --quiet --file {{.CLUSTER_DIR}}/bootstrap/apps/helmfile.yaml apply --skip-diff-on-install --suppress-diff
+      - until kubectl --cluster {{.CLUSTER}} wait nodes --for=condition=Ready --all --timeout=10m; do sleep 5; done
     requires:
       vars: [CLUSTER]
     preconditions:
-      - talosctl --context {{.CLUSTER}} config info
-      - test -f {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig
+      # - talosctl --context {{.CLUSTER}} config info
+      - test -f {{.CLUSTER_DIR}}/talosconfig
       - test -f {{.CLUSTER_DIR}}/bootstrap/apps/helmfile.yaml
       - which helmfile kubectl
 
   flux:
     desc: Bootstrap Flux [CLUSTER=main]
+    prompt: Bootstrap flux for '{{.CLUSTER}}' cluster ... continue?
     cmds:
-      - kubectl --context {{.CLUSTER}} apply --server-side --kustomize {{.CLUSTER_DIR}}/bootstrap/apps
+      - kubectl --cluster {{.CLUSTER}} apply --server-side --kustomize {{.CLUSTER_DIR}}/bootstrap/apps
       - for: { var: TEMPLATES }
-        cmd: op run --env-file {{.CLUSTER_DIR}}/bootstrap/bootstrap.env --no-masking -- minijinja-cli {{.ITEM}} | kubectl --context {{.CLUSTER}} apply --server-side --filename -
-      - kubectl --context {{.CLUSTER}} apply --server-side --filename {{.CLUSTER_DIR}}/flux/vars/cluster-settings.yaml
-      - kubectl --context {{.CLUSTER}} apply --server-side --kustomize {{.CLUSTER_DIR}}/flux/config
+        cmd: op run --env-file {{.CLUSTER_DIR}}/bootstrap/bootstrap.env --no-masking -- minijinja-cli {{.ITEM}} | kubectl --cluster {{.CLUSTER}} apply --server-side --filename -
+      - kubectl --cluster {{.CLUSTER}} apply --server-side --filename {{.CLUSTER_DIR}}/flux/settings/cluster-settings.yaml
+      - kubectl --cluster {{.CLUSTER}} apply --server-side --kustomize {{.CLUSTER_DIR}}/flux/config
     vars:
       TEMPLATES:
         sh: ls {{.CLUSTER_DIR}}/bootstrap/apps/*.j2
     env:
-      VAULT: '{{if eq .CLUSTER "main"}}prod{{else}}{{.CLUSTER}}{{end}}' # ¯\_(ツ)_/¯
+      VAULT: '{{if eq .CLUSTER "prod"}}prod{{else}}{{.CLUSTER}}{{end}}' # ¯\_(ツ)_/¯
       FLUX_GITHUB_PUBLIC_KEYS:
         sh: curl -fsSL https://api.github.com/meta | jq --raw-output '"github.com "+.ssh_keys[]'
     requires:

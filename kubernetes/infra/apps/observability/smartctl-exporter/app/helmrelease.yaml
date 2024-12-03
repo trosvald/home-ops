@@ -30,7 +30,7 @@ spec:
       tag: 0.12.0@sha256:d43c495de405a19b6db0c5168a11c255d783db5b62517330467a4d85df17ebba
     config:
       devices:
-        - /dev/sdb
+        - /dev/sda
         - /dev/nvme0n1
     # we also monitor from heimdall
     hostNetwork: true
