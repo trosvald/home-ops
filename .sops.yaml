@@ -1,26 +1,19 @@
 ---
 creation_rules:
-  - # IMPORTANT: Keep this rule first
-    path_regex: talos/.+\.secret(\.sops)?\.ya?ml
-    input_type: yaml
+  - path_regex: kubernetes/.+\.sops\.yaml.j2
     encrypted_regex: ^(token|crt|key|id|secret|secretboxEncryptionSecret|ca)$
+    mac_only_encrypted: true
     key_groups:
       - age:
           - age1j3hsfptdfsfwvkf504etjkrtmajny9csrfh5s24uqh6fchmg5dgqg087ek
-  - path_regex: kubernetes/.+\.secret(\.sops)?\.ya?ml
-    input_type: yaml
+  - path_regex: kubernetes/.+\.sops\.yaml
     encrypted_regex: ^(data|stringData)$
+    mac_only_encrypted: true
     key_groups:
       - age:
           - age1j3hsfptdfsfwvkf504etjkrtmajny9csrfh5s24uqh6fchmg5dgqg087ek
   - path_regex: terraform/.+\.secret(\.sops)?\.ya?ml
-    input_type: yaml
     unencrypted_regex: "^(kind)$"
-    key_groups:
-      - age:
-          - age1j3hsfptdfsfwvkf504etjkrtmajny9csrfh5s24uqh6fchmg5dgqg087ek
-  - path_regex: kubernetes/.+\.secret(\.sops)?\.env
-    input_type: env
     key_groups:
       - age:
           - age1j3hsfptdfsfwvkf504etjkrtmajny9csrfh5s24uqh6fchmg5dgqg087ek

@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname gitlab-redis
+  namespace: flux-system
+spec:
+  path: ./kubernetes/prod/apps/dev/gitlab-redis/app
+  targetNamespace: dev
+  sourceRef:
+    kind: GitRepository
+    name: home-ops
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  prune: true
+  wait: false
+  interval: 10m
+  dependsOn:
+    - name: dragonfly

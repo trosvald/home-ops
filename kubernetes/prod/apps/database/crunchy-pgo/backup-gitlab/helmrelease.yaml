@@ -1,0 +1,74 @@
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: crunchy-gitlab-backup
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      postgres-backup:
+        type: cronjob
+        cronjob:
+          concurrencyPolicy: Forbid
+          schedule: "30 5 * * *"
+        pod:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+        containers:
+          app:
+            image:
+              repository: docker.io/prodrigestivill/postgres-backup-local
+              tag: 17@sha256:8d74e85ac86825950bd9fa0f84ea8f5db55ba94c3dd238e9045e2d9a922bcfcc
+            command:
+              - /bin/bash
+              - -x
+              - /backup.sh
+            env:
+              - { name: TZ, value: "${TIMEZONE:=Asia/Jakarta}" }
+              - { name: POSTGRES_DB, value: "gitlab,gitlab-ci" }
+              # - { name: POSTGRES_HOST, value: "postgres-ro.dbms.svc.cluster.local" }
+              # - { name: POSTGRES_PORT, value: 5432 }
+              - name: POSTGRES_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: crunchy-gitlab-backup-secret
+                    key: POSTGRES_HOST
+              - name: POSTGRES_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: crunchy-gitlab-backup-secret
+                    key: POSTGRES_USER
+              - name: POSTGRES_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: crunchy-gitlab-backup-secret
+                    key: POSTGRES_PASSWORD
+    persistence:
+      nas:
+        type: nfs
+        server: ${NET_STORAGE_SERVER}
+        path: /pool0/backup/postgres
+        globalMounts:
+          - path: /backups
+          - subPath: backups/gitlab

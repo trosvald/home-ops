@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./ananace.yaml
+  - ./angelnu.yaml
+  - ./backube.yaml
+  - ./bitnami.yaml
+  - ./bjw-s.yaml
+  - ./cilium.yaml
+  - ./coredns.yaml
+  - ./crossplane.yaml
+  - ./crunchydata.yaml
+  - ./csi-driver-nfs.yaml
+  - ./democratic-csi.yaml
+  - ./descheduler.yaml
+  - ./emqx.yaml
+  - ./external-dns.yaml
+  - ./external-secrets.yaml
+  - ./grafana.yaml
+  - ./headlamp.yaml
+  - ./ingress-nginx.yaml
+  - ./intel.yaml
+  - ./jetstack.yaml
+  - ./kyverno.yaml
+  - ./metrics-server.yaml
+  - ./node-feature-discovery.yaml
+  - ./openebs.yaml
+  - ./piraeus.yaml
+  - ./postfinance.yaml
+  - ./prometheus-community.yaml
+  - ./sonarqube.yaml
+  - ./spegel.yaml
+  - ./stakater.yaml
+  - ./stevehipwell.yaml
+  - ./userinit-controller.yaml

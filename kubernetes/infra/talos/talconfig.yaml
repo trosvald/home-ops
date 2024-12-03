@@ -1,0 +1,304 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+clusterName: ${clusterName}
+endpoint: "https://k8s.${clusterDNSSuffix}:6443"
+
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+talosVersion: v1.8.3
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.31.3
+
+clusterPodNets:
+  - 10.44.0.0/16
+clusterSvcNets:
+  - 10.45.0.0/16
+
+cniConfig:
+  name: none
+
+additionalApiServerCertSans: &san
+  - ${clusterEndpointIP}
+  # - ${clusterHostname}.${clusterDNSSuffix}
+  - "127.0.0.1"
+additionalMachineCertSans: *san
+
+nodes:
+  # SSD 800GB for OS and democratic-csi localpath
+  # NvME 512GB for longhorn
+  - hostname: k0.${clusterDNSSuffix}
+    ipAddress: 172.16.16.2
+    installDisk: /dev/sda
+    machineDisks:
+      - &longhorn
+        device: /dev/nvme0n1
+        partitions:
+          - mountpoint: /var/mnt/longhorn
+    controlPlane: true
+    networkInterfaces:
+      - interface: enp0s31f6
+        mtu: 1500
+        dhcp: false
+        addresses:
+          - 172.16.16.2/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.16.254
+        vip:
+          ip: ${clusterEndpointIP}
+        vlans:
+          - &vlan1613
+            vlanId: 1613
+            mtu: 1500
+            dhcp: true
+            dhcpOptions:
+              routeMetric: 4096
+
+  - hostname: k1.${clusterDNSSuffix}
+    ipAddress: 172.16.16.3
+    installDisk: /dev/sda
+    machineDisks:
+      - *longhorn
+    controlPlane: true
+    networkInterfaces:
+      ## Network Configuration
+      - interface: enp0s31f6
+        mtu: 1500
+        dhcp: false
+        addresses:
+          - 172.16.16.3/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.16.254
+        vip:
+          ip: ${clusterEndpointIP}
+        vlans:
+          - *vlan1613
+
+  - hostname: k2.${clusterDNSSuffix}
+    ipAddress: 172.16.16.4
+    installDisk: /dev/sda
+    machineDisks:
+      - *longhorn
+    controlPlane: true
+    networkInterfaces:
+    ## Network Configuration
+      - interface: enp0s31f6
+        mtu: 1500
+        dhcp: false
+        addresses:
+          - 172.16.16.4/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 172.16.16.254
+        vip:
+          ip: ${clusterEndpointIP}
+        vlans:
+          - *vlan1613
+
+controlPlane:
+  nodeLabels:
+    topology.kubernetes.io/region: infra
+    topology.kubernetes.io/zone: m
+
+  schematic:
+    customization:
+      extraKernelArgs:
+        - mitigations=off
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
+          - siderolabs/i915-ucode
+          - siderolabs/iscsi-tools
+
+  patches:
+    # Configure containerd
+    - |-
+      machine:
+        files:
+          - op: create
+            path: /etc/cri/conf.d/20-customization.part
+            content: |
+              [plugins]
+                [plugins."io.containerd.grpc.v1.cri"]
+                  enable_unprivileged_ports = true
+                  enable_unprivileged_icmp = true
+                [plugins."io.containerd.grpc.v1.cri".containerd]
+                  discard_unpacked_layers = false
+                [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+                  discard_unpacked_layers = false
+
+    # longhorn
+    - |-
+      machine:
+        kubelet:
+          extraMounts:
+            - destination: /var/mnt/longhorn
+              type: bind
+              source: /var/mnt/longhorn
+              options:
+                - bind
+                - rshared
+                - rw
+
+    # dcsi localpath directory
+    - |-
+      machine:
+        kubelet:
+          extraMounts:
+            - destination: /var/localpath
+              type: bind
+              source: /var/localpath
+              options:
+                - bind
+                - rshared
+                - rw
+
+    # Disable search domain everywhere
+    - |-
+      machine:
+        network:
+          disableSearchDomain: true
+
+    # Enable cluster discovery
+    - |-
+      cluster:
+        discovery:
+          registries:
+            kubernetes:
+              disabled: false
+            service:
+              disabled: false
+
+    # Enable host dns
+    # Incompatible with Cilium bpf masquerade. siderolabs/talos/#8836
+    # Replaced by a Cilium redirect policy.
+    - |-
+      machine:
+        features:
+          hostDNS:
+            enabled: true
+            resolveMemberNames: true
+            forwardKubeDNSToHost: false
+
+    # Configure kubelet
+    - |-
+      machine:
+        kubelet:
+          extraArgs:
+            rotate-server-certificates: true
+          defaultRuntimeSeccompProfileEnabled: true
+          nodeIP:
+            validSubnets:
+              - 172.16.16.0/24
+          disableManifestsDirectory: true
+
+    # Enable KubePrism
+    - |-
+      machine:
+        features:
+          kubePrism:
+            enabled: true
+            port: 7445
+
+    # Force nameserver
+    - |-
+      machine:
+        network:
+          nameservers:
+            - 172.16.16.254
+            - 10.11.11.12
+            - 10.16.16.4
+
+    # NFS Mount options
+    - |-
+      machine:
+        files:
+          - op: overwrite
+            path: /etc/nfsmount.conf
+            permissions: 420
+            content: |
+              [ NFSMount_Global_Options ]
+              nfsvers=4.2
+              hard=True
+              noatime=True
+              nodiratime=True
+              rsize=131072
+              wsize=131072
+              nconnect=8
+
+    # Configure NTP
+    - |-
+      machine:
+        time:
+          disabled: false
+          servers:
+            - time.google.com
+            - time.cloudflare.com
+            - 172.16.16.254
+
+    # Configure cluster loopback
+    - |-
+      machine:
+        network:
+          extraHostEntries:
+            - ip: ${clusterEndpointIP}
+              aliases:
+                - ${clusterHostname}.${clusterDNSSuffix}
+                - ${clusterName}.${clusterDNSSuffix}
+
+    # Custom sysctl settings
+    - |-
+      machine:
+        sysctls:
+          fs.inotify.max_user_watches: 1048576
+          fs.inotify.max_user_instances: 8192
+          kernel.randomize_va_space: 0
+          net.core.netdev_max_backlog: 30000
+          net.core.rmem_max: 67108864
+          net.core.wmem_max: 67108864
+          net.ipv4.tcp_rmem: 4096 87380 33554432
+          net.ipv4.tcp_wmem: 4096 65536 33554432
+          net.ipv4.tcp_tw_reuse: 1
+          net.ipv4.tcp_window_scaling: 1
+
+    # Cluster configuration
+    - |-
+      cluster:
+        allowSchedulingOnMasters: true
+        controllerManager:
+          extraArgs:
+            bind-address: 0.0.0.0
+        coreDNS:
+          disabled: true
+        proxy:
+          disabled: true
+        scheduler:
+          config:
+            apiVersion: kubescheduler.config.k8s.io/v1
+            kind: KubeSchedulerConfiguration
+            profiles:
+              - schedulerName: default-scheduler
+                pluginConfig:
+                  - name: PodTopologySpread
+                    args:
+                      defaultingType: List
+                      defaultConstraints:
+                        - maxSkew: 1
+                          topologyKey: kubernetes.io/hostname
+                          whenUnsatisfiable: ScheduleAnyway
+          extraArgs:
+            bind-address: 0.0.0.0
+
+    # Cluster ETCD configuration
+    - |-
+      cluster:
+        etcd:
+          extraArgs:
+            listen-metrics-urls: http://0.0.0.0:2381
+          advertisedSubnets:
+            - 172.16.16.0/24
+
+    # Disable default API server admission plugins.
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl

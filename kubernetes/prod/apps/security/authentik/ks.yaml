@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: authentik
+  namespace: flux-system
+spec:
+  path: ./kubernetes/prod/apps/security/authentik/app
+  targetNamespace: security
+  sourceRef:
+    kind: GitRepository
+    name: home-ops
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: &appname authentik
+  prune: true
+  wait: false
+  interval: 10m
+  dependsOn:
+    - name: crunchy-postgres-main-cluster
+    - name: dragonfly-cluster
+    - name: external-secrets-stores
+  postBuild:
+    substitute:
+      APP: *appname
+      GATUS_SUBDOMAIN: sso
+      GATUS_PATH: /-/health/ready/

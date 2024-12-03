@@ -1,0 +1,169 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+tasks:
+  genconfig:
+    desc: Generate the Talos configs
+    prompt: Generate talos config for '{{.CLUSTER}}' cluster ... continue?
+    cmds:
+      - talhelper genconfig
+        -c {{.CLUSTER_DIR}}/talos/talconfig.yaml
+        -s {{.CLUSTER_DIR}}/talos/talsecret.sops.yaml
+        -e {{.CLUSTER_DIR}}/talos/talenv.sops.yaml
+        -o {{.CLUSTER_DIR}}/talos/clusterconfig
+      # - cp -f {{.CLUSTER_DIR}}/talos/clusterconfig/*.yaml {{.CLUSTER_DIR}}/talos/assets
+      - cp {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig {{.CLUSTER_DIR}}
+      # - rename 's/(prod|infra)-//;' {{.CLUSTER_DIR}}/talos/assets/*.yaml
+      # - rename 's/(\.monosense.dev.yaml|\.monosense.io.yaml)$/\.sops.yaml/;' {{.CLUSTER_DIR}}/talos/assets/*.yaml
+      # - '{{if eq .CLUSTER "infra"}}sh -c "{{.ROOT_DIR}}/tools/infra.sh" {{else}}sh -c "{{.ROOT_DIR}}/tools/main.sh"{{end}}'
+      # - find {{.CLUSTER_DIR}}/talos/assets -type f | xargs -I{} sh -c "sops  --encrypt --encrypted-regex '^(token|crt|key|id|secret|secretboxEncryptionSecret|ca)$' --in-place {}"
+    requires:
+      vars: [CLUSTER]
+    preconditions:
+      - which talhelper
+      - test -f {{.CLUSTER_DIR}}/talos/talconfig.yaml
+      - test -f {{.CLUSTER_DIR}}/talos/talsecret.sops.yaml
+      - test -f {{.CLUSTER_DIR}}/talos/talenv.sops.yaml
+
+  apply-node:
+    desc: Apply Talos config to a node [CLUSTER=main] [HOSTNAME=required]
+    dotenv: ['{{.CLUSTER_DIR}}/cluster.env']
+    cmds:
+      - task: down
+      - talosctl apply-config --nodes {{.HOSTNAME}} --mode={{.MODE}} --file {{.CLUSTER_DIR}}/talos/clusterconfig/{{.CLUSTER}}-{{.HOSTNAME}}.yaml
+      - talosctl --nodes {{.HOSTNAME}} health --wait-timeout=10m --server=false
+      - task: up
+    vars:
+      MODE: '{{.MODE | default "auto"}}'
+    requires:
+      vars: [CLUSTER, HOSTNAME]
+    preconditions:
+      - talosctl --nodes {{.HOSTNAME}} get machineconfig
+      - test -f {{.CLUSTER_DIR}}/cluster.env
+      - test -f {{.CLUSTER_DIR}}/talos/talconfig.yaml
+      - test -f {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig
+
+  apply-cluster: ## This isn't working on Infra cluster
+    desc: Apply the Talos config on all nodes for an existing cluster [CLUSTER=main]
+    vars:
+      HOSTNAMES:
+        sh: kubectl --context {{.CLUSTER}} get nodes --output=jsonpath='{.items[*].metadata.name}'
+    cmds:
+      - for: { var: HOSTNAMES }
+        task:  apply-node
+        vars:
+          HOSTNAME: '{{.ITEM}}'
+          CLUSTER: "{{.CLUSTER}}"
+    requires:
+      vars: [CLUSTER]
+    preconditions:
+      - talosctl config info
+      - test -f {{.CLUSTER_DIR}}/cluster.env
+      - test -f {{.CLUSTER_DIR}}/talos/talconfig.yaml
+      - test -f {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig
+
+  soft-nuke:
+    desc: Resets nodes back to maintenance mode so you can re-deploy again straight after
+    prompt: This will destroy your cluster and reset the nodes back to maintenance mode... continue?
+    cmds:
+      - talhelper gencommand reset
+        -o {{.CLUSTER_DIR}}/talos
+        -c {{.CLUSTER_DIR}}/talos/talconfig.yaml
+        --env-file {{.CLUSTER_DIR}}/talos/talenv.sops.yaml
+        --extra-flags "--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
+    preconditions:
+      - { msg: "Argument (CLUSTER) is required", sh: "test -n {{.CLUSTER}}" }
+
+  hard-nuke:
+    desc: Resets nodes back completely and reboots them
+    prompt: This will destroy your cluster and reset the nodes... continue?
+    cmd: talhelper gencommand reset -o {{.CLUSTER_DIR}}/talos -c {{.CLUSTER_DIR}}/talos/talconfig.yaml --extra-flags "--reboot --graceful=false --wait=false" | bash
+    preconditions:
+      - { msg: "Argument (CLUSTER) is required", sh: "test -n {{.CLUSTER}}" }
+
+  reboot-node:
+    desc: Reboot Talos on a single node [CLUSTER=main] [HOSTNAME=required]
+    cmds:
+      - task: down
+      - talosctl --context {{.CLUSTER}} --nodes {{.HOSTNAME}} reboot
+      - talosctl --context {{.CLUSTER}} --nodes {{.HOSTNAME}} health --wait-timeout=10m --server=false
+      - task: up
+    requires:
+      vars: [CLUSTER, HOSTNAME]
+    preconditions:
+      - talosctl --context {{.CLUSTER}} --nodes {{.HOSTNAME}} get machineconfig
+      - talosctl --context {{.CLUSTER}} config info
+      - test -f {{.CLUSTER_DIR}}/cluster.env
+      - test -f {{.CLUSTER_DIR}}/talos/talconfig.yaml
+      - which talosctl
+
+  reboot-cluster:
+    desc: Reboot Talos across the whole cluster [CLUSTER=main]
+    prompt: This will reboot all of the cluster nodes. Are you sure you want to continue?
+    requires:
+      vars: [CLUSTER]
+    vars:
+      HOSTNAMES:
+        sh: kubectl --context {{.CLUSTER}} get nodes --output=jsonpath='{.items[*].metadata.name}'
+    cmds:
+      - for: { var: HOSTNAMES }
+        task: reboot-node
+        vars:
+          HOSTNAME: '{{.ITEM}}'
+          CLUSTER: "{{.CLUSTER}}"
+      - task: :kubernetes:delete-failed-pods
+        vars:
+          CLUSTER: "{{.CLUSTER}}"
+    preconditions:
+      - talosctl --context {{.CLUSTER}} config info
+      - test -f {{.CLUSTER_DIR}}/cluster.env
+      - test -f {{.CLUSTER_DIR}}/talos/talconfig.yaml
+      - test -f {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig
+
+  shutdown-cluster:
+    desc: Shutdown Talos across the whole cluster [CLUSTER=main]
+    prompt: Shutdown the Talos cluster '{{.CLUSTER}}' ... continue?
+    cmd: talosctl --context {{.CLUSTER}} shutdown --nodes {{.HOSTNAMES}} --force
+    vars:
+      HOSTNAMES:
+        sh: kubectl --context {{.CLUSTER}} get nodes --output=jsonpath='{.items[*].metadata.name}'
+    requires:
+      vars: [CLUSTER]
+    preconditions:
+      - talosctl --context {{.CLUSTER}} --nodes {{.NODES}} get machineconfig
+      - talosctl --context {{.CLUSTER}} config info
+      - test -f {{.CLUSTER_DIR}}/talos/talconfig.yaml
+      - test -f {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig
+      - which talosctl
+
+  kubeconfig:
+    desc: Generate the kubeconfig for a Talos cluster [CLUSTER=main]
+    cmd: talosctl --context {{.CLUSTER}} kubeconfig --nodes {{.TALOS_CONTROLLER}} --force --force-context-name {{.CLUSTER}} {{.CLUSTER_DIR}}
+    vars:
+      TALOS_CONTROLLER:
+        sh: talosctl --context {{.CLUSTER}} config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
+    requires:
+      vars: [CLUSTER]
+    preconditions:
+      - talosctl --context {{.CLUSTER}} config info
+      - test -f {{.CLUSTER_DIR}}/talos/clusterconfig/talosconfig
+      - which talosctl
+
+  down:
+    internal: true
+    cmds:
+      - '{{if eq .CLUSTER "prod"}}until kubectl --context {{.CLUSTER}} wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done{{end}}'
+      - until kubectl --context {{.CLUSTER}} wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
+      - task: :volsync:state-suspend
+    preconditions:
+      - which kubectl
+
+  up:
+    internal: true
+    cmds:
+      - '{{if eq .CLUSTER "prod"}}until kubectl --context {{.CLUSTER}} wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done{{end}}'
+      - until kubectl --context {{.CLUSTER}} wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
+      - task: :volsync:state-resume
+    preconditions:
+      - which kubectl

@@ -1,0 +1,72 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/clusterissuer_v1.json
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: "${CLUSTER_SECRET_LE_EMAIL}"
+    privateKeySecretRef:
+      name: letsencrypt-production
+    solvers:
+      - dns01:
+          cloudflare:
+            email: "${CLUSTER_SECRET_LE_EMAIL}"
+            apiKeySecretRef:
+              name: cloudflare-secret
+              key: CLOUDFLARE_API_KEY
+        selector:
+          dnsZones:
+            - "${CLUSTER_SECRET_PRD_DOMAIN}"
+            - "${CLUSTER_SECRET_DEV_DOMAIN}"
+            - "${CLUSTER_SECRET_BIZ_DOMAIN}"
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/clusterissuer_v1.json
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: "${CLUSTER_SECRET_LE_EMAIL}"
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - dns01:
+          cloudflare:
+            email: "${CLUSTER_SECRET_LE_EMAIL}"
+            apiKeySecretRef:
+              name: cloudflare-secret
+              key: CLOUDFLARE_API_KEY
+        selector:
+          dnsZones:
+            - "${CLUSTER_SECRET_PRD_DOMAIN}"
+            - "${CLUSTER_SECRET_DEV_DOMAIN}"
+            - "${CLUSTER_SECRET_BIZ_DOMAIN}"
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/clusterissuer_v1.json
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: buypass-production
+spec:
+  acme:
+    server: https://api.buypass.com/acme/directory
+    email: "${CLUSTER_SECRET_LE_EMAIL}"
+    privateKeySecretRef:
+      name: buypass-production
+    solvers:
+      - dns01:
+          cloudflare:
+            email: "${CLUSTER_SECRET_LE_EMAIL}"
+            apiKeySecretRef:
+              name: cloudflare-secret
+              key: CLOUDFLARE_API_KEY
+        selector:
+          dnsZones:
+            - "${CLUSTER_SECRET_PRD_DOMAIN}"
+            - "${CLUSTER_SECRET_DEV_DOMAIN}"
+            - "${CLUSTER_SECRET_BIZ_DOMAIN}"

@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/probe_v1.json
+---
+kind: Probe
+apiVersion: monitoring.coreos.com/v1
+metadata:
+  name: devices
+spec:
+  module: icmp
+  prober:
+    url: blackbox-exporter.observability.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        - san.${CLUSTER_SECRET_PRD_DOMAIN}
+        - p-rh8-ipa1.${CLUSTER_SECRET_PRD_DOMAIN}
+        - p-fdi40-svc.${CLUSTER_SECRET_DEV_DOMAIN}
+        - p-apc-ups3.${CLUSTER_SECRET_DEV_DOMAIN}
+        - n-tpl-csw-01.${CLUSTER_SECRET_DEV_DOMAIN}
+        - n-tpl-asw-01.${CLUSTER_SECRET_DEV_DOMAIN}
+        - n-tpl-tsw-01.${CLUSTER_SECRET_DEV_DOMAIN}
+        - n-tpl-tsw-02.${CLUSTER_SECRET_DEV_DOMAIN}
+        - n-hpe-asw-02.${CLUSTER_SECRET_DEV_DOMAIN}
+        - n-ubt-oap-01.${CLUSTER_SECRET_DEV_DOMAIN}
+        - n-ubt-oap-02.${CLUSTER_SECRET_DEV_DOMAIN}
+        - n-tpl-iap-01.${CLUSTER_SECRET_DEV_DOMAIN}
+        - p-ibm-tlb-01.${CLUSTER_SECRET_DEV_DOMAIN}
+        - p-del-oob-01.${CLUSTER_SECRET_DEV_DOMAIN}
+        - p-apc-ups3.${CLUSTER_SECRET_DEV_DOMAIN}
+        - p-apc-ats.${CLUSTER_SECRET_DEV_DOMAIN}
+        - p-apc-pdu.${CLUSTER_SECRET_DEV_DOMAIN}

@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hass-proxy
+  annotations:
+    external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+
+spec:
+  ingressClassName: external
+  rules:
+    - host: &host ha.${CLUSTER_SECRET_PRD_DOMAIN}
+      http:
+        paths:
+          - backend:
+              service:
+                name: hass-proxy
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls: [hosts: [*host]]

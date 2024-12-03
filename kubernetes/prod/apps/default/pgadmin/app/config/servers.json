@@ -1,0 +1,16 @@
+{
+    "Servers": {
+      "1": {
+        "Name": "crunchy",
+        "Group": "Servers",
+        "Host": "postgres-primary.database.svc.cluster.local",
+        "Port": 5432,
+        "MaintenanceDB": "postgres",
+        "Username": "postgres",
+        "Timeout": 10,
+        "UseSSHTunnel": 0,
+        "TunnelPort": "22",
+        "TunnelAuthentication": 0
+      }
+    }
+}

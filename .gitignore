@@ -1,8 +1,5 @@
 .DS_Store
 Thumbs.db
-.private/
-.venv/
-.task/
 .terraform
 *.tfvars
 .decrypted~*
@@ -25,3 +22,9 @@ wipe-data.yaml
 wipe-data.yaml
 generate-signing-key.py
 .work/
+/.bin/
+/.go/
+/.private/
+/.task/
+/.venv/
+/scripts/
