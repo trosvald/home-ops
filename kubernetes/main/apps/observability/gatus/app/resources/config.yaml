@@ -2,10 +2,10 @@
 # Note: Gatus vars should be escaped with $${VAR_NAME} to avoid interpolation by Flux
 web:
   port: $${WEB_PORT}
-storage:
-  type: postgres
-  path: $${POSTGRES_URI}?sslmode=require
-  caching: true
+# storage:
+#   type: postgres
+#   path: $${POSTGRES_URI}?sslmode=require
+#   caching: true
 metrics: true
 debug: false
 security:
