@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: public.ecr.aws/nginx/nginx
-              tag: "1.27.2"
+              tag: "1.27.3"
     service:
       app:
         controller: cdn
