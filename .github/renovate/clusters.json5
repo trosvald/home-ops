@@ -3,25 +3,22 @@
     "packageRules": [
         {
             "description": [
-                "Separate PRs for k8s cluster"
+                "Separate PRs for prod cluster"
             ],
             "matchFileNames": [
-                "**/kubernetes/main/**",
-                "**/ansible/main/**",
-                "**/terraform/main/**"
+                "**/kubernetes/prod/**",
+                "**/kubernetes/main/**"
             ],
-            "additionalBranchPrefix": "main-"
+            "additionalBranchPrefix": "prod-"
         },
         {
             "description": [
-                "Separate PRs for storage cluster"
+                "Separate PRs for infra cluster"
             ],
             "matchFileNames": [
-                "**/kubernetes/storage/**",
-                "**/ansible/storage/**",
-                "**/terraform/storage/**"
+                "**/kubernetes/infra/**"
             ],
-            "additionalBranchPrefix": "storage-"
+            "additionalBranchPrefix": "infra-"
         }
     ]
 }
