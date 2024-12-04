@@ -25,7 +25,7 @@ spec:
   values:
     controllerType: deployment
     persistence:
-      defaultClass: true
+      defaultClass: false
       defaultClassReplicaCount: 2
       reclaimPolicy: Retain
       recurringJobs:
