@@ -8,3 +8,5 @@ resources:
   # Flux-Kustomizations
   - ./democratic-csi/ks.yaml
   # - ./longhorn/ks.yaml
+  - ./snapshot-controller/ks.yaml
+  - ./volsync/ks.yaml
