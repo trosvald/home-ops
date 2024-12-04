@@ -6,4 +6,4 @@ resources:
   # Pre Flux-Kustomizations
   - ./recurring-jobs.yaml
   - ./snapshot.yaml
-  - ./storage-class-definition.yam
+  - ./storage-class-definition.yaml
