@@ -6,6 +6,6 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  # - ./capacitor/ks.yaml
+  - ./capacitor/ks.yaml
   # - ./tofu-controller/ks.yaml
   # - ./weave-gitops/ks.yaml

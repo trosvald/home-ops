@@ -6,13 +6,13 @@
 #   name: &app external-dns-cloudflare
 #   namespace: flux-system
 # spec:
-#   targetNamespace: network
+#   targetNamespace: net
 #   commonMetadata:
 #     labels:
 #       app.kubernetes.io/name: *app
 #   dependsOn:
 #     - name: external-secrets-stores
-#   path: ./kubernetes/infra/apps/network/external-dns/cloudflare
+#   path: ./kubernetes/infra/apps/net/external-dns/cloudflare
 #   prune: false
 #   sourceRef:
 #     kind: GitRepository
@@ -29,13 +29,13 @@ metadata:
   name: &app external-dns-bind
   namespace: flux-system
 spec:
-  targetNamespace: network
+  targetNamespace: net
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-secrets-stores
-  path: ./kubernetes/infra/apps/network/external-dns/bind
+  path: ./kubernetes/infra/apps/net/external-dns/bind
   prune: false
   sourceRef:
     kind: GitRepository

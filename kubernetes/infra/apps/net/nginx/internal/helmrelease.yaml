@@ -73,7 +73,7 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        default-ssl-certificate: network/${CLUSTER_SECRET_DEV_DOMAIN/./-}-tls
+        default-ssl-certificate: net/${CLUSTER_SECRET_DEV_DOMAIN/./-}-tls
       terminationGracePeriodSeconds: 120
       topologySpreadConstraints:
         - maxSkew: 1

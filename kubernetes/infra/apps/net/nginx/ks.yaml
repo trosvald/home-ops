@@ -6,14 +6,14 @@
 #   name: &app nginx-external
 #   namespace: flux-system
 # spec:
-#   targetNamespace: network
+#   targetNamespace: net
 #   commonMetadata:
 #     labels:
 #       app.kubernetes.io/name: *app
 #   dependsOn:
 #     # - name: certificates
 #     - name: external-secrets-stores
-#   path: ./kubernetes/infra/apps/network/nginx/external
+#   path: ./kubernetes/infra/apps/net/nginx/external
 #   prune: false
 #   sourceRef:
 #     kind: GitRepository
@@ -30,14 +30,14 @@ metadata:
   name: &app nginx-internal
   namespace: flux-system
 spec:
-  targetNamespace: network
+  targetNamespace: net
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     # - name: certificates
     - name: external-secrets-stores
-  path: ./kubernetes/infra/apps/network/nginx/internal
+  path: ./kubernetes/infra/apps/net/nginx/internal
   prune: false
   sourceRef:
     kind: GitRepository
