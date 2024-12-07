@@ -83,9 +83,9 @@ tasks:
   apps:
     desc: Bootstrap Apps [CLUSTER=main]
     cmds:
-      - until kubectl --cluster {{.CLUSTER}} wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 5; done
-      - helmfile --kube-context admin@{{.CLUSTER}} --quiet --file {{.CLUSTER_DIR}}/bootstrap/apps/helmfile.yaml apply --skip-diff-on-install --suppress-diff
-      - until kubectl --cluster {{.CLUSTER}} wait nodes --for=condition=Ready --all --timeout=10m; do sleep 5; done
+      - until kubectl --context {{.CLUSTER}} wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 5; done
+      - helmfile --kube-context {{.CLUSTER}} --quiet --file {{.CLUSTER_DIR}}/bootstrap/apps/helmfile.yaml apply --skip-diff-on-install --suppress-diff
+      - until kubectl --context {{.CLUSTER}} wait nodes --for=condition=Ready --all --timeout=10m; do sleep 5; done
     requires:
       vars: [CLUSTER]
     preconditions:
@@ -98,11 +98,11 @@ tasks:
     desc: Bootstrap Flux [CLUSTER=main]
     prompt: Bootstrap flux for '{{.CLUSTER}}' cluster ... continue?
     cmds:
-      - kubectl --cluster {{.CLUSTER}} apply --server-side --kustomize {{.CLUSTER_DIR}}/bootstrap/apps
+      - kubectl --context {{.CLUSTER}} apply --server-side --kustomize {{.CLUSTER_DIR}}/bootstrap/apps
       - for: { var: TEMPLATES }
-        cmd: op run --env-file {{.CLUSTER_DIR}}/bootstrap/bootstrap.env --no-masking -- minijinja-cli {{.ITEM}} | kubectl --cluster {{.CLUSTER}} apply --server-side --filename -
-      - kubectl --cluster {{.CLUSTER}} apply --server-side --filename {{.CLUSTER_DIR}}/flux/settings/cluster-settings.yaml
-      - kubectl --cluster {{.CLUSTER}} apply --server-side --kustomize {{.CLUSTER_DIR}}/flux/config
+        cmd: op run --env-file {{.CLUSTER_DIR}}/bootstrap/bootstrap.env --no-masking -- minijinja-cli {{.ITEM}} | kubectl --context {{.CLUSTER}} apply --server-side --filename -
+      - kubectl --context {{.CLUSTER}} apply --server-side --filename {{.CLUSTER_DIR}}/flux/settings/cluster-settings.yaml
+      - kubectl --context {{.CLUSTER}} apply --server-side --kustomize {{.CLUSTER_DIR}}/flux/config
     vars:
       TEMPLATES:
         sh: ls {{.CLUSTER_DIR}}/bootstrap/apps/*.j2

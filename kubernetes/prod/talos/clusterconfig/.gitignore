@@ -11,3 +11,15 @@ main-p-tlx-k8s-m2.monosense.io.yaml
 main-p-tlx-k8s-w0.monosense.io.yaml
 main-p-tlx-k8s-w1.monosense.io.yaml
 main-p-tlx-k8s-w2.monosense.io.yaml
+main-p-tlx-k8s-m0.yaml
+main-p-tlx-k8s-m1.yaml
+main-p-tlx-k8s-m2.yaml
+main-p-tlx-k8s-w0.yaml
+main-p-tlx-k8s-w1.yaml
+main-p-tlx-k8s-w2.yaml
+prod-p-tlx-k8s-m0.yaml
+prod-p-tlx-k8s-m1.yaml
+prod-p-tlx-k8s-m2.yaml
+prod-p-tlx-k8s-w0.yaml
+prod-p-tlx-k8s-w1.yaml
+prod-p-tlx-k8s-w2.yaml

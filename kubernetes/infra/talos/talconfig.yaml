@@ -27,7 +27,8 @@ nodes:
   # NvME 512GB for longhorn
   - hostname: k0.${clusterDNSSuffix}
     ipAddress: 172.16.16.2
-    installDisk: /dev/sda
+    installDiskSelector:
+      model: "SDLF1DAM800G-1HH"
     machineDisks:
       - &longhorn
         device: /dev/nvme0n1
@@ -55,7 +56,8 @@ nodes:
 
   - hostname: k1.${clusterDNSSuffix}
     ipAddress: 172.16.16.3
-    installDisk: /dev/sda
+    installDiskSelector:
+      model: "SDLF1DAM800G-1HH"
     machineDisks:
       - *longhorn
     controlPlane: true
@@ -76,7 +78,8 @@ nodes:
 
   - hostname: k2.${clusterDNSSuffix}
     ipAddress: 172.16.16.4
-    installDisk: /dev/sda
+    installDiskSelector:
+      model: "SDLF1DAM800G-1HH"
     machineDisks:
       - *longhorn
     controlPlane: true

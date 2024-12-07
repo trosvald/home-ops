@@ -16,8 +16,8 @@ tasks:
   push-prod:
     desc: Push main kubeconfig/talosconfig to OnePassword
     cmds:
-      - op item edit kubernetes KUBECONFIG_PROD[text]="$(cat {{.ROOT_DIR}}/kubernetes/main/kubeconfig)" &>/dev/null
-      - op item edit kubernetes TALOSCONFIG_PROD[text]="$(cat {{.ROOT_DIR}}/kubernetes/main/talos/clusterconfig/talosconfig)" &>/dev/null
+      - op item edit kubernetes KUBECONFIG_PROD[text]="$(cat {{.ROOT_DIR}}/kubernetes/prod/kubeconfig)" &>/dev/null
+      - op item edit kubernetes TALOSCONFIG_PROD[text]="$(cat {{.ROOT_DIR}}/kubernetes/prod/talos/clusterconfig/talosconfig)" &>/dev/null
     preconditions:
       - which op
 
@@ -34,15 +34,14 @@ tasks:
     cmds:
       - mkdir -p ~/.kube
       - mkdir -p ~/.talos
-      - mkdir -p ~/.talos
-      - op item get kubernetes --fields label=KUBECONFIG_PROD | tr -d '"' > {{.ROOT_DIR}}/kubernetes/prod/kubeconfig # Main kubeconfig
-      - op item get kubernetes --fields label=TALOSCONFIG_PROD | tr -d '"' > {{.ROOT_DIR}}/kubernetes/prod/talos/clusterconfig/talosconfig # Main talosconfig
+      - op item get kubernetes --fields label=KUBECONFIG_PROD | tr -d '"' > {{.ROOT_DIR}}/kubernetes/prod/kubeconfig # prod kubeconfig
+      - op item get kubernetes --fields label=TALOSCONFIG_PROD | tr -d '"' > {{.ROOT_DIR}}/kubernetes/prod/talos/clusterconfig/talosconfig # prod talosconfig
       - op item get kubernetes --fields label=KUBECONFIG_INFRA | tr -d '"' > {{.ROOT_DIR}}/kubernetes/infra/kubeconfig # Infra kubeconfig
       - op item get kubernetes --fields label=TALOSCONFIG_INFRA | tr -d '"' > {{.ROOT_DIR}}/kubernetes/infra/talos/clusterconfig/talosconfig # Infra talosconfig
       - op item get kubernetes --fields label=KUBECONFIG | tr -d '"' > ~/.kube/config # Flat kubeconfig
       ## Note: The last `talosconfig` merged becomes the default context
       ## We pull the second talosconfig, and merge the prod into it, so prod is default
       - op item get kubernetes --fields label=TALOSCONFIG_INFRA | tr -d '"' > ~/.talos/config # Infra talosconfig
-      - talosctl config merge {{.ROOT_DIR}}/kubernetes/prod/talos/clusterconfig/talosconfig --talosconfig  ~/.talos/config #Merge main into flat talosconfig
+      - talosctl config merge {{.ROOT_DIR}}/kubernetes/prod/talos/clusterconfig/talosconfig --talosconfig  ~/.talos/config #Merge prod into flat talosconfig
     preconditions:
       - which op
