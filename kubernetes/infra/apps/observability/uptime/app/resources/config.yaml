@@ -29,10 +29,10 @@ connectivity:
 endpoints:
   - name: uptime
     group: monitoring
-    url: https://uptime.${CLUSTER_SECRET_PRD_DOMAIN}
+    url: https://uptime.${CLUSTER_SECRET_DEV_DOMAIN}
     interval: 1m
     client:
-      dns-resolver: tcp://1.1.1.1:53
+      dns-resolver: tcp://172.16.10.254:53
     conditions:
       - "[STATUS] == 200"
     alerts:
