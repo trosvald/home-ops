@@ -10,3 +10,4 @@ resources:
   - ./headlamp/ks.yaml
   - ./network-ups-tools/ks.yaml
   - ./smartctl-exporter/ks.yaml
+  - ./uptime/ks.yaml
