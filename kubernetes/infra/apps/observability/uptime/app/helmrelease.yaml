@@ -118,7 +118,7 @@ spec:
       app:
         annotations:
           external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_DEV_DOMAIN}
-        className: external
+        className: internal
         hosts:
           - host: uptime.${CLUSTER_SECRET_DEV_DOMAIN}
             paths:
