@@ -29,7 +29,8 @@ nodes:
   # /dev/disk/by-id/nvme-TEAM_TM8FP6001T_TPBF2312120030301595
   - hostname: p-tlx-k8s-m0
     ipAddress: 172.16.11.11
-    installDisk: /dev/sda
+    installDiskSelector:
+      model: "Samsung SSD 860"
     controlPlane: true
     networkInterfaces:
       ## Network Configuration
@@ -71,7 +72,8 @@ nodes:
   # /dev/disk/by-id/nvme-TEAM_TM8FP6001T_TPBF2312120030301178
   - hostname: p-tlx-k8s-m1
     ipAddress: 172.16.11.12
-    installDisk: /dev/sda
+    installDiskSelector:
+      model: "Samsung SSD 860"
     controlPlane: true
     networkInterfaces:
       ## Network Configuration
@@ -114,7 +116,8 @@ nodes:
   # /dev/disk/by-id/nvme-PNY_CS2241_1TB_SSD_PNY23242306160103994
   - hostname: p-tlx-k8s-m2
     ipAddress: 172.16.11.13
-    installDisk: /dev/sda
+    installDiskSelector:
+      model: "MTFDDAV512TBN-1A"
     controlPlane: true
     networkInterfaces:
     ## Network Configuration
@@ -157,7 +160,8 @@ nodes:
   # /dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY23012301030100E10
   - hostname: p-tlx-k8s-w0
     ipAddress: 172.16.11.14
-    installDisk: /dev/sda
+    installDiskSelector:
+      model: "MTFDDAV512TBN-1A"
     controlPlane: false
     networkInterfaces:
     ## Network Configuration
@@ -197,7 +201,8 @@ nodes:
   # /dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY2301230103010065A
   - hostname: p-tlx-k8s-w1
     ipAddress: 172.16.11.15
-    installDisk: /dev/sda
+    installDiskSelector:
+      model: "Samsung SSD 860"
     controlPlane: false
     networkInterfaces:
     ## Network Configuration
@@ -237,7 +242,8 @@ nodes:
   # /dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY2301230103010067A
   - hostname: p-tlx-k8s-w2
     ipAddress: 172.16.11.16
-    installDisk: /dev/sda
+    installDiskSelector:
+      model: "Samsung SSD 860"
     controlPlane: false
     networkInterfaces:
       ## Network Configuration
