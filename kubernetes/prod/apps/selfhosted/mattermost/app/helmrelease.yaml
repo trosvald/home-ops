@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: mattermost/mattermost-team-edition
-              tag: 10.3.0
+              tag: 10.3.1
               pullPolicy: IfNotPresent
             envFrom:
               - secretRef:
