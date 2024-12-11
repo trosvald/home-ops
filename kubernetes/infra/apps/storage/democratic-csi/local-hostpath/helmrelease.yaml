@@ -40,7 +40,7 @@ spec:
       - name: ssd-local-hostpath
         deletionPolicy: Delete
         parameters:
-          cluster: k8s
+          cluster: infra
     controller:
       enabled: true
       strategy: node
