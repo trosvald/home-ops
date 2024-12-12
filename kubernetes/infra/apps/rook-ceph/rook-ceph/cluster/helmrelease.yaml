@@ -67,11 +67,21 @@ spec:
         connections:
           requireMsgr2: true
       storage:
-        useAllNodes: true
+        useAllNodes: false
         useAllDevices: false
-        devicePathFilter: /dev/disk/by-id/nvme-TEAM_TM8FP6512G_*
+        # devicePathFilter: /dev/disk/by-id/nvme-TEAM_TM8FP6512G_*
         config:
           osdsPerDevice: "1"
+        nodes:
+          - name: "k0"
+            devices:
+              - name: "/dev/disk/by-id/nvme-TEAM_TM8FP6512G_TPBF2408190010102014"
+          - name: "k1"
+            devices:
+              - name: "/dev/disk/by-id/nvme-TEAM_TM8FP6512G_TPBF2408190010101820"
+          - name: "k2"
+            devices:
+              - name: "/dev/disk/by-id/nvme-TEAM_TM8FP6512G_TPBF2408190010100806"
       placement:
         mgr: &placement
           nodeAffinity:
