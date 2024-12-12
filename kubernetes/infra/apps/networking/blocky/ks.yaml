@@ -6,7 +6,7 @@ metadata:
   name: &app blocky
   namespace: flux-system
 spec:
-  targetNamespace: net
+  targetNamespace: networking
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
