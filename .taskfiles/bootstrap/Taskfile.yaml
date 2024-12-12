@@ -74,8 +74,8 @@ tasks:
       - stern --context {{.CLUSTER}} --namespace default job/wipe-rook --no-follow
       - kubectl --context {{.CLUSTER}} --namespace default delete job wipe-rook
     env:
-      NODES:
-        sh: talosctl --talosconfig {{.CLUSTER_DIR}}/talosconfig config info --output json | jq --raw-output '.nodes | length'
+      NODE_COUNT:
+        sh: talosctl config info --output json | jq --raw-output '.nodes | length'
     preconditions:
       - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/wipe-rook.yaml.j2
       - which kubectl minijinja-cli stern talosctl
@@ -89,7 +89,7 @@ tasks:
     requires:
       vars: [CLUSTER]
     preconditions:
-      # - talosctl --context {{.CLUSTER}} config info
+      - talosctl --context {{.CLUSTER}} config info
       - test -f {{.CLUSTER_DIR}}/talosconfig
       - test -f {{.CLUSTER_DIR}}/bootstrap/apps/helmfile.yaml
       - which helmfile kubectl

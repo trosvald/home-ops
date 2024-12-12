@@ -29,11 +29,6 @@ nodes:
     ipAddress: 172.16.16.2
     installDiskSelector:
       model: "SDLF1DAM800G-1HH"
-    machineDisks:
-      - &longhorn
-        device: /dev/nvme0n1
-        partitions:
-          - mountpoint: /var/mnt/longhorn
     controlPlane: true
     networkInterfaces:
       - interface: enp0s31f6
@@ -46,20 +41,11 @@ nodes:
             gateway: 172.16.16.254
         vip:
           ip: ${clusterEndpointIP}
-        vlans:
-          - &vlan1613
-            vlanId: 1613
-            mtu: 1500
-            dhcp: true
-            dhcpOptions:
-              routeMetric: 4096
 
   - hostname: k1.${clusterDNSSuffix}
     ipAddress: 172.16.16.3
     installDiskSelector:
       model: "SDLF1DAM800G-1HH"
-    machineDisks:
-      - *longhorn
     controlPlane: true
     networkInterfaces:
       ## Network Configuration
@@ -73,15 +59,11 @@ nodes:
             gateway: 172.16.16.254
         vip:
           ip: ${clusterEndpointIP}
-        vlans:
-          - *vlan1613
 
   - hostname: k2.${clusterDNSSuffix}
     ipAddress: 172.16.16.4
     installDiskSelector:
       model: "SDLF1DAM800G-1HH"
-    machineDisks:
-      - *longhorn
     controlPlane: true
     networkInterfaces:
     ## Network Configuration
@@ -95,8 +77,6 @@ nodes:
             gateway: 172.16.16.254
         vip:
           ip: ${clusterEndpointIP}
-        vlans:
-          - *vlan1613
 
 controlPlane:
   nodeLabels:
@@ -129,19 +109,6 @@ controlPlane:
                   discard_unpacked_layers = false
                 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
                   discard_unpacked_layers = false
-
-    # longhorn
-    - |-
-      machine:
-        kubelet:
-          extraMounts:
-            - destination: /var/mnt/longhorn
-              type: bind
-              source: /var/mnt/longhorn
-              options:
-                - bind
-                - rshared
-                - rw
 
     # dcsi localpath directory
     - |-

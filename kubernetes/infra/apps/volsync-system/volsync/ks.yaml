@@ -3,21 +3,20 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app blocky
+  name: &app volsync
   namespace: flux-system
 spec:
-  targetNamespace: net
+  targetNamespace: volsync-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: external-dns-bind
-  path: ./kubernetes/infra/apps/net/blocky/app
-  prune: false
+    - name: kyverno-policies
+  path: ./kubernetes/infra/apps/volsync-system/volsync/app
+  prune: true
   sourceRef:
     kind: GitRepository
     name: home-ops
-  wait: true
+  wait: false
   interval: 30m
-  retryInterval: 1m
   timeout: 5m

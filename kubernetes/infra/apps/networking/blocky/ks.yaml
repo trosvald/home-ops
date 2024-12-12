@@ -3,21 +3,21 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app volsync
+  name: &app blocky
   namespace: flux-system
 spec:
-  targetNamespace: storage
+  targetNamespace: net
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: external-secrets-stores
-  path: ./kubernetes/infra/apps/storage/volsync/app
-  prune: true
+    - name: external-dns-bind
+  path: ./kubernetes/infra/apps/networking/blocky/app
+  prune: false
   sourceRef:
     kind: GitRepository
     name: home-ops
-  wait: false
+  wait: true
   interval: 30m
   retryInterval: 1m
   timeout: 5m

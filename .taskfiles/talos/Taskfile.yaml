@@ -71,7 +71,7 @@ tasks:
         -o {{.CLUSTER_DIR}}/talos
         -c {{.CLUSTER_DIR}}/talos/talconfig.yaml
         --env-file {{.CLUSTER_DIR}}/talos/talenv.sops.yaml
-        --extra-flags "--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
+        --extra-flags "--context {{.CLUSTER}}--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
     preconditions:
       - { msg: "Argument (CLUSTER) is required", sh: "test -n {{.CLUSTER}}" }
 
@@ -83,7 +83,7 @@ tasks:
         -o {{.CLUSTER_DIR}}/talos
         -c {{.CLUSTER_DIR}}/talos/talconfig.yaml
         --env-file {{.CLUSTER_DIR}}/talos/talenv.sops.yaml
-        --extra-flags "--reboot --graceful=false --wait=false"
+        --extra-flags "--context {{.CLUSTER}} --reboot --graceful=false --wait=false"
     preconditions:
       - { msg: "Argument (CLUSTER) is required", sh: "test -n {{.CLUSTER}}" }
 
@@ -158,7 +158,7 @@ tasks:
   down:
     internal: true
     cmds:
-      - '{{if eq .CLUSTER "prod"}}until kubectl --context {{.CLUSTER}} wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done{{end}}'
+      - until kubectl --context {{.CLUSTER}} wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done
       - until kubectl --context {{.CLUSTER}} wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
       - task: :volsync:state-suspend
     preconditions:
@@ -167,7 +167,7 @@ tasks:
   up:
     internal: true
     cmds:
-      - '{{if eq .CLUSTER "prod"}}until kubectl --context {{.CLUSTER}} wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done{{end}}'
+      - until kubectl --context {{.CLUSTER}} wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done
       - until kubectl --context {{.CLUSTER}} wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
       - task: :volsync:state-resume
     preconditions:
