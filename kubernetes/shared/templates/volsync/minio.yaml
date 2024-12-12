@@ -9,69 +9,65 @@ spec:
     kind: ClusterSecretStore
     name: onepassword-connect
   target:
-    name: "${APP}-volsync"
+    name: "${APP}-volsync-secret"
     template:
       engineVersion: v2
       data:
-        RESTIC_REPOSITORY: "{{ .volsync_restic_repository }}/dev/${APP}"
-        RESTIC_PASSWORD: "{{ .volsync_restic_password }}"
-        AWS_ACCESS_KEY_ID: "{{ .volsync_s3_access_key }}"
-        AWS_SECRET_ACCESS_KEY: "{{ .volsync_s3_secret_key }}"
+        RESTIC_REPOSITORY: "{{ .VOLSYNC_RESTIC_REPOSITORY }}/infra/${APP}"
+        RESTIC_PASSWORD: "{{ .VOLSYNC_RESTIC_PASSWORD }}"
+        AWS_ACCESS_KEY_ID: "{{ .VOLSYNC_S3_ACCESS_KEY }}"
+        AWS_SECRET_ACCESS_KEY: "{{ .VOLSYNC_S3_SECRET_KEY }}"
   dataFrom:
   - extract:
       key: volsync
 ---
-# yaml-language-server: $schema=https://kube-schemas.pages.dev/volsync.backube/replicationdestination_v1alpha1.json
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
-  name: "${APP}-bootstrap"
-spec:
-  trigger:
-    manual: restore-once
-  restic:
-    repository: "${APP}-volsync"
-    copyMethod: Snapshot
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-placeholder}"
-    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-placeholder}"
-    cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"]
-    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-10Gi}"
-    storageClassName: "${VOLSYNC_STORAGECLASS:-placeholder}"
-    accessModes: ["${VOLSYNC_SNAP_ACCESSMODES:-ReadWriteOnce}"] # Use ReadOnlyMany for CephFS
-    capacity: "${VOLSYNC_CAPACITY:-2Gi}"
-    moverSecurityContext:
-      runAsUser: ${VOLSYNC_PUID:-568}
-      runAsGroup: ${VOLSYNC_PGID:-568}
-      fsGroup: ${VOLSYNC_PGID:-568}
-    enableFileDeletion: true
-    cleanupCachePVC: true
-    cleanupTempPVC: true
----
-# yaml-language-server: $schema=https://kube-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: "${APP}"
 spec:
-  sourcePVC: "${CLAIM:-${APP}}"
+  sourcePVC: "${APP}"
   trigger:
-    schedule: "${VOLSYNC_MINIO_SCHEDULE:-0} * * * *"
+    schedule: "0 * * * *"
   restic:
     copyMethod: "${VOLSYNC_COPYMETHOD:-Snapshot}"
-    pruneIntervalDays: 10
-    repository: "${APP}-volsync"
-    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-placeholder}"
-    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-10Gi}"
-    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-placeholder}"
+    pruneIntervalDays: 7
+    repository: "${APP}-volsync-secret"
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
+    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-4Gi}"
+    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-ssd-localpath}"
     cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"]
-    storageClassName: "${VOLSYNC_STORAGECLASS:-placeholder}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
     accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
     moverSecurityContext:
-      runAsUser: ${VOLSYNC_PUID:-568}
-      runAsGroup: ${VOLSYNC_PGID:-568}
-      fsGroup: ${VOLSYNC_PGID:-568}
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
     retain:
       hourly: 24
-      daily: 10
+      daily: 7
       weekly: 5
-      monthly: 3
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationdestination_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: "${APP}-dst"
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: "${APP}-volsync-secret"
+    copyMethod: Snapshot # must be Snapshot
+    volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
+    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:-ssd-localpath}"
+    cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}"]
+    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-8Gi}"
+    storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
+    accessModes: ["${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"]
+    capacity: "${VOLSYNC_CAPACITY}"
+    # moverSecurityContext:
+    #   runAsUser: 568
+    #   runAsGroup: 568
+    #   fsGroup: 568
