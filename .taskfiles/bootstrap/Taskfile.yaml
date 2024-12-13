@@ -65,19 +65,34 @@ tasks:
       - talosctl --talosconfig {{.CLUSTER_DIR}}/talosconfig config info
       - which talosctl
 
-  rook:
-    desc: Bootstrap Rook-Ceph [CLUSTER=main] [MODEL=required] ## Figure this bs out
+  rook-prod:
+    desc: Bootstrap Rook-Ceph [CLUSTER=prod]
     cmds:
-      - minijinja-cli {{.BOOTSTRAP_RESOURCES_DIR}}/wipe-rook.yaml.j2 | kubectl --context {{.CLUSTER}} apply --server-side --filename -
-      - until kubectl --context {{.CLUSTER}} --namespace default get job/wipe-rook &>/dev/null; do sleep 5; done
-      - kubectl --context {{.CLUSTER}} --namespace default wait job/wipe-rook --for=condition=complete --timeout=5m
-      - stern --context {{.CLUSTER}} --namespace default job/wipe-rook --no-follow
-      - kubectl --context {{.CLUSTER}} --namespace default delete job wipe-rook
+      - minijinja-cli {{.BOOTSTRAP_RESOURCES_DIR}}/wipe-rook-prod.yaml.j2 | kubectl --context prod apply --server-side --filename -
+      - until kubectl --context prod --namespace default get job/wipe-rook &>/dev/null; do sleep 5; done
+      - kubectl --context prod --namespace default wait job/wipe-rook --for=condition=complete --timeout=5m
+      - stern --context prod --namespace default job/wipe-rook --no-follow
+      - kubectl --context prod --namespace default delete job wipe-rook
     env:
       NODE_COUNT:
-        sh: talosctl config info --output json | jq --raw-output '.nodes | length'
+        sh: talosctl --context prod config info --output json | jq --raw-output '.nodes | length'
     preconditions:
-      - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/wipe-rook.yaml.j2
+      - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/wipe-rook-prod.yaml.j2
+      - which kubectl minijinja-cli stern talosctl
+
+  rook-infra:
+    desc: Bootstrap Rook-Ceph [CLUSTER=infra]
+    cmds:
+      - minijinja-cli {{.BOOTSTRAP_RESOURCES_DIR}}/wipe-rook-infra.yaml.j2 | kubectl --context infra apply --server-side --filename -
+      - until kubectl --context infra --namespace default get job/wipe-rook &>/dev/null; do sleep 5; done
+      - kubectl --context infra --namespace default wait job/wipe-rook --for=condition=complete --timeout=5m
+      - stern --context infra --namespace default job/wipe-rook --no-follow
+      - kubectl --context infra --namespace default delete job wipe-rook
+    env:
+      NODE_COUNT:
+        sh: talosctl --context infra config info --output json | jq --raw-output '.nodes | length'
+    preconditions:
+      - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/wipe-rook-infra.yaml.j2
       - which kubectl minijinja-cli stern talosctl
 
   # rook-clean:

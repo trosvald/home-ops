@@ -75,13 +75,13 @@ spec:
         nodes:
           - name: "k0"
             devices:
-              - name: "/dev/disk/by-id/nvme-TEAM_TM8FP6512G_TPBF2408190010102014"
+              - name: "/dev/disk/by-id/ata-SDLF1DAM800G-1HHS_A04140B6"
           - name: "k1"
             devices:
-              - name: "/dev/disk/by-id/nvme-TEAM_TM8FP6512G_TPBF2408190010101820"
+              - name: "/dev/disk/by-id/ata-SDLF1DAM800G-1HHS_A0462858"
           - name: "k2"
             devices:
-              - name: "/dev/disk/by-id/nvme-TEAM_TM8FP6512G_TPBF2408190010100806"
+              - name: "/dev/disk/by-id/ata-SDLF1DAM800G-1HHS_A0462775"
       placement:
         mgr: &placement
           nodeAffinity:
