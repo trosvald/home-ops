@@ -13,7 +13,7 @@ spec:
     template:
       engineVersion: v2
       data:
-        RESTIC_REPOSITORY: "{{ .VOLSYNC_RESTIC_REPOSITORY }}/infra/${APP}"
+        RESTIC_REPOSITORY: "{{ .VOLSYNC_RESTIC_REPOSITORY }}/${APP}"
         RESTIC_PASSWORD: "{{ .VOLSYNC_RESTIC_PASSWORD }}"
         AWS_ACCESS_KEY_ID: "{{ .VOLSYNC_S3_ACCESS_KEY }}"
         AWS_SECRET_ACCESS_KEY: "{{ .VOLSYNC_S3_SECRET_KEY }}"
