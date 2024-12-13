@@ -32,7 +32,7 @@ spec:
 
     storageClasses:
       - name: ssd-localpath
-        defaultClass: true
+        defaultClass: false
         reclaimPolicy: Delete
         volumeBindingMode: WaitForFirstConsumer
         allowVolumeExpansion: false
