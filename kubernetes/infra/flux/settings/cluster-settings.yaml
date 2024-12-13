@@ -6,11 +6,11 @@ metadata:
   namespace: flux-system
 data:
   CLUSTER_NAME: infra
-  CLUSTER_STORAGE_HOSTPATH: ssd-localpath
-  PVC_VOLSYNC_STORAGECLASS: longhorn
-  VOLSYNC_SNAPSHOTCLASS: ssd-local-hostpath
-  VOLSYNC_CACHE_SNAPSHOTCLASS: longhorn-cache
-  VOLSYNC_STORAGECLASS: longhorn-snapshot
+  # CLUSTER_STORAGE_HOSTPATH: ssd-localpath
+  # PVC_VOLSYNC_STORAGECLASS: longhorn
+  # VOLSYNC_SNAPSHOTCLASS: ssd-local-hostpath
+  # VOLSYNC_CACHE_SNAPSHOTCLASS: longhorn-cache
+  # VOLSYNC_STORAGECLASS: longhorn-snapshot
   VOLSYNC_MINIO_SCHEDULE: "30"
   VOLSYNC_R2_SCHEDULE: "45"
 
