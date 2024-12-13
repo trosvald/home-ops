@@ -79,4 +79,5 @@ spec:
         # existingClaim: *app
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
+        storageClass: ssd-localpath
         size: 2Gi
