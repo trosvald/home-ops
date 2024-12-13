@@ -6,5 +6,5 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  # - ./stirling-pdf/ks.yaml
-  # - ./thelounge/ks.yaml
+  - ./stirling-pdf/ks.yaml
+  - ./thelounge/ks.yaml
