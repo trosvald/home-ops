@@ -80,6 +80,16 @@ tasks:
       - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/wipe-rook.yaml.j2
       - which kubectl minijinja-cli stern talosctl
 
+  # rook-clean:
+  #   desc: Bootstrap Rook-Ceph [CLUSTER=main] ## Figure this bs out
+  #   cmds:
+  #     - until kubectl --context {{.CLUSTER}} --namespace default get job/wipe-rook &>/dev/null; do sleep 5; done
+  #     - kubectl --context {{.CLUSTER}} --namespace default wait job/wipe-rook --for=condition=complete --timeout=5m
+  #     - stern --context {{.CLUSTER}} --namespace default job/wipe-rook --no-follow
+  #     - kubectl --context {{.CLUSTER}} --namespace default delete job wipe-rook
+  #   preconditions:
+  #     - which kubectl
+
   apps:
     desc: Bootstrap Apps [CLUSTER=main]
     cmds:
