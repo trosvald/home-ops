@@ -57,7 +57,7 @@ spec:
       accessModes:
         - ReadWriteOnce
       size: 2Gi
-      storageClassName: ssd-localpath
+      storageClassName: local-hostpath
     ingress:
       enabled: true
       ingressClassName: internal
