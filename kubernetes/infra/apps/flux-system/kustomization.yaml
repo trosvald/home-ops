@@ -8,4 +8,4 @@ resources:
   # Flux-Kustomizations
   - ./capacitor/ks.yaml
   # - ./tofu-controller/ks.yaml
-  # - ./weave-gitops/ks.yaml
+  - ./weave-gitops/ks.yaml
