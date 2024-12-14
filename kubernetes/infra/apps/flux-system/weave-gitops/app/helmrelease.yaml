@@ -27,6 +27,7 @@ spec:
       create: true
       createSecret: true
       username: admin
+      passwordHash: ${CLUSTER_SECRET_HASH}
     ingress:
       enabled: true
       className: internal
