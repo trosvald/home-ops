@@ -228,9 +228,9 @@ controlPlane:
         time:
           disabled: false
           servers:
+            - 172.16.16.254
             - time.google.com
             - time.cloudflare.com
-            - 172.16.16.254
 
     # Configure cluster loopback
     - |-
