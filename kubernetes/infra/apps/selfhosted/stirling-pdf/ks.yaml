@@ -10,8 +10,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  # dependsOn:
-  #   - name: crunchy-postgres-main-cluster
+  dependsOn:
+    - name: volsync
   #   - name: external-secrets-stores
   path: ./kubernetes/infra/apps/selfhosted/stirling-pdf/app
   prune: true
@@ -25,4 +25,3 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 2Gi
