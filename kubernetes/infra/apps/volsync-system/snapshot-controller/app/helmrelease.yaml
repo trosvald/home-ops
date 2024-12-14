@@ -32,4 +32,4 @@ spec:
       serviceMonitor:
         create: true
     webhook:
-      enabled: false
+      enabled: true
