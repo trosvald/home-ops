@@ -26,6 +26,8 @@ spec:
       retries: 3
   values:
     controller:
+      args:
+        enableDistributedSnapshotting: true
       replicaCount: 2
       serviceMonitor:
         create: true
