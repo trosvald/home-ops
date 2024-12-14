@@ -71,7 +71,7 @@ tasks:
         -o {{.CLUSTER_DIR}}/talos
         -c {{.CLUSTER_DIR}}/talos/talconfig.yaml
         --env-file {{.CLUSTER_DIR}}/talos/talenv.sops.yaml
-        --extra-flags "--context {{.CLUSTER}}--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
+        --extra-flags "--context {{.CLUSTER}}--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false"
     preconditions:
       - { msg: "Argument (CLUSTER) is required", sh: "test -n {{.CLUSTER}}" }
 
@@ -83,7 +83,7 @@ tasks:
         -o {{.CLUSTER_DIR}}/talos
         -c {{.CLUSTER_DIR}}/talos/talconfig.yaml
         --env-file {{.CLUSTER_DIR}}/talos/talenv.sops.yaml
-        --extra-flags "--context {{.CLUSTER}} --reboot --graceful=false --wait=false"
+        --extra-flags "--context {{.CLUSTER}} --reboot --graceful=false --wait=false | bash"
     preconditions:
       - { msg: "Argument (CLUSTER) is required", sh: "test -n {{.CLUSTER}}" }
 

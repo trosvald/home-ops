@@ -34,7 +34,7 @@ spec:
               apk add --no-cache findutils nvme-cli sgdisk util-linux parted device-mapper;
               echo "Finding {{ ENV.MODEL }}";
               #DISK=$(find /dev/disk/by-id/ -iname "*{{ ENV.MODEL }}*" -not -name "*-part[0-9+]");
-              DISK="/dev/sda"
+              DISK="/dev/sdb"
               echo "=== Wiping $DISK ===";
               sgdisk --zap-all $DISK;
               blkdiscard $DISK;
