@@ -18,7 +18,11 @@ spec:
         - name: data
           image: docker.io/library/alpine:latest
           command: ["/bin/sh", "-c"]
-          args: ["rm -rf /mnt/host_var/lib/rook"]
+          args:
+            - |
+              cd /mnt/host_var/lib/csi-local-hostpath
+              rm -fr *
+              ls /mnt/host_var/lib/csi-local-hostpath
           volumeMounts:
             - mountPath: /mnt/host_var
               name: host-var
@@ -34,15 +38,9 @@ spec:
               apk add --no-cache findutils nvme-cli sgdisk util-linux parted device-mapper;
               echo "Finding {{ ENV.MODEL }}";
               #DISK=$(find /dev/disk/by-id/ -iname "*{{ ENV.MODEL }}*" -not -name "*-part[0-9+]");
-              DISK="/dev/sdb"
-              echo "=== Wiping $DISK ===";
-              sgdisk --zap-all $DISK;
-              blkdiscard $DISK;
-              dd if=/dev/zero bs=1M count=10000 oflag=direct of=$DISK;
-              nsenter --mount=/proc/1/ns/mnt partprobe $DISK;
-              nsenter --mount=/proc/1/ns/mnt dmsetup remove_all;
-              #nvme format --block-size=4096 $DISK --force;
-              #nvme format --lbaf=1 $DISK --force;
+              #DISK="/dev/sdb"
+              echo "=== List dir of $DISK ===";
+              ls -al /var/lib/csi-local-hostpath
           securityContext:
             privileged: true
           volumeMounts:
