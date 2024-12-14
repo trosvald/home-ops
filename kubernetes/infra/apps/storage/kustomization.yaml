@@ -6,4 +6,4 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./democratic-csi/ks.yaml
+  - ./local-path-provisioner/ks.yaml

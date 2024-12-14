@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: local-hostpath
+  name: &name local-path-provisioner
 spec:
   interval: 30m
   chart:
@@ -20,31 +20,20 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
-  uninstall:
-    keepHistory: false
+  dependsOn:
+    - name: snapshot-controller
+      namespace: volsync-system
   values:
-    csiDriver:
-      name: org.democratic-csi.local-hostpath
-      storageCapacity: true
-      attachRequired: false
-      fsGroupPolicy: File
-
-    storageClasses:
-      - name: ssd-localpath
-        defaultClass: false
-        reclaimPolicy: Delete
-        volumeBindingMode: WaitForFirstConsumer
-        allowVolumeExpansion: false
-    volumeSnapshotClasses:
-      - name: ssd-local-hostpath
-        deletionPolicy: Delete
-        parameters:
-          cluster: infra
     controller:
+      fullnameOverride: *name
       enabled: true
       strategy: node
+      externalAttacher:
+        enabled: false
       externalProvisioner:
+        enabled: true
         image: registry.k8s.io/sig-storage/csi-provisioner:v5.1.0
         extraArgs:
           - --leader-election=false
@@ -56,32 +45,49 @@ spec:
           - --capacity-ownerref-level=1
       externalResizer:
         enabled: false
-      externalAttacher:
-        enabled: false
       externalSnapshotter:
         enabled: true
+        image: registry.k8s.io/sig-storage/csi-snapshotter:v8.2.0
         extraArgs:
           - --leader-election=false
           - --node-deployment=true
+    csiDriver:
+      name: local-hostpath.cluster.local
+      attachRequired: false
+      storageCapacity: true
+      fsGroupPolicy: File
+    storageClasses:
+      - name: local-hostpath
+        defaultClass: true
+        reclaimPolicy: Delete
+        volumeBindingMode: WaitForFirstConsumer
+        allowVolumeExpansion: true
+    volumeSnapshotClasses:
+      - name: csi-local-hostpath
+        annotations:
+          snapshot.storage.kubernetes.io/is-default-class: "true"
+        deletionPolicy: Delete
+        parameters: {}
+    driver:
+      config:
+        driver: local-hostpath
+        local-hostpath:
+          shareBasePath: &storagePath /var/lib/csi-local-hostpath
+          controllerBasePath: *storagePath
+          dirPermissionsMode: "0770"
+          dirPermissionsUser: 0
+          dirPermissionsGroup: 0
     node:
       driver:
-        image: ghcr.io/democratic-csi/democratic-csi:v1.9.3
+        image: democraticcsi/democratic-csi:v1.9.3
         extraVolumeMounts:
           - name: local-hostpath
-            mountPath: &path /var/localpath/dcsi-local-path
+            mountPath: *storagePath
             mountPropagation: Bidirectional
       extraVolumes:
         - name: local-hostpath
           hostPath:
-            path: *path
+            path: *storagePath
             type: DirectoryOrCreate
-    driver:
-      config:
-        driver: local-hostpath
-        instance_id: k8s-local-hostpath
-        local-hostpath:
-          shareBasePath: *path
-          controllerBasePath: *path
-          dirPermissionsMode: "0770"
-          dirPermissionsUser: 0
-          dirPermissionsGroup: 0
+    csiProxy:
+      image: ghcr.io/democratic-csi/csi-grpc-proxy:v0.5.6

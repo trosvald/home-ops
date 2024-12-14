@@ -29,6 +29,10 @@ nodes:
     ipAddress: 172.16.16.2
     installDisk: /dev/nvme0n1
     controlPlane: true
+    machineDisks:
+      - device: /dev/disk/by-id/ata-SDLF1DAM800G-1HHS_A04140B6
+        partitions:
+          - mountpoint: /var/lib/csi-local-hostpath
     networkInterfaces:
       - interface: enp0s31f6
         mtu: 1500
@@ -44,6 +48,10 @@ nodes:
   - hostname: k1.${clusterDNSSuffix}
     ipAddress: 172.16.16.3
     installDisk: /dev/nvme0n1
+    machineDisks:
+      - device: /dev/disk/by-id/ata-SDLF1DAM800G-1HHS_A0462858
+        partitions:
+          - mountpoint: /var/lib/csi-local-hostpath
     controlPlane: true
     networkInterfaces:
       ## Network Configuration
@@ -61,6 +69,10 @@ nodes:
   - hostname: k2.${clusterDNSSuffix}
     ipAddress: 172.16.16.4
     installDisk: /dev/nvme0n1
+    machineDisks:
+      - device: /dev/disk/by-id/ata-SDLF1DAM800G-1HHS_A0462775
+        partitions:
+          - mountpoint: /var/lib/csi-local-hostpath
     controlPlane: true
     networkInterfaces:
     ## Network Configuration
@@ -83,12 +95,16 @@ controlPlane:
   schematic:
     customization:
       extraKernelArgs:
+        - apparmor=0
+        - init_on_alloc=0
+        - init_on_free=0
         - mitigations=off
+        - security=none
       systemExtensions:
         officialExtensions:
           - siderolabs/intel-ucode
           - siderolabs/i915-ucode
-          - siderolabs/iscsi-tools
+          #- siderolabs/iscsi-tools
 
   patches:
     # Configure containerd
@@ -107,14 +123,27 @@ controlPlane:
                 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
                   discard_unpacked_layers = false
 
-    # dcsi localpath directory
+    # openebs localpath directory
+    # - |-
+    #   machine:
+    #     kubelet:
+    #       extraMounts:
+    #         - destination: /var/openebs/local
+    #           type: bind
+    #           source: /var/openebs/local
+    #           options:
+    #             - bind
+    #             - rshared
+    #             - rw
+
+    # democratic-csi localpath
     - |-
       machine:
         kubelet:
           extraMounts:
-            - destination: /var/localpath
+            - destination: /var/lib/csi-local-hostpath
               type: bind
-              source: /var/localpath
+              source: /var/lib/csi-local-hostpath
               options:
                 - bind
                 - rshared
@@ -269,3 +298,15 @@ controlPlane:
     - |-
       - op: remove
         path: /cluster/apiServer/admissionControl
+
+
+    # Enable K8s Talos API Access
+    - |-
+      machine:
+        features:
+          kubernetesTalosAPIAccess:
+            enabled: true
+            allowedRoles:
+              - os:admin
+            allowedKubernetesNamespaces:
+              - kube-tools
