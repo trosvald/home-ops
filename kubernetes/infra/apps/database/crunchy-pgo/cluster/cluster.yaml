@@ -60,6 +60,10 @@ spec:
       options: "SUPERUSER"
       password:
         type: AlphaNumeric
+    - name: "atuin"
+      databases: ["atuin"]
+      password:
+        type: AlphaNumeric
     - name: "hassio"
       databases: ["hassio"]
       password:

@@ -11,9 +11,9 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: crunchy-postgres-main-cluster
+    - name: crunchy-postgres-dev-cluster
     - name: external-secrets-stores
-  path: ./kubernetes/prod/apps/default/atuin/app
+  path: ./kubernetes/infra/apps/selfhosted/atuin/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -25,4 +25,4 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: sh
+      # GATUS_SUBDOMAIN: sh
