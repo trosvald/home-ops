@@ -47,6 +47,7 @@ spec:
               ATUIN_METRICS__HOST: 0.0.0.0
               ATUIN_METRICS__PORT: &metricsPort 8080
               ATUIN_TLS__ENABLE: "false"
+              RUST_LOG: debug
             args: ["server", "start"]
             probes:
               liveness: &probes
