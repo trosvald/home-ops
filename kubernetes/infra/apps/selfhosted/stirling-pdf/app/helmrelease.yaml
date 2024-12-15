@@ -67,10 +67,11 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: stirling-pdf
-        # type: persistentVolumeClaim
-        # accessMode: ReadWriteOnce
-        # size: 2Gi
+        # existingClaim: stirling-pdf
+        nameOverride: stirling-pdf
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 2Gi
         globalMounts:
           - path: /configs
       logs:
