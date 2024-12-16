@@ -2,13 +2,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: network
+  name: networking
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: {{ ENV.PROD_DOMAIN_CERT_NAME }}-tls
-  namespace: network
+  namespace: networking
   annotations:
     cert-manager.io/alt-names: '*.{{ ENV.PROD_DOMAIN_COMMON_NAME }},{{ ENV.PROD_DOMAIN_COMMON_NAME }}'
     cert-manager.io/certificate-name: {{ ENV.PROD_DOMAIN_CERT_NAME }}

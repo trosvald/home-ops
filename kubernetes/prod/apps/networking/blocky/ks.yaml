@@ -6,13 +6,13 @@ metadata:
   name: &app blocky
   namespace: flux-system
 spec:
-  targetNamespace: network
+  targetNamespace: networking
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: external-dns-bind
-  path: ./kubernetes/prod/apps/network/blocky/app
+  path: ./kubernetes/prod/apps/networking/blocky/app
   prune: false
   sourceRef:
     kind: GitRepository

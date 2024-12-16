@@ -6,14 +6,14 @@ metadata:
   name: &app omada-controller
   namespace: flux-system
 spec:
-  targetNamespace: network
+  targetNamespace: networking
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     # - name: certificates
     - name: external-secrets-stores
-  path: ./kubernetes/prod/apps/network/omada/app
+  path: ./kubernetes/prod/apps/networking/omada/app
   prune: false
   sourceRef:
     kind: GitRepository

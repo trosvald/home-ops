@@ -6,6 +6,4 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  # - ./mattermost/ks.yaml
-  # - ./openproject/ks.yaml
   - ./uptime/ks.yaml

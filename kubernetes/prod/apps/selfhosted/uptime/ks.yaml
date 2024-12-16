@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: crunchy-postgres-main-cluster
+    # - name: crunchy-postgres-main-cluster
     - name: external-secrets-stores
   path: ./kubernetes/prod/apps/selfhosted/uptime/app
   prune: true

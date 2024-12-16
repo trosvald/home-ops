@@ -6,8 +6,8 @@ metadata:
   name: hass-proxy
   namespace: flux-system
 spec:
-  path: ./kubernetes/prod/apps/network/hass-proxy/app
-  targetNamespace: network
+  path: ./kubernetes/prod/apps/networking/hass-proxy/app
+  targetNamespace: networking
   sourceRef:
     kind: GitRepository
     name: home-ops

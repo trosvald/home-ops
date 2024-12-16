@@ -6,8 +6,8 @@ metadata:
   name: cdn
   namespace: flux-system
 spec:
-  path: ./kubernetes/prod/apps/network/cdn/app
-  targetNamespace: network
+  path: ./kubernetes/prod/apps/networking/cdn/app
+  targetNamespace: networking
   sourceRef:
     kind: GitRepository
     name: home-ops

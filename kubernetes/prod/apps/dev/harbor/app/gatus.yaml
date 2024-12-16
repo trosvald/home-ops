@@ -10,7 +10,7 @@ data:
     endpoints:
       - name: Container Registry
         group: infrastructure
-        url: https://registry.${CLUSTER_SECRET_DEV_DOMAIN}
+        url: https://registry.${CLUSTER_SECRET_PRD_DOMAIN}
         interval: 1m
         ui:
           hide-url: true
