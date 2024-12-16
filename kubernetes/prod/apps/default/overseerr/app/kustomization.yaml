@@ -6,4 +6,4 @@ resources:
   - ./pvc.yaml
   - ./helmrelease.yaml
   - - ../../../../../shared/templates/gatus/external
-  - ../../../../templates/volsync
+  - - ../../../../../shared/templates/volsync

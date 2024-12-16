@@ -7,4 +7,4 @@ resources:
   - ./helmrelease.yaml
   - ./signing-key.secret.sops.yaml
   - ./internal-ingress.yaml
-  - ../../../../templates/volsync
+  - - ../../../../../shared/templates/volsync
