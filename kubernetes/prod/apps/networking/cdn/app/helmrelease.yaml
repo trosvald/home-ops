@@ -16,7 +16,7 @@ spec:
   interval: 30m
   dependsOn:
     - name: nginx-external
-      namespace: network
+      namespace: networking
   values:
     controllers:
       cdn:
