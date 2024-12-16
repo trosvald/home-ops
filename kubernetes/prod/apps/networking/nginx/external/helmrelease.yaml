@@ -87,7 +87,7 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        default-ssl-certificate: network/${CLUSTER_SECRET_PRD_DOMAIN/./-}-tls
+        default-ssl-certificate: networking/${CLUSTER_SECRET_PRD_DOMAIN/./-}-tls
       terminationGracePeriodSeconds: 120
       topologySpreadConstraints:
         - maxSkew: 1
