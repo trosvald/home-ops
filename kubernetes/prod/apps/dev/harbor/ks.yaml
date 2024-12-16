@@ -18,6 +18,6 @@ spec:
   wait: false
   interval: 10m
   dependsOn:
-    - name: crunchy-postgres-main-cluster
+    - name: crunchy-postgres-prod-cluster
     - name: dragonfly-cluster
     - name: nginx-external
