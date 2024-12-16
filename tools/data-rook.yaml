@@ -1,0 +1,174 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-wipe-m0
+  namespace: default
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: Never
+      nodeName: p-tlx-k8s-m0
+      containers:
+        - name: data-wipe
+          image: ghcr.io/onedr0p/alpine:3.19.0@sha256:51632d23e56ae28a34f8e90df6fe8d02730b5462697ae52e8b01ad6484497819
+          securityContext:
+            privileged: true
+          resources: {}
+          command: ["/bin/sh", "-c"]
+          args:
+            - rm -rf /mnt/host_var/lib/rook
+          volumeMounts:
+            - mountPath: /mnt/host_var
+              name: host-var
+      volumes:
+        - name: host-var
+          hostPath:
+            path: /var
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-wipe-m1
+  namespace: default
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: Never
+      nodeName: p-tlx-k8s-m1
+      containers:
+        - name: data-wipe
+          image: ghcr.io/onedr0p/alpine:3.19.0@sha256:51632d23e56ae28a34f8e90df6fe8d02730b5462697ae52e8b01ad6484497819
+          securityContext:
+            privileged: true
+          resources: {}
+          command: ["/bin/sh", "-c"]
+          args:
+            - rm -rf /mnt/host_var/lib/rook
+          volumeMounts:
+            - mountPath: /mnt/host_var
+              name: host-var
+      volumes:
+        - name: host-var
+          hostPath:
+            path: /var
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-wipe-m2
+  namespace: default
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: Never
+      nodeName: p-tlx-k8s-m2
+      containers:
+        - name: data-wipe
+          image: ghcr.io/onedr0p/alpine:3.19.0@sha256:51632d23e56ae28a34f8e90df6fe8d02730b5462697ae52e8b01ad6484497819
+          securityContext:
+            privileged: true
+          resources: {}
+          command: ["/bin/sh", "-c"]
+          args:
+            - rm -rf /mnt/host_var/lib/rook
+          volumeMounts:
+            - mountPath: /mnt/host_var
+              name: host-var
+      volumes:
+        - name: host-var
+          hostPath:
+            path: /var
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-wipe-w0
+  namespace: default
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: Never
+      nodeName: p-tlx-k8s-w0
+      containers:
+        - name: data-wipe
+          image: ghcr.io/onedr0p/alpine:3.19.0@sha256:51632d23e56ae28a34f8e90df6fe8d02730b5462697ae52e8b01ad6484497819
+          securityContext:
+            privileged: true
+          resources: {}
+          command: ["/bin/sh", "-c"]
+          args:
+            - rm -rf /mnt/host_var/lib/rook
+          volumeMounts:
+            - mountPath: /mnt/host_var
+              name: host-var
+      volumes:
+        - name: host-var
+          hostPath:
+            path: /var
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-wipe-w1
+  namespace: default
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: Never
+      nodeName: p-tlx-k8s-w1
+      containers:
+        - name: data-wipe
+          image: ghcr.io/onedr0p/alpine:3.19.0@sha256:51632d23e56ae28a34f8e90df6fe8d02730b5462697ae52e8b01ad6484497819
+          securityContext:
+            privileged: true
+          resources: {}
+          command: ["/bin/sh", "-c"]
+          args:
+            - rm -rf /mnt/host_var/lib/rook
+          volumeMounts:
+            - mountPath: /mnt/host_var
+              name: host-var
+      volumes:
+        - name: host-var
+          hostPath:
+            path: /var
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-wipe-w2
+  namespace: default
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: Never
+      nodeName: p-tlx-k8s-w2
+      containers:
+        - name: data-wipe
+          image: ghcr.io/onedr0p/alpine:3.19.0@sha256:51632d23e56ae28a34f8e90df6fe8d02730b5462697ae52e8b01ad6484497819
+          securityContext:
+            privileged: true
+          resources: {}
+          command: ["/bin/sh", "-c"]
+          args:
+            - rm -rf /mnt/host_var/lib/rook
+          volumeMounts:
+            - mountPath: /mnt/host_var
+              name: host-var
+      volumes:
+        - name: host-var
+          hostPath:
+            path: /var
