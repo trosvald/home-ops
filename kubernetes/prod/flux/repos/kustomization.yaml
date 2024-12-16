@@ -8,4 +8,3 @@ resources:
   - ./gitlab-workspace.yaml
   - ./gitlab.yaml
   - ./harbor.yaml
-  - ./rook-ceph.yaml
