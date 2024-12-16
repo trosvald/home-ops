@@ -8,8 +8,8 @@ data:
   CLUSTER_NAME: prod
   CLUSTER_CLOUDFLARE_TUNNEL_ID: 31bc8e34-883f-4225-94af-2989ef513027
   TIMEZONE: Asia/Jakarta
-  CLUSTER_STORAGE_HOSTPATH: ceph-block
-  CLUSTER_SNAPSHOT_HOSTPATH: csi-democratic-csi-local-hostpath
+  CLUSTER_STORAGE_HOSTPATH: local-hostpath
+  CLUSTER_SNAPSHOT_HOSTPATH: csi-local-hostpath
   PVC_VOLSYNC_STORAGECLASS: ceph-block
   VOLSYNC_SNAPSHOTCLASS: csi-ceph-blockpool
   VOLSYNC_CACHE_SNAPSHOTCLASS: zol-iscsi
