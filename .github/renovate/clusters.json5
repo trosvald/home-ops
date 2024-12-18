@@ -6,8 +6,7 @@
                 "Separate PRs for prod cluster"
             ],
             "matchFileNames": [
-                "**/kubernetes/prod/**",
-                "**/kubernetes/main/**"
+                "**/kubernetes/prod/**"
             ],
             "additionalBranchPrefix": "prod-"
         },
