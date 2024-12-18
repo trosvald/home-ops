@@ -6,4 +6,4 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  # - ./gitlab/ks.yaml
+  - ./gitlab/ks.yaml
