@@ -40,6 +40,8 @@ spec:
         domain: ${CLUSTER_SECRET_PRD_DOMAIN}
         pages:
           name: pages.${CLUSTER_SECRET_PRD_DOMAIN}
+        registry:
+          name: cr.${CLUSTER_SECRET_PRD_DOMAIN}
       ingress:
         configureCertmanager: false
         class: &class external
