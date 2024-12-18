@@ -56,11 +56,9 @@ spec:
         type: AlphaNumeric
     # Applications
     - name: "gitlab"
-      databases: ["gitlab"]
-      password:
-        type: AlphaNumeric
-    - name: "gitlab-ci"
-      databases: ["gitlab-ci"]
+      databases:
+        - gitlab
+        - gitlab-ci
       password:
         type: AlphaNumeric
   backups:
