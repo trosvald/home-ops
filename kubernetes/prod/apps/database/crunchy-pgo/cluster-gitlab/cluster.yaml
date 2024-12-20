@@ -124,7 +124,7 @@ spec:
           labels:
             app.kubernetes.io/name: crunchy-postgres-gitlab-pgbouncer
           annotations:
-            external-dns.alpha.kubernetes.io/hostname: postgres.${CLUSTER_SECRET_PRD_DOMAIN}
+            external-dns.alpha.kubernetes.io/hostname: gitlab-db.${CLUSTER_SECRET_PRD_DOMAIN}
             lbipam.cilium.io/ips: ${SVC_CPGO_GITLAB_IP}
         type: LoadBalancer
       port: 5432
