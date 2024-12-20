@@ -47,7 +47,6 @@ tasks:
 
   upgrade-node:
     desc: Upgrade Talos on a single node [CLUSTER=prod] [HOSTNAME=required]
-    prompt: Upgrading {{.HOSTNAME}} in {{.CLUSTER}} cluster ... continue ?
     dotenv: ['{{.CLUSTER_DIR}}/cluster.env']
     cmds:
       - task: down
@@ -164,4 +163,71 @@ tasks:
       - talosctl --context {{.CLUSTER}} config info
       - test -f {{.CLUSTER_DIR}}/talosconfig
       - which jq talosctl
+
+  apply-cluster:
+    desc: Apply Talos config acrossthe whole cluster [CLUSTER=prod] [MODE=default]
+    cmds:
+      - for: { var: HOSTNAME }
+        task: apply-node
+        vars:
+          HOSTNAME: '{{.ITEM}}'
+          MODE: '{{.MODE}}'
+          CLUSTER: '{{.CLUSTER}}'
+    vars:
+      MODE: '{{.MODE | default "auto"}}'
+      HOSTNAME:
+        sh: talosctl --context {{.CLUSTER}} config info --output json | jq --join-output '[.nodes[]] | join(" ")'
+    requires:
+      vars: [CLUSTER]
+    preconditions:
+      - which jq talosctl
+
+  upgrade-cluster:
+    desc: Upgrade Talos across the whole cluster [CLUSTER=prod]
+    cmds:
+      - for: { var: HOSTNAME }
+        task: upgrade-node
+        vars:
+          HOSTNAME: '{{.ITEM}}'
+          CLUSTER: '{{.CLUSTER}}'
+    vars:
+      HOSTNAME:
+        sh: talosctl --context {{.CLUSTER}} config info --output json | jq --join-output '[.nodes[]] | join(" ")'
+    requires:
+      vars: [CLUSTER]
+    preconditions:
+      - which jq talosctl
+
+  reboot-cluster:
+    desc: Reboot talos on a single node [CLUSTER=prod] [HOSTNAME=required] [MODE=default]
+    cmds:
+      - for: { var: HOSTNAME }
+        task: reboot-node
+        vars:
+          HOSTNAME: '{{.ITEM}}'
+          MODE: '{{.MODE}}'
+          CLUSTER: '{{.CLUSTER}}'
+    vars:
+      HOSTNAME:
+        sh: talosctl --context {{.CLUSTER}} config info --output json | jq --join-output '[.nodes[]] | join(" ")'
+    requires:
+      vars: [CLUSTER]
+    preconditions:
+      - which jq talosctl
+
+  down:
+    internal: true
+    cmds:
+      - until kubectl --context {{.CLUSTER}} wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all-namespaces &>/dev/null; do sleep 5; done
+      - until kubectl --context {{.CLUSTER}} wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
+    preconditions:
+      - which kubectl
+
+  up:
+    internal: true
+    cmds:
+      - until kubectl --context {{.CLUSTER}} wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done
+      - until kubectl --context {{.CLUSTER}} wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
+    preconditions:
+      - which kubectl
 
