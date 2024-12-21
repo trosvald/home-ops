@@ -39,7 +39,7 @@ spec:
       name: actions-runner-controller-auth-secret
       valuesKey: ACTION_RUNNER_CONTROLLER_GITHUB_PRIVATE_KEY
   values:
-    nameOverride: gha-runner-docusaurus-theme
+    nameOverride: gha-runner-home-ops
     runnerScaleSetName: gha-runner-home-ops
     githubConfigUrl: https://github.com/trosvald/home-ops
     minRunners: 1
