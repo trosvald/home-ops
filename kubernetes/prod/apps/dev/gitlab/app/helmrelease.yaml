@@ -32,7 +32,7 @@ spec:
   values:
     global:
       edition: ce
-      time_zone: ${TIMEZONE}
+      # time_zone: ${TIMEZONE}
       extraEnv:
         GITLAB_LOG_LEVEL: 'info'
         GITLAB_ALLOW_SEPARATE_CI_DATABASE: 1
