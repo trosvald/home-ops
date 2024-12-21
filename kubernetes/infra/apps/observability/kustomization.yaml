@@ -8,7 +8,7 @@ resources:
   # Flux-Kustomizations
   - ./alertmanager-telegram/ks.yaml
   - ./headlamp/ks.yaml
-  # - ./kromgo/ks.yaml
+  - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
   - ./network-ups-tools/ks.yaml
