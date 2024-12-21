@@ -45,16 +45,6 @@ metrics:
       - { color: f38ba8, min: 76, max: 9999 }
     title: Memory
 
-  - name: cluster_power_usage
-    # query: round(upsHighPrecOutputLoad, 0.1)
-    query: homeassistant_sensor_power_w
-    suffix: "w"
-    colors:
-      - { color: a6e3a1, min: 0, max: 400 }
-      - { color: fab387, min: 401, max: 750 }
-      - { color: f38ba8, min: 751, max: 9999 }
-    title: Power
-
   - name: cluster_age_days
     query: round((time() - min(kube_node_created) ) / 86400)
     suffix: "d"
