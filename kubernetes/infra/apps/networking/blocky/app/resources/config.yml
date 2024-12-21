@@ -39,6 +39,11 @@ prometheus:
   enable: true
   path: /metrics
 
+# queryLog:
+#   type: postgresql
+#   target: postgresql://{{ .BLOCKY_POSTGRES_USER }}:{{ .BLOCKY_POSTGRES_PASS }}@postgres-rw.database.svc.cluster.local:5432/blocky
+#   logRetentionDays: 7
+
 blocking:
   loading:
     downloads:

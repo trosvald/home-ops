@@ -68,6 +68,10 @@ spec:
       databases: ["hassio"]
       password:
         type: AlphaNumeric
+    - name: "blocky"
+      databases: ["blocky"]
+      password:
+        type: AlphaNumeric
   backups:
     pgbackrest:
       configuration: &backupConfig
