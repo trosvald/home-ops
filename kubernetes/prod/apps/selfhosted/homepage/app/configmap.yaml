@@ -60,7 +60,7 @@ data:
             url: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
             key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
             enableQueue: true
-        - Sonarr:
+        - Radarr:
           href: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
           icon: radarr.png
           widget:
