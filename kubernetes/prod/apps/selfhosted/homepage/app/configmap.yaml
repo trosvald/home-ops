@@ -51,6 +51,15 @@ data:
   kubernetes.yaml: |
     mode: cluster
   services.yaml: |
+    - Downloads:
+        - Sonarr:
+          href: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
+          icon: sonarr.png
+          widget:
+            type: sonarr
+            url: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
+            key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
+            enableQueue: true
     - Network:
         - Cloudflared:
             href: https://dash.cloudflare.com/
@@ -72,7 +81,7 @@ data:
               key: {{HOMEPAGE_VAR_HEALTHCHECK_TOKEN}}
               uuid: {{HOMEPAGE_VAR_HEALTHCHECK_UUID}}
         - Opnsense:
-            href: https://unifi.ui.com
+            href: https://ngfw.${CLUSTER_SECRET_DEV_DOMAIN}
             icon: unifi.png
             description: Opnsense Dashboard
             widget:
