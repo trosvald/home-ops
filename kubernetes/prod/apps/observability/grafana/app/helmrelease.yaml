@@ -164,6 +164,18 @@ spec:
             jsonData:
               implementation: prometheus
 
+          - name: Blocky-PGProd
+            type: postgres
+            uid: blocky-pgprod
+            access: proxy
+            url: postgres-main-primary.database.svc.cluster.local:5432
+            user: "${BLOCKY_PROD_USER}"
+            secureJsonData:
+              password: "${BLOCKY_PROD_PASS}"
+            jsonData:
+              database: blocky
+              sslmode: 'disable'
+
     dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
@@ -310,6 +322,26 @@ spec:
         nginx-request-handling-performance:
           url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
           datasource: Prometheus
+        blocky:
+          # renovate: depName="blocky"
+          gnetId: 13768
+          revision: 4
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
+            - name: VAR_BLOCKY_URL
+              value: https:\/\/blocky.${CLUSTER_SECRET_PRD_DOMAIN}
+        blocky-query:
+          url: https://raw.githubusercontent.com/0xERR0R/blocky/main/docs/blocky-query-grafana-postgres.json
+          datasource:
+            - name: DS_POSTGRES
+              value: blocky-pgprod
+        blocky-postgres:
+          gnetId: 17996
+          revision: 11
+          datasource:
+            - name: DS_BLOCKYDB
+              value: blocky-pgprod
         speedtest-exporter:
           # renovate: depName="Speedtest-Exporter Dashboard"
           gnetId: 13665
