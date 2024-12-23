@@ -60,6 +60,13 @@ data:
             url: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
             key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
             enableQueue: true
+        - Sonarr:
+          href: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
+          icon: radarr.png
+          widget:
+            type: radarr
+            url: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
+            key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
     - Network:
         - Cloudflared:
             href: https://dash.cloudflare.com/
