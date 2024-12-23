@@ -55,6 +55,7 @@ data:
         - Sonarr:
           href: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
           icon: sonarr.png
+          description: Series downloader
           widget:
             type: sonarr
             url: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
@@ -89,13 +90,29 @@ data:
               uuid: {{HOMEPAGE_VAR_HEALTHCHECK_UUID}}
         - Opnsense:
             href: https://ngfw.${CLUSTER_SECRET_DEV_DOMAIN}
-            icon: unifi.png
+            icon: opnsense.png
             description: Opnsense Dashboard
             widget:
               type: opnsense
               url: https://ngfw.${CLUSTER_SECRET_DEV_DOMAIN}
               username: {{HOMEPAGE_VAR_OPNSENSE_USERNAME}}
               password: {{HOMEPAGE_VAR_OPNSENSE_PASSWORD}}
+        - Sonarr:
+          href: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
+          icon: sonarr.png
+          description: Series downloader
+          widget:
+            type: sonarr
+            url: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
+            key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
+            enableQueue: true
+        - Radarr:
+          href: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
+          icon: radarr.png
+          widget:
+            type: radarr
+            url: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
+            key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
     - Calendar:
         - Agenda:
             widget:
