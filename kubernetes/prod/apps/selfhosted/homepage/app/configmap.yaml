@@ -53,21 +53,21 @@ data:
   services.yaml: |
     - Downloads:
         - Sonarr:
-          href: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
-          icon: sonarr.png
-          description: Series downloader
-          widget:
-            type: sonarr
-            url: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
-            key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
-            enableQueue: true
+            href: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
+            icon: sonarr.png
+            description: Series downloader
+            widget:
+              type: sonarr
+              url: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
+              key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
+              enableQueue: true
         - Radarr:
-          href: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
-          icon: radarr.png
-          widget:
-            type: radarr
-            url: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
-            key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
+            href: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
+            icon: radarr.png
+            widget:
+              type: radarr
+              url: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
+              key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
     - Network:
         - Cloudflared:
             href: https://dash.cloudflare.com/
@@ -97,22 +97,6 @@ data:
               url: https://ngfw.${CLUSTER_SECRET_DEV_DOMAIN}
               username: {{HOMEPAGE_VAR_OPNSENSE_USERNAME}}
               password: {{HOMEPAGE_VAR_OPNSENSE_PASSWORD}}
-        - Sonarr:
-          href: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
-          icon: sonarr.png
-          description: Series downloader
-          widget:
-            type: sonarr
-            url: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
-            key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
-            enableQueue: true
-        - Radarr:
-          href: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
-          icon: radarr.png
-          widget:
-            type: radarr
-            url: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
-            key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
     - Calendar:
         - Agenda:
             widget:
