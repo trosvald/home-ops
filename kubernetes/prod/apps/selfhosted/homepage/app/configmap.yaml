@@ -63,10 +63,20 @@ data:
         - Radarr:
             href: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
             icon: radarr.png
+            description: Movie downloader
             widget:
               type: radarr
               url: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
               key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
+        - QBittorrent:
+            href: https://qb.${CLUSTER_SECRET_PRD_DOMAIN}
+            icon: qbittorrent.png
+            description: Torrent downloader
+            widget:
+              type: qbittorrent
+              url: https://qb.${CLUSTER_SECRET_PRD_DOMAIN}
+              username: {{HOMEPAGE_VAR_QBITTORRENT_USER}}
+              password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
     - Video:
         - Plex:
             href: https://plex.${CLUSTER_SECRET_PRD_DOMAIN}
