@@ -101,6 +101,10 @@ spec:
       databases: ["sonarr_main"]
       password:
         type: AlphaNumeric
+    - name: "blocky"
+      databases: ["blocky"]
+      password:
+        type: AlphaNumeric
     ### DONT DELETE UPTIME
     - name: "uptime"
       databases: ["uptime"]

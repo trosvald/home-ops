@@ -16,7 +16,7 @@ upstreams:
       - tcp-tls:family.cloudflare-dns.com:853
 
 clientLookup:
-  upstream: &ns 172.16.16.254
+  upstream: &ns 172.16.11.254
 
 conditional:
   fallbackUpstream: false
@@ -38,6 +38,11 @@ ecs:
 prometheus:
   enable: true
   path: /metrics
+
+# queryLog:
+#   type: postgresql
+#   target: {{ .BLOCKY_POSTGRES_URI }}
+#   logRetentionDays: 7
 
 blocking:
   loading:

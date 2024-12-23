@@ -8,13 +8,13 @@ storage:
   caching: true
 metrics: true
 debug: false
-# security:
-#   oidc:
-#     issuer-url: https://sso.${CLUSTER_SECRET_PRD_DOMAIN}/application/o/gatus/
-#     client-id: $${CLIENT_ID}
-#     client-secret: $${CLIENT_SECRET}
-#     redirect-url: https://status.${CLUSTER_SECRET_PRD_DOMAIN}/authorization-code/callback
-#     scopes: [openid]
+security:
+  oidc:
+    issuer-url: https://sso.${CLUSTER_SECRET_PRD_DOMAIN}/application/o/gatus/
+    client-id: $${CLIENT_ID}
+    client-secret: $${CLIENT_SECRET}
+    redirect-url: https://status.${CLUSTER_SECRET_PRD_DOMAIN}/authorization-code/callback
+    scopes: [openid]
 ui:
   title: Uptime Monitor
   header: Status
