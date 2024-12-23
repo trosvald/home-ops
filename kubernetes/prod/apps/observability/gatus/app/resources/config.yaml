@@ -70,7 +70,6 @@ endpoints:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
       - "[STATUS] == 200"
-      - "[BODY].status == OK"
     alerts:
       - type: telegram
         send-on-resolved: true
