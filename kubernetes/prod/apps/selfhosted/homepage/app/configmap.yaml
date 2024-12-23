@@ -60,7 +60,6 @@ data:
               type: sonarr
               url: https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}
               key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
-              enableQueue: true
         - Radarr:
             href: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
             icon: radarr.png
@@ -68,6 +67,23 @@ data:
               type: radarr
               url: https://radarr.${CLUSTER_SECRET_PRD_DOMAIN}
               key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
+    - Video:
+        - Plex:
+            href: https://plex.${CLUSTER_SECRET_PRD_DOMAIN}
+            icon: plex.png
+            description: Media centre
+            widget:
+              type: plex
+              url: https://plex.${CLUSTER_SECRET_PRD_DOMAIN}
+              key: {{HOMEPAGE_VAR_PLEX_TOKEN}}
+        - Tautulli:
+            href: https://tautulli.${CLUSTER_SECRET_PRD_DOMAIN}
+            icon: tautulli.png
+            description: Media centre
+            widget:
+              type: tautulli
+              url: https://tautulli.${CLUSTER_SECRET_PRD_DOMAIN}
+              key: {{HOMEPAGE_VAR_TAUTULLI_TOKEN}}
     - Network:
         - Cloudflared:
             href: https://dash.cloudflare.com/
