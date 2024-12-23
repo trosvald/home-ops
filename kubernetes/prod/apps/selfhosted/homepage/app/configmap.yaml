@@ -80,25 +80,6 @@ data:
               url: https://ngfw.${CLUSTER_SECRET_DEV_DOMAIN}
               username: {{HOMEPAGE_VAR_OPNSENSE_USERNAME}}
               password: {{HOMEPAGE_VAR_OPNSENSE_PASSWORD}}
-    - Games:
-        - Create:
-            icon: minecraft.png
-            description: Create Server
-            widget:
-              type: minecraft
-              url: udp://minecraft-create-minecraft.games:25565
-        - Takocraft:
-            icon: minecraft.png
-            description: Takocraft Server
-            widget:
-              type: minecraft
-              url: udp://minecraft-takocraft-minecraft.games:25565
-        - Vibecraft:
-            icon: minecraft.png
-            description: Vibecraft Server
-            widget:
-              type: minecraft
-              url: udp://minecraft-vibecraft-minecraft.games:25565
     - Calendar:
         - Agenda:
             widget:
