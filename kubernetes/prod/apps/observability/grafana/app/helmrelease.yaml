@@ -174,7 +174,7 @@ spec:
               password: "${BLOCKY_PROD_PASS}"
             jsonData:
               database: blocky
-              sslmode: 'disable'
+              sslmode: 'require' # disable/require/verify-ca/verify-full
 
     dashboardProviders:
       dashboardproviders.yaml:
