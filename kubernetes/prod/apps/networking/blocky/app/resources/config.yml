@@ -41,7 +41,7 @@ prometheus:
 
 queryLog:
   type: postgresql
-  target: $${BLOCKY_POSTGRES_URI}
+  target: {{ .BLOCKY_POSTGRES_URI }}
   logRetentionDays: 7
 
 blocking:
