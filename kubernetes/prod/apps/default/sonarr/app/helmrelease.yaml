@@ -94,6 +94,14 @@ spec:
           authentik.home.arpa/enabled: "true"
           nginx.ingress.kubernetes.io/auth-signin: |-
             https://sonarr.${CLUSTER_SECRET_PRD_DOMAIN}/outpost.goauthentik.io/start?rd=$escaped_request_uri
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Downloads
+          gethomepage.dev/name: Sonarr
+          gethomepage.dev/icon: sonarr.png
+          gethomepage.dev/description: TV Downloads
+          gethomepage.dev/widget.type: sonarr
+          gethomepage.dev/widget.url: http://sonarr.downloads
+          gethomepage.dev/widget.key: "{{ `{{HOMEPAGE_VAR_SONARR_TOKEN}}` }}"
         className: internal
         hosts:
           - host: "{{ .Release.Name }}.${CLUSTER_SECRET_PRD_DOMAIN}"
