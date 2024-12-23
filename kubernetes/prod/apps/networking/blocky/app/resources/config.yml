@@ -41,7 +41,7 @@ prometheus:
 
 queryLog:
   type: postgresql
-  target: ${BLOCKY_POSTGRES_URI}
+  target: postgresql://{{ .BLOCKY_POSTGRES_USER }}:{{ .BLOCKY_POSTGRES_PASS }}@postgres-main-primary.database.svc:5432/blocky
   logRetentionDays: 7
 
 blocking:
