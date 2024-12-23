@@ -39,10 +39,10 @@ prometheus:
   enable: true
   path: /metrics
 
-# queryLog:
-#   type: postgresql
-#   target: {{ .BLOCKY_POSTGRES_URI }}
-#   logRetentionDays: 7
+queryLog:
+  type: postgresql
+  target: {{ .BLOCKY_POSTGRES_URI }}
+  logRetentionDays: 7
 
 blocking:
   loading:
