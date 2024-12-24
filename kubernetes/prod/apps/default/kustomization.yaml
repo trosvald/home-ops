@@ -6,9 +6,10 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  # - ./atuin/ks.yaml
+  - ./autobrr/ks.yaml
   - ./filebrowser/ks.yaml
   # - ./go2rtc/ks.yaml
+  - ./omegabrr/ks.yaml
   - ./overseerr/ks.yaml
   - ./pgadmin/ks.yaml
   - ./plex/ks.yaml
