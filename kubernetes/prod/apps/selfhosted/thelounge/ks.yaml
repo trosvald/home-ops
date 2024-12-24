@@ -25,4 +25,4 @@ spec:
       APP: *app
       GATUS_SUBDOMAIN: tl
       VOLSYNC_PUID: '1000'
-      VOLSYNC_PGID: '100'
+      VOLSYNC_PGID: '1000'
