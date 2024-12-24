@@ -3,9 +3,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # Pre Flux-Kustomizations
-  - ./namespace.yaml
-  # Flux-Kustomizations
-  - ./homepage/ks.yaml
-  - ./thelounge/ks.yaml
-  - ./uptime/ks.yaml
+  - ./helmrelease.yaml
+  - ../../../../../shared/templates/volsync
+  - ../../../../../shared/templates/gatus/external
