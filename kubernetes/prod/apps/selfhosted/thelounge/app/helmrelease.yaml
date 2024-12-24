@@ -36,7 +36,7 @@ spec:
               repository: ghcr.io/thelounge/thelounge
               tag: 4.4.3@sha256:de9cc4c3c41ca4345ffec480e7b23a5eed48440af7561013a185865b2962c8e3
             env:
-              THELOUNGE_HOME: /config
+              THELOUNGE_HOME: /config/thelounge
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -54,9 +54,9 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
     service:
