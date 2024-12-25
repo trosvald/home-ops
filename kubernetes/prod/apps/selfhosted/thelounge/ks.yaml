@@ -23,6 +23,6 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: tl
+      GATUS_SUBDOMAIN: irc
       VOLSYNC_PUID: '1000'
       VOLSYNC_PGID: '1000'
