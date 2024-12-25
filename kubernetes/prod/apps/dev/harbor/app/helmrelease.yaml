@@ -42,7 +42,6 @@ spec:
           nginx.ingress.kubernetes.io/ssl-redirect: "true"
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           nginx.ingress.kubernetes.io/client-body-buffer-size: "10g"
-          cert-manager.io/cluster-issuer: letsencrypt-production
           # Remember to NOT use CF proxying due to 100M upload limit though it
           external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
           external-dns.alpha.kubernetes.io/target: "external.${CLUSTER_SECRET_PRD_DOMAIN}"
