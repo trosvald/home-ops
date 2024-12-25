@@ -3,5 +3,5 @@ module "s3_ocis" {
   vault       = "Automation"
   bucket_name = "ocis"
   # The OP provider converts the fields with toLower!
-  user_secret_item = "ocis_s3_secret_key"
+  user_secret_item = "OCIS_S3_SECRET_KEY"
 }

@@ -3,5 +3,5 @@ module "s3_loki" {
   vault       = "Automation"
   bucket_name = "loki"
   # The OP provider converts the fields with toLower!
-  user_secret_item = "loki_s3_secret_key"
+  user_secret_item = "LOKI_S3_SECRET_KEY"
 }
