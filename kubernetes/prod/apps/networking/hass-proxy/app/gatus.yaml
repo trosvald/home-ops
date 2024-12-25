@@ -9,7 +9,7 @@ data:
   config.yaml: |
     endpoints:
       - name: hassio
-        group: guarded
+        group: prod-guarded
         url: http://hassio.${CLUSTER_SECRET_DEV_DOMAIN}:8123
         interval: 1m
         ui:

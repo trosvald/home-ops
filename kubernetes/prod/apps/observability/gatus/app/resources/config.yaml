@@ -38,7 +38,7 @@ connectivity:
     interval: 1m
 endpoints:
   - name: status
-    group: external
+    group: prod-external
     url: https://status.${CLUSTER_SECRET_PRD_DOMAIN}
     interval: 1m
     client:
@@ -49,7 +49,7 @@ endpoints:
       - type: telegram
         send-on-resolved: true
   - name: flux-webhook
-    group: external
+    group: prod-external
     url: https://flux-webhook.${CLUSTER_SECRET_PRD_DOMAIN}
     interval: 1m
     client:
@@ -60,7 +60,7 @@ endpoints:
       - type: telegram
         send-on-resolved: true
   - name: internet
-    group: external
+    group: prod-external
     url: https://hc-ping.com/${HEALTHCHECK_UUID}
     interval: 2m
     ui:

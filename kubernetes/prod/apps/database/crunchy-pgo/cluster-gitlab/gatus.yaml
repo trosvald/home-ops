@@ -8,7 +8,7 @@ metadata:
 data:
   config.yaml: |
     endpoints:
-      - name: GitLab Database
+      - name: GitLab DB
         group: infrastructure
         url: tcp://postgres-gitlab-pgbouncer.database.svc.cluster.local:5432
         interval: 1m

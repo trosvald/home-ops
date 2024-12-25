@@ -8,7 +8,7 @@ metadata:
 data:
   config.yaml: |
     endpoints:
-      - name: Container Registry
+      - name: Registry
         group: infrastructure
         url: https://registry.${CLUSTER_SECRET_PRD_DOMAIN}
         interval: 1m

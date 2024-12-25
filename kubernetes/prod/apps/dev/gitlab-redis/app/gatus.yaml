@@ -8,7 +8,7 @@ metadata:
 data:
   config.yaml: |
     endpoints:
-      - name: Redis - GitLab
+      - name: GitLab Redis
         group: infrastructure
         url: tcp://gitlab-dragonfly.dev.svc.cluster.local:6379
         interval: 1m
