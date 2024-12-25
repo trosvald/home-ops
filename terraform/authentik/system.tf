@@ -3,11 +3,11 @@ data "authentik_certificate_key_pair" "generated" {
 }
 
 resource "authentik_brand" "home" {
-  domain           = module.secret_authentik.fields["authentik_cluster_domain"]
+  domain           = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
   default          = false
   branding_title   = "Monosense"
-  branding_logo    = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/favicon.png"
-  branding_favicon = "https://cdn.${module.secret_authentik.fields["authentik_cluster_domain"]}/branding/favicon.png"
+  branding_logo    = "https://cdn.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/branding/favicon.png"
+  branding_favicon = "https://cdn.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/branding/favicon.png"
 
   flow_authentication = authentik_flow.authentication.uuid
   flow_invalidation   = authentik_flow.invalidation.uuid
@@ -33,7 +33,7 @@ resource "authentik_outpost" "proxyoutpost" {
     module.proxy-transmission.id
   ]
   config = jsonencode({
-    authentik_host          = "https://sso.${module.secret_authentik.fields["authentik_cluster_domain"]}",
+    authentik_host          = "https://sso.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}",
     authentik_host_insecure = false,
     authentik_host_browser  = "",
     log_level               = "debug",

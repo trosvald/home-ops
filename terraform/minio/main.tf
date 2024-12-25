@@ -24,7 +24,7 @@ module "onepassword_item_minio" {
 
 provider "minio" {
   minio_server   = "s3.monosense.io"
-  minio_user     = module.onepassword_item_minio.fields.minio_user
-  minio_password = module.onepassword_item_minio.fields.minio_password
+  minio_user     = module.onepassword_item_minio.fields.MINIO_USER
+  minio_password = module.onepassword_item_minio.fields.MINIO_PASSWORD
   minio_ssl      = true
 }

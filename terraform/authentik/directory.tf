@@ -44,11 +44,11 @@ resource "authentik_group" "infrastructure" {
 
 # Create user
 resource "authentik_user" "monosense" {
-  username = module.secret_authentik.fields.authentik_org_user
-  name     = module.secret_authentik.fields.authentik_org_user_full
-  password = module.secret_authentik.fields.authentik_org_user_password
-  email    = module.secret_authentik.fields.authentik_org_user_email
-  groups    = [
+  username = module.secret_authentik.fields.AUTHENTIK_ORG_USER
+  name     = module.secret_authentik.fields.AUTHENTIK_ORG_USER_FULL
+  password = module.secret_authentik.fields.AUTHENTIK_ORG_USER_PASSWORD
+  email    = module.secret_authentik.fields.AUTHENTIK_ORG_USER_EMAIL
+  groups   = [
     authentik_group.superusers.id,
     authentik_group.media.id,
     authentik_group.infrastructure.id,
@@ -58,10 +58,10 @@ resource "authentik_user" "monosense" {
 }
 
 resource "authentik_user" "trosvald" {
-  username = module.secret_authentik.fields.authentik_dev_user
-  name     = module.secret_authentik.fields.authentik_org_user_full
-  password = module.secret_authentik.fields.authentik_dev_password
-  email    = module.secret_authentik.fields.authentik_dev_email
+  username = module.secret_authentik.fields.AUTHENTIK_DEV_USER
+  name     = module.secret_authentik.fields.AUTHENTIK_ORG_USER_FULL
+  password = module.secret_authentik.fields.AUTHENTIK_DEV_PASSWORD
+  email    = module.secret_authentik.fields.AUTHENTIK_DEV_EMAIL
   groups    = [
     authentik_group.superusers.id,
     authentik_group.media.id,

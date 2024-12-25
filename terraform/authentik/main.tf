@@ -47,14 +47,8 @@ module "secret_gatus" {
   item   = "gatus"
 }
 
-module "secret_synapse" {
-  source = "github.com/bjw-s/terraform-1password-item?ref=main"
-  vault  = "Automation"
-  item   = "synapse"
-}
-
 provider "authentik" {
-  url   = module.secret_authentik.fields["authentik_endpoint_url"]
-  token = module.secret_authentik.fields["authentik_api_token"]
+  url   = module.secret_authentik.fields["AUTHENTIK_ENDPOINT_URL"]
+  token = module.secret_authentik.fields["AUTHENTIK_API_TOKEN"]
 
 }

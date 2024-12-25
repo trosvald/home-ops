@@ -4,5 +4,5 @@ module "s3_gitlab-artifacts" {
   bucket_name      = "gitlab-artifacts"
   # The OP provider converts the fields with toLower!
   user_name        = "gitlab"
-  user_secret_item = "gitlab_artifacts_s3_secret_key"
+  user_secret_item = "GITLAB_ARTIFACTS_S3_SECRET_KEY"
 }

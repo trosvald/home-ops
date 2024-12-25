@@ -5,8 +5,9 @@ module "proxy-transmission" {
   icon_url           = "https://github.com/transmission/transmission/raw/main/web/assets/img/logo.png"
   group              = "Downloads"
   slug               = "qb"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -17,8 +18,9 @@ module "proxy-pinchflat" {
   icon_url           = "https://cdn.monosense.io/branding/yt.png"
   group              = "Downloads"
   slug               = "pinchflat"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -29,8 +31,9 @@ module "proxy-prowlarr" {
   icon_url           = "https://raw.githubusercontent.com/Prowlarr/Prowlarr/develop/Logo/128.png"
   group              = "Downloads"
   slug               = "prowlarr"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -41,8 +44,9 @@ module "proxy-radarr" {
   icon_url           = "https://github.com/Radarr/Radarr/raw/develop/Logo/128.png"
   group              = "Downloads"
   slug               = "radarr"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -53,8 +57,9 @@ module "proxy-sonarr" {
   icon_url           = "https://github.com/Sonarr/Sonarr/raw/develop/Logo/128.png"
   group              = "Downloads"
   slug               = "sonarr"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -65,8 +70,9 @@ module "proxy-bazarr" {
   icon_url           = "https://github.com/morpheus65535/bazarr/raw/master/frontend/public/images/logo128.png"
   group              = "Downloads"
   slug               = "bazarr"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -77,8 +83,9 @@ module "proxy-lidarr" {
   icon_url           = "https://github.com/Lidarr/Lidarr/raw/develop/Logo/128.png"
   group              = "Downloads"
   slug               = "music"
-  domain             = module.secret_authentik.fields["authentik_cluster_domain"]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -91,7 +98,7 @@ module "proxy-lidarr" {
 #   icon_url           = "https://github.com/navidrome/navidrome/raw/master/resources/logo-192x192.png"
 #   group              = "Selfhosted"
 #   slug               = "navidrome"
-#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+#   domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
 #   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
 #   auth_groups        = [authentik_group.media.id]
 #   ignore_paths       = <<-EOT
@@ -107,7 +114,7 @@ module "proxy-lidarr" {
 #   icon_url           = "https://raw.githubusercontent.com/gethomepage/homepage/main/public/android-chrome-192x192.png"
 #   group              = "Selfhosted"
 #   slug               = "home"
-#   domain             = module.secret_authentik.fields["authentik_cluster_domain"]
+#   domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
 #   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
 #   auth_groups        = [authentik_group.users.id]
 # }
@@ -116,61 +123,65 @@ module "oauth2-gitlab" {
   source             = "./oauth2_application"
   name               = "GitLab"
   icon_url           = "https://cdn.monosense.io/branding/gitlab.png"
-  launch_url         = "https://gitlab.${module.secret_authentik.fields["authentik_cluster_domain"]}"
+  launch_url         = "https://gitlab.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}"
   description        = "Private SCM"
   newtab             = true
   group              = "Developers"
   sub_mode           = "user_email"
   auth_groups        = [authentik_group.developers.id]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  client_id          = module.secret_gitlab.fields["gitlab_oidc_client_id"]
-  client_secret      = module.secret_gitlab.fields["gitlab_oidc_client_secret"]
-  redirect_uris      = ["https://gitlab.${module.secret_authentik.fields["authentik_cluster_domain"]}/users/auth/openid_connect/callback"]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  client_id          = module.secret_gitlab.fields["GITLAB_OIDC_CLIENT_ID"]
+  client_secret      = module.secret_gitlab.fields["GITLAB_OIDC_CLIENT_SECRET"]
+  redirect_uris      = ["https://gitlab.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/users/auth/openid_connect/callback"]
 }
 
-module "oauth2-synapse" {
-  source             = "./oauth2_application"
-  name               = "Synapse"
-  icon_url           = "https://cdn.monosense.io/branding/element250.png"
-  launch_url         = "https://matrix.${module.secret_authentik.fields["authentik_cluster_domain"]}"
-  description        = "Messaging"
-  newtab             = true
-  group              = "Selfhosted"
-  auth_groups        = [authentik_group.users.id]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  client_id          = module.secret_synapse.fields["synapse_oidc_client_id"]
-  client_secret      = module.secret_synapse.fields["synapse_oidc_client_secret"]
-  redirect_uris      = ["https://matrix.${module.secret_authentik.fields["authentik_cluster_domain"]}/_synapse/client/oidc/callback"]
-}
+# module "oauth2-synapse" {
+#   source             = "./oauth2_application"
+#   name               = "Synapse"
+#   icon_url           = "https://cdn.monosense.io/branding/element250.png"
+#   launch_url         = "https://matrix.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}"
+#   description        = "Messaging"
+#   newtab             = true
+#   group              = "Selfhosted"
+#   auth_groups        = [authentik_group.users.id]
+#   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+#   invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+#   client_id          = module.secret_synapse.fields["SYNAPSE_OIDC_CLIENT_ID"]
+#   client_secret      = module.secret_synapse.fields["SYNAPSE_OIDC_CLIENT_SECRET"]
+#   redirect_uris      = ["https://matrix.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/_synapse/client/oidc/callback"]
+# }
 
 module "oauth2-grafana" {
   source             = "./oauth2_application"
   name               = "Grafana"
   icon_url           = "https://raw.githubusercontent.com/grafana/grafana/main/public/img/icons/mono/grafana.svg"
-  launch_url         = "https://grafana.${module.secret_authentik.fields["authentik_cluster_domain"]}"
+  launch_url         = "https://grafana.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}"
   description        = "Infrastructure monitoring"
   newtab             = true
   group              = "Infrastructure"
   auth_groups        = [authentik_group.infrastructure.id]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  client_id          = module.secret_grafana.fields["grafana_oidc_client_id"]
-  client_secret      = module.secret_grafana.fields["grafana_oidc_client_secret"]
-  redirect_uris      = ["https://grafana.${module.secret_authentik.fields["authentik_cluster_domain"]}/login/generic_oauth"]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  client_id          = module.secret_grafana.fields["GRAFANA_OIDC_CLIENT_ID"]
+  client_secret      = module.secret_grafana.fields["GRAFANA_OIDC_CLIENT_SECRET"]
+  redirect_uris      = ["https://grafana.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/login/generic_oauth"]
 }
 
 module "oauth2-gatus" {
   source             = "./oauth2_application"
   name               = "Gatus"
   icon_url           = "https://gatus.io/img/logo-with-light-text.svg"
-  launch_url         = "https://status.${module.secret_authentik.fields["authentik_cluster_domain"]}"
+  launch_url         = "https://status.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}"
   description        = "Uptime Monitor"
   newtab             = true
   group              = "Infrastructure"
   auth_groups        = [authentik_group.infrastructure.id]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  client_id          = module.secret_gatus.fields["gatus_oidc_client_id"]
-  client_secret      = module.secret_gatus.fields["gatus_oidc_client_secret"]
-  redirect_uris      = ["https://status.${module.secret_authentik.fields["authentik_cluster_domain"]}/authorization-code/callback"]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  client_id          = module.secret_gatus.fields["GATUS_OIDC_CLIENT_ID"]
+  client_secret      = module.secret_gatus.fields["GATUS_OIDC_CLIENT_SECRET"]
+  redirect_uris      = ["https://status.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/authorization-code/callback"]
 }
 
 
@@ -184,8 +195,9 @@ module "oauth2-ocis" {
   group              = "Selfhosted"
   auth_groups        = [authentik_group.users.id]
   client_type        = "public"
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  client_id          = module.secret_ocis.fields["ocis_oidc_client_id"]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  client_id          = module.secret_ocis.fields["OCIS_OIDC_CLIENT_ID"]
   # additional_property_mappings = formatlist(authentik_scope_mapping.openid-nextcloud.id)
   redirect_uris = [
     "https://files.monosense.io",
@@ -199,7 +211,8 @@ module "oauth2-ocis-android" {
   name               = "Owncloud-android"
   launch_url         = "blank://blank"
   auth_groups        = [authentik_group.users.id]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
   client_id          = "e4rAsNUSIUs0lF4nbv9FmCeUkTlV9GdgTLDH1b5uie7syb90SzEVrbN7HIpmWJeD"
   client_secret      = "dInFYGV33xKzhbRmpqQltYNdfLdJIfJ9L5ISoKhNoT9qZftpdWSP71VrpGR9pmoD"
   redirect_uris      = ["oc://android.owncloud.com", ]
@@ -210,12 +223,13 @@ module "oauth2-ocis-desktop" {
   name               = "owncloud-desktop"
   launch_url         = "blank://blank"
   auth_groups        = [authentik_group.users.id]
-  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
   client_id          = "xdXOt13JKxym1B1QcEncf2XDkLAexMBFwiT9j6EfhhHFJhs2KM9jbjTmf8JBXE69"
   client_secret      = "UBntmLjC2yYCeHwsyj73Uwo9TAaecAetRwMw0xYcvNL9yRdLSUi0hUAHfvCHFeFh"
   redirect_uris = [
-    "http://127.0.0.1(:.*)?",
-    "http://localhost(:.*)?"
+    { matching_mode = "regex", url = "http://127.0.0.1(:.*)?" },
+    { matching_mode = "regex", url = "http://localhost(:.*)?"}
   ]
 }
 

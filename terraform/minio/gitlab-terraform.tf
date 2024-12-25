@@ -4,5 +4,5 @@ module "s3_gitlab-terraform-state" {
   bucket_name      = "gitlab-terraform-state"
   # The OP provider converts the fields with toLower!
   user_name        = "gitlab"
-  user_secret_item = "gitlab_terraform_s3_secret_key"
+  user_secret_item = "GITLAB_TERRAFORM_S3_SECRET_KEY"
 }

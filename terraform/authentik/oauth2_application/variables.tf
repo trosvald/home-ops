@@ -44,6 +44,10 @@ variable "authorization_flow" {
   type = string
 }
 
+variable "invalidation_flow" {
+  type = string
+}
+
 variable "client_type" {
   type    = string
   default = "confidential"
@@ -58,10 +62,7 @@ variable "issuer_mode" {
   type    = string
   default = "per_provider"
 }
-## https://registry.terraform.io/providers/goauthentik/authentik/latest/docs/resources/provider_oauth2#sub_mode
-# Allowed values are :
-# hashed_user_id, user_id, user_uuid, user_username, user_email, user_upn
-# for user_upn defaults to hashed_user_id
+
 variable "sub_mode" {
   type    = string
   default = "hashed_user_id"
@@ -83,7 +84,7 @@ variable "additional_property_mappings" {
 }
 
 variable "redirect_uris" {
-  type = list(string)
+  type = list(any)
 }
 
 locals {
@@ -92,4 +93,16 @@ locals {
     ? var.client_secret != null ? var.client_secret : random_password.client_secret.result
     : null
   )
+
+  allowed_redirect_uris = [
+    for uri in var.redirect_uris : (
+      can(uri.url) ? {
+        matching_mode = lookup(uri, "matching_mode", "strict")
+        url           = uri.url
+        } : {
+        matching_mode = "strict"
+        url           = trim(uri, " ")
+      }
+    )
+  ]
 }
