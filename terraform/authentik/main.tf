@@ -15,7 +15,7 @@ terraform {
       version = "2024.12.0"
     }
     onepassword = {
-      source = "1password/onepassword"
+      source = "1Password/onepassword"
       version = "2.1.2"
     }
   }
@@ -28,31 +28,31 @@ provider "onepassword" {
 
 module "secret_authentik" {
   # Remember to export OP_CONNECT_HOST and OP_CONNECT_TOKEN
-  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  source = "github.com/joryirving/terraform-1password-item"
   vault  = "Automation"
   item   = "authentik"
 }
 
 module "secret_grafana" {
-  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  source = "github.com/joryirving/terraform-1password-item"
   vault  = "Automation"
   item   = "grafana"
 }
 
 module "secret_gitlab" {
-  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  source = "github.com/joryirving/terraform-1password-item"
   vault  = "Automation"
   item   = "gitlab"
 }
 
 module "secret_ocis" {
-  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  source = "github.com/joryirving/terraform-1password-item"
   vault  = "Automation"
   item   = "ocis"
 }
 
 module "secret_gatus" {
-  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  source = "github.com/joryirving/terraform-1password-item"
   vault  = "Automation"
   item   = "gatus"
 }

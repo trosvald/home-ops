@@ -15,7 +15,7 @@ terraform {
       version = "3.2.2"
     }
     onepassword = {
-      source = "1password/onepassword"
+      source = "1Password/onepassword"
       version = "2.1.2"
     }
   }
@@ -27,7 +27,7 @@ provider "onepassword" {
 }
 
 module "onepassword_item_minio" {
-  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  source = "github.com/joryirving/terraform-1password-item"
   vault  = "Automation"
   item   = "minio"
 }

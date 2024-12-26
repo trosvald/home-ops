@@ -7,7 +7,7 @@ terraform {
 }
 
 module "onepassword" {
-  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  source = "github.com/joryirving/terraform-1password-item"
   vault  = var.vault
   item   = var.bucket_name
 }
