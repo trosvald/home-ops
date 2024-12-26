@@ -36,6 +36,7 @@ jobs:
         uses: tj-actions/changed-files@v45
         with:
           files: kubernetes/**
+          files_ignore: kubernetes/shared/**
           dir_names: true
           dir_names_max_depth: 2
           matrix: true
@@ -87,7 +88,7 @@ jobs:
             --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
             --limit-bytes 10000
             --all-namespaces
-            --sources "prod-kubernetes"
+            --sources "home-ops"
             --output-file diff.patch
 
       - name: Generate Diff

@@ -15,14 +15,15 @@ concurrency:
 jobs:
   changed-terraform:
     name: Changed Terraform
-    runs-on: ubuntu-latest
+    runs-on: gha-runner-home-ops
     outputs:
       matrix: ${{ steps.changed-terraform.outputs.all_changed_and_modified_files }}
     steps:
       - name: Configure 1password
         uses: 1password/load-secrets-action/configure@v2
         with:
-          service-account-token: ${{ secrets.ONEPASS_SA_TOKEN }}
+          connect-host: ${{ secrets.OP_CONNECT_HOST }}
+          connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
 
       - name: Get Secrets
         uses: 1password/load-secrets-action@v2
@@ -58,7 +59,7 @@ jobs:
 
   sync:
     name: Terraform Diff
-    runs-on: ["gha-runner-scale-set"] #Backend is stored on local minio with no external ingress
+    runs-on: ["gha-runner-home-ops"] #Backend is stored on local minio with no external ingress
     needs: ["changed-terraform"]
     strategy:
       matrix:
@@ -69,7 +70,8 @@ jobs:
       - name: Configure 1password
         uses: 1password/load-secrets-action/configure@v2
         with:
-          service-account-token: ${{ secrets.ONEPASS_SA_TOKEN }}
+          connect-host: ${{ secrets.OP_CONNECT_HOST }}
+          connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
 
       - name: Get Secrets
         uses: 1password/load-secrets-action@v2
@@ -85,8 +87,8 @@ jobs:
         uses: actions/create-github-app-token@v1
         id: app-token
         with:
-          app-id: ${{ env.TROSVALSD_APP_ID }}
-          private-key: ${{ env.TROSVALD_APP_PRIVATE_KEY }}
+          app-id: ${{ env.BOT_APP_ID }}
+          private-key: ${{ env.BOT_APP_PRIVATE_KEY }}
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -127,7 +129,8 @@ jobs:
 
       - name: Tofu Plan
         working-directory: ${{ matrix.paths }}
-        run: tofu plan -lock=false -var "onepassword_sa_token=${{ secrets.ONEPASS_SA_TOKEN }}" -out .planfile | grep -v "Refreshing state...\|Reading...\|Read complete after"
+        # run: tofu plan -lock=false -var "onepassword_sa_token=${{ secrets.ONEPASS_SA_TOKEN }}" -out .planfile | grep -v "Refreshing state...\|Reading...\|Read complete after"
+        run: tofu plan -lock=false -var "url=${{ secrets.OP_CONNECT_HOST }}" -var "token=${{ secrets.OP_CONNECT_TOKEN }}" -out .planfile | grep -v "Refreshing state...\|Reading...\|Read complete after"
 
       - name: Post PR comment
         if: github.event_name == 'pull_request'
