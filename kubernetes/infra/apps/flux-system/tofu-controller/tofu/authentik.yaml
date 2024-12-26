@@ -11,7 +11,6 @@ spec:
       backend "s3" {
         bucket   = "terraform"
         key      = "authentik/authentik.tfstate"
-        region   = "p-rh8-zfs"
         endpoint = "https://s3.${CLUSTER_SECRET_PRD_DOMAIN}"
 
         skip_credentials_validation = true
@@ -23,6 +22,10 @@ spec:
   backendConfigsFrom:
   - kind: Secret
     name: terraform-backend-secret
+    keys:
+      - access_key
+      - secret_key
+      - region
   path: ./authentik
   sourceRef:
     kind: OCIRepository
