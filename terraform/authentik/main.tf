@@ -14,7 +14,16 @@ terraform {
       source  = "goauthentik/authentik"
       version = "2024.12.0"
     }
+    onepassword = {
+      source = "1password/onepassword"
+      version = "2.1.2"
+    }
   }
+}
+
+provider "onepassword" {
+  url   = var.onepassword_host
+  token = var.onepassword_token
 }
 
 module "secret_authentik" {
@@ -51,5 +60,4 @@ module "secret_gatus" {
 provider "authentik" {
   url   = module.secret_authentik.fields["AUTHENTIK_ENDPOINT_URL"]
   token = module.secret_authentik.fields["AUTHENTIK_API_TOKEN"]
-
 }

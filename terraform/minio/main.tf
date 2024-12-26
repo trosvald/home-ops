@@ -14,7 +14,16 @@ terraform {
       source  = "aminueza/minio"
       version = "3.2.2"
     }
+    onepassword = {
+      source = "1password/onepassword"
+      version = "2.1.2"
+    }
   }
+}
+
+provider "onepassword" {
+  url   = var.onepassword_host
+  token = var.onepassword_token
 }
 
 module "onepassword_item_minio" {
