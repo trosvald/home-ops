@@ -9,7 +9,7 @@ spec:
   backendConfig:
     customConfiguration: |
       backend "s3" {
-        bucket   = "terraform-state"
+        bucket   = "terraform"
         key      = "minio/minio.tfstate"
         region   = "p-rh8-zfs"
         endpoint = "https://s3.${CLUSTER_SECRET_PRD_DOMAIN}"
