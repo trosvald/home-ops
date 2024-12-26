@@ -1,6 +1,7 @@
 terraform {
   backend "s3" {
     bucket                      = "terraform"
+    region                      = "p-rh8-zfs"
     key                         = "authentik/state.tfstate"
     skip_credentials_validation = true
     skip_metadata_api_check     = true
