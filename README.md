@@ -16,15 +16,15 @@ _... managed with Flux, Renovate, GitHub Actions, GitLab CI_ 🤖
 [![Power](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.monosense.io%2Fquery%3Fformat%3Dendpoint%26metric%3Dcluster_power_usage&label=&logo=amp&style=for-the-badge&color=blue)](https://github.com/kashalls/kromgo/)
 
 
+
 </div>
 
-<!-- <div align="center">
+<div align="center">
 
-[![Home-Internet](https://img.shields.io/uptimerobot/status/m793494864-dfc695db066960233ac70f45?color=brightgreeen&label=Home%20Internet&style=for-the-badge&logo=v&logoColor=white)](https://status.monosense.io)&nbsp;&nbsp;
-[![Status-Page](https://img.shields.io/uptimerobot/status/m793599155-ba1b18e51c9f8653acd0f5c1?color=brightgreeen&label=Status%20Page&style=for-the-badge&logo=statuspage&logoColor=white)](https://status.monosense.io)&nbsp;&nbsp;
-[![Alertmanager](https://img.shields.io/uptimerobot/status/m793494864-dfc695db066960233ac70f45?color=brightgreeen&label=Alertmanager&style=for-the-badge&logo=prometheus&logoColor=white)](https://status.monosense.io)
+[![Home-Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2Fdb69df2e-c93d-4e39-b9f6-6689be941116.shields?color=brightgreeen&label=WAN&style=for-the-badge&logo=battle.net&logoColor=white)](https://status.monosense.io)&nbsp;&nbsp;
+[![Status-Page](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2Fdb69df2e-c93d-4e39-b9f6-6689be941116.shields?color=brightgreeen&label=Status%20Page&style=for-the-badge&logo=statuspage&logoColor=white)](https://status.monosense.io)&nbsp;&nbsp;
 
-</div> -->
+</div>
 <div align="center">
 
 [![Age-Days](https://img.shields.io/endpoint?url=https%3A%2F%2Fkromgo.monosense.io%2Fquery%3Fformat%3Dendpoint%26metric%3Dcluster_age_days&style=flat-square&label=Age)](https://github.com/kashalls/kromgo/)&nbsp;&nbsp;
