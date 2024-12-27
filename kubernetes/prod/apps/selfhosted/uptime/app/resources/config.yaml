@@ -41,6 +41,20 @@ endpoints:
     ui:
       hide-url: true
       hide-hostname: true
+  - name: tes
+    group: monitoring
+    url: https://gitlab.${CLUSTER_SECRET_PRD_DOMAIN}
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+    ui:
+      hide-url: true
+      hide-hostname: true
   - name: simfoni
     group: apps
     url: https://simfoni.${CLUSTER_EXTERNAL_DOMAIN}
