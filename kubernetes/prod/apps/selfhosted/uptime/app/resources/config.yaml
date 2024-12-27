@@ -43,7 +43,7 @@ endpoints:
       hide-hostname: true
   - name: tes
     group: monitoring
-    url: https://gitlab.${CLUSTER_SECRET_PRD_DOMAIN}
+    url: https://gitlab.${CLUSTER_SECRET_PRD_DOMAIN}/-/health
     interval: 1m
     client:
       dns-resolver: tcp://172.16.11.254:53
