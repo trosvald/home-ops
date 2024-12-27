@@ -43,9 +43,9 @@ spec:
           enabled: true
       ingress:
         enabled: true
-        ingressClassName: external
+        ingressClassName: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
         hosts:
           - &host sso.${CLUSTER_SECRET_PRD_DOMAIN}
         paths:
