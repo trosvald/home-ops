@@ -42,9 +42,9 @@ spec:
           name: cr.${CLUSTER_SECRET_PRD_DOMAIN}
       ingress:
         configureCertmanager: false
-        class: &class external
+        class: &class internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: external.${CLUSTER_SECRET_PRD_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
         tls:
           enabled: false
       smtp:
