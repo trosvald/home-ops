@@ -2,15 +2,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gitlab-gatus-ep
+  name: authentik-gatus-ep
   labels:
     gatus.io/enabled: "true"
 data:
   config.yaml: |
     endpoints:
-      - name: GitLab
+      - name: SSO
         group: prod-external
-        url: https://gitlab.${CLUSTER_SECRET_PRD_DOMAIN}/-/health
+        url: https://sso.${CLUSTER_SECRET_PRD_DOMAIN}/-/health/ready/
         interval: 1m
         client:
           dns-resolver: tcp://172.16.11.254:53
