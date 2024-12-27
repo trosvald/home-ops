@@ -6,6 +6,7 @@ resources:
   - ./externalsecret.yaml
   - ./pvc.yaml
   - ./helmrelease.yaml
+  - ./ingress.yaml
   - ../../../../../shared/templates/gatus/external
   - ../../../../../shared/templates/volsync
 configMapGenerator:
