@@ -56,7 +56,7 @@ spec:
         enable-modsecurity: "true"
         enable-owasp-modsecurity-crs: "true"
         modsecurity-snippet: |
-          SecRuleEngine On
+          SecRuleEngine DetectionOnly
         enable-brotli: "true"
         enable-ocsp: "true"
         enable-real-ip: "true"
