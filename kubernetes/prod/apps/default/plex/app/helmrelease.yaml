@@ -84,7 +84,7 @@ spec:
     ingress:
       app:
         enabled: true
-        className: external
+        className: internal
         annotations:
           external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
