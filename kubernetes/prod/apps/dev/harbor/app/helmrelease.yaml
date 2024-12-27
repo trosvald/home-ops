@@ -37,14 +37,14 @@ spec:
         hosts:
           core: registry.${CLUSTER_SECRET_PRD_DOMAIN}
         controller: default
-        className: external
+        className: internal
         annotations:
           nginx.ingress.kubernetes.io/ssl-redirect: "true"
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
           nginx.ingress.kubernetes.io/client-body-buffer-size: "10g"
           # Remember to NOT use CF proxying due to 100M upload limit though it
           external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-          external-dns.alpha.kubernetes.io/target: "external.${CLUSTER_SECRET_PRD_DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: "internal.${CLUSTER_SECRET_PRD_DOMAIN}"
           nginx.ingress.kubernetes.io/custom-http-errors: "418"
           nginx.ingress.kubernetes.io/proxy-connect-timeout: "480"
     externalURL: https://registry.${CLUSTER_SECRET_PRD_DOMAIN}
