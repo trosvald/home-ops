@@ -8,5 +8,5 @@ resources:
   # Flux-Kustomizations
   - ./gitlab/ks.yaml
   - ./gitlab-redis/ks.yaml
-  - ./harbor/ks.yaml
+  # - ./harbor/ks.yaml
   # - ./renovate/ks.yaml
