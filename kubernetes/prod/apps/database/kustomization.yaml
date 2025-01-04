@@ -8,3 +8,4 @@ resources:
   # Flux-Kustomizations
   - ./crunchy-pgo/ks.yaml
   - ./dragonfly/ks.yaml
+  - ./influxdb/ks.yaml
