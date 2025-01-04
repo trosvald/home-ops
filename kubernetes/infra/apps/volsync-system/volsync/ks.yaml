@@ -10,8 +10,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  # dependsOn:
-  #   - name: kyverno-policies
+  dependsOn:
+    - name: external-secrets-stores
   path: ./kubernetes/infra/apps/volsync-system/volsync/app
   prune: true
   sourceRef:

@@ -10,6 +10,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: democratic-csi
   path: ./kubernetes/infra/apps/volsync-system/snapshot-controller/app
   prune: true
   sourceRef:

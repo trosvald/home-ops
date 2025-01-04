@@ -28,8 +28,5 @@ spec:
     controller:
       args:
         enableDistributedSnapshotting: true
-      replicaCount: 2
       serviceMonitor:
         create: true
-    webhook:
-      enabled: false
