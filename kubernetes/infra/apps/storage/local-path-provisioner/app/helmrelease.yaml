@@ -60,7 +60,8 @@ spec:
       - name: local-hostpath
         defaultClass: true
         reclaimPolicy: Delete
-        volumeBindingMode: WaitForFirstConsumer
+        volumeBindingMode: Immediate
+        # volumeBindingMode: WaitForFirstConsumer
         allowVolumeExpansion: true
     volumeSnapshotClasses:
       - name: csi-local-hostpath
