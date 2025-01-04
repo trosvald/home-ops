@@ -10,7 +10,7 @@ data:
     endpoints:
       - name: InfluxDB
         group: infrastructure
-        url: tcp://influxdb.database.svc.cluster.local:8086
+        url: tcp://influxdb.database.svc.cluster.local:80
         interval: 1m
         ui:
           hide-url: true
