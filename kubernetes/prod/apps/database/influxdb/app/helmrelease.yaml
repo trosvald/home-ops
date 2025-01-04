@@ -18,8 +18,8 @@ spec:
   values:
     fullnameOverride: *app
     image:
-      repository: influxdb
-      tag: 2.7.11-alpine
+      repository: docker.io/influxdb
+      tag: 2.7.11-alpine@sha256:0abb5192f5d03a926995a57d8ada705021872cf2e3c398e23f09a524b1e972c0
     adminUser:
       create: true
       organization: "monosense"
