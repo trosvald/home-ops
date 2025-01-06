@@ -38,7 +38,7 @@ spec:
         seccompProfile: { type: RuntimeDefault }
 
     controllers:
-      planka-prod:
+      planka:
         annotations:
           reloader.stakater.com/auto: 'true'
 
@@ -53,7 +53,7 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: &secret planka-secret
-                    key: POSTGRES_URL
+                    key: POSTGRES_URI
               BASE_URL:
                 value: '{{ printf "https://%s" (first .Values.ingress.app.hosts).host }}'
               TRUST_PROXY: 1
