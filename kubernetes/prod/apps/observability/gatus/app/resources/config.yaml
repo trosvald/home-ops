@@ -59,17 +59,17 @@ endpoints:
     alerts:
       - type: telegram
         send-on-resolved: true
-  - name: flux-webhook
-    group: prod-external
-    url: https://flux-webhook.${CLUSTER_SECRET_PRD_DOMAIN}
-    interval: 1m
-    client:
-      dns-resolver: tcp://1.1.1.1:53
-    conditions:
-      - "[STATUS] == 404"
-    alerts:
-      - type: telegram
-        send-on-resolved: true
+  # - name: flux-webhook
+  #   group: prod-external
+  #   url: https://flux-webhook.${CLUSTER_SECRET_PRD_DOMAIN}
+  #   interval: 1m
+  #   client:
+  #     dns-resolver: tcp://1.1.1.1:53
+  #   conditions:
+  #     - "[STATUS] == 404"
+  #   alerts:
+  #     - type: telegram
+  #       send-on-resolved: true
   - name: internet
     group: prod-external
     url: https://hc-ping.com/${HEALTHCHECK_UUID}
