@@ -7,5 +7,6 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./homepage/ks.yaml
+  # - ./planka/ks.yaml
   - ./thelounge/ks.yaml
   - ./uptime/ks.yaml
