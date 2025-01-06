@@ -115,12 +115,12 @@ data:
               key: {{HOMEPAGE_VAR_HEALTHCHECK_TOKEN}}
               uuid: {{HOMEPAGE_VAR_HEALTHCHECK_UUID}}
         - Opnsense:
-            href: https://ngfw.${CLUSTER_SECRET_DEV_DOMAIN}
+            href: https://ngfw.${CLUSTER_SECRET_DEV_DOMAIN}:8443
             icon: opnsense.png
             description: Opnsense Dashboard
             widget:
               type: opnsense
-              url: https://ngfw.${CLUSTER_SECRET_DEV_DOMAIN}
+              url: https://ngfw.${CLUSTER_SECRET_DEV_DOMAIN}:8443
               username: {{HOMEPAGE_VAR_OPNSENSE_USERNAME}}
               password: {{HOMEPAGE_VAR_OPNSENSE_PASSWORD}}
     - Calendar:
