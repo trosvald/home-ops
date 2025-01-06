@@ -6,4 +6,5 @@ resources:
   - ./externalsecret.yaml
   - ./backup.yaml
   - ./cluster.yaml
-  # - ./databases
+  - ./gatus.yaml
+  - ./databases
