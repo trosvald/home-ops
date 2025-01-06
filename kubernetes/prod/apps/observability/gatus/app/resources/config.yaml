@@ -44,7 +44,7 @@ endpoints:
     client:
       dns-resolver: tcp://172.16.11.254:53
     conditions:
-      - "[STATUS] == 200"
+      - "[STATUS] == 403"
     alerts:
       - type: telegram
         send-on-resolved: true
