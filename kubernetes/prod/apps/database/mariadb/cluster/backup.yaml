@@ -13,7 +13,7 @@ spec:
     suspend: false
   stagingStorage:
     persistentVolumeClaim:
-      storageClassName: zol-iscsi
+      storageClassName: local-hostpath
       resources:
         requests:
           storage: 20Gi
