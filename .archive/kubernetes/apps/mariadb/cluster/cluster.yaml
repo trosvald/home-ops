@@ -1,0 +1,164 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/k8s.mariadb.com/mariadb_v1alpha1.json
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: MariaDB
+metadata:
+  name: mariadb-galera
+spec:
+  rootPasswordSecretKeyRef:
+    name: mariadb-secret
+    key: MARIADB_ROOT_PASSWORD
+    generate: false
+
+  storage:
+    size: 20Gi
+    storageClassName: ceph-block
+
+  # Recreate the MariaDB resource and bootstrap from a backup in S3.
+  # bootstrapFrom:
+  #   s3:
+  #     bucket: mariadb
+  #     prefix: backups
+  #     endpoint: s3.${CLUSTER_SECRET_PRD_DOMAIN}
+  #     accessKeyIdSecretKeyRef:
+  #       name: mariadb-secret
+  #       key: MARIADB_S3_ACCESS_KEY
+  #     secretAccessKeySecretKeyRef:
+  #       name: mariadb-secret
+  #       key: MARIADB_S3_SECRET_KEY
+  #     tls:
+  #       enabled: true
+  #       caSecretKeyRef:
+  #         name: minio-ca
+  #         key: ca.crt
+  #   targetRecoveryTime: 2023-12-19T09:00:00Z
+  #   stagingStorage:
+  #     persistentVolumeClaim:
+  #       resources:
+  #         requests:
+  #           storage: 10Gi
+  #       accessModes:
+  #         - ReadWriteOnce
+  #   restoreJob:
+  #     resources:
+  #       requests:
+  #         cpu: 100m
+  #         memory: 128Mi
+  #       limits:
+  #         memory: 1Gi
+
+  replicas: 3
+  image: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/mariadb:11.6.2
+
+  updateStrategy:
+    type: ReplicasFirstPrimaryLast
+
+  maxScale:
+    enabled: true
+
+    auth:
+      adminUsername: root
+      adminPasswordSecretKeyRef:
+        name: mariadb-secret
+        key: MAXSCALE_PASSWORD
+      deleteDefaultAdmin: true
+
+    kubernetesService:
+      type: LoadBalancer
+      metadata:
+        annotations:
+          io.cilium/lb-ipam-ips: ${SVC_MAXSCALE_IP}
+
+    guiKubernetesService:
+      type: LoadBalancer
+      metadata:
+        annotations:
+          io.cilium/lb-ipam-ips: ${SVC_MAXSCALE_GUI_IP}
+
+    connection:
+      secretName: mxs-galera-conn
+      port: 3306
+
+
+  galera:
+    enabled: true
+    recovery:
+      enabled: true
+      podRecoveryTimeout: 15m
+      # forceClusterBootstrapInPod: "mariadb-galera-2"
+
+  service:
+    type: LoadBalancer
+    metadata:
+      annotations:
+        io.cilium/lb-ipam-ips: ${SVC_MARIADB_IP}
+
+  primaryService:
+    type: LoadBalancer
+    metadata:
+      annotations:
+        io.cilium/lb-ipam-ips: ${SVC_MARIADB_PRI_IP}
+
+  secondaryService:
+    type: LoadBalancer
+    metadata:
+      annotations:
+        io.cilium/lb-ipam-ips: ${SVC_MARIADB_SEC_IP}
+
+  # innodb_buffer_pool_size: 80% of memory limits.
+  myCnf: |
+    [mariadb]
+    bind-address=*
+    default_storage_engine=InnoDB
+    binlog_format=row
+    innodb_autoinc_lock_mode=2
+    innodb_buffer_pool_size=3200MB
+    max_allowed_packet=1GB
+
+  # When draining Nodes, make sure that you have at least 2 Pods available.
+  podDisruptionBudget:
+    maxUnavailable: 66%
+
+  # Ensure that the Pods are not preempted by Kubernetes to make room for new scheduled Pods.
+  priorityClassName: system-node-critical
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      memory: 4Gi
+
+  podSecurityContext:
+    runAsUser: 568
+    runAsGroup: 568
+    fsGroup: 568
+    fsGroupChangePolicy: OnRootMismatch
+
+  livenessProbe:
+    initialDelaySeconds: 20
+    periodSeconds: 10
+    timeoutSeconds: 10
+
+  readinessProbe:
+    initialDelaySeconds: 20
+    periodSeconds: 10
+    timeoutSeconds: 10
+
+  metrics:
+    enabled: true
+
+  timeZone: ${TIMEZONE}
+
+  affinity:
+    antiAffinityEnabled: true
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64

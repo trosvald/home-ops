@@ -37,6 +37,17 @@ connectivity:
     target: 1.1.1.1:53
     interval: 1m
 endpoints:
+  - name: Object Storage
+    group: infrastructure
+    url: https://s3.${CLUSTER_SECRET_PRD_DOMAIN}
+    interval: 1m
+    client:
+      dns-resolver: tcp://172.16.11.254:53
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
   - name: status
     group: prod-external
     url: https://status.${CLUSTER_SECRET_PRD_DOMAIN}

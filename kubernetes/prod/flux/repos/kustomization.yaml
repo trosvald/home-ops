@@ -9,3 +9,4 @@ resources:
   - ./gitlab.yaml
   - ./harbor.yaml
   - ./influxdata.yaml
+  - ./mariadb.yaml
