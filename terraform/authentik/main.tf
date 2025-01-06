@@ -57,6 +57,12 @@ module "secret_gatus" {
   item   = "gatus"
 }
 
+module "secret_planka" {
+  source = "github.com/joryirving/terraform-1password-item"
+  vault  = "Automation"
+  item   = "planka"
+}
+
 provider "authentik" {
   url   = module.secret_authentik.fields["AUTHENTIK_ENDPOINT_URL"]
   token = module.secret_authentik.fields["AUTHENTIK_API_TOKEN"]

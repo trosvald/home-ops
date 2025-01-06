@@ -7,7 +7,7 @@ module "proxy-transmission" {
   slug               = "qb"
   domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -20,7 +20,7 @@ module "proxy-pinchflat" {
   slug               = "pinchflat"
   domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -33,7 +33,7 @@ module "proxy-prowlarr" {
   slug               = "prowlarr"
   domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -46,7 +46,7 @@ module "proxy-radarr" {
   slug               = "radarr"
   domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -59,7 +59,7 @@ module "proxy-sonarr" {
   slug               = "sonarr"
   domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -72,7 +72,7 @@ module "proxy-bazarr" {
   slug               = "bazarr"
   domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -85,7 +85,7 @@ module "proxy-lidarr" {
   slug               = "music"
   domain             = module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   auth_groups        = [authentik_group.media.id]
 }
 
@@ -130,7 +130,7 @@ module "oauth2-gitlab" {
   sub_mode           = "user_email"
   auth_groups        = [authentik_group.developers.id]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   client_id          = module.secret_gitlab.fields["GITLAB_OIDC_CLIENT_ID"]
   client_secret      = module.secret_gitlab.fields["GITLAB_OIDC_CLIENT_SECRET"]
   redirect_uris      = ["https://gitlab.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/users/auth/openid_connect/callback"]
@@ -146,7 +146,7 @@ module "oauth2-gitlab" {
 #   group              = "Selfhosted"
 #   auth_groups        = [authentik_group.users.id]
 #   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-#   invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+#   invalidation_flow   = resource.authentik_flow.invalidation.uuid
 #   client_id          = module.secret_synapse.fields["SYNAPSE_OIDC_CLIENT_ID"]
 #   client_secret      = module.secret_synapse.fields["SYNAPSE_OIDC_CLIENT_SECRET"]
 #   redirect_uris      = ["https://matrix.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/_synapse/client/oidc/callback"]
@@ -162,7 +162,7 @@ module "oauth2-grafana" {
   group              = "Infrastructure"
   auth_groups        = [authentik_group.infrastructure.id]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   client_id          = module.secret_grafana.fields["GRAFANA_OIDC_CLIENT_ID"]
   client_secret      = module.secret_grafana.fields["GRAFANA_OIDC_CLIENT_SECRET"]
   redirect_uris      = ["https://grafana.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/login/generic_oauth"]
@@ -178,12 +178,27 @@ module "oauth2-gatus" {
   group              = "Infrastructure"
   auth_groups        = [authentik_group.infrastructure.id]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   client_id          = module.secret_gatus.fields["GATUS_OIDC_CLIENT_ID"]
   client_secret      = module.secret_gatus.fields["GATUS_OIDC_CLIENT_SECRET"]
   redirect_uris      = ["https://status.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/authorization-code/callback"]
 }
 
+module "oauth2-planka" {
+  source             = "./oauth2_application"
+  name               = "Kanban"
+  icon_url           = "https://cdn.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/branding/planka.png"
+  launch_url         = "https://kanban.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}"
+  description        = "Kanban Board"
+  newtab             = true
+  group              = "Selfhosted"
+  auth_groups        = [authentik_group.users.id]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
+  client_id          = module.secret_planka.fields["PLANKA_OIDC_CLIENT_ID"]
+  client_secret      = module.secret_planka.fields["PLANKA_OIDC_CLIENT_SECRET"]
+  redirect_uris      = ["https://kanban.${module.secret_authentik.fields["AUTHENTIK_CLUSTER_DOMAIN"]}/oidc-callback"]
+}
 
 module "oauth2-ocis" {
   source             = "./oauth2_application"
@@ -196,7 +211,7 @@ module "oauth2-ocis" {
   auth_groups        = [authentik_group.users.id]
   client_type        = "public"
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   client_id          = module.secret_ocis.fields["OCIS_OIDC_CLIENT_ID"]
   # additional_property_mappings = formatlist(authentik_scope_mapping.openid-nextcloud.id)
   redirect_uris = [
@@ -212,7 +227,7 @@ module "oauth2-ocis-android" {
   launch_url         = "blank://blank"
   auth_groups        = [authentik_group.users.id]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   client_id          = "e4rAsNUSIUs0lF4nbv9FmCeUkTlV9GdgTLDH1b5uie7syb90SzEVrbN7HIpmWJeD"
   client_secret      = "dInFYGV33xKzhbRmpqQltYNdfLdJIfJ9L5ISoKhNoT9qZftpdWSP71VrpGR9pmoD"
   redirect_uris      = ["oc://android.owncloud.com", ]
@@ -224,7 +239,7 @@ module "oauth2-ocis-desktop" {
   launch_url         = "blank://blank"
   auth_groups        = [authentik_group.users.id]
   authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
-  invalidation_flow   = resource.authentik_flow.provider-invalidation.uuid
+  invalidation_flow   = resource.authentik_flow.invalidation.uuid
   client_id          = "xdXOt13JKxym1B1QcEncf2XDkLAexMBFwiT9j6EfhhHFJhs2KM9jbjTmf8JBXE69"
   client_secret      = "UBntmLjC2yYCeHwsyj73Uwo9TAaecAetRwMw0xYcvNL9yRdLSUi0hUAHfvCHFeFh"
   redirect_uris = [
