@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./actions-runner-controller.yaml
   - ./authentik.yaml
+  - ./frappe.yaml
   - ./gitlab-workspace.yaml
   - ./gitlab.yaml
   - ./harbor.yaml
