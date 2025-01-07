@@ -28,6 +28,7 @@ spec:
     s3:
       endpoint: s3.${CLUSTER_SECRET_PRD_DOMAIN}
       bucket: mariadb
+      region: p-rh8-zfs
       prefix: full/
       accessKeyIdSecretKeyRef:
         name: mariadb-secret
@@ -35,3 +36,8 @@ spec:
       secretAccessKeySecretKeyRef:
         name: mariadb-secret
         key: MARIADB_S3_SECRET_KEY
+      tls:
+        enabled: true
+        caSecretKeyRef:
+          key: ca.crt
+          name: minio-ca
