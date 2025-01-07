@@ -35,3 +35,9 @@ spec:
       secretAccessKeySecretKeyRef:
         name: mariadb-secret
         key: MARIADB_S3_SECRET_KEY
+      tls:
+        enabled: true
+        caSecretKeyRef:
+          key: ca.crt
+          name: minio-ca
+
