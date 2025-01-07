@@ -109,10 +109,13 @@ spec:
   myCnf: |
     [mariadb]
     bind-address=*
+    character-set-client-handshake=FALSE
     default_storage_engine=InnoDB
     binlog_format=row
     innodb_autoinc_lock_mode=2
     innodb_buffer_pool_size=3200MB
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_unicode_ci
     max_allowed_packet=1GB
 
   # When draining Nodes, make sure that you have at least 2 Pods available.
