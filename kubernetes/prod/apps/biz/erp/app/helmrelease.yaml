@@ -26,8 +26,9 @@ spec:
     annotations:
       secret.reloader.stakater.com/reload: &secret erpnext-secret
 
-    image: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/frappe/erpnext
-    tag: v15.47.5
+    image:
+      repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/frappe/erpnext
+      tag: v15.47.5@sha256:edcd1dcb36873bbb44c254069d1e52c8751e62f81dcf5e1ac644873a4b8b6893
 
     podSecurityContext:
       supplementalGroups: [1000]
