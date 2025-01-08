@@ -125,7 +125,7 @@ spec:
         - host: &host erp.${CLUSTER_SECRET_PRD_DOMAIN}
           paths:
             - path: /
-              pathType: ImplementationSpecific
+              pathType: Prefix
       tls: [hosts: [*host]]
 
     jobs:
