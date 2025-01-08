@@ -53,51 +53,62 @@ spec:
         size: 5Gi
         accessModes:
           - ReadWriteMany
-    worker:
-      default:
-        livenessProbe: &livenessProbe
-          override: true
-          probe:
-            exec:
-              command:
-                - bash
-                - '-c'
-                - echo "Ping backing services";
-                - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
-                - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
-                - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
-            initialDelaySeconds: 15
-            periodSeconds: 5
-        readinessProbe: &readinessProbe
-          override: true
-          probe:
-            exec:
-              command:
-                - bash
-                - '-c'
-                - echo "Ping backing services";
-                - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
-                - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
-                - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
-            initialDelaySeconds: 15
-            periodSeconds: 5
+    # worker:
+    #   default:
+    #     livenessProbe: &livenessProbe
+    #       override: true
+    #       probe:
+    #         exec:
+    #           command:
+    #             - bash
+    #             - '-c'
+    #             - echo "Ping backing services";
+    #             - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
+    #             - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
+    #             - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
+    #         initialDelaySeconds: 15
+    #         periodSeconds: 5
+    #     readinessProbe: &readinessProbe
+    #       override: true
+    #       probe:
+    #         exec:
+    #           command:
+    #             - bash
+    #             - '-c'
+    #             - echo "Ping backing services";
+    #             - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
+    #             - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
+    #             - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
+    #         initialDelaySeconds: 15
+    #         periodSeconds: 5
 
-      short:
-        livenessProbe: *livenessProbe
-        readinessProbe: *readinessProbe
+    #   short:
+    #     livenessProbe: *livenessProbe
+    #     readinessProbe: *readinessProbe
 
-      long:
-        livenessProbe: *livenessProbe
-        readinessProbe: *readinessProbe
+    #   long:
+    #     livenessProbe: *livenessProbe
+    #     readinessProbe: *readinessProbe
 
-      scheduler:
-        livenessProbe: *livenessProbe
-        readinessProbe: *readinessProbe
+    #   scheduler:
+    #     livenessProbe: *livenessProbe
+    #     readinessProbe: *readinessProbe
 
     mariadb:
-      enabled: false
-    dbHost: mariadb-galera.database.svc.cluster.local
-    dbPort: 3306
+      enabled: true
+      auth:
+        username: "erpnext"
+      primary:
+        service:
+          ports:
+            mysql: 3306
+        extraFlags: >-
+          --skip-character-set-client-handshake
+          --skip-innodb-read-only-compressed
+          --character-set-server=utf8mb4
+          --collation-server=utf8mb4_unicode_ci
+    # dbHost: mariadb-galera.database.svc.cluster.local
+    # dbPort: 3306
     redis-cache:
       enabled: false
       host: redis://erp-cache.biz.svc.cluster.local:6379
@@ -125,12 +136,17 @@ spec:
     #       - "erpnext"
     #     dbType: "mariadb"
 
+
   valuesFrom:
-    - targetPath: dbRootUser
+    - targetPath: mariadb.auth.rootPassword
       kind: Secret
       name: *secret
-      valuesKey: ERPNEXT_MARIADB_USER
-    - targetPath: dbRootPassword
+      valuesKey: ERPNEXT_MARIADB_PASSWORD
+    - targetPath: mariadb.auth.replicationPassword
+      kind: Secret
+      name: *secret
+      valuesKey: ERPNEXT_MARIADB_PASSWORD
+    - targetPath: mariadb.auth.password
       kind: Secret
       name: *secret
       valuesKey: ERPNEXT_MARIADB_PASSWORD
