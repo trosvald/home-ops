@@ -117,13 +117,13 @@ spec:
               pathType: ImplementationSpecific
       tls: [hosts: [*host]]
 
-    jobs:
-      createSite:
-        enabled: true
-        siteName: "erp.${CLUSTER_SECRET_PRD_DOMAIN}"
-        installApps:
-          - "erpnext"
-        dbType: "mariadb"
+    # jobs:
+    #   createSite:
+    #     enabled: true
+    #     siteName: "erp.${CLUSTER_SECRET_PRD_DOMAIN}"
+    #     installApps:
+    #       - "erpnext"
+    #     dbType: "mariadb"
 
   valuesFrom:
     - targetPath: dbRootUser
@@ -134,19 +134,19 @@ spec:
       kind: Secret
       name: *secret
       valuesKey: ERPNEXT_MARIADB_PASSWORD
-    - targetPath: jobs.createSite.adminPassword
-      kind: Secret
-      name: *secret
-      valuesKey: ERPNEXT_ADMIN_PASSWORD
-    - targetPath: jobs.backup.push.accessKey
-      kind: Secret
-      name: *secret
-      valuesKey: ERPNEXT_S3_ACCESS_KEY
-    - targetPath: jobs.backup.push.secretKey
-      kind: Secret
-      name: *secret
-      valuesKey: ERPNEXT_S3_SECRET_KEY
-    - targetPath: jobs.backup.push.endpoint
-      kind: Secret
-      name: *secret
-      valuesKey: MINIO_ENDPOINT
+    # - targetPath: jobs.createSite.adminPassword
+    #   kind: Secret
+    #   name: *secret
+    #   valuesKey: ERPNEXT_ADMIN_PASSWORD
+    # - targetPath: jobs.backup.push.accessKey
+    #   kind: Secret
+    #   name: *secret
+    #   valuesKey: ERPNEXT_S3_ACCESS_KEY
+    # - targetPath: jobs.backup.push.secretKey
+    #   kind: Secret
+    #   name: *secret
+    #   valuesKey: ERPNEXT_S3_SECRET_KEY
+    # - targetPath: jobs.backup.push.endpoint
+    #   kind: Secret
+    #   name: *secret
+    #   valuesKey: MINIO_ENDPOINT
