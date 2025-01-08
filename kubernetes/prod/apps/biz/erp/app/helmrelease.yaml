@@ -96,7 +96,7 @@ spec:
 
     mariadb:
       enabled: false
-    dbHost: mariadb-galera-maxscale.database.svc.cluster.local
+    dbHost: mariadb-galera.database.svc.cluster.local
     dbPort: 3306
     redis-cache:
       enabled: false
@@ -117,13 +117,13 @@ spec:
               pathType: ImplementationSpecific
       tls: [hosts: [*host]]
 
-    # jobs:
-    #   createSite:
-    #     enabled: true
-    #     siteName: "erp.${CLUSTER_SECRET_PRD_DOMAIN}"
-    #     installApps:
-    #       - "erpnext"
-    #     dbType: "mariadb"
+    jobs:
+      createSite:
+        enabled: true
+        siteName: "erp.${CLUSTER_SECRET_PRD_DOMAIN}"
+        installApps:
+          - "erpnext"
+        dbType: "mariadb"
 
   valuesFrom:
     - targetPath: dbRootUser
