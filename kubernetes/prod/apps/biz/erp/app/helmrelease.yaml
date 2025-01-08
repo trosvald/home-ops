@@ -42,13 +42,13 @@ spec:
     persistence:
       worker:
         enabled: true
-        storageclass: ceph-filesystem
+        storageClass: ceph-filesystem
         size: 10Gi
         accessModes:
           - ReadWriteMany
       logs:
         enabled: true
-        storageclass: ceph-filesystem
+        storageClass: ceph-filesystem
         size: 5Gi
         accessModes:
           - ReadWriteMany
