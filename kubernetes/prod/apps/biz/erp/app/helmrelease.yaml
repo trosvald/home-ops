@@ -69,9 +69,9 @@ spec:
       createSite:
         enabled: true
         siteName: erp.${CLUSTER_SECRET_PRD_DOMAIN}
-        installApps:
-          - erpnext
-        dbType: mariadb
+        # installApps:
+        #   - erpnext
+        # dbType: mariadb
 
       backup:
         enabled: true
