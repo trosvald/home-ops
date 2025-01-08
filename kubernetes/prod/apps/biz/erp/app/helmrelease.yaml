@@ -65,23 +65,6 @@ spec:
       enabled: false
       host: redis://erp-queue.biz.svc.cluster.local:6379
 
-    jobs:
-      createSite:
-        enabled: true
-        siteName: erp.${CLUSTER_SECRET_PRD_DOMAIN}
-        # installApps:
-        #   - erpnext
-        # dbType: mariadb
-
-      backup:
-        enabled: true
-        siteName: erp.${CLUSTER_SECRET_PRD_DOMAIN}
-        withFiles: true
-        push:
-          enabled: true
-          bucket: erpnext
-          region: p-rh8-zfs
-
     ingress:
       enabled: true
       className: internal
