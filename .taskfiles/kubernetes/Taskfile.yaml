@@ -45,6 +45,18 @@ tasks:
     requires:
       vars: [CLUSTER]
 
+  sync-push-secrets:
+    desc: Sync all PushSecret [CLUSTER=main]
+    cmds:
+      - for: { var: PUSHSECRETS, split: "\n" }
+        cmd: kubectl --context {{.CLUSTER}} --namespace {{splitList "," .ITEM | first}} annotate pushsecrets {{splitList "," .ITEM | last}} force-sync="{{.TS}}" --overwrite
+    vars:
+      TS: '{{now | unixEpoch}}'
+      PUSHSECRETS:
+        sh: kubectl --context {{.CLUSTER}} get pushsecrets --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}' --context {{.CLUSTER}}
+    requires:
+      vars: [CLUSTER]
+
   delete-failed-pods:
     desc: Delete pods with a Failed/Pending/Succeeded phase [CLUSTER=main]
     cmds:
