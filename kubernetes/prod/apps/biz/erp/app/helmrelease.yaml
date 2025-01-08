@@ -117,17 +117,13 @@ spec:
               pathType: ImplementationSpecific
       tls: [hosts: [*host]]
 
-    # healthProbe: |
-    #   exec:
-    #     command:
-    #       - bash
-    #       - -c
-    #       - echo "Ping backing services";
-    #       - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
-    #       - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
-    #       - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
-    #   initialDelaySeconds: 15
-    #   periodSeconds: 5
+    jobs:
+      createSite:
+        enabled: true
+        siteName: "erp.${CLUSTER_SECRET_PRD_DOMAIN}"
+        installApps:
+          - "erpnext"
+        dbType: "mariadb"
 
   valuesFrom:
     - targetPath: dbRootUser
