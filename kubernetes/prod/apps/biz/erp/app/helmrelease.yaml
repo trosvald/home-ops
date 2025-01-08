@@ -63,16 +63,17 @@ spec:
               periodSeconds: 5
           readinessProbe: &readinessProbe
             override: true
-            exec:
-              command:
-                - bash
-                - '-c'
-                - echo "Ping backing services";
-                - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
-                - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
-                - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
-            initialDelaySeconds: 15
-            periodSeconds: 5
+            probe:
+              exec:
+                command:
+                  - bash
+                  - '-c'
+                  - echo "Ping backing services";
+                  - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
+                  - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
+                  - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
+              initialDelaySeconds: 15
+              periodSeconds: 5
 
         short:
           livenessProbe: *livenessProbe
