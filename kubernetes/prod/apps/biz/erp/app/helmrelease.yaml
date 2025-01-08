@@ -1,0 +1,120 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: frappe-bench
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: erpnext
+      version: 7.0.109
+      sourceRef:
+        kind: HelmRepository
+        name: frappe
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    annotations:
+      secret.reloader.stakater.com/reload: &secret erpnext-secret
+
+    image: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/frappe/erpnext
+    tag: v15.47.5@sha256:edcd1dcb36873bbb44c254069d1e52c8751e62f81dcf5e1ac644873a4b8b6893
+
+    podSecurityContext:
+      supplementalGroups: [1000]
+    securityContext:
+      capabilities:
+        add:
+        - CAP_CHOWN
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 1000
+
+    persistence:
+      worker:
+        enabled: true
+        storageclass: ceph-filesystem
+        size: 10Gi
+        accessModes:
+          - ReadWriteMany
+      logs:
+        enabled: true
+        storageclass: ceph-filesystem
+        size: 5Gi
+        accessModes:
+          - ReadWriteMany
+
+    mariadb:
+      enabled: false
+    dbHost: mariadb-galera-maxscale.database.svc.cluster.local
+    dbPort: 3306
+    redis-cache:
+      enabled: false
+      host: redis://erp-cache.biz.svc.cluster.local:6379
+    redis-queue:
+      enabled: false
+      host: redis://erp-queue.biz.svc.cluster.local:6379
+
+    jobs:
+      createSite:
+        enabled: true
+        siteName: erp.${CLUSTER_SECRET_PRD_DOMAIN}
+        installApps:
+          - erpnext
+        dbType: mariadb
+
+      backup:
+        enabled: true
+        siteName: erp.${CLUSTER_SECRET_PRD_DOMAIN}
+        withFiles: true
+        push:
+          enabled: true
+          bucket: erpnext
+          region: p-rh8-zfs
+
+    ingress:
+      enabled: true
+      className: internal
+      annotations:
+        external-dns.alpha.kubernetes.io/target: "internal.${CLUSTER_SECRET_PRD_DOMAIN}"
+      hosts:
+        - host: &host erp.${CLUSTER_SECRET_PRD_DOMAIN}
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls: [hosts: [*host]]
+
+  valuesFrom:
+    - targetPath: dbRootUser
+      kind: Secret
+      name: *secret
+      valuesKey: ERPNEXT_MARIADB_USER
+    - targetPath: dbRootPassword
+      kind: Secret
+      name: *secret
+      valuesKey: ERPNEXT_MARIADB_PASSWORD
+    - targetPath: jobs.createSite.adminPassword
+      kind: Secret
+      name: *secret
+      valuesKey: ERPNEXT_ADMIN_PASSWORD
+    - targetPath: jobs.backup.push.accessKey
+      kind: Secret
+      name: *secret
+      valuesKey: ERPNEXT_S3_ACCESS_KEY
+    - targetPath: jobs.backup.push.secretKey
+      kind: Secret
+      name: *secret
+      valuesKey: ERPNEXT_S3_SECRET_KEY
+    - targetPath: jobs.backup.push.endpoint
+      kind: Secret
+      name: *secret
+      valuesKey: MINIO_ENDPOINT
