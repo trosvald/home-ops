@@ -8,7 +8,12 @@ spec:
   mariaDbRef:
     name: mariadb-galera
   privileges:
-    - 'ALL'
-  database: 'erpnext'
+    - 'ALL PRIVILEGES'
+  database: '*'
   table: '*'
   username: erpnext
+  grantOption: true
+  host: '%'
+  cleanupPolicy: Delete
+  requeueInterval: 30s
+  retryInterval: 5s
