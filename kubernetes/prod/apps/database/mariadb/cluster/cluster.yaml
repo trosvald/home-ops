@@ -48,7 +48,7 @@ spec:
   #         memory: 1Gi
 
   replicas: 3
-  image: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/mariadb:11.6.2
+  image: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/mariadb:11.5.2
 
   updateStrategy:
     type: ReplicasFirstPrimaryLast
