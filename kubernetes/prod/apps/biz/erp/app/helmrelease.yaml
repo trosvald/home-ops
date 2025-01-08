@@ -35,7 +35,7 @@ spec:
     securityContext:
       capabilities:
         add:
-        - CAP_CHOWN
+          - CAP_CHOWN
       # readOnlyRootFilesystem: true
       # runAsNonRoot: true
       # runAsUser: 1000
@@ -47,52 +47,52 @@ spec:
         size: 10Gi
         accessModes:
           - ReadWriteMany
-        default:
-          livenessProbe: &livenessProbe
-            override: true
-            probe:
-              exec:
-                command:
-                  - bash
-                  - '-c'
-                  - echo "Ping backing services";
-                  - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
-                  - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
-                  - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
-              initialDelaySeconds: 15
-              periodSeconds: 5
-          readinessProbe: &readinessProbe
-            override: true
-            probe:
-              exec:
-                command:
-                  - bash
-                  - '-c'
-                  - echo "Ping backing services";
-                  - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
-                  - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
-                  - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
-              initialDelaySeconds: 15
-              periodSeconds: 5
-
-        short:
-          livenessProbe: *livenessProbe
-          readinessProbe: *readinessProbe
-
-        long:
-          livenessProbe: *livenessProbe
-          readinessProbe: *readinessProbe
-
-        scheduler:
-          livenessProbe: *livenessProbe
-          readinessProbe: *readinessProbe
-
       logs:
         enabled: true
         storageClass: ceph-filesystem
         size: 5Gi
         accessModes:
           - ReadWriteMany
+    worker:
+      default:
+        livenessProbe: &livenessProbe
+          override: true
+          probe:
+            exec:
+              command:
+                - bash
+                - '-c'
+                - echo "Ping backing services";
+                - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
+                - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
+                - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
+            initialDelaySeconds: 15
+            periodSeconds: 5
+        readinessProbe: &readinessProbe
+          override: true
+          probe:
+            exec:
+              command:
+                - bash
+                - '-c'
+                - echo "Ping backing services";
+                - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
+                - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
+                - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
+            initialDelaySeconds: 15
+            periodSeconds: 5
+
+      short:
+        livenessProbe: *livenessProbe
+        readinessProbe: *readinessProbe
+
+      long:
+        livenessProbe: *livenessProbe
+        readinessProbe: *readinessProbe
+
+      scheduler:
+        livenessProbe: *livenessProbe
+        readinessProbe: *readinessProbe
 
     mariadb:
       enabled: false
