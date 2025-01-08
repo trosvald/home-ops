@@ -117,13 +117,13 @@ spec:
               pathType: ImplementationSpecific
       tls: [hosts: [*host]]
 
-    jobs:
-      createSite:
-        enabled: true
-        siteName: "erp.${CLUSTER_SECRET_PRD_DOMAIN}"
-        installApps:
-          - "erpnext"
-        dbType: "mariadb"
+    # jobs:
+    #   createSite:
+    #     enabled: true
+    #     siteName: "erp.${CLUSTER_SECRET_PRD_DOMAIN}"
+    #     installApps:
+    #       - "erpnext"
+    #     dbType: "mariadb"
 
   valuesFrom:
     - targetPath: dbRootUser
