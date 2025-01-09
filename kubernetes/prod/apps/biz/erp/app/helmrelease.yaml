@@ -28,7 +28,7 @@ spec:
 
     image:
       repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/frappe/erpnext
-      tag: v15.47.5@sha256:edcd1dcb36873bbb44c254069d1e52c8751e62f81dcf5e1ac644873a4b8b6893
+      tag: v15.48.0
 
     podSecurityContext:
       supplementalGroups: [1000]
@@ -53,62 +53,51 @@ spec:
         size: 5Gi
         accessModes:
           - ReadWriteMany
-    # worker:
-    #   default:
-    #     livenessProbe: &livenessProbe
-    #       override: true
-    #       probe:
-    #         exec:
-    #           command:
-    #             - bash
-    #             - '-c'
-    #             - echo "Ping backing services";
-    #             - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
-    #             - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
-    #             - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
-    #         initialDelaySeconds: 15
-    #         periodSeconds: 5
-    #     readinessProbe: &readinessProbe
-    #       override: true
-    #       probe:
-    #         exec:
-    #           command:
-    #             - bash
-    #             - '-c'
-    #             - echo "Ping backing services";
-    #             - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
-    #             - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
-    #             - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
-    #         initialDelaySeconds: 15
-    #         periodSeconds: 5
+    worker:
+      default:
+        livenessProbe: &livenessProbe
+          override: true
+          probe:
+            exec:
+              command:
+                - bash
+                - '-c'
+                - echo "Ping backing services";
+                - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
+                - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
+                - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
+            initialDelaySeconds: 15
+            periodSeconds: 5
+        readinessProbe: &readinessProbe
+          override: true
+          probe:
+            exec:
+              command:
+                - bash
+                - '-c'
+                - echo "Ping backing services";
+                - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
+                - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
+                - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
+            initialDelaySeconds: 15
+            periodSeconds: 5
 
-    #   short:
-    #     livenessProbe: *livenessProbe
-    #     readinessProbe: *readinessProbe
+      short:
+        livenessProbe: *livenessProbe
+        readinessProbe: *readinessProbe
 
-    #   long:
-    #     livenessProbe: *livenessProbe
-    #     readinessProbe: *readinessProbe
+      long:
+        livenessProbe: *livenessProbe
+        readinessProbe: *readinessProbe
 
-    #   scheduler:
-    #     livenessProbe: *livenessProbe
-    #     readinessProbe: *readinessProbe
+      scheduler:
+        livenessProbe: *livenessProbe
+        readinessProbe: *readinessProbe
 
     mariadb:
       enabled: true
-      auth:
-        username: "erpnext"
-      primary:
-        service:
-          ports:
-            mysql: 3306
-        extraFlags: >-
-          --skip-character-set-client-handshake
-          --skip-innodb-read-only-compressed
-          --character-set-server=utf8mb4
-          --collation-server=utf8mb4_unicode_ci
-    # dbHost: mariadb-galera.database.svc.cluster.local
-    # dbPort: 3306
+    dbHost: mariadb-galera.database.svc.cluster.local
+    dbPort: 3306
     redis-cache:
       enabled: false
       host: redis://erp-cache.biz.svc.cluster.local:6379
@@ -125,44 +114,38 @@ spec:
         - host: &host erp.${CLUSTER_SECRET_PRD_DOMAIN}
           paths:
             - path: /
-              pathType: Prefix
+              pathType: ImplementationSpecific
       tls: [hosts: [*host]]
 
     # jobs:
-    #   createSite:
+    #   backup:
     #     enabled: true
-    #     siteName: "erp.${CLUSTER_SECRET_PRD_DOMAIN}"
-    #     installApps:
-    #       - "erpnext"
-    #     dbType: "mariadb"
-
+    #     siteName: erp.${CLUSTER_SECRET_PRD_DOMAIN}
+    #     withFiles: true
+    #     backoffLimit: 0
 
   valuesFrom:
-    - targetPath: mariadb.auth.rootPassword
+    - targetPath: dbRootUser
+      kind: Secret
+      name: *secret
+      valuesKey: ERPNEXT_MARIADB_USER
+    - targetPath: dbRootPassword
       kind: Secret
       name: *secret
       valuesKey: ERPNEXT_MARIADB_PASSWORD
-    - targetPath: mariadb.auth.replicationPassword
-      kind: Secret
-      name: *secret
-      valuesKey: ERPNEXT_MARIADB_PASSWORD
-    - targetPath: mariadb.auth.password
-      kind: Secret
-      name: *secret
-      valuesKey: ERPNEXT_MARIADB_PASSWORD
-    - targetPath: jobs.createSite.adminPassword
-      kind: Secret
-      name: *secret
-      valuesKey: ERPNEXT_ADMIN_PASSWORD
-    - targetPath: jobs.backup.push.accessKey
-      kind: Secret
-      name: *secret
-      valuesKey: ERPNEXT_S3_ACCESS_KEY
-    - targetPath: jobs.backup.push.secretKey
-      kind: Secret
-      name: *secret
-      valuesKey: ERPNEXT_S3_SECRET_KEY
-    - targetPath: jobs.backup.push.endpoint
-      kind: Secret
-      name: *secret
-      valuesKey: MINIO_ENDPOINT
+    # - targetPath: jobs.createSite.adminPassword
+    #   kind: Secret
+    #   name: *secret
+    #   valuesKey: ERPNEXT_ADMIN_PASSWORD
+    # - targetPath: jobs.backup.push.accessKey
+    #   kind: Secret
+    #   name: *secret
+    #   valuesKey: ERPNEXT_S3_ACCESS_KEY
+    # - targetPath: jobs.backup.push.secretKey
+    #   kind: Secret
+    #   name: *secret
+    #   valuesKey: ERPNEXT_S3_SECRET_KEY
+    # - targetPath: jobs.backup.push.endpoint
+    #   kind: Secret
+    #   name: *secret
+    #   valuesKey: MINIO_ENDPOINT
