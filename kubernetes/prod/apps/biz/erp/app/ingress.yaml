@@ -28,7 +28,7 @@ spec:
         paths:
           - backend:
               service:
-                name: frappe-bench
+                name: frappe-bench-erpnext
                 port:
                   number: 8080
             path: /
