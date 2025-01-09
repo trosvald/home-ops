@@ -110,6 +110,7 @@ spec:
     [mariadb]
     bind-address=*
     character-set-client-handshake=FALSE
+    innodb_read_only_compressed=FALSE
     default_storage_engine=InnoDB
     binlog_format=row
     innodb_autoinc_lock_mode=2
