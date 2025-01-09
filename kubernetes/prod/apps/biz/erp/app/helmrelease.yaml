@@ -117,12 +117,24 @@ spec:
               pathType: ImplementationSpecific
       tls: [hosts: [*host]]
 
-    # jobs:
+    jobs:
+      createSite:
+        # jobName: ""
+        enabled: false
+        forceCreate: false
+        siteName: "erp.cluster.local"
+        adminPassword: "changeit"
+        installApps:
+          - "erpnext"
+          - "hrms"
+        dbType: "mariadb"
+        backoffLimit: 0
     #   backup:
     #     enabled: true
     #     siteName: erp.${CLUSTER_SECRET_PRD_DOMAIN}
     #     withFiles: true
     #     backoffLimit: 0
+
 
   valuesFrom:
     - targetPath: dbRootUser
