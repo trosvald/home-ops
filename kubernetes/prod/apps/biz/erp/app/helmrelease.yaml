@@ -95,7 +95,7 @@ spec:
         readinessProbe: *readinessProbe
 
     mariadb:
-      enabled: true
+      enabled: false
     dbHost: mariadb-galera.database.svc.cluster.local
     dbPort: 3306
     redis-cache:
