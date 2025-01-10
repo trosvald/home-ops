@@ -67,6 +67,7 @@ spec:
       type: LoadBalancer
       metadata:
         annotations:
+          external-dns.alpha.kubernetes.io/hostname: mariadb-maxscale.${CLUSTER_SECRET_PRD_DOMAIN}
           io.cilium/lb-ipam-ips: ${SVC_MAXSCALE_IP}
 
     guiKubernetesService:
@@ -91,6 +92,7 @@ spec:
     type: LoadBalancer
     metadata:
       annotations:
+        external-dns.alpha.kubernetes.io/hostname: mariadb.${CLUSTER_SECRET_PRD_DOMAIN}
         io.cilium/lb-ipam-ips: ${SVC_MARIADB_IP}
 
   primaryService:
