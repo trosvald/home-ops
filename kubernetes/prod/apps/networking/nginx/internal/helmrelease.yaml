@@ -24,6 +24,8 @@ spec:
       retries: 3
   values:
     fullnameOverride: nginx-internal
+    tcp:
+      "22": "dev/gitlab-gitlab-shell:22"
     controller:
       replicaCount: 2
       service:
