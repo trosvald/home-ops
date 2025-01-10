@@ -11,14 +11,13 @@ spec:
   targets:
     staticConfig:
       static:
+        - ngfw.${CLUSTER_SECRET_DEV_DOMAIN}
         - san.${CLUSTER_SECRET_PRD_DOMAIN}
-        - p-rh8-ipa1.${CLUSTER_SECRET_PRD_DOMAIN}
-        - p-fdi40-svc.${CLUSTER_SECRET_DEV_DOMAIN}
         - p-apc-ups3.${CLUSTER_SECRET_DEV_DOMAIN}
         - n-tpl-csw-01.${CLUSTER_SECRET_DEV_DOMAIN}
         - n-tpl-asw-01.${CLUSTER_SECRET_DEV_DOMAIN}
-        - n-tpl-tsw-01.${CLUSTER_SECRET_DEV_DOMAIN}
-        - n-tpl-tsw-02.${CLUSTER_SECRET_DEV_DOMAIN}
+        - n-tpl-tor-01.${CLUSTER_SECRET_DEV_DOMAIN}
+        - n-tpl-tor-02.${CLUSTER_SECRET_DEV_DOMAIN}
         - n-hpe-asw-02.${CLUSTER_SECRET_DEV_DOMAIN}
         - n-ubt-oap-01.${CLUSTER_SECRET_DEV_DOMAIN}
         - n-ubt-oap-02.${CLUSTER_SECRET_DEV_DOMAIN}
