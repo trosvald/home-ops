@@ -7,7 +7,7 @@ resources:
   - ./pvc.yaml
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-#  - ../../../../templates/volsync-r2
+  - ../../../../../shared/templates/volsync
 configMapGenerator:
   - name: erp-configmap
     files:
