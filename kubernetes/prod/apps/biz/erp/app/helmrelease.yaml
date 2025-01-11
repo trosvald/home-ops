@@ -1,152 +1,108 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: frappe-bench
+  name: &app erp
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
-      chart: erpnext
-      version: 7.0.154
+      chart: app-template
+      version: 3.6.0
       sourceRef:
         kind: HelmRepository
-        name: frappe
+        name: bjw-s
         namespace: flux-system
   maxHistory: 3
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
+    cleanupOnFail: true
     remediation:
+      strategy: uninstall
       retries: 3
+  uninstall:
+    keepHistory: false
   values:
-    annotations:
-      secret.reloader.stakater.com/reload: &secret erpnext-secret
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
+    controllers:
+      odoo:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
 
-    image:
-      repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/frappe/erpnext
-      tag: v15.48.0
+        containers:
+          odoo:
+            image:
+              repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/library/odoo
+              tag: 17.0-20241029
+            envFrom:
+              - secretRef:
+                  name: erp-secrets
+          code:
+            image:
+              repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/ghcr.io/coder/code-server
+              tag: 4.96.2
+            env:
+              TZ: "${TIMEZONE}"
+            args:
+              - --user-data-dir
+              - "/tmp/.vscode"
+              - --extensions-dir
+              - "/tmp/.vscode"
+              - --port
+              - "8081"
+              - "/mnt/extra-addons"
 
-    podSecurityContext:
-      supplementalGroups: [1000]
-    securityContext:
-      capabilities:
-        add:
-          - CAP_CHOWN
-      # readOnlyRootFilesystem: true
-      # runAsNonRoot: true
-      # runAsUser: 1000
-
-    persistence:
-      worker:
-        enabled: true
-        storageClass: ceph-filesystem
-        size: 10Gi
-        accessModes:
-          - ReadWriteMany
-      logs:
-        enabled: true
-        storageClass: ceph-filesystem
-        size: 5Gi
-        accessModes:
-          - ReadWriteMany
-    worker:
-      default:
-        livenessProbe: &livenessProbe
-          override: true
-          probe:
-            exec:
-              command:
-                - bash
-                - '-c'
-                - echo "Ping backing services";
-                - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
-                - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
-                - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
-            initialDelaySeconds: 15
-            periodSeconds: 5
-        readinessProbe: &readinessProbe
-          override: true
-          probe:
-            exec:
-              command:
-                - bash
-                - '-c'
-                - echo "Ping backing services";
-                - wait-for-it mariadb-galera-maxscale.database.svc.cluster.local:3306 -t 1;
-                - wait-for-it erp-cache.biz.svc.cluster.local:6379 -t 1;
-                - wait-for-it erp-queue.biz.svc.cluster.local:6379 -t 1;
-            initialDelaySeconds: 15
-            periodSeconds: 5
-
-      short:
-        livenessProbe: *livenessProbe
-        readinessProbe: *readinessProbe
-
-      long:
-        livenessProbe: *livenessProbe
-        readinessProbe: *readinessProbe
-
-      scheduler:
-        livenessProbe: *livenessProbe
-        readinessProbe: *readinessProbe
-
-    mariadb:
-      enabled: false
-    dbHost: mariadb-galera.database.svc.cluster.local
-    dbPort: 3306
-    redis-cache:
-      enabled: false
-      host: redis://erp-cache.biz.svc.cluster.local:6379
-    redis-queue:
-      enabled: false
-      host: redis://erp-queue.biz.svc.cluster.local:6379
-
+    service:
+      main:
+        controller: odoo
+        type: ClusterIP
+        ports:
+          http:
+            port: 8069
+      code:
+        controller: odoo
+        type: ClusterIP
+        ports:
+          http:
+            port: 8081
     ingress:
-      enabled: true
-      className: internal
-      annotations:
-        external-dns.alpha.kubernetes.io/target: "internal.${CLUSTER_SECRET_PRD_DOMAIN}"
-      hosts:
-        - host: &host erp.${CLUSTER_SECRET_PRD_DOMAIN}
-          paths:
-            - path: /
-              pathType: ImplementationSpecific
-      tls: [hosts: [*host]]
-
-    # jobs:
-    #   backup:
-    #     enabled: true
-    #     siteName: erp.${CLUSTER_SECRET_PRD_DOMAIN}
-    #     withFiles: true
-    #     backoffLimit: 0
-
-
-  valuesFrom:
-    - targetPath: dbRootUser
-      kind: Secret
-      name: *secret
-      valuesKey: ERPNEXT_MARIADB_USER
-    - targetPath: dbRootPassword
-      kind: Secret
-      name: *secret
-      valuesKey: ERPNEXT_MARIADB_PASSWORD
-    # - targetPath: jobs.createSite.adminPassword
-    #   kind: Secret
-    #   name: *secret
-    #   valuesKey: ERPNEXT_ADMIN_PASSWORD
-    # - targetPath: jobs.backup.push.accessKey
-    #   kind: Secret
-    #   name: *secret
-    #   valuesKey: ERPNEXT_S3_ACCESS_KEY
-    # - targetPath: jobs.backup.push.secretKey
-    #   kind: Secret
-    #   name: *secret
-    #   valuesKey: ERPNEXT_S3_SECRET_KEY
-    # - targetPath: jobs.backup.push.endpoint
-    #   kind: Secret
-    #   name: *secret
-    #   valuesKey: MINIO_ENDPOINT
+      main:
+        enabled: true
+        className: internal
+        annotations:
+          external-dns.alpha.kubernetes.io/target: "internal.${CLUSTER_SECRET_PRD_DOMAIN}"
+        hosts:
+          - host: &host "erp.${CLUSTER_SECRET_PRD_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        existingClaim: erp-config
+        globalMounts:
+         - path: /var/lib/odoo
+      etc-config-file:
+        type: configMap
+        name: erp-configmap
+        globalMounts:
+          - path: /etc/odoo/odoo.conf
+            subPath: odoo.conf
+      extra-addons:
+        existingClaim: erp-addons
+        globalMounts:
+          - path: /mnt/extra-addons
