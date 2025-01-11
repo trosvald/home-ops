@@ -45,7 +45,7 @@ spec:
               tag: 17.0-20241029
             envFrom:
               - secretRef:
-                  name: erp-secrets
+                  name: erp-secret
           code:
             image:
               repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/ghcr.io/coder/code-server
