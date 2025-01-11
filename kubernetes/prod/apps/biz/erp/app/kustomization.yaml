@@ -4,8 +4,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./pvc.yaml
-  - ./external-secret.yaml
-  - ./helm-release.yaml
+  - ./externalsecret.yaml
+  - ./helmrelease.yaml
 #  - ../../../../templates/volsync-r2
 configMapGenerator:
   - name: erp-configmap
