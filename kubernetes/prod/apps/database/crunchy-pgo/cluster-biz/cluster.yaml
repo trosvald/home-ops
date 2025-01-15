@@ -123,7 +123,7 @@ spec:
       service:
         metadata:
           annotations:
-            external-dns.alpha.kubernetes.io/hostname: postgres-biz.${CLUSTER_SECRET_PRD_DOMAIN}
+            external-dns.alpha.kubernetes.io/hostname: biz-db.${CLUSTER_SECRET_PRD_DOMAIN}
             lbipam.cilium.io/ips: ${SVC_CPGO_BIZ}
         type: LoadBalancer
       port: 5432

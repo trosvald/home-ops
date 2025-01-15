@@ -2,15 +2,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cpgo-gatus-ep
+  name: cpgo-biz-gatus-ep
   labels:
     gatus.io/enabled: "true"
 data:
   config.yaml: |
     endpoints:
-      - name: Main DB
+      - name: Biz DB
         group: infrastructure
-        url: tcp://postgres-main-pgbouncer.database.svc.cluster.local:5432
+        url: tcp://postgres-biz-pgbouncer.database.svc.cluster.local:5432
         interval: 1m
         conditions: ["[CONNECTED] == true"]
         alerts:

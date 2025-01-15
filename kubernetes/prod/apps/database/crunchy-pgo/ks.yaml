@@ -72,6 +72,30 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: &app crunchy-postgres-biz-cluster
+  namespace: flux-system
+spec:
+  targetNamespace: database
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: crunchy-postgres-operator
+    - name: external-secrets-stores
+  path: ./kubernetes/prod/apps/database/crunchy-pgo/cluster-biz
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-ops
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: &app crunchy-postgres-userinit-controller
   namespace: flux-system
 spec:
@@ -113,47 +137,3 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
-# ---
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: &app crunchy-prod-backup
-#   namespace: flux-system
-# spec:
-#   targetNamespace: database
-#   commonMetadata:
-#     labels:
-#       app.kubernetes.io/name: *app
-#   path: ./kubernetes/prod/apps/database/crunchy-pgo/backup
-#   prune: true
-#   sourceRef:
-#     kind: GitRepository
-#     name: home-ops
-#   wait: true
-#   interval: 30m
-#   retryInterval: 1m
-#   timeout: 5m
-#   dependsOn:
-#     - name: crunchy-postgres-operator
-# ---
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: &app crunchy-gitlab-backup
-#   namespace: flux-system
-# spec:
-#   targetNamespace: database
-#   commonMetadata:
-#     labels:
-#       app.kubernetes.io/name: *app
-#   path: ./kubernetes/prod/apps/database/crunchy-pgo/backup-gitlab
-#   prune: true
-#   sourceRef:
-#     kind: GitRepository
-#     name: home-ops
-#   wait: true
-#   interval: 30m
-#   retryInterval: 1m
-#   timeout: 5m
-#   dependsOn:
-#     - name: crunchy-postgres-operator
