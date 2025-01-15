@@ -46,22 +46,22 @@ spec:
             envFrom:
               - secretRef:
                   name: erp-secret
-          code:
-            image:
-              repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/ghcr.io/coder/code-server
-              tag: 4.96.2
-            env:
-              TZ: "${TIMEZONE}"
-            args:
-              - --auth
-              - "none"
-              - --user-data-dir
-              - "/tmp/.vscode"
-              - --extensions-dir
-              - "/tmp/.vscode"
-              - --port
-              - "8081"
-              - "/mnt/extra-addons"
+          # code:
+          #   image:
+          #     repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/ghcr.io/coder/code-server
+          #     tag: 4.96.2
+          #   env:
+          #     TZ: "${TIMEZONE}"
+          #   args:
+          #     - --auth
+          #     - "none"
+          #     - --user-data-dir
+          #     - "/tmp/.vscode"
+          #     - --extensions-dir
+          #     - "/tmp/.vscode"
+          #     - --port
+          #     - "8081"
+          #     - "/mnt/extra-addons"
 
     service:
       main:
@@ -70,12 +70,12 @@ spec:
         ports:
           http:
             port: 8069
-      code:
-        controller: odoo
-        type: ClusterIP
-        ports:
-          http:
-            port: 8081
+      # code:
+      #   controller: odoo
+      #   type: ClusterIP
+      #   ports:
+      #     http:
+      #       port: 8081
     ingress:
       main:
         enabled: true
@@ -96,16 +96,16 @@ spec:
               - *host
     persistence:
       config:
-        existingClaim: erp-config
+        existingClaim: artha-config
         globalMounts:
          - path: /var/lib/odoo
       etc-config-file:
         type: configMap
-        name: erp-configmap
+        name: artha-configmap
         globalMounts:
           - path: /etc/odoo/odoo.conf
             subPath: odoo.conf
       extra-addons:
-        existingClaim: erp-addons
+        existingClaim: artha-addons
         globalMounts:
           - path: /mnt/extra-addons
