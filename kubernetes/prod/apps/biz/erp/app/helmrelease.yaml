@@ -42,7 +42,7 @@ spec:
           odoo:
             image:
               repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/library/odoo
-              tag: 17.0-20241029
+              tag: 16.0-20250106
             envFrom:
               - secretRef:
                   name: erp-secret

@@ -53,7 +53,6 @@ spec:
     txtPrefix: k8s.
     domainFilters:
       - "${CLUSTER_SECRET_PRD_DOMAIN}"
-      - "${CLUSTER_SECRET_DEV_DOMAIN}"
       - "${CLUSTER_SECRET_BIZ_DOMAIN}"
     serviceMonitor:
       enabled: true

@@ -19,12 +19,12 @@ ingress:
   #   service: https://nginx-external-controller.networking.svc.cluster.local:443
   #   originRequest:
   #     originServerName: external.${CLUSTER_SECRET_DEV_DOMAIN}
-  # - hostname: "${CLUSTER_SECRET_BIZ_DOMAIN}"
-  #   service: https://nginx-external-controller.networking.svc.cluster.local:443
-  #   originRequest:
-  #     originServerName: external.${CLUSTER_SECRET_BIZ_DOMAIN}
-  # - hostname: "*.${CLUSTER_SECRET_BIZ_DOMAIN}"
-  #   service: https://nginx-external-controller.networking.svc.cluster.local:443
-  #   originRequest:
-  #     originServerName: external.${CLUSTER_SECRET_BIZ_DOMAIN}
+  - hostname: "${CLUSTER_SECRET_BIZ_DOMAIN}"
+    service: https://nginx-external-controller.networking.svc.cluster.local:443
+    originRequest:
+      originServerName: external.${CLUSTER_SECRET_BIZ_DOMAIN}
+  - hostname: "*.${CLUSTER_SECRET_BIZ_DOMAIN}"
+    service: https://nginx-external-controller.networking.svc.cluster.local:443
+    originRequest:
+      originServerName: external.${CLUSTER_SECRET_BIZ_DOMAIN}
   - service: http_status:404
