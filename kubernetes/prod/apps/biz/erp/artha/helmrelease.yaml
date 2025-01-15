@@ -45,7 +45,7 @@ spec:
               tag: 16.0-20250106
             envFrom:
               - secretRef:
-                  name: erp-secret
+                  name: artha-secret
           # code:
           #   image:
           #     repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/ghcr.io/coder/code-server
