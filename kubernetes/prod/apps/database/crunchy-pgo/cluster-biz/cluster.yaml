@@ -5,7 +5,7 @@ kind: PostgresCluster
 metadata:
   name: &name postgres-biz
 spec:
-  postgresVersion: 14
+  postgresVersion: 15
   metadata:
     labels:
       crunchy-userinit.ramblurr.github.com/enabled: "true"
