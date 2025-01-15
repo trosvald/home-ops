@@ -79,12 +79,11 @@ spec:
     ingress:
       main:
         enabled: true
-        className: external
+        className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-          external-dns.alpha.kubernetes.io/target: ipv4.${CLUSTER_SECRET_BIZ_DOMAIN}
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_PRD_DOMAIN}
         hosts:
-          - host: &host "www.${CLUSTER_SECRET_BIZ_DOMAIN}"
+          - host: &host "artha.${CLUSTER_SECRET_PRD_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
