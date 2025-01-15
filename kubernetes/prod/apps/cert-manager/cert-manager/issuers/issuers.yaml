@@ -20,6 +20,7 @@ spec:
         selector:
           dnsZones:
             - "${CLUSTER_SECRET_PRD_DOMAIN}"
+            - "${CLUSTER_SECRET_BIZ_DOMAIN}"
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/clusterissuer_v1.json
 apiVersion: cert-manager.io/v1
@@ -42,6 +43,7 @@ spec:
         selector:
           dnsZones:
             - "${CLUSTER_SECRET_PRD_DOMAIN}"
+            - "${CLUSTER_SECRET_BIZ_DOMAIN}"
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/clusterissuer_v1.json
 apiVersion: cert-manager.io/v1
@@ -64,3 +66,4 @@ spec:
         selector:
           dnsZones:
             - "${CLUSTER_SECRET_PRD_DOMAIN}"
+            - "${CLUSTER_SECRET_BIZ_DOMAIN}"
