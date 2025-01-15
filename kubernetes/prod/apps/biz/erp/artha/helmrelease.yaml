@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app erp
+  name: &app artha
 spec:
   interval: 30m
   chart:
@@ -53,6 +53,8 @@ spec:
             env:
               TZ: "${TIMEZONE}"
             args:
+              - --auth
+              - "none"
               - --user-data-dir
               - "/tmp/.vscode"
               - --extensions-dir
@@ -77,23 +79,17 @@ spec:
     ingress:
       main:
         enabled: true
-        className: internal
+        className: external
         annotations:
-          external-dns.alpha.kubernetes.io/target: "internal.${CLUSTER_SECRET_PRD_DOMAIN}"
+          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+          external-dns.alpha.kubernetes.io/target: ipv4.${CLUSTER_SECRET_BIZ_DOMAIN}
         hosts:
-          - host: &host "erp.${CLUSTER_SECRET_PRD_DOMAIN}"
+          - host: &host "www.${CLUSTER_SECRET_BIZ_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   identifier: main
-                  port: http
-          - host: &host "erp-codes.${CLUSTER_SECRET_PRD_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: code
                   port: http
         tls:
           - hosts:

@@ -9,7 +9,7 @@ resources:
   - ./helmrelease.yaml
   - ../../../../../shared/templates/volsync
 configMapGenerator:
-  - name: erp-configmap
+  - name: artha-configmap
     files:
       - ./config/odoo.conf
 generatorOptions:
