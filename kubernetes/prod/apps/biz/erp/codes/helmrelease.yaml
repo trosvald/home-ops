@@ -57,7 +57,7 @@ spec:
               - "/mnt/extra-addons"
 
     service:
-      code:
+      main:
         controller: code
         type: ClusterIP
         ports:
