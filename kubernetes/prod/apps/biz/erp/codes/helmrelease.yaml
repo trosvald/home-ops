@@ -58,7 +58,7 @@ spec:
 
     service:
       code:
-        controller: odoo
+        controller: code
         type: ClusterIP
         ports:
           http:
