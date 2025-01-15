@@ -46,22 +46,22 @@ spec:
             envFrom:
               - secretRef:
                   name: artha-secret
-          # code:
-          #   image:
-          #     repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/ghcr.io/coder/code-server
-          #     tag: 4.96.2
-          #   env:
-          #     TZ: "${TIMEZONE}"
-          #   args:
-          #     - --auth
-          #     - "none"
-          #     - --user-data-dir
-          #     - "/tmp/.vscode"
-          #     - --extensions-dir
-          #     - "/tmp/.vscode"
-          #     - --port
-          #     - "8081"
-          #     - "/mnt/extra-addons"
+          code:
+            image:
+              repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/ghcr.io/coder/code-server
+              tag: 4.96.2
+            env:
+              TZ: "${TIMEZONE}"
+            args:
+              - --auth
+              - "none"
+              - --user-data-dir
+              - "/tmp/.vscode"
+              - --extensions-dir
+              - "/tmp/.vscode"
+              - --port
+              - "8081"
+              - "/mnt/extra-addons"
 
     service:
       main:
@@ -70,12 +70,12 @@ spec:
         ports:
           http:
             port: 8069
-      # code:
-      #   controller: odoo
-      #   type: ClusterIP
-      #   ports:
-      #     http:
-      #       port: 8081
+      code:
+        controller: odoo
+        type: ClusterIP
+        ports:
+          http:
+            port: 8081
     ingress:
       main:
         enabled: true
@@ -89,6 +89,13 @@ spec:
                 pathType: Prefix
                 service:
                   identifier: main
+                  port: http
+          - host: &host "artha-codes.${CLUSTER_SECRET_PRD_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: code
                   port: http
         tls:
           - hosts:
