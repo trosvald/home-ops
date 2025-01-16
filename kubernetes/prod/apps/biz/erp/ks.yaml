@@ -20,6 +20,6 @@ spec:
     substitute:
       APP: artha
       VOLSYNC_CLAIM: artha-config
-      VOLSYNC_CAPACITY: 1Gi
+      VOLSYNC_CAPACITY: 10Gi
       APP_UID: "568"
       APP_GID: "568"
