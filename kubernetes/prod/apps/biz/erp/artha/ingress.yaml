@@ -29,7 +29,7 @@ spec:
         paths:
           - backend:
               service:
-                name: artha
+                name: artha-main
                 port:
                   number: 8069
             path: /
