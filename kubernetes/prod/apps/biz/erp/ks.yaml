@@ -33,7 +33,7 @@ metadata:
 spec:
   dependsOn:
     - name: crunchy-postgres-prod-cluster
-  path: ./kubernetes/prod/apps/biz/bbc/artha
+  path: ./kubernetes/prod/apps/biz/erp/bbc
   prune: true
   sourceRef:
     kind: GitRepository
