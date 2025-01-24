@@ -42,7 +42,7 @@ spec:
           odoo:
             image:
               repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/library/odoo
-              tag: 16.0-20250106
+              tag: 17.0-20241029
             envFrom:
               - secretRef:
                   name: artha-secret
