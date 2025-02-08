@@ -1,44 +1,172 @@
+---
 apiVersion: batch/v1
-kind: CronJob
+kind: Job
 metadata:
-  name: glpi-cronjob
-  labels:
-    app: glpi
+  name: glpi-verify-dir
   namespace: selfhosted
 spec:
-  schedule: "*/2 * * * *"
-  concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 1
-  failedJobsHistoryLimit: 1
-  jobTemplate:
+  template:
     spec:
-      template:
-        spec:
-          containers:
-          - image: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/eftechcombr/glpi:php-fpm-10.0.17
-            imagePullPolicy: Always
-            name: base
-            envFrom:
-            - secretRef:
-                name: glpi-secret
-            command:
-            - php
-            - front/cron.php
-            volumeMounts:
-            - name: files
-              mountPath: /var/lib/glpi
-            - name: marketplace
-              mountPath: /var/www/html/marketplace
-            - name: etc
-              mountPath: /etc/glpi
-          volumes:
-          - name: etc
-            persistentVolumeClaim:
-              claimName: glpi-etc
-          - name: files
-            persistentVolumeClaim:
-              claimName: glpi-files
-          - name: marketplace
-            persistentVolumeClaim:
-              claimName: glpi-marketplace
-          restartPolicy: OnFailure
+      containers:
+      - image: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/eftechcombr/glpi:php-fpm-10.0.17
+        imagePullPolicy: Always
+        name: base
+        envFrom:
+        - configMapRef:
+            name: glpi-config
+        - secretRef:
+            name: glpi-secret
+        command:
+        - sh
+        - -c
+        - "/usr/local/bin/glpi-verify-dir.sh"
+        volumeMounts:
+        - name: files
+          mountPath: /var/lib/glpi
+        - name: marketplace
+          mountPath: /var/www/html/marketplace
+        - name: etc
+          mountPath: /etc/glpi
+      volumes:
+      - name: etc
+        persistentVolumeClaim:
+          claimName: glpi-etc
+      - name: files
+        persistentVolumeClaim:
+          claimName: glpi-files
+      - name: marketplace
+        persistentVolumeClaim:
+          claimName: glpi-marketplace
+      restartPolicy: OnFailure
+  parallelism: 1
+  completions: 1
+status: {}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: glpi-db-install
+  namespace: selfhosted
+spec:
+  template:
+    spec:
+      containers:
+      - image: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/eftechcombr/glpi:php-fpm-10.0.17
+        imagePullPolicy: Always
+        name: base
+        command:
+        - sh
+        - -c
+        - "/usr/local/bin/glpi-db-install.sh"
+        envFrom:
+        - configMapRef:
+            name: glpi-config
+        - secretRef:
+            name: glpi-secret
+        volumeMounts:
+        - name: files
+          mountPath: /var/lib/glpi
+        - name: marketplace
+          mountPath: /var/www/html/marketplace
+        - name: etc
+          mountPath: /etc/glpi
+      volumes:
+      - name: etc
+        persistentVolumeClaim:
+          claimName: glpi-etc
+      - name: files
+        persistentVolumeClaim:
+          claimName: glpi-files
+      - name: marketplace
+        persistentVolumeClaim:
+          claimName: glpi-marketplace
+      restartPolicy: OnFailure
+  parallelism: 1
+  completions: 1
+status: {}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: glpi-db-upgrade
+  namespace: selfhosted
+spec:
+  template:
+    spec:
+      containers:
+      - image: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/eftechcombr/glpi:php-fpm-10.0.17
+        imagePullPolicy: Always
+        name: base
+        command:
+        - sh
+        - -c
+        - "/usr/local/bin/glpi-db-upgrade.sh"
+        envFrom:
+        - configMapRef:
+            name: glpi-config
+        - secretRef:
+            name: glpi-secret
+        volumeMounts:
+        - name: files
+          mountPath: /var/lib/glpi
+        - name: marketplace
+          mountPath: /var/www/html/marketplace
+        - name: etc
+          mountPath: /etc/glpi
+      volumes:
+      - name: etc
+        persistentVolumeClaim:
+          claimName: glpi-etc
+      - name: files
+        persistentVolumeClaim:
+          claimName: glpi-files
+      - name: marketplace
+        persistentVolumeClaim:
+          claimName: glpi-marketplace
+      restartPolicy: OnFailure
+  parallelism: 1
+  completions: 1
+status: {}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: glpi-db-configure
+  namespace: selfhosted
+spec:
+  template:
+    spec:
+      containers:
+      - image: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/eftechcombr/glpi:php-fpm-10.0.17
+        imagePullPolicy: Always
+        name: base
+        command:
+        - sh
+        - -c
+        - "/usr/local/bin/glpi-db-configure.sh"
+        envFrom:
+        - configMapRef:
+            name: glpi-config
+        - secretRef:
+            name: glpi-secret
+        volumeMounts:
+        - name: etc
+          mountPath: /etc/glpi
+        - name: files
+          mountPath: /var/lib/glpi
+        - name: marketplace
+          mountPath: /var/www/html/marketplace
+      volumes:
+      - name: etc
+        persistentVolumeClaim:
+          claimName: glpi-etc
+      - name: files
+        persistentVolumeClaim:
+          claimName: glpi-files
+      - name: marketplace
+        persistentVolumeClaim:
+          claimName: glpi-marketplace
+      restartPolicy: OnFailure
+  parallelism: 1
+  completions: 1
+status: {}
