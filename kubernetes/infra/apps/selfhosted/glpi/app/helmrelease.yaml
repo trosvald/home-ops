@@ -1,0 +1,111 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app glpi
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 3
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: uninstall
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    # defaultPodOptions:
+    #   securityContext:
+    #     runAsUser: 568
+    #     runAsGroup: 568
+    #     fsGroup: 568
+    #     fsGroupChangePolicy: "OnRootMismatch"
+    controllers:
+      glpi:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          php-fpm:
+            image:
+              repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/eftechcombr/glpi
+              tag: php-fpm@sha256:f492ea071edd34687c679d4e3010581b7539a728cb7aae236c2b7f8c96fe79ea
+            envFrom:
+              - configMapRef:
+                  name: glpi-config
+              - secretRef:
+                  name: glpi-secret
+          nginx:
+            image:
+              repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/eftechcombr/glpi
+              tag: nginx@sha256:0aa5e82654439945318ce7c357abcd0e83055ee069041d330d10a095e77c4a3b
+            envFrom:
+              - configMapRef:
+                  name: nginx-config
+              - secretRef:
+                  name: glpi-secret
+    service:
+      php-fpm:
+        controller: glpi
+        type: ClusterIP
+        ports:
+          http:
+            port: 9000
+      nginx:
+        controller: glpi
+        type: ClusterIP
+        ports:
+          http:
+            port: 80
+    ingress:
+      main:
+        enabled: true
+        className: internal
+        annotations:
+          external-dns.alpha.kubernetes.io/target: internal.${CLUSTER_SECRET_DEV_DOMAIN}
+        hosts:
+          - host: servicedesk.${CLUSTER_SECRET_DEV_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: nginx
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      files:
+        existingClaim: glpi-files
+        globalMounts:
+         - path: /var/lib/glpi
+      etc:
+        existingClaim: glpi-etc
+        globalMounts:
+          - path: /etc/glpi
+      marketplace:
+        existingClaim: glpi-marketplace
+        globalMounts:
+          - path: /var/www/html/marketplace
+      nginx-config:
+        type: configMap
+        name: nginx-config
+        defaultMode: 420
+        advancedMounts:
+          glpi:
+            nginx:
+              - path: /etc/nginx/conf.d/default.conf
+                subPath: default.conf
+                readOnly: true

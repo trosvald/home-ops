@@ -40,3 +40,5 @@ spec:
         CREATE DATABASE IF NOT EXISTS glpi;
         CREATE USER IF NOT EXISTS 'glpi'@'%' IDENTIFIED BY '${GLPI_MARIADB_PASSWORD}';
         GRANT ALL PRIVILEGES ON glpi.* to 'glpi'@'%';
+        GRANT SELECT ON mysql.time_zone_name TO 'glpi'@'%';
+        FLUSH PRIVILEGES;
