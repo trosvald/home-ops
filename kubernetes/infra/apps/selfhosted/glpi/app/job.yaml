@@ -15,12 +15,10 @@ spec:
       template:
         spec:
           containers:
-          - image: eftechcombr/glpi:php-fpm-10.0.17
+          - image: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/eftechcombr/glpi:php-fpm-10.0.17
             imagePullPolicy: Always
             name: base
             envFrom:
-            - configMapRef:
-                name: glpi-config
             - secretRef:
                 name: glpi-secret
             command:
