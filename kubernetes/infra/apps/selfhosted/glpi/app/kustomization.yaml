@@ -8,9 +8,6 @@ resources:
   - ./helmrelease.yaml
   - ./job.yaml
 configMapGenerator:
-  - name: glpi-config
-    files:
-      - ./resources/glpi.conf
   - name: nginx-config
     files:
       - default.conf=./resources/nginx.conf

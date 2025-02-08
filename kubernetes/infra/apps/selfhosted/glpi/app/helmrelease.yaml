@@ -43,8 +43,6 @@ spec:
               repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/eftechcombr/glpi
               tag: php-fpm@sha256:f492ea071edd34687c679d4e3010581b7539a728cb7aae236c2b7f8c96fe79ea
             envFrom:
-              - configMapRef:
-                  name: glpi-config
               - secretRef:
                   name: glpi-secret
           nginx:
