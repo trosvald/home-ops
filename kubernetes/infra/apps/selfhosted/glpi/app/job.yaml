@@ -12,8 +12,6 @@ spec:
         imagePullPolicy: Always
         name: base
         envFrom:
-        - configMapRef:
-            name: glpi-config
         - secretRef:
             name: glpi-secret
         command:
@@ -59,8 +57,6 @@ spec:
         - -c
         - "/usr/local/bin/glpi-db-install.sh"
         envFrom:
-        - configMapRef:
-            name: glpi-config
         - secretRef:
             name: glpi-secret
         volumeMounts:
@@ -102,8 +98,6 @@ spec:
         - -c
         - "/usr/local/bin/glpi-db-upgrade.sh"
         envFrom:
-        - configMapRef:
-            name: glpi-config
         - secretRef:
             name: glpi-secret
         volumeMounts:
@@ -145,8 +139,6 @@ spec:
         - -c
         - "/usr/local/bin/glpi-db-configure.sh"
         envFrom:
-        - configMapRef:
-            name: glpi-config
         - secretRef:
             name: glpi-secret
         volumeMounts:
