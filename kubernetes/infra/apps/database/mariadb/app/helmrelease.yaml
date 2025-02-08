@@ -32,7 +32,7 @@ spec:
         enabled: true
     persistence:
       storageClass: local-hostpath
-      size: 5Gi
+      size: 8Gi
     primary:
       resourcesPreset: small
     initdbScripts:
