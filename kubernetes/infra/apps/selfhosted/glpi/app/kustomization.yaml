@@ -6,9 +6,6 @@ resources:
   - ./externalsecret.yaml
   - ./pvc.yaml
   - ./helmrelease.yaml
-  - ./cronjob.yaml
-  - ./job.yaml
-  - ./config.yaml
 # configMapGenerator:
 #   - name: nginx-cm
 #     files:

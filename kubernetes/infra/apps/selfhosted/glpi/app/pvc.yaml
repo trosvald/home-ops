@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: glpi-files
+  name: glpi
   namespace: selfhosted
 spec:
   storageClassName: local-hostpath
@@ -11,29 +11,3 @@ spec:
   resources:
     requests:
       storage: 10Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: glpi-marketplace
-  namespace: selfhosted
-spec:
-  storageClassName: local-hostpath
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: glpi-etc
-  namespace: selfhosted
-spec:
-  storageClassName: local-hostpath
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 50Mi
