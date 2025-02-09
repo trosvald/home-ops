@@ -8,11 +8,12 @@ resources:
   - ./helmrelease.yaml
   - ./cronjob.yaml
   - ./job.yaml
-configMapGenerator:
-  - name: nginx-cm
-    files:
-      - ./resources/nginx.conf
-generatorOptions:
-  disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
+  - ./config.yaml
+# configMapGenerator:
+#   - name: nginx-cm
+#     files:
+#       - ./resources/nginx.conf
+# generatorOptions:
+#   disableNameSuffixHash: true
+#   annotations:
+#     kustomize.toolkit.fluxcd.io/substitute: disabled
