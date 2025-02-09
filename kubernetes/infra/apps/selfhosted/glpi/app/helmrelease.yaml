@@ -40,8 +40,8 @@ spec:
         containers:
           app:
             image:
-              repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/elastio/glpi
-              tag: 10.0.16
+              repository: registry.${CLUSTER_SECRET_PRD_DOMAIN}/docker.io/elestio/glpi
+              tag: 10.0.16@sha256:7465aee6211601814464c1635eedf8649360db98426d34920aba44f51b7d89c5
             envFrom:
               - secretRef:
                   name: glpi-secret
