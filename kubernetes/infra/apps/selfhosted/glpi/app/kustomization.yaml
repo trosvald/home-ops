@@ -9,9 +9,9 @@ resources:
   - ./cronjob.yaml
   - ./job.yaml
 configMapGenerator:
-  - name: nginx-config
+  - name: nginx-cm
     files:
-      - default.conf=./resources/nginx.conf
+      - ./resources/nginx.conf
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
