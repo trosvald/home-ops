@@ -26,12 +26,12 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    defaultPodOptions:
-      securityContext:
-        runAsUser: 82
-        runAsGroup: 82
-        fsGroup: 82
-        fsGroupChangePolicy: "OnRootMismatch"
+    # defaultPodOptions:
+    #   securityContext:
+    #     runAsUser: 82
+    #     runAsGroup: 82
+    #     fsGroup: 82
+    #     fsGroupChangePolicy: "OnRootMismatch"
     controllers:
       glpi:
         type: deployment
