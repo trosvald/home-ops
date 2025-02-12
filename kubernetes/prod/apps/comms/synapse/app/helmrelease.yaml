@@ -24,7 +24,7 @@ spec:
         secret.reloader.stakater.com/reload: &secret synapse-secret
     image:
       repository: ghcr.io/element-hq/synapse
-      tag: v1.123.0
+      tag: v1.124.0
     serverName: ${CLUSTER_SECRET_PRD_DOMAIN}
     publicServerName: matrix.${CLUSTER_SECRET_PRD_DOMAIN}
     wellknown:
