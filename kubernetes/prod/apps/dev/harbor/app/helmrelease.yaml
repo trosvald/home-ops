@@ -101,7 +101,7 @@ spec:
     portal:
       image:
         repository: ghcr.io/octohelm/harbor/harbor-portal
-        tag: v2.12.0
+        tag: v2.12.2
       revisionHistoryLimit: 3
     core:
       image:
