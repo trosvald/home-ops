@@ -34,7 +34,7 @@ jobs:
           BOT_APP_PRIVATE_KEY: op://Automation/actions-runner-controller/GITHUB_APP_PRIVATE_KEY
 
       - name: Generate Token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v2
         id: app-token
         with:
           app-id: ${{ env.BOT_APP_ID }}
@@ -84,7 +84,7 @@ jobs:
           MINIO_SECRET_KEY: op://Automation/minio/TERRAFORM_S3_SECRET_KEY
 
       - name: Generate Token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v2
         id: app-token
         with:
           app-id: ${{ env.BOT_APP_ID }}
