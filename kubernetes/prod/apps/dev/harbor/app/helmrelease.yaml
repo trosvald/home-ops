@@ -157,7 +157,7 @@ spec:
       internal:
         image:
           repository: ghcr.io/octohelm/harbor/redis-photon
-          tag: v2.12.2
+          tag: v2.13.0
       # external:
       #   # support redis, redis+sentinel
       #   # addr for redis: <host_redis>:<port_redis>
