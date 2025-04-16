@@ -113,7 +113,7 @@ spec:
     jobservice:
       image:
         repository: ghcr.io/octohelm/harbor/harbor-jobservice
-        tag: v2.12.2
+        tag: v2.13.0
       revisionHistoryLimit: 3
     registry:
       registry:
