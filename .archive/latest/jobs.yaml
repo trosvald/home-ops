@@ -1,0 +1,149 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    meta.helm.sh/release-name: frappe-bench
+    meta.helm.sh/release-namespace: biz
+  generation: 1
+  labels:
+    app.kubernetes.io/instance: frappe-bench
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: erpnext
+    app.kubernetes.io/version: v15.48.0
+    helm.sh/chart: erpnext-7.0.152
+    helm.toolkit.fluxcd.io/name: frappe-bench
+    helm.toolkit.fluxcd.io/namespace: biz
+  name: frappe-bench-erpnext-new-site-erp
+  namespace: biz
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+      - args:
+        - |
+          set -x;
+          bench get-app --branch=version-15 --resolve-deps hrms https://github.com/frappe/hrms;
+          bench get-app https://github.com/agile-technica/erpnext-indonesia-localization.git;
+          bench_output=$(bench new-site ${SITE_NAME} \
+            --db-type=${DB_TYPE} \
+            --db-host=${DB_HOST} \
+            --db-port=${DB_PORT} \
+            --admin-password=${ADMIN_PASSWORD} \
+            --mariadb-user-host-login-scope=% \
+            --mariadb-root-username=${DB_ROOT_USER} \
+            --mariadb-root-password=${DB_ROOT_PASSWORD} \
+            --install-app=erpnext \
+            --install-app=erpnext_indonesia_localization \
+            --install-app=hrms \
+           | tee /dev/stderr);
+
+          bench_exit_status=$?;
+          if [ $bench_exit_status -ne 0 ]; then
+
+              # Don't consider the case "site already exists" an error.
+              if [[ $bench_output == *"already exists"* ]]; then
+                  echo "Site already exists, continuing...";
+              else
+                  echo "An error occurred in bench new-site: $bench_output"
+                  exit $bench_exit_status;
+              fi
+          fi
+          set -e;
+          rm -f currentsite.txt
+        command:
+        - bash
+        - -c
+        env:
+        - name: SITE_NAME
+          value: erp.monosense.io
+        - name: DB_TYPE
+          value: mariadb
+        - name: DB_HOST
+          value: mariadb-galera-maxscale.database.svc.cluster.local
+        - name: DB_PORT
+          value: "3306"
+        - name: DB_ROOT_USER
+          valueFrom:
+            secretKeyRef:
+              key: ERPNEXT_MARIADB_USER
+              name: erpnext-secret
+        - name: DB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: db-root-password
+              name: frappe-bench
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: ERPNEXT_ADMIN_PASSWORD
+              name: erpnext-secret
+        image: registry.monosense.io/docker.io/frappe/erpnext:v15.48.0
+        imagePullPolicy: IfNotPresent
+        name: create-site
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - CAP_CHOWN
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /home/frappe/frappe-bench/sites
+          name: sites-dir
+        - mountPath: /home/frappe/frappe-bench/logs
+          name: logs
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - args:
+        - |
+          export start=`date +%s`; until [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".db_host // empty"` ]] && \
+
+            [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_cache // empty"` ]] && \
+            [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_queue // empty"` ]];
+          do
+
+            echo "Waiting for sites/common_site_config.json to be created";
+            sleep 5;
+            if (( `date +%s`-start > 600 )); then
+              echo "could not find sites/common_site_config.json with required keys";
+              exit 1
+            fi
+          done; echo "sites/common_site_config.json found";
+          echo "Waiting for database to be reachable..."; wait-for-it -t 180 $(DB_HOST):$(DB_PORT); echo "Database is reachable.";
+        command:
+        - bash
+        - -c
+        env:
+        - name: DB_HOST
+          value: mariadb-galera-maxscale.database.svc.cluster.local
+        - name: DB_PORT
+          value: "3306"
+        image: registry.monosense.io/docker.io/frappe/erpnext:v15.48.0
+        imagePullPolicy: IfNotPresent
+        name: validate-config
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - CAP_CHOWN
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /home/frappe/frappe-bench/sites
+          name: sites-dir
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext:
+        supplementalGroups:
+        - 1000
+      serviceAccount: frappe-bench-erpnext
+      serviceAccountName: frappe-bench-erpnext
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: sites-dir
+        persistentVolumeClaim:
+          claimName: frappe-bench-erpnext
+      - name: logs
+        persistentVolumeClaim:
+          claimName: frappe-bench-erpnext-logs

@@ -1,0 +1,32 @@
+{
+    $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+    extends: [
+      ':skipStatusChecks',
+      'github>sekjen-dpr/renovate-config',
+      'github>trosvald/home-ops//.renovate/autoMerge.json5',
+      'github>trosvald/home-ops//.renovate/customManagers.json5',
+      'github>trosvald/home-ops//.renovate/grafanaDashboards.json5',
+      'github>trosvald/home-ops//.renovate/groups.json5',
+      'github>trosvald/home-ops//.renovate/packageRules.json5',
+      ':semanticCommits',
+    ],
+    ignorePaths: [
+      '**/*.sops.*',
+      '**/resources/**',
+    ],
+    flux: {
+      managerFilePatterns: [
+        '/(^|/)kubernetes/.+\\.ya?ml$/',
+      ],
+    },
+    'helm-values': {
+      managerFilePatterns: [
+        '/(^|/)kubernetes/.+\\.ya?ml$/',
+      ],
+    },
+    kubernetes: {
+      managerFilePatterns: [
+        '/(^|/)kubernetes/.+\\.ya?ml$/',
+      ],
+    },
+  }

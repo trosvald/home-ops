@@ -1,0 +1,25 @@
+[env]
+# File paths
+KUBECONFIG = "{{config_root}}/kubernetes/clusters/prod/kubeconfig:{{config_root}}/kubernetes/clusters/dev/kubeconfig"
+MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
+SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"
+TALOSCONFIG = "{{config_root}}/talos/prod/talosconfig:{{config_root}}/talos/dev/talosconfig"
+
+# File paths
+BOOTSTRAP_DIR = "{{config_root}}/bootstrap"
+KUBERNETES_DIR = "{{config_root}}/kubernetes"
+ROOT_DIR = "{{config_root}}"
+SHARED_DIR = "{{config_root}}/components"
+SCRIPTS_DIR = "{{config_root}}/scripts"
+TALOS_DIR = "{{config_root}}/talos"
+
+_.file = [
+  "{{config_root}}/onepassword.env",
+  "{{config_root}}/kubernetes/apps/base/kube-tools/system-upgrade-controller/versions.env"
+]
+#_.python.venv = { path = "{{config_root}}/.venv", create = true }
+
+#[tools]
+#"python" = "3.13"
+#"uv" = "latest"
+#"pipx:flux-local" = "latest"

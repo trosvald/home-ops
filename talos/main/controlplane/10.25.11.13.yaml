@@ -1,0 +1,35 @@
+---
+machine:
+  install:
+    diskSelector:
+      model: "Samsung SSD 860"
+      # model: "MTFDDAV512TBN-1A"
+  disks:
+    - device: /dev/disk/by-id/scsi-35000cca04a2538bc
+      partitions: [{ mountpoint: /var/mnt/extra }]
+  network:
+    hostname: m2.monosense.io
+    interfaces:
+      - interface: bond0
+        bond:
+          deviceSelectors: [{ hardwareAddr: "90:e2:ba:d5:7c:*" }]
+          mode: active-backup
+          miimon: 1000
+        dhcp: false
+        mtu: 9000
+        addresses: [10.25.11.13/24]
+        routes: [{ network: "0.0.0.0/0", gateway: "10.25.11.1" }]
+        vip:
+          ip: 10.25.11.10
+  nodeLabels:
+    topology.kubernetes.io/zone: bsd-lat-01
+# ---
+# apiVersion: v1alpha1
+# kind: UserVolumeConfig
+# name: openebs
+# provisioning:
+#   diskSelector:
+#     match: disk.wwid == "naa.5000cca04a2538bc"
+#   maxSize: 200GiB
+# filesystem:
+#   type: xfs
