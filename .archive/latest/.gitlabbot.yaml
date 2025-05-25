@@ -1,8 +1,0 @@
----
-gitlab:
-  host:
-  private_token:
-
-project:
-  project_id:
-  merge_request_iid:
