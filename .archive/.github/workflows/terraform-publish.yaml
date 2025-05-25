@@ -18,13 +18,13 @@ jobs:
       packages: write
     steps:
       - name: Configure 1password
-        uses: 1password/load-secrets-action/configure@v2
+        uses: 1password/load-secrets-action/configure@581a835fb51b8e7ec56b71cf2ffddd7e68bb25e0 # v2
         with:
           connect-host: ${{ secrets.OP_CONNECT_HOST }}
           connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
 
       - name: Get Secrets
-        uses: 1password/load-secrets-action@v2
+        uses: 1password/load-secrets-action@581a835fb51b8e7ec56b71cf2ffddd7e68bb25e0 # v2
         with:
           export-env: true
         env:
@@ -32,14 +32,14 @@ jobs:
           BOT_APP_PRIVATE_KEY: op://Automation/actions-runner-controller/GITHUB_APP_PRIVATE_KEY
 
       - name: Generate Token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2
         id: app-token
         with:
           app-id: ${{ env.BOT_APP_ID }}
           private-key: ${{ env.BOT_APP_PRIVATE_KEY }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           token: ${{ steps.app-token.outputs.token }}
 
@@ -51,7 +51,7 @@ jobs:
         run: brew install fluxcd/tap/flux
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
