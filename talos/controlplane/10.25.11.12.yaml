@@ -1,0 +1,34 @@
+---
+machine:
+  install:
+    diskSelector:
+      model: "Samsung SSD 860"
+  # disks:
+  #   - device: /dev/disk/by-id/xxxxxx
+  #     partitions: [{ mountpoint: /var/mnt/extra }]
+  network:
+    hostname: p1
+    interfaces:
+      - interface: bond0
+        bond:
+          deviceSelectors: [{ hardwareAddr: "e4:1d:85:75:d8:*" }]
+          mode: active-backup
+          miimon: 1000
+        dhcp: false
+        mtu: 9000
+        addresses: [10.25.11.12/24]
+        routes: [{ network: "0.0.0.0/0", gateway: "10.25.11.1" }]
+        vlans:
+          - { vlanId: 2512, dhcp: false, mtu: 1500 }
+  nodeLabels:
+    topology.kubernetes.io/zone: bsd-lat-mono
+# ---
+# apiVersion: v1alpha1
+# kind: UserVolumeConfig
+# name: openebs
+# provisioning:
+#   diskSelector:
+#     match: disk.wwid == "naa.5000cca04a2538bc"
+#   maxSize: 200GiB
+# filesystem:
+#   type: xfs

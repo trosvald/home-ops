@@ -1,0 +1,10 @@
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: lb-pool
+spec:
+  allowFirstLastIPs: "No"
+  blocks:
+    - cidr: 10.25.11.0/24
+    - cidr: ::ffff:10.25.11.0/120 # IPv4-mapped IPv6

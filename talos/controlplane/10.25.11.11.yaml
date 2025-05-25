@@ -1,0 +1,34 @@
+---
+machine:
+  install:
+    diskSelector:
+      model: "MTFDDAV512TBN-1A"
+  # disks:
+  #   - device: /dev/disk/by-id/xxxxxxxxxxxx
+  #     partitions: [{ mountpoint: /var/mnt/extra }]
+  network:
+    hostname: p0
+    interfaces:
+      - interface: bond0
+        bond:
+          deviceSelectors: [{ hardwareAddr: "ec:0d:9a:00:27:90:*" }]
+          mode: active-backup
+          miimon: 1000
+        dhcp: false
+        mtu: 9000
+        addresses: [10.25.11.11/24]
+        routes: [{ network: "0.0.0.0/0", gateway: "10.25.11.1" }]
+        vlans:
+          - { vlanId: 2512, dhcp: false, mtu: 1500 }
+  nodeLabels:
+    topology.kubernetes.io/zone: bsd-lat-mono
+# ---
+# apiVersion: v1alpha1
+# kind: UserVolumeConfig
+# name: openebs
+# provisioning:
+#   diskSelector:
+#     match: disk.wwid == "naa.5000cca04a2538bc"
+#   maxSize: 200GiB
+# filesystem:
+#   type: xfs

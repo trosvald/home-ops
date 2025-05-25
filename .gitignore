@@ -7,6 +7,8 @@ onepassword.env
 Brewfile.lock.json
 # Kubernetes
 kubeconfig
+talsecret.yaml
+secrets.txt
 .decrypted~*
 *.secret.env
 *.secret.yaml

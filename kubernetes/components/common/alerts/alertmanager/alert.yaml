@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://kube-schemas.pages.dev/notification.toolkit.fluxcd.io/alert_v1beta3.json
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
@@ -26,4 +25,3 @@ spec:
     - "error.*lookup raw\\.githubusercontent\\.com"
     - "dial.*tcp.*timeout"
     - "waiting.*socket"
-  suspend: false
