@@ -4,7 +4,7 @@ debug: false
 
 storage:
   type: postgres
-  path: $${DB_URI}
+  path: ${DB_URI}
   caching: true
 
 connectivity:

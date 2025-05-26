@@ -63,8 +63,8 @@ spec:
               DB_URI:
                 valueFrom:
                   secretKeyRef:
-                  name: gatus-pguser-secret
-                  key: uri
+                    name: gatus-pguser-secret
+                    key: uri
             envFrom:
               - secretRef:
                   name: gatus-secret
