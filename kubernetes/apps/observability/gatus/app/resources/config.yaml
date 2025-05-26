@@ -40,17 +40,9 @@ endpoints:
     alerts:
       - type: telegram
 
-  - name: flux-webhook
-    url: https://flux-webhook.monosense.io
-    interval: 1m
-    client:
-      dns-resolver: tcp://8.8.8.8:53
-    conditions:
-      - "[STATUS] == 404"
-
 ui:
   title: Status | Gatus
-  header: mono cluster
+  header: Health Status
   logo: https://avatars.githubusercontent.com/u/11927171
   link: https://github.com/trosvald
   buttons:
