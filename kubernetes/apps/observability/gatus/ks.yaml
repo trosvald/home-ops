@@ -20,6 +20,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      GATUS_SUBDOMAIN: status
       GATUS_PATH: /health
   prune: true
   retryInterval: 2m
