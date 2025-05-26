@@ -71,13 +71,13 @@ spec:
         runAsNonRoot: true
         runAsUser: 568
         runAsGroup: 568
-    service:
-      app:
-        ports:
-          http:
-            port: *port
-    serviceMonitor:
-      app:
-        serviceName: *app
-        endpoints:
-          - port: http
+    # service:
+    #   app:
+    #     ports:
+    #       http:
+    #         port: *port
+    # serviceMonitor:
+    #   app:
+    #     serviceName: *app
+    #     endpoints:
+    #       - port: http
