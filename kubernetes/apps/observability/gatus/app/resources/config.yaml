@@ -16,11 +16,11 @@ connectivity:
 
 endpoints:
   - name: hearbeat
-    group: healthcheck
+    group: external
     # ui:
     #   hide-hostname: true
     #   hide-url: true
-    url: ${STATUS_PAGE_HEARTBEAT_URL}
+    url: "https://hc-ping.com/eb9c12b0-4301-413d-8525-06a414702b64"
     interval: 1m
     client:
       dns-resolver: tcp://8.8.8.8:53
@@ -31,7 +31,7 @@ endpoints:
         send-on-resolved: true
 
   - name: s3.monosense.dev
-    group: certificates
+    group: domain
     url: https://s3.monosense.dev
     interval: 24h
     conditions:
