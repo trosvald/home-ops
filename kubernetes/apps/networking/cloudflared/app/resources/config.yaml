@@ -1,0 +1,10 @@
+---
+originRequest:
+  originServerName: external.monosense.io
+
+ingress:
+  - hostname: monosense.io
+    service: &service https://cilium-gateway-external.kube-system.svc.cluster.local
+  - hostname: "*.monosense.io"
+    service: *service
+  - service: http_status:404
