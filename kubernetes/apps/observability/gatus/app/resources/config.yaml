@@ -17,9 +17,9 @@ connectivity:
 endpoints:
   - name: hearbeat
     group: external
-    ui:
-      hide-hostname: true
-      hide-url: true
+    # ui:
+    #   hide-hostname: true
+    #   hide-url: true
     url: ${STATUS_PAGE_HEARTBEAT_URL}
     interval: 1m
     client:
