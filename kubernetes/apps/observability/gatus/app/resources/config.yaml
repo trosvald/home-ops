@@ -1,10 +1,40 @@
 ---
+metrics: true
+debug: false
+
+storage:
+  type: postgres
+  path: ${DB_URI}
+  caching: true
+
 connectivity:
   checker:
     target: 1.1.1.1:53
     interval: 1m
 
 endpoints:
+  - name: hearbeat
+    group: external
+    ui:
+      hide-hostname: true
+      hide-url: true
+    url: ${STATUS_PAGE_HEARTBEAT_URL}
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: s3.monosense.dev
+    group: certificates
+    url: tls://s3.monosense.dev:443
+    interval: 24h
+    conditions:
+      - "[CONNECTED] == true"
+      - "[CERTIFICATE_EXPIRATION] == 336h"
+    alerts:
+      - type: telegram
+
   - name: flux-webhook
     url: https://flux-webhook.monosense.io
     interval: 1m
@@ -12,13 +42,6 @@ endpoints:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
       - "[STATUS] == 404"
-
-metrics: true
-
-storage:
-  type: postgres
-  path: postgres://${INIT_POSTGRES_USER}:${INIT_POSTGRES_PASS}@${INIT_POSTGRES_HOST}:5432/${INIT_POSTGRES_DBNAME}?sslmode=disable
-  caching: true
 
 ui:
   title: Status | Gatus
