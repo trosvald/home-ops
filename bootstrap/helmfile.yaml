@@ -31,7 +31,8 @@ releases:
 
   - name: spegel
     namespace: kube-system
-    chart: oci://ghcr.io/spegel-org/helm-charts/spegel
+    # chart: oci://ghcr.io/spegel-org/helm-charts/spegel
+    chart: oci://ghcr.io/spegel-org/helm-charts
     version: 0.2.0
     values: ["../kubernetes/apps/kube-system/spegel/app/helm/values.yaml"]
     needs: ["kube-system/coredns"]
