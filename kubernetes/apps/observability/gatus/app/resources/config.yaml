@@ -6,7 +6,10 @@ storage:
   type: postgres
   path: ${DB_URI}
   caching: true
-
+alerting:
+  telegram:
+    id: ${TELEGRAM_CHANNEL_ID}
+    token: ${TELEGRAM_TOKEN}
 connectivity:
   checker:
     target: 1.1.1.1:53
@@ -24,6 +27,9 @@ endpoints:
       dns-resolver: tcp://1.1.1.1:53
     conditions:
       - "[STATUS] == 200"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
 
   - name: s3.monosense.dev
     group: certificates
