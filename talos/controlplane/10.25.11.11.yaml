@@ -13,7 +13,7 @@ machine:
         bond:
           deviceSelectors: [{ hardwareAddr: "ec:0d:9a:00:27:*" }]
           mode: 802.3ad
-          xmitHashPolicy: layer2
+          xmitHashPolicy: layer2+3
           lacpRate: fast
           miimon: 100
         dhcp: false
@@ -21,7 +21,7 @@ machine:
         addresses: [10.25.11.11/24]
         routes: [{ network: "0.0.0.0/0", gateway: "10.25.11.1" }]
         vlans:
-          - { vlanId: 2512, dhcp: false, mtu: 1500 }
+          - { vlanId: 2512, dhcp: false, mtu: 9000 }
   nodeLabels:
     topology.kubernetes.io/zone: bsd-lat-mono
 # ---
