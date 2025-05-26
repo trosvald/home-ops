@@ -39,4 +39,4 @@ metadata:
 type: kubernetes.io/tls
 data:
   tls.crt: op://Automation/monosense-io-tls/tls.crt
-  tls.key: op://Automation/monosense-tls/tls.key
+  tls.key: op://Automation/monosense-io-tls/tls.key
