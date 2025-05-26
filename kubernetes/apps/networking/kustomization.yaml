@@ -5,7 +5,7 @@ namespace: networking
 components:
   - ../../components/common
 resources:
-  # - ./cloudflared/ks.yaml
+  - ./cloudflared/ks.yaml
   # - ./echo-server/ks.yaml
   - ./external-dns/ks.yaml
   # - ./multus/ks.yaml
