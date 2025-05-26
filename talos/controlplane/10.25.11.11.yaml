@@ -13,7 +13,7 @@ machine:
         bond:
           deviceSelectors: [{ hardwareAddr: "ec:0d:9a:00:27:*" }]
           mode: 802.3ad
-          xmitHashPolicy: layer2+3
+          xmitHashPolicy: layer3+4
           lacpRate: fast
           miimon: 100
         dhcp: false
