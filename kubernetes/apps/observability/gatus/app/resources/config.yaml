@@ -16,7 +16,7 @@ connectivity:
 
 endpoints:
   - name: hearbeat
-    group: external
+    group: healthcheck
     # ui:
     #   hide-hostname: true
     #   hide-url: true
