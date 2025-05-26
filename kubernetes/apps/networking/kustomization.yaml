@@ -4,10 +4,10 @@ kind: Kustomization
 namespace: networking
 components:
   - ../../components/common
-resources: []
+resources:
   # - ./cloudflared/ks.yaml
   # - ./echo-server/ks.yaml
-  # - ./external-dns/ks.yaml
+  - ./external-dns/ks.yaml
   # - ./multus/ks.yaml
   # - ./smtp-relay/ks.yaml
   # - ./tailscale/ks.yaml
