@@ -5,6 +5,11 @@ metadata:
   name: external-secrets
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: flux-system
+---
+apiVersion: v1
 kind: Secret
 metadata:
   name: onepassword-secret
