@@ -33,8 +33,8 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://database/
-      endpointURL: https://eca0833f608b5745af030307a99bdbb4.r2.cloudflarestorage.com
+      destinationPath: s3://postgres/main
+      endpointURL: https://s3.monosense.dev
       # Note: serverName version needs to be inclemented
       # when recovering from an existing cnpg cluster
       serverName: postgres-v1
