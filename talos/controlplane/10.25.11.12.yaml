@@ -12,7 +12,9 @@ machine:
       - interface: bond0
         bond:
           deviceSelectors: [{ hardwareAddr: "e4:1d:85:75:d8:*" }]
-          mode: active-backup
+          mode: 802.3ad
+          xmitHashPolicy: layer3+4
+          lacpRate: fast
           miimon: 1000
         dhcp: false
         mtu: 9000
