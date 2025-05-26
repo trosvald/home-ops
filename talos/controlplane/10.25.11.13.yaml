@@ -14,7 +14,7 @@ machine:
           deviceSelectors: [{ hardwareAddr: "7c:fe:90:a2:c5:*" }]
           mode: 802.3ad
           xmitHashPolicy: layer3+4
-          lacpRate: fast
+          lacpRate: slow
           miimon: 100
         dhcp: false
         mtu: 9000
