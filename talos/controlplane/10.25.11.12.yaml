@@ -15,7 +15,7 @@ machine:
           mode: 802.3ad
           xmitHashPolicy: layer3+4
           lacpRate: fast
-          miimon: 1000
+          miimon: 100
         dhcp: false
         mtu: 9000
         addresses: [10.25.11.12/24]
