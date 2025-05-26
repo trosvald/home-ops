@@ -8,6 +8,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/gatus/external
   dependsOn:
     - name: flux-operator
       namespace: *namespace
@@ -15,6 +17,10 @@ spec:
       namespace: external-secrets
   interval: 1h
   path: ./kubernetes/apps/flux-system/flux-instance/app
+  postBuild:
+    substitute:
+      APP: flux-webhook
+      GATUS_STATUS: '404'
   prune: true
   retryInterval: 2m
   sourceRef:
