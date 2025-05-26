@@ -10,7 +10,7 @@ metadata:
   name: external-dns-bind
 rules:
 - apiGroups: [""]
-  resources: ["namespaces"]
+  resources: ["namespaces", "services", "endpoints", "pods", "nodes"]
   verbs: ["get", "watch", "list"]
 - apiGroups: ["gateway.networking.k8s.io"]
   resources: ["httproutes", "gateways"]
