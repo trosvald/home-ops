@@ -11,7 +11,7 @@ alerting:
     token: ${TELEGRAM_TOKEN}
 connectivity:
   checker:
-    target: 1.1.1.1:53
+    target: 8.8.8.8:53
     interval: 1m
 
 endpoints:
@@ -23,7 +23,7 @@ endpoints:
     url: ${STATUS_PAGE_HEARTBEAT_URL}
     interval: 1m
     client:
-      dns-resolver: tcp://1.1.1.1:53
+      dns-resolver: tcp://8.8.8.8:53
     conditions:
       - "[STATUS] == 200"
     alerts:
@@ -32,7 +32,7 @@ endpoints:
 
   - name: s3.monosense.dev
     group: certificates
-    url: tls://s3.monosense.dev:443
+    url: https://s3.monosense.dev
     interval: 24h
     conditions:
       - "[CONNECTED] == true"
@@ -44,7 +44,7 @@ endpoints:
     url: https://flux-webhook.monosense.io
     interval: 1m
     client:
-      dns-resolver: tcp://1.1.1.1:53
+      dns-resolver: tcp://8.8.8.8:53
     conditions:
       - "[STATUS] == 404"
 
