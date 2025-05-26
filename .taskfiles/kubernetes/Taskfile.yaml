@@ -40,6 +40,17 @@ tasks:
     preconditions:
       - which kubectl
 
+  push-secrets:
+    desc: Sync all PushSecrets
+    cmds:
+      - for: { var: SECRETS, split: "\n" }
+        cmd: kubectl --namespace {{splitList "," .ITEM | first}} annotate pushsecret {{splitList "," .ITEM | last}} force-sync="{{now | unixEpoch}}" --overwrite
+    vars:
+      SECRETS:
+        sh: kubectl get pushsecret --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}'
+    preconditions:
+      - which kubectl
+
   cleanse-pods:
     desc: Cleanse pods with a Failed/Pending/Succeeded phase
     cmds:
