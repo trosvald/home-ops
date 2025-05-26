@@ -1,0 +1,121 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: "Terraform Diff"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: ["main"]
+    paths: ["terraform/**"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changed-terraform:
+    name: Changed Terraform
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.changed-terraform.outputs.all_changed_and_modified_files }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Get Changed Terraform
+        id: changed-terraform
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
+        with:
+          files: terraform/**
+          dir_names: true
+          dir_names_max_depth: 2
+          matrix: true
+
+      - name: List All Changed Terraform
+        run: echo ${{ steps.changed-terraform.outputs.all_changed_and_modified_files }}
+
+  sync:
+    name: Terraform Diff
+    runs-on: [home-ops-runner] #Backend is stored on local minio with no external ingress
+    needs: ["changed-terraform"]
+    strategy:
+      matrix:
+        paths: ${{ fromJSON(needs.changed-terraform.outputs.matrix) }}
+      max-parallel: 4
+      fail-fast: false
+    steps:
+      - name: Configure 1password
+        uses: 1password/load-secrets-action/configure@581a835fb51b8e7ec56b71cf2ffddd7e68bb25e0 # v2.0.0
+        with:
+          connect-host: ${{ secrets.OP_CONNECT_HOST }}
+          connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
+
+      - name: Get Secrets
+        uses: 1password/load-secrets-action@581a835fb51b8e7ec56b71cf2ffddd7e68bb25e0 # v2.0.0
+        with:
+          export-env: true
+        env:
+          MINIO_ACCESS_KEY: op://Automation/minio/MINIO_ACCESS_KEY
+          MINIO_SECRET_KEY: op://Automation/minio/MINIO_SECRET_KEY
+
+      - name: Generate Token
+        uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2.0.6
+        id: app-token
+        with:
+          app-id: ${{ secrets.TROSVALD_APP_ID }}
+          private-key: ${{ secrets.TROSVALD_APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Install Opentofu
+        uses: opentofu/setup-opentofu@592200bd4b9bbf4772ace78f887668b1aee8f716 # v1.0.5
+        with:
+          tofu_wrapper: false
+
+      - name: Install 1Password CLI
+        uses: 1password/install-cli-action@143a85f84a90555d121cde2ff5872e393a47ab9f # v1.0.0
+
+      - name: Tofu fmt
+        id: fmt
+        working-directory: ${{ matrix.paths }}
+        run: tofu fmt -check
+        continue-on-error: true
+
+      - name: Tofu Init
+        id: init
+        working-directory: ${{ matrix.paths }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ env.MINIO_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ env.MINIO_SECRET_KEY }}
+        run: |
+          tofu init \
+            -backend-config="access_key=$AWS_ACCESS_KEY_ID" \
+            -backend-config="secret_key=$AWS_SECRET_ACCESS_KEY"
+
+      - name: Tofu Validate
+        id: validate
+        working-directory: ${{ matrix.paths }}
+        run: tofu validate -no-color
+
+      - name: Tofu Plan
+        working-directory: ${{ matrix.paths }}
+        run: tofu plan -lock=false -var "OP_CONNECT_TOKEN=${{ secrets.OP_CONNECT_TOKEN }}" -var "OP_CONNECT_HOST=${{ secrets.OP_CONNECT_HOST }}" -out .planfile | grep -v "Refreshing state...\|Reading...\|Read complete after"
+
+      - name: Post PR comment
+        continue-on-error: true
+        uses: borchero/terraform-plan-comment@434458316f8f24dd073cd2561c436cce41dc8f34 # v2.4.1
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          planfile: .planfile
+          terraform-cmd: tofu
+          header: "📝 Terraform Plan for ${{ matrix.paths }}"
+          working-directory: ${{ matrix.paths }}
