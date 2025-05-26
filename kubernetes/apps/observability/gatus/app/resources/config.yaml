@@ -1,6 +1,5 @@
 ---
 metrics: true
-debug: true
 
 storage:
   type: postgres
