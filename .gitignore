@@ -9,6 +9,7 @@ Brewfile.lock.json
 kubeconfig
 talsecret.yaml
 secrets.txt
+cloudflare-tunnel.json
 .decrypted~*
 *.secret.env
 *.secret.yaml
