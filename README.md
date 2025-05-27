@@ -24,7 +24,7 @@ _... managed with Flux, Renovate, GitHub Actions, GitLab CI_ 🤖
 
 [![Home-Internet](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2Fdb69df2e-c93d-4e39-b9f6-6689be941116.shields?color=brightgreeen&label=WAN&style=for-the-badge&logo=battle.net&logoColor=white)](https://status.monosense.io)&nbsp;&nbsp;
 [![Status-Page](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2Fdb69df2e-c93d-4e39-b9f6-6689be941116.shields?color=brightgreeen&label=Status%20Page&style=for-the-badge&logo=statuspage&logoColor=white)](https://status.monosense.io)&nbsp;&nbsp;
-[![Alertmanager](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2Fec273744-4a6a-4726-a8e8-1732e489ffc6.shields&style=for-the-badge&logo=prometheus&logoColor=white&label=Alertmanager)](https://status.k13.dev)
+[![Alertmanager](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2Fec273744-4a6a-4726-a8e8-1732e489ffc6.shields&style=for-the-badge&logo=prometheus&logoColor=white&label=Alertmanager)](https://status.monosense.io)
 
 </div>
 <div align="center">
