@@ -5,6 +5,7 @@ namespace: observability
 components:
   - ../../components/common
 resources:
+  - ./alertmanager-telegram/ks.yaml
   # - ./blackbox-exporter/ks.yaml
   # - ./gatus/ks.yaml
   # - ./grafana/ks.yaml
