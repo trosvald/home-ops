@@ -37,7 +37,7 @@ resource "authentik_brand" "default" {
 }
 resource "authentik_brand" "home" {
   domain           = var.CLUSTER_DOMAIN
-  default          = true
+  default          = false
   branding_title   = "MonoSense"
   branding_logo    = "/static/dist/assets/icons/icon_left_brand.svg"
   branding_favicon = "/static/dist/assets/icons/icon.png"
