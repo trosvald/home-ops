@@ -57,7 +57,7 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
-      env:
+      env: &env
         - name: AUTHENTIK_POSTGRESQL__NAME
           value: *app
         - name: AUTHENTIK_POSTGRESQL__HOST
@@ -75,7 +75,7 @@ spec:
             secretKeyRef:
               name: authentik-pguser-secret
               key: password
-      envFrom:
+      envFrom: &envFrom
         - secretRef:
             name: authentik-secret
     authentik:
@@ -89,6 +89,8 @@ spec:
       rules:
         enabled: true
     worker:
+      env: *env
+      envFrom: *envFrom
       autoscaling:
         enabled: true
         minReplicas: 1
