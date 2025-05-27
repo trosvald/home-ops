@@ -66,8 +66,8 @@ spec:
         ports:
           http:
             port: 8080
-    serviceMonitor:
-      app:
-        serviceName: alertmanager-telegram
-        endpoints:
-          - port: http
+    # serviceMonitor:
+    #   app:
+    #     serviceName: alertmanager-telegram
+    #     endpoints:
+    #       - port: http
