@@ -69,14 +69,15 @@ spec:
           valueFrom:
             secretKeyRef:
               name: authentik-pguser-secret
+              key: user
         - name: AUTHENTIK_POSTGRESQL__PASSWORD
           valueFrom:
             secretKeyRef:
               name: authentik-pguser-secret
               key: password
-      # envFrom:
-      #   - secretRef:
-      #       name: authentik-secret
+      envFrom:
+        - secretRef:
+            name: authentik-secret
     authentik:
       log_level: debug
       session_storage: db
