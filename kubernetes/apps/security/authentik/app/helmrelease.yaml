@@ -32,10 +32,31 @@ spec:
       retries: 3
   values:
     global:
-      podAnnotations:
+      deploymentAnnotations:
         secret.reloader.stakater.com/reload: authentik-secret, authentik-initdb-secret, authentik-pguser-secret
       deploymentStrategy:
         type: RollingUpdate
+      envFrom:
+        - secretRef:
+            name: authentik-secret
+    server:
+      replicas: 1
+      initContainers:
+        - name: init-db
+          image: ghcr.io/home-operations/postgres-init:17.5
+          envFrom:
+            - secretRef:
+                name: authentik-initdb-secret
+      resources:
+        requests:
+          cpu: 200m
+          memory: 500Mi
+        limits:
+          memory: 1Gi
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
       env:
         - name: AUTHENTIK_POSTGRESQL__NAME
           value: *app
@@ -66,25 +87,6 @@ spec:
     prometheus:
       rules:
         enabled: true
-    server:
-      initContainers:
-        - name: init-db
-          image: ghcr.io/home-operations/postgres-init:17.5
-          envFrom:
-            - secretRef:
-                name: authentik-initdb-secret
-      autoscaling:
-        enabled: true
-        minReplicas: 1
-      resources:
-        requests:
-          cpu: 200m
-        limits:
-          memory: 1Gi
-      metrics:
-        prometheus:
-          serviceMonitor:
-            enabled: true
     worker:
       autoscaling:
         enabled: true
