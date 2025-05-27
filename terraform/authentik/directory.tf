@@ -23,11 +23,11 @@ resource "authentik_group" "default" {
   is_superuser = false
 }
 
-resource "authentik_policy_binding" "application_policy_binding" {
-  for_each = local.applications
+# resource "authentik_policy_binding" "application_policy_binding" {
+#   for_each = local.applications
 
-  target = authentik_application.application[each.key].uuid
-  group  = authentik_group.default[each.value.group].id
-  order  = 0
-}
+#   target = authentik_application.application[each.key].uuid
+#   group  = authentik_group.default[each.value.group].id
+#   order  = 0
+# }
 

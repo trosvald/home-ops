@@ -38,10 +38,10 @@ resource "authentik_provider_oauth2" "oauth2" {
   name                  = each.key
   client_id             = each.value.client_id
   client_secret         = each.value.client_secret
-  authorization_flow    = authentik_flow.provider-authorization-implicit-consent.uuid
-  authentication_flow   = authentik_flow.authentication.uuid
-  invalidation_flow     = data.authentik_flow.default-provider-invalidation-flow.id
-  property_mappings     = data.authentik_property_mapping_provider_scope.oauth2.ids
+  authorization_flow    = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow     = resource.authentik_flow.provider-invalidation.uuid
+  # authentication_flow   = authentik_flow.authentication.uuid
+  # property_mappings     = data.authentik_property_mapping_provider_scope.oauth2.ids
   access_token_validity = "hours=4"
   signing_key           = data.authentik_certificate_key_pair.generated.id
   allowed_redirect_uris = [
@@ -62,4 +62,12 @@ resource "authentik_application" "application" {
   meta_icon          = each.value.icon_url
   meta_launch_url    = each.value.launch_url
   policy_engine_mode = "all"
+}
+
+resource "authentik_policy_binding" "application_policy_binding" {
+  for_each = local.applications
+
+  target = authentik_application.application[each.key].uuid
+  group  = authentik_group.default[each.value.group].id
+  order  = 0
 }
