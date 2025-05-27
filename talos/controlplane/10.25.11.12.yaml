@@ -17,11 +17,11 @@ machine:
           lacpRate: fast
           miimon: 100
         dhcp: false
-        mtu: 9000
+        # mtu: 9000
         addresses: [10.25.11.12/24]
         routes: [{ network: "0.0.0.0/0", gateway: "10.25.11.1" }]
         vlans:
-          - { vlanId: 2512, dhcp: false, mtu: 9000 }
+          - { vlanId: 2512, dhcp: false, mtu: 1500 }
   nodeLabels:
     topology.kubernetes.io/zone: bsd-lat-mono
 # ---

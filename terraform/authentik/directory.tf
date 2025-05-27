@@ -1,9 +1,8 @@
 locals {
   authentik_groups = {
-    downloads      = { name = "Downloads" }
     home           = { name = "Home" }
     infrastructure = { name = "Infrastructure" }
-    media          = { name = "Media" }
+    arsimas        = { name = "Arsimas" }
     monitoring     = { name = "Monitoring" }
     users          = { name = "Users" }
   }
@@ -32,21 +31,3 @@ resource "authentik_policy_binding" "application_policy_binding" {
   order  = 0
 }
 
-module "onepassword_discord" {
-  source = "github.com/joryirving/terraform-1password-item"
-  vault  = "Kubernetes"
-  item   = "discord"
-}
-
-##Oauth
-resource "authentik_source_oauth" "discord" {
-  name                = "Discord"
-  slug                = "discord"
-  authentication_flow = data.authentik_flow.default-source-authentication.id
-  enrollment_flow     = authentik_flow.enrollment-invitation.uuid
-  user_matching_mode  = "email_deny"
-
-  provider_type   = "discord"
-  consumer_key    = module.onepassword_discord.fields["DISCORD_CLIENT_ID"]
-  consumer_secret = module.onepassword_discord.fields["DISCORD_CLIENT_SECRET"]
-}

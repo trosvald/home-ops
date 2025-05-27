@@ -1,7 +1,38 @@
-## Authentication flow
-data "authentik_flow" "default-source-authentication" {
-  slug = "default-source-authentication"
+## Authenticator setup
+resource "authentik_flow" "authenticator-totp-setup" {
+  name           = "authenticator-totp-setup"
+  title          = "Setup Two-Factor Authentication"
+  slug           = "authenticato-totp-setup"
+  designation    = "stage_configuration"
+  authentication = "require_authenticated"
+  # background     = "https://cdn.monosense.io/branding/Background.jpeg"
 }
+
+resource "authentik_flow_stage_binding" "authenticator-totp-setup-binding-00" {
+  target = authentik_flow.authenticator-totp-setup.uuid
+  stage  = authentik_stage_authenticator_totp.authenticator-totp-setup.id
+  order  = 0
+}
+
+resource "authentik_flow" "authenticator-webauthn-setup" {
+  name           = "authenticator-webauthn-setup"
+  title          = "Setup WebAuthn"
+  slug           = "authenticator-webauthn-setup"
+  designation    = "stage_configuration"
+  authentication = "require_authenticated"
+  # background     = "https://cdn.monosense.io/branding/Background.jpeg"
+}
+
+resource "authentik_flow_stage_binding" "authenticator-webauthn-setup-binding-00" {
+  target = authentik_flow.authenticator-webauthn-setup.uuid
+  stage  = authentik_stage_authenticator_webauthn.authenticator-webauthn-setup.id
+  order  = 0
+}
+
+## Authentication flow
+# data "authentik_flow" "default-source-authentication" {
+#   slug = "default-source-authentication"
+# }
 
 resource "authentik_flow" "authentication" {
   name               = "authentication-flow"
@@ -9,7 +40,8 @@ resource "authentik_flow" "authentication" {
   slug               = "authentication-flow"
   designation        = "authentication"
   policy_engine_mode = "all"
-  # background         = "https://placeholder.jpeg"
+  # background         = "https://cdn.monosense.io/branding/Background.jpeg"
+  layout             = "sidebar_right"
 }
 
 resource "authentik_flow_stage_binding" "authentication-flow-binding-00" {
@@ -30,10 +62,34 @@ resource "authentik_flow_stage_binding" "authentication-flow-binding-100" {
   order  = 100
 }
 
-## Invalidation flow
-data "authentik_flow" "default-provider-invalidation-flow" {
-  slug = "default-provider-invalidation-flow"
+resource "authentik_flow" "passwordless_authentication" {
+  name               = "passwordless_authentication"
+  title              = "Passkey"
+  slug               = "passwordless-flow"
+  designation        = "authentication"
+  policy_engine_mode = "all"
+  # background         = "https://cdn.monosense.io/branding/Background.jpeg"
 }
+
+resource "authentik_flow_stage_binding" "passwordless_authetication-binding-00" {
+  target = authentik_flow.passwordless_authentication.uuid
+  stage  = authentik_stage_authenticator_validate.authentication-passkey-validation.id
+  order  = 0
+}
+
+resource "authentik_flow_stage_binding" "passwordless_authenticaton-binding-10" {
+  target               = authentik_flow.passwordless_authentication.uuid
+  stage                = authentik_stage_user_login.authentication-login.id
+  evaluate_on_plan     = false
+  re_evaluate_policies = true
+  order                = 10
+}
+
+
+## Invalidation flow
+# data "authentik_flow" "default-provider-invalidation-flow" {
+#   slug = "default-provider-invalidation-flow"
+# }
 
 resource "authentik_flow" "invalidation" {
   name               = "invalidation-flow"
@@ -42,13 +98,24 @@ resource "authentik_flow" "invalidation" {
   policy_engine_mode = "any"
   designation        = "invalidation"
   denied_action      = "continue"
-  # background         = "https://placeholder.jpeg"
+  # background         = "https://cdn.monosense.io/branding/Background.jpeg"
 }
 
 resource "authentik_flow_stage_binding" "invalidation-flow-binding-00" {
   target = authentik_flow.invalidation.uuid
   stage  = authentik_stage_user_logout.invalidation-logout.id
   order  = 0
+}
+
+## Provider invalidation flow
+resource "authentik_flow" "provider-invalidation" {
+  name               = "Logged out of application"
+  title              = "You've logged out of %(app)s."
+  slug               = "provider-invalidation-flow"
+  policy_engine_mode = "any"
+  designation        = "invalidation"
+  denied_action      = "continue"
+  # background         = "https://cdn.monosense.io/branding/Background.jpeg"
 }
 
 ## Password recovery flow
@@ -58,7 +125,7 @@ resource "authentik_flow" "recovery" {
   slug               = "password-recovery"
   designation        = "recovery"
   compatibility_mode = true
-  # background         = "https://placeholder.jpeg"
+  # background         = "https://cdn.monosense.io/branding/Background.jpeg"
 }
 
 resource "authentik_flow_stage_binding" "recovery-flow-binding-00" {
@@ -86,10 +153,9 @@ resource "authentik_flow_stage_binding" "recovery-flow-binding-30" {
 }
 
 ## Invitation flow
-
-data "authentik_flow" "default-source-enrollment" {
-  slug = "default-source-enrollment"
-}
+# data "authentik_flow" "default-source-enrollment" {
+#   slug = "default-source-enrollment"
+# }
 
 resource "authentik_flow" "enrollment-invitation" {
   name               = "enrollment-invitation-flow"
@@ -97,7 +163,7 @@ resource "authentik_flow" "enrollment-invitation" {
   slug               = "enrollmment-invitation"
   designation        = "enrollment"
   compatibility_mode = true
-  # background         = "https://placeholder.jpeg"
+  # background         = "https://cdn.monosense.io/branding/Background.jpeg"
 }
 
 resource "authentik_flow_stage_binding" "enrollment-invitation-flow-binding-00" {
@@ -132,7 +198,7 @@ resource "authentik_flow" "user-settings" {
   policy_engine_mode = "any"
   denied_action      = "message_continue"
   designation        = "stage_configuration"
-  # background         = "https://placeholder.jpeg"
+  # background         = "https://cdn.monosense.io/branding/Background.jpeg"
 }
 
 resource "authentik_flow_stage_binding" "user-settings-flow-binding-20" {
@@ -155,5 +221,5 @@ resource "authentik_flow" "provider-authorization-implicit-consent" {
   policy_engine_mode = "any"
   denied_action      = "message_continue"
   designation        = "authorization"
-  # background         = "https://placeholder.jpeg"
+  # background         = "https://cdn.moosense.io/branding/Background.jpeg"
 }
