@@ -15,16 +15,16 @@ module "onepassword_application" {
 locals {
   applications = {
     grafana = {
-      client_id     = module.onepassword_application["grafana"].fields["GRAFANA_CLIENT_ID"]
-      client_secret = module.onepassword_application["grafana"].fields["GRAFANA_CLIENT_SECRET"]
+      client_id     = module.onepassword_application["grafana"].fields["GRAFANA_OIDC_CLIENT_ID"]
+      client_secret = module.onepassword_application["grafana"].fields["GRAFANA_OIDC_CLIENT_SECRET"]
       group         = "monitoring"
       icon_url      = "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/png/grafana.png"
       redirect_uri  = "https://grafana.${var.CLUSTER_DOMAIN}/login/generic_oauth"
       launch_url    = "https://grafana.${var.CLUSTER_DOMAIN}/login/generic_oauth"
     },
     headlamp = {
-      client_id     = module.onepassword_application["headlamp"].fields["HEADLAMP_CLIENT_ID"]
-      client_secret = module.onepassword_application["headlamp"].fields["HEADLAMP_CLIENT_SECRET"]
+      client_id     = module.onepassword_application["headlamp"].fields["HEADLAMP_OIDC_CLIENT_ID"]
+      client_secret = module.onepassword_application["headlamp"].fields["HEADLAMP_OIDC_CLIENT_SECRET"]
       group         = "infrastructure"
       icon_url      = "https://raw.githubusercontent.com/headlamp-k8s/headlamp/refs/heads/main/frontend/src/resources/icon-dark.svg"
       redirect_uri  = "https://headlamp.${var.CLUSTER_DOMAIN}/oidc-callback"
