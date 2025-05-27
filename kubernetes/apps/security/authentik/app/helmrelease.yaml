@@ -74,9 +74,9 @@ spec:
             secretKeyRef:
               name: authentik-pguser-secret
               key: password
-      envFrom:
-        - secretRef:
-            name: authentik-secret
+      # envFrom:
+      #   - secretRef:
+      #       name: authentik-secret
     authentik:
       log_level: debug
       session_storage: db
