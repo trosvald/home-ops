@@ -30,7 +30,7 @@ spec:
           app:
             image:
               repository: ghcr.io/janw/alertmanager-telegram
-              tag: edge@sha256:f15f5c620872a4e38fe9af7ba3d3ddc56195ae0660ebb83526805e909f2ceb86
+              tag: edge@sha256:7c0389003560c6cedd239f92f646cff3fdb31dacff98129ea42530c9cae3f8fb
             env:
               TZ: Asia/Jakarta
             envFrom:
@@ -40,8 +40,6 @@ spec:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
-        serviceAccount:
-          identifier: *app
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
