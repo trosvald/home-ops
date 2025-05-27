@@ -36,6 +36,19 @@ spec:
             envFrom:
               - secretRef:
                   name: alertmanager-telegram-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -53,3 +66,8 @@ spec:
         ports:
           http:
             port: 8080
+    serviceMonitor:
+      app:
+        serviceName: alertmanager-telegram
+        endpoints:
+          - port: http
