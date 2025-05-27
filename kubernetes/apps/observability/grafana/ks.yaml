@@ -8,11 +8,37 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/cnpg
+    - ../../../../components/dragonfly
+    # - ../../../../components/gatus/external
   dependsOn:
+    - name: cloudnative-pg-cluster
+      namespace: databases
+    - name: dragonfly-operator
+      namespace: databases
     - name: external-secrets
       namespace: external-secrets
+  healthCheckExprs:
+    - apiVersion: dragonflydb.io/v1alpha1
+      current: status.phase == 'ready'
+      failed:  status.phase != 'ready'
+      kind: Dragonfly
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+    - apiVersion: external-secrets.io/v1
+      kind: ClusterSecretStore
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
   interval: 1h
   path: ./kubernetes/apps/observability/grafana/app
+  postBuild:
+    substitute:
+      APP: *app
+      GATUS_SUBDOMAIN: grafana
+      CNPG_NAME: postgres
   prune: true
   retryInterval: 2m
   sourceRef:
