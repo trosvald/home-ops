@@ -29,7 +29,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/janw/alertmanager-telegram
+              repository: docker.io/enmanuelmoreira/alertmanager-telegram
               tag: edge@sha256:7c0389003560c6cedd239f92f646cff3fdb31dacff98129ea42530c9cae3f8fb
             env:
               TZ: Asia/Jakarta
