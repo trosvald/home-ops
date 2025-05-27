@@ -33,7 +33,7 @@ spec:
   values:
     global:
       podAnnotations:
-        secret.reloader.stakater.com/reload: ${APP}-secret, ${APP}-initdb-secret, ${APP}-pguser-secret
+        secret.reloader.stakater.com/reload: authentik-secret, authentik-initdb-secret, authentik-pguser-secret
       deploymentStrategy:
         type: RollingUpdate
       env:
@@ -42,27 +42,27 @@ spec:
         - name: AUTHENTIK_POSTGRESQL__HOST
           valueFrom:
             secretKeyRef:
-              name: ${APP}-pguser-secret
+              name: authentik-pguser-secret
               key: host
         - name: AUTHENTIK_POSTGRESQL__USER
           valueFrom:
             secretKeyRef:
-              name: ${APP}-pguser-secret
+              name: authentik-pguser-secret
         - name: AUTHENTIK_POSTGRESQL__PASSWORD
           valueFrom:
             secretKeyRef:
-              name: ${APP}-pguser-secret
+              name: authentik-pguser-secret
               key: password
       envFrom:
         - secretRef:
-            name: ${APP}-secret
+            name: authentik-secret
     authentik:
       log_level: debug
       session_storage: db
       worker:
         concurrency: 4
       redis:
-        host: ${APP}-dragonfly
+        host: authentik-dragonfly
     prometheus:
       rules:
         enabled: true
@@ -72,7 +72,7 @@ spec:
           image: ghcr.io/home-operations/postgres-init:17.5
           envFrom:
             - secretRef:
-                name: ${APP}-initdb-secret
+                name: authentik-initdb-secret
       autoscaling:
         enabled: true
         minReplicas: 1
