@@ -40,4 +40,3 @@ spec:
     - name: telegram
       webhookConfigs:
         - url: http://alertmanager-telegram.observability.svc.cluster.local:8080/alerts
-          send_resolved: true
