@@ -46,6 +46,31 @@ spec:
             name: headlamp-plugins
     config:
       pluginsDir: /build/plugins
+      oidc:
+        secret:
+          create: false
+          name: &secret headlamp-secret
+    env:
+      - name: OIDC_CLIENT_ID
+        valueFrom:
+          secretKeyRef:
+            name: *secret
+            key: OIDC_CLIENT_ID
+      - name: OIDC_CLIENT_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: *secret
+            key: OIDC_CLIENT_SECRET
+      - name: OIDC_ISSUER_URL
+        valueFrom:
+          secretKeyRef:
+            name: *secret
+            key: OIDC_ISSUER_URL
+      - name: OIDC_SCOPES
+        valueFrom:
+          secretKeyRef:
+            name: *secret
+            key: OIDC_SCOPES
     serviceAccount:
       create: false
       name: headlamp-admin
