@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://kubernetes.io/blog/2024/12/11/kubernetes-v1-32-release/k8s-1.32.png" align="center" width="144px" height="144px"/>
+<img src="https://avatars.githubusercontent.com/u/11927171" align="center" width="144px" height="144px"/>
 
 ### My Home Operations Repository
 
