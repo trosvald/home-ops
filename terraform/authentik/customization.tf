@@ -4,7 +4,7 @@ resource "authentik_policy_password" "password-complexity" {
   amount_digits    = 1
   amount_lowercase = 1
   amount_uppercase = 1
-  error_message    = "Minimum password length: 8. At least 1 of each required: uppercase, lowercase, digit"
+  error_message    = "Minimum password length: 10. At least 1 of each required: uppercase, lowercase, digit"
 }
 
 resource "authentik_policy_expression" "user-settings-authorization" {
@@ -41,23 +41,4 @@ resource "authentik_policy_expression" "user-settings-authorization" {
 
   return True
   EOT
-}
-## OAuth scopes
-data "authentik_property_mapping_provider_scope" "scopes" {
-  managed_list = [
-    "goauthentik.io/providers/oauth2/scope-email",
-    "goauthentik.io/providers/oauth2/scope-openid",
-    "goauthentik.io/providers/oauth2/scope-profile"
-  ]
-}
-
-resource "authentik_property_mapping_provider_scope" "openid-nextcloud" {
-  name       = "OAuth Mapping: OpenID 'nextcloud'"
-  scope_name = "nextcloud"
-  expression = <<EOF
-return {
-  "nextcloudAdmin": user.attributes.get("nextcloudAdmin"),
-  "nextcloudQuota": user.attributes.get("nextcloudQuota",user.group_attributes().get("defaultQuota", "100 MB"))
-}
-EOF
 }

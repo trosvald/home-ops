@@ -1,19 +1,3 @@
-## Auth setup stages
-
-resource "authentik_stage_authenticator_totp" "authenticator-totp-setup" {
-  name           = "authenticator-totp-setup"
-  digits         = 6
-  configure_flow = authentik_flow.authenticator-totp-setup.uuid
-}
-
-resource "authentik_stage_authenticator_webauthn" "authenticator-webauthn-setup" {
-  name                     = "authenticator-webauthn-setup"
-  friendly_name            = "Setup Webauthn"
-  resident_key_requirement = "preferred"
-  user_verification        = "preferred"
-  configure_flow           = authentik_flow.authenticator-webauthn-setup.uuid
-}
-
 ## Authorization stages
 resource "authentik_stage_identification" "authentication-identification" {
   name                      = "authentication-identification"
@@ -21,37 +5,21 @@ resource "authentik_stage_identification" "authentication-identification" {
   case_insensitive_matching = false
   show_source_labels        = true
   show_matched_user         = false
-  enable_remember_me        = true
   password_stage            = authentik_stage_password.authentication-password.id
-  passwordless_flow         = authentik_flow.passwordless_authentication.uuid
   recovery_flow             = authentik_flow.recovery.uuid
+  sources                   = [authentik_source_oauth.discord.uuid]
 }
 
 resource "authentik_stage_password" "authentication-password" {
-  name     = "authentication-password"
-  backends = ["authentik.core.auth.InbuiltBackend"]
-  # configure_flow                = data.authentik_flow.default-password-change.id
+  name                          = "authentication-password"
+  backends                      = ["authentik.core.auth.InbuiltBackend"]
   failed_attempts_before_cancel = 3
 }
 
 resource "authentik_stage_authenticator_validate" "authentication-mfa-validation" {
   name                  = "authentication-mfa-validation"
   device_classes        = ["static", "totp", "webauthn"]
-  not_configured_action = "configure"
-  configuration_stages = [
-    authentik_stage_authenticator_webauthn.authenticator-webauthn-setup.id,
-    authentik_stage_authenticator_totp.authenticator-totp-setup.id
-  ]
-}
-
-resource "authentik_stage_authenticator_validate" "authentication-passkey-validation" {
-  name                       = "authentication-passkey-validation"
-  device_classes             = ["webauthn"]
-  webauthn_user_verification = "required"
-  not_configured_action      = "configure"
-  configuration_stages = [
-    authentik_stage_authenticator_webauthn.authenticator-webauthn-setup.id
-  ]
+  not_configured_action = "skip"
 }
 
 resource "authentik_stage_user_login" "authentication-login" {
@@ -119,7 +87,7 @@ resource "authentik_stage_prompt" "source-enrollment-prompt" {
 resource "authentik_stage_user_write" "enrollment-user-write" {
   name                     = "enrollment-user-write"
   create_users_as_inactive = false
-  create_users_group       = authentik_group.users.id
+  create_users_group       = authentik_group.default["users"].id
 }
 
 resource "authentik_stage_user_login" "source-enrollment-login" {
