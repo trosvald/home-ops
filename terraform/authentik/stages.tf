@@ -35,7 +35,7 @@ resource "authentik_stage_authenticator_validate" "authentication-mfa-validation
   name                  = "authentication-mfa-validation"
   device_classes        = ["static", "totp", "webauthn"]
   not_configured_action = "skip"
-  configuration_stage = [
+  configuration_stages = [
     authentik_stage_authenticator_webauthn.authenticator-webauthn-setup.id,
     authentik_stage_authenticator_totp.authenticator-totp-setup.id
   ]
