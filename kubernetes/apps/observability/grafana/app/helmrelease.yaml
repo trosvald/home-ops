@@ -253,12 +253,6 @@ spec:
           datasource:
             - name: DS_PROMETHEUS
               value: Prometheus
-        ingress-nginx:
-          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
-          datasource: Prometheus
-        ingress-nginx-request-handling-performance:
-          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
-          datasource: Prometheus
         # speedtest-exporter-hub:
         #   # renovate: depName="Speedtest-Exporter"
         #   gnetId: 13665
