@@ -12,7 +12,7 @@ spec:
   components:
     - ../../../../components/cnpg
     - ../../../../components/dragonfly
-    # - ../../../../components/gatus/external
+    - ../../../../components/gatus/external
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: databases
@@ -39,6 +39,7 @@ spec:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: sso
+      GATUS_PATH: /-/health/live/
       CNPG_NAME: postgres
   prune: true
   retryInterval: 1m
