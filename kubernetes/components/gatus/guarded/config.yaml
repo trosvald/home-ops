@@ -1,13 +1,13 @@
 endpoints:
-  - conditions:
-      - len([BODY]) == 0
-    dns:
-      query-name: ${GATUS_SUBDOMAIN:=${APP}}.monosense.io
-      query-type: A
+  - name: "${APP}"
     group: guarded
+    url: 1.1.1.1
     interval: 1m
-    name: ${APP}
     ui:
       hide-hostname: true
       hide-url: true
-    url: 8.8.8.8
+    dns:
+      query-name: "${GATUS_SUBDOMAIN:=${APP}}.monosense.io"
+      query-type: A
+    conditions:
+      - "len([BODY]) == 0"

@@ -1,9 +1,9 @@
 endpoints:
-  - client:
-      dns-resolver: tcp://8.8.8.8:53
-    conditions:
-      - '[STATUS] == ${GATUS_STATUS:=200}'
+  - name: "${APP}"
     group: external
+    url: "https://${GATUS_SUBDOMAIN:=${APP}}.monosense.io${GATUS_PATH:=/}"
     interval: 1m
-    name: ${APP}
-    url: https://${GATUS_SUBDOMAIN:=${APP}}.${GATUS_DOMAIN:=monosense.io}${GATUS_PATH:=/}
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == ${GATUS_STATUS:=200}"
