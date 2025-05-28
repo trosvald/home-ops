@@ -59,6 +59,8 @@ operator:
       enabled: true
   dashboards:
     enabled: true
+    annotations:
+      grafana_folder: Networking
 prometheus:
   enabled: true
   serviceMonitor:
