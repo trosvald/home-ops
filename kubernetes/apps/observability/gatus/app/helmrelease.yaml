@@ -95,6 +95,7 @@ spec:
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: {type: RuntimeDefault}
     service:
       app:
         controller: *app
@@ -106,6 +107,10 @@ spec:
         serviceName: gatus
         endpoints:
           - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeInterval: 10s
     route:
       app:
         hostnames: ["${GATUS_SUBDOMAIN:=${APP}}.monosense.io"]
@@ -129,7 +134,8 @@ spec:
         gatus:
           type: ClusterRoleBinding
           roleRef:
-            identifier: *app
+            kind: ClusterRole
+            name: *app
           subjects:
             - identifier: *app
     serviceAccount:
