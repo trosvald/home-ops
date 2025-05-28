@@ -27,9 +27,9 @@ endpoints:
     #   hide-hostname: true
     #   hide-url: true
     url: "https://hc-ping.com/eb9c12b0-4301-413d-8525-06a414702b64"
-    interval: 1m
+    interval: 90s
     client:
-      dns-resolver: tcp://10.25.10.30:53
+      dns-resolver: tcp://172.17.13.100:53
     conditions:
       - "[STATUS] == 200"
     alerts:
