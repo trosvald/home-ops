@@ -36,36 +36,8 @@ endpoints:
       - type: telegram
         send-on-resolved: true
 
-  - name: Status
-    group: Applications
-    url: https://status.monosense.io
-    interval: 1m
-    ui:
-      hide-hostname: true
-      hide-url: true
-    client:
-      dns-resolver: tcp://1.1.1.1:53
-    conditions:
-      - "[STATUS] == 200"
-    alerts:
-      - type: telegram
-        send-on-resolved: true
-  - name: Flux webhook
-    group: Services
-    url: https://flux-webhook.monosense.io
-    interval: 1m
-    ui:
-      hide-hostname: true
-      hide-url: true
-    client:
-      dns-resolver: tcp://1.1.1.1:53
-    conditions:
-      - "[STATUS] == 404"
-    alerts:
-      - type: telegram
-        send-on-resolved: true
   - name: Minio
-    group: Services
+    group: guarded
     url: https://s3.monosense.dev/minio/health/live
     interval: 1m
     ui:
