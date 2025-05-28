@@ -7,7 +7,7 @@ resource "authentik_flow" "authenticator-totp-setup" {
   designation    = "stage_configuration"
   authentication = "require_authenticated"
   background     = "https://raw.githubusercontent.com/trosvald/home-ops/main/docs/src/assets/pfbg_2000.jpg"
-
+  layout         = "sidebar_right"
 }
 
 resource "authentik_flow_stage_binding" "authenticator-totp-setup-binding-00" {
@@ -23,7 +23,7 @@ resource "authentik_flow" "authenticator-webauthn-setup" {
   designation    = "stage_configuration"
   authentication = "require_authenticated"
   background     = "https://raw.githubusercontent.com/trosvald/home-ops/main/docs/src/assets/pfbg_2000.jpg"
-
+  layout         = "sidebar_right"
 }
 
 resource "authentik_flow_stage_binding" "authenticator-webauthn-setup-binding-00" {
@@ -41,6 +41,7 @@ resource "authentik_flow" "authentication" {
   designation        = "authentication"
   policy_engine_mode = "all"
   background         = "https://raw.githubusercontent.com/trosvald/home-ops/main/docs/src/assets/pfbg_2000.jpg"
+  layout             = "sidebar_right"
 }
 
 resource "authentik_flow_stage_binding" "authentication-flow-binding-00" {
@@ -68,6 +69,7 @@ resource "authentik_flow" "passwordless_authentication" {
   designation        = "authentication"
   policy_engine_mode = "all"
   background         = "https://raw.githubusercontent.com/trosvald/home-ops/main/docs/src/assets/pfbg_2000.jpg"
+  layout             = "sidebar_right"
 }
 
 resource "authentik_flow_stage_binding" "passwordless_authentication-binding-00" {
@@ -110,6 +112,7 @@ resource "authentik_flow" "provider-invalidation" {
   designation        = "invalidation"
   denied_action      = "continue"
   background         = "https://raw.githubusercontent.com/trosvald/home-ops/main/docs/src/assets/pfbg_2000.jpg"
+  layout             = "sidebar_right"
 }
 
 ## Password recovery flow
@@ -212,4 +215,5 @@ resource "authentik_flow" "provider-authorization-implicit-consent" {
   denied_action      = "message_continue"
   designation        = "authorization"
   background         = "https://raw.githubusercontent.com/trosvald/home-ops/main/docs/src/assets/pfbg_2000.jpg"
+  layout             = "sidebar_right"
 }
