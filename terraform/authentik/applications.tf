@@ -28,6 +28,22 @@ module "oauth2-grafana" {
   redirect_uris      = ["https://grafana.${var.public_domain}/login/generic_oauth"]
 }
 
+module "gatus" {
+  source             = "./oauth2_application"
+  name               = "Gatus"
+  icon_url           = "https://raw.githubusercontent.com/TwiN/gatus/refs/heads/master/web/app/src/assets/logo.svg"
+  launch_url         = "https://status.${var.public_domain}"
+  description        = "Uptime monitoring"
+  newtab             = true
+  group              = "Infrastructure"
+  auth_groups        = [authentik_group.infrastructure.id]
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow  = resource.authentik_flow.provider-invalidation.uuid
+  client_id          = module.secret_gatus.fields["GATUS_OIDC_CLIENT_ID"]
+  client_secret      = module.secret_gatus.fields["GATUS_OIDC_CLIENT_SECRET"]
+  redirect_uris      = ["https://status.${var.public_domain}/authorization-code/callback"]
+}
+
 module "headlamp" {
   source             = "./oauth2_application"
   name               = "Headlamp"

@@ -47,6 +47,13 @@ module "secret_grafana" {
   item   = "grafana"
 }
 
+module "secret_gatus" {
+  # Remember to export OP_CONNECT_HOST and OP_CONNECT_TOKEN
+  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  vault  = "Automation"
+  item   = "gatus"
+}
+
 provider "authentik" {
   url   = "https://sso.${var.public_domain}"
   token = module.secret_authentik.fields["AUTHENTIK_BOOTSTRAP_TOKEN"]

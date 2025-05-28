@@ -11,6 +11,14 @@ ui:
 web:
   port: ${GATUS_WEB_PORT}
 
+security:
+  oidc:
+    issuer-url: https://sso.monosense.io/application/o/gatus/
+    client-id: $${CLIENT_ID}
+    client-secret: $${CLIENT_SECRET}
+    redirect-url: https://status.monosense.io/authorization-code/callback
+    scopes: [openid]
+
 alerting:
   telegram:
     id: ${TELEGRAM_CHANNEL_ID}
