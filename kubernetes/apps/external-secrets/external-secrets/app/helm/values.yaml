@@ -21,3 +21,4 @@ serviceMonitor:
   interval: 1m
 grafanaDashboard:
   enabled: true
+  folder: Kubernetes

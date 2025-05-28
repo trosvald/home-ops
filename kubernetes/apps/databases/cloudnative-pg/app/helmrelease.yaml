@@ -38,3 +38,4 @@ spec:
       podMonitorEnabled: false
       grafanaDashboard:
         create: true
+        folder: Storage
