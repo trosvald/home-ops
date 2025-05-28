@@ -17,7 +17,7 @@ alerting:
     token: ${TELEGRAM_TOKEN}
 connectivity:
   checker:
-    target: 1.1.1.1:53
+    target: 172.17.13.100:53
     interval: 1m
 
 endpoints:
