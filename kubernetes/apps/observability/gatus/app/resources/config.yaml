@@ -55,6 +55,9 @@ endpoints:
     group: domain
     url: "https://s3.monosense.dev"
     interval: 1h
+    ui:
+      hide-hostname: true
+      hide-url: true
     client:
       dns-resolver: tcp://10.25.10.30:53
     conditions:
@@ -63,6 +66,9 @@ endpoints:
     group: domain
     url: "https://nas.monosense.dev:5001"
     interval: 1h
+    ui:
+      hide-hostname: true
+      hide-url: true
     client:
       dns-resolver: tcp://10.25.10.30:53
     conditions:
