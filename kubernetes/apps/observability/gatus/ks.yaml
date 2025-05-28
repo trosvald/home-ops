@@ -15,6 +15,15 @@ spec:
       namespace: databases
     - name: external-secrets
       namespace: external-secrets
+  healthCheckExprs:
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+    - apiVersion: external-secrets.io/v1
+      kind: ClusterSecretStore
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
   interval: 1h
   path: ./kubernetes/apps/observability/gatus/app
   postBuild:
@@ -22,6 +31,7 @@ spec:
       APP: *app
       GATUS_SUBDOMAIN: status
       GATUS_PATH: /health
+      CNPG_NAME: postgres
   prune: true
   retryInterval: 2m
   sourceRef:

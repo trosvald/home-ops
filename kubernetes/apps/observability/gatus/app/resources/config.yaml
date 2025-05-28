@@ -1,17 +1,23 @@
 ---
 metrics: true
-
 storage:
   type: postgres
-  path: ${DB_URI}
+  path: postgres://${INIT_POSTGRES_USER}:${INIT_POSTGRES_PASS}@${INIT_POSTGRES_HOST}:5432/${INIT_POSTGRES_DBNAME}?sslmode=disable
   caching: true
+ui:
+  title: Status | Gatus
+  header: Uptime Status
+  logo: https://avatars.githubusercontent.com/u/11927171
+web:
+  port: ${GATUS_WEB_PORT}
+
 alerting:
   telegram:
     id: ${TELEGRAM_CHANNEL_ID}
     token: ${TELEGRAM_TOKEN}
 connectivity:
   checker:
-    target: 8.8.8.8:53
+    target: 1.1.1.1:53
     interval: 1m
 
 endpoints:
@@ -23,33 +29,69 @@ endpoints:
     url: "https://hc-ping.com/eb9c12b0-4301-413d-8525-06a414702b64"
     interval: 1m
     client:
-      dns-resolver: tcp://8.8.8.8:53
+      dns-resolver: tcp://10.25.10.30:53
     conditions:
       - "[STATUS] == 200"
     alerts:
       - type: telegram
         send-on-resolved: true
 
-  - name: s3.monosense.dev
-    group: domain
-    url: https://s3.monosense.dev
-    interval: 24h
+  - name: Status
+    group: Applications
+    url: https://status.monosense.io
+    interval: 1m
+    ui:
+      hide-hostname: true
+      hide-url: true
+    client:
+      dns-resolver: tcp://1.1.1.1:53
     conditions:
-      - "[CONNECTED] == true"
-      - "[CERTIFICATE_EXPIRATION] == 336h"
+      - "[STATUS] == 200"
     alerts:
       - type: telegram
+        send-on-resolved: true
+  - name: Flux webhook
+    group: Services
+    url: https://flux-webhook.monosense.io
+    interval: 1m
+    ui:
+      hide-hostname: true
+      hide-url: true
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 404"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
+  - name: Minio
+    group: Services
+    url: https://s3.monosense.dev/minio/health/live
+    interval: 1m
+    ui:
+      hide-hostname: true
+      hide-url: true
+    client:
+      dns-resolver: tcp://10.25.10.30:53
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: telegram
+        send-on-resolved: true
 
-ui:
-  title: Status | Gatus
-  header: Health Status
-  logo: https://avatars.githubusercontent.com/u/11927171
-  link: https://github.com/trosvald
-  buttons:
-    - name: Github
-      link: https://github.com/trosvald
-    - name: Homelab
-      link: https://github.com/trosvald/home-ops
-
-web:
-  port: ${GATUS_WEB_PORT}
+  - name: s3-cert-expiration
+    group: domain
+    url: "https://s3.monosense.dev"
+    interval: 1h
+    client:
+      dns-resolver: tcp://10.25.10.30:53
+    conditions:
+      - "[CERTIFICATE_EXPIRATION] > 240h"
+  - name: nas-cert-expiration
+    group: domain
+    url: "https://nas.monosense.dev:5001"
+    interval: 1h
+    client:
+      dns-resolver: tcp://10.25.10.30:53
+    conditions:
+      - "[CERTIFICATE_EXPIRATION] > 240h"
