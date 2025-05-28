@@ -33,11 +33,28 @@ spec:
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
+  name: &name speedtest
+spec:
+  staticConfigs:
+    - targets:
+        - 10.25.10.11:9469
+  metricsPath: /probe
+  params:
+    script: [speedtest]
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: *name
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
   name: &name speedtest-exporter
 spec:
   staticConfigs:
     - targets:
-        - 10.25.10.11:9798
+        - 10.25.10.11:9469
   metricsPath: /metrics
   relabelings:
     - action: replace
