@@ -38,6 +38,7 @@ spec:
     substitute:
       APP: *app
       GATUS_SUBDOMAIN: grafana
+      GATUS_PATH: /api/health
       CNPG_NAME: postgres
   prune: true
   retryInterval: 2m
