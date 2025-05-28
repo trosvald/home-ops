@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
@@ -12,6 +13,7 @@ spec:
     tag: 9.2.0
   url: oci://ghcr.io/grafana/helm-charts/grafana
 ---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -30,28 +32,88 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    annotations:
+      secret.reloader.stakater.com/reload: grafana-secret, grafana-initdb-secret, grafana-pguser-secret
     deploymentStrategy:
-      type: Recreate
-    admin:
-      existingSecret: grafana-secret
+      type: RollingUpdate
+    extraInitContainers:
+      - name: init-db
+        image: ghcr.io/home-operations/postgres-init:17.5
+        envFrom:
+          - secretRef:
+              name: grafana-initdb-secret
     env:
+      GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: true
       GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
-      GF_EXPLORE_ENABLED: true
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
       GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true
-      GF_SERVER_ROOT_URL: https://{{ .Release.Name }}.monosense.io
+    envFromSecrets:
+      - name: grafana-secret
+      - name: grafana-pguser-secret
     grafana.ini:
       analytics:
         check_for_updates: false
         check_for_plugin_updates: false
         reporting_enabled: false
+      auth:
+        oauth_auto_login: true
+        signout_redirect_url: https://sso.monosense.io/application/o/grafana/end-session/
+        oauth_allow_insecure_email_lookup: true
+      auth.basic:
+        enabled: false
       auth.anonymous:
+        enabled: false
+      auth.generic_oauth:
         enabled: true
+        name: SSO
+        icon: signin
+        auth_url: https://sso.monosense.io/application/o/authorize/
+        token_url: https://sso.monosense.io/application/o/token/
+        api_url: https://sso.monosense.io/application/o/userinfo/
+        scopes: openid email profile
+        use_pkce: true
+        skip_org_role_sync: true
+      auth.generic_oauth.group_mapping:
+        role_attribute_path: |
+          contains(groups[*], 'infrastructure') && 'Admin' || 'Viewer'
         org_id: 1
-        org_name: Main Org.
-        org_role: Viewer
+      log:
+        mode: console
       news:
         news_feed_enabled: false
+      paths:
+        data: /var/lib/grafana/data
+        logs: /var/log/grafana
+        plugins: /var/lib/grafana/plugins
+        provisioning: /etc/grafana/provisioning
+      server:
+        root_url: https://grafana.monosense.io
+    plugins:
+      - pr0ps-trackmap-panel
+      - grafana-clock-panel
+      - grafana-piechart-panel
+      - grafana-worldmap-panel
+      - natel-discrete-panel
+      - natel-plotly-panel
+      - vonage-status-panel
+      - https://github.com/panodata/panodata-map-panel/releases/download/0.16.0/panodata-map-panel-0.16.0.zip;grafana-worldmap-panel-ng
+      - redis-datasource
+    sidecar:
+      dashboards:
+        enabled: true
+        searchNamespace: ALL
+        labelValue: ""
+        label: grafana_dashboard
+        folderAnnotation: grafana_folder
+        provider:
+          disableDelete: true
+          foldersFromFilesStructure: true
+      datasources:
+        enabled: true
+        searchNamespace: ALL
+        initDataSources: true
+        labelValue: ""
+        label: grafana_datasource
     datasources:
       datasources.yaml:
         apiVersion: 1
@@ -92,38 +154,117 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
+          - name: "storage"
+            disableDeletion: false
+            editable: true
+            folder: "Storage"
+            options:
+              path: /var/lib/grafana/dashboards/database
+            orgId: 1
+            type: file
+          - name: "kubernetes"
+            orgId: 1
+            folder: "Kubernetes"
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/kubernetes
+          - name: "networking"
+            org_id: 1
+            folder: "Networking"
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/networking
+          - name: "system"
+            orgId: 1
+            folder: "System"
+            type: file
+            disableDeletion: false
+            editable: true
+            allowUiUpdates: true
+            options:
+              path: /var/lib/grafana/dashboards/system
     dashboards:
-      default:
-        apc-ups:
-          # renovate: depName="APC UPS (SNMP)"
-          gnetId: 12340
+      kubernetes:
+        flux-cluster:
+          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
+          datasource: Prometheus
+        flux-control-plane:
+          url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
+          datasource: Prometheus
+        api-server:
+          # renovate: depName="Kubernetes / System / API Server"
+          gnetId: 15761
+          revision: 19
+          datasource: Prometheus
+        coredns:
+          # renovate: depName="Kubernetes / System / CoreDNS"
+          gnetId: 15762
+          revision: 20
+          datasource: Prometheus
+        global:
+          # renovate: depName="Kubernetes / Views / Global"
+          gnetId: 15757
+          revision: 43
+          datasource: Prometheus
+        namespaces:
+          # renovate: depName="Kubernetes / Views / Namespaces"
+          gnetId: 15758
+          revision: 42
+          datasource: Prometheus
+        nodes:
+          # renovate: depName="Kubernetes / Views / Nodes"
+          gnetId: 15759
+          revision: 35
+          datasource: Prometheus
+        pods:
+          # renovate: depName="Kubernetes / Views / Pods"
+          gnetId: 15760
+          revision: 36
+          datasource: Prometheus
+        volumes:
+          # renovate: depName="K8s / Storage / Volumes / Cluster"
+          gnetId: 11454
+          revision: 14
+          datasource: Prometheus
+        nfd:
+          url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
+          datasource: Prometheus
+        spegel:
+          # renovate: depName="Spegel"
+          gnetId: 18089
           revision: 1
-          datasource: Prometheus
-        blackbox-exporter:
-          # renovate: depName="Prometheus Blackbox Exporter"
-          gnetId: 7587
-          revision: 3
-          datasource: Prometheus
-        ceph-cluster:
-          # renovate: depName="Ceph Cluster"
-          gnetId: 2842
-          revision: 18
-          datasource: Prometheus
-        ceph-osd:
-          # renovate: depName="Ceph - OSD (Single)"
-          gnetId: 5336
-          revision: 9
-          datasource: Prometheus
-        ceph-pools:
-          # renovate: depName="Ceph - Pools"
-          gnetId: 5342
-          revision: 9
-          datasource: Prometheus
+          datasource:
+            - {name: DS_PROMETHEUS, value: Prometheus}
         cert-manager:
           # renovate: depName="Cert-manager-Kubernetes"
           gnetId: 20842
           revision: 3
           datasource: Prometheus
+
+      networking:
+        cert-manager:
+          # renovate: dashboardName="cert-manager"
+          gnetId: 20340
+          revision: 1
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
+        ingress-nginx:
+          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+          datasource: Prometheus
+        ingress-nginx-request-handling-performance:
+          url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
+          datasource: Prometheus
+        # speedtest-exporter-hub:
+        #   # renovate: depName="Speedtest-Exporter"
+        #   gnetId: 13665
+        #   revision: 4
+        #   datasource:
+        #     - {name: DS_PROMETHEUS, value: Prometheus}
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
@@ -139,88 +280,78 @@ spec:
           gnetId: 15038
           revision: 3
           datasource: Prometheus
-        kubernetes-api-server:
-          # renovate: depName="Kubernetes / System / API Server"
-          gnetId: 15761
-          revision: 19
-          datasource: Prometheus
-        kubernetes-coredns:
-          # renovate: depName="Kubernetes / System / CoreDNS"
-          gnetId: 15762
-          revision: 20
-          datasource: Prometheus
-        kubernetes-global:
-          # renovate: depName="Kubernetes / Views / Global"
-          gnetId: 15757
-          revision: 43
-          datasource: Prometheus
-        kubernetes-namespaces:
-          # renovate: depName="Kubernetes / Views / Namespaces"
-          gnetId: 15758
-          revision: 42
-          datasource: Prometheus
-        kubernetes-nodes:
-          # renovate: depName="Kubernetes / Views / Nodes"
-          gnetId: 15759
-          revision: 35
-          datasource: Prometheus
-        kubernetes-pods:
-          # renovate: depName="Kubernetes / Views / Pods"
-          gnetId: 15760
-          revision: 36
-          datasource: Prometheus
-        kubernetes-volumes:
-          # renovate: depName="K8s / Storage / Volumes / Cluster"
-          gnetId: 11454
-          revision: 14
-          datasource: Prometheus
-        node-exporter-full:
-          # renovate: depName="Node Exporter Full"
-          gnetId: 1860
-          revision: 40
-          datasource: [{ name: DS_PROMETHEUS, value: Prometheus }]
-        prometheus:
-          # renovate: depName="Prometheus"
-          gnetId: 19105
-          revision: 7
-          datasource: Prometheus
-        smartctl-exporter:
-          # renovate: depName="SMARTctl Exporter Dashboard"
-          gnetId: 22604
-          revision: 2
-          datasource: [{ name: DS_PROMETHEUS, value: Prometheus }]
+        # traefik:
+        #   # renovate: depName="Traefik"
+        #   gnetId: 17346
+        #   revision: 9
+        #   datasource: Prometheus
+
+      storage:
         synology-snmp:
           # renovate: depName="Synology SNMP"
           gnetId: 18643
           revision: 1
           datasource: [{ name: DS_PROMETHEUS, value: Prometheus }]
+        minio-dashboard:
+          # renovate: depName="Minio"
+          gnetId: 13502
+          revision: 26
+          datasource:
+            - {name: DS_PROMETHEUS, value: Prometheus}
+        smartctl:
+          # renovate: depname="Smartctl"
+          gnetId: 22604
+          revision: 2
+          datasource:
+            - {name: DS_PROMETHEUS, value: Prometheus}
         volsync:
-          # renovate: depName="VolSync Dashboard"
+          # renovate: depName="Volsync"
           gnetId: 21356
           revision: 3
-          datasource: [{ name: DS_PROMETHEUS, value: Prometheus }]
-    sidecar:
-      dashboards:
-        enabled: true
-        searchNamespace: ALL
-        labelValue: ""
-        label: grafana_dashboard
-        folderAnnotation: grafana_folder
-        provider:
-          disableDelete: true
-          foldersFromFilesStructure: true
-      datasources:
-        enabled: true
-        searchNamespace: ALL
-        labelValue: ""
-        label: grafana_datasource
-    plugins:
-      - grafana-clock-panel
-      - grafana-piechart-panel
-      - grafana-worldmap-panel
-      - natel-discrete-panel
-      - pr0ps-trackmap-panel
-      - vonage-status-panel
+          datasource:
+            - {name: DS_PROMETHEUS, value: Prometheus}
+            - {name: VAR_REPLICATIONDESTNAME, value: ".*-rdst"}
+        ceph-cluster:
+          # renovate: depName="Ceph Cluster"
+          gnetId: 2842
+          revision: 18
+          datasource: Prometheus
+        ceph-osd:
+          # renovate: depName="Ceph - OSD (Single)"
+          gnetId: 5336
+          revision: 9
+          datasource: Prometheus
+        ceph-pools:
+          # renovate: depName="Ceph - Pools"
+          gnetId: 5342
+          revision: 9
+          datasource: Prometheus
+
+      system:
+        node-exporter:
+          # renovate: depName="Node Exporter"
+          gnetId: 11074
+          revision: 9
+          datasource: Prometheus
+        node-exporter-full:
+          # renovate: depName="Node Exporter Full"
+          gnetId: 1860
+          revision: 40
+          datasource:
+            - {name: DS_PROMETHEUS, value: Prometheus}
+        apc-ups:
+          # renovate: depName="APC UPS (SNMP)"
+          gnetId: 12340
+          revision: 1
+          datasource: Prometheus
+
+      default:
+        blackbox-exporter:
+          # renovate: depName="Prometheus Blackbox Exporter"
+          gnetId: 7587
+          revision: 3
+          datasource: Prometheus
+
     serviceMonitor:
       enabled: true
     route:
@@ -229,7 +360,7 @@ spec:
         hostnames:
           - "{{ .Release.Name }}.monosense.io"
         parentRefs:
-          - name: internal
+          - name: external
             namespace: kube-system
             sectionName: https
     persistence:
