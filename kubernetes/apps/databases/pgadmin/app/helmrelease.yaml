@@ -18,9 +18,9 @@ spec:
       pgadmin:
         pod:
           securityContext:
-            runAsUser: 568 # ${APP_UID}
-            runAsGroup: 568 # ${APP_GID}
-            fsGroup: 568 # ${APP_GID}
+            runAsUser: 5050 # ${APP_UID}
+            runAsGroup: 5050 # ${APP_GID}
+            fsGroup: 5050 # ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
         replicas: 1
         strategy: RollingUpdate
