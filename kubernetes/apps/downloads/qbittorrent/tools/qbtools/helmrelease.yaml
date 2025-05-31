@@ -54,30 +54,56 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
         containers:
-          prune-unregistered:
+          expired:
             <<: *container
             args:
               - prune
-              - --exclude-tag=expired
-              - --exclude-tag=added:1d
-              - --include-tag=unregistered
-              - --with-data
-          prune-expired:
+              - --exclude-category
+              - manual
+              - --exclude-category
+              - cross-seed
+              - --exclude-tag
+              - added:24h
+              - --include-tag
+              - expired
+
+          unregistered:
             <<: *container
             args:
               - prune
-              - --exclude-category=manual
-              - --exclude-tag=activity:1d
-              - --include-tag=expired
-              - --with-data
+              - --exclude-category
+              - manual
+              - --exclude-category
+              - cross-seed
+              - --exclude-tag
+              - added:24h
+              - --include-tag
+              - unregistered
+
+      orphaned:
+        type: cronjob
+        cronjob:
+          <<: *cronJobSpec
+          schedule: "@daily"
         pod:
-          restartPolicy: OnFailure
+          restartPolicy: Never
+        containers:
+          app:
+            <<: *container
+            args:
+              - orphaned
+              - --exclude-pattern
+              - "*/manual/*"
+              - --exclude-pattern
+              - "*/cross-seed/*"
+
       reannounce:
         containers:
           app:
             <<: *container
             args:
               - reannounce
+              - --process-seeding
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -99,4 +125,6 @@ spec:
         server: storage.monosense.dev
         path: /volume1/Media
         globalMounts:
-          - readOnly: true
+          - path: /media/Downloads/qbittorrent
+            subPath: Downloads/qbittorrent
+
