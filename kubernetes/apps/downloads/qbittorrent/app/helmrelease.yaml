@@ -87,9 +87,18 @@ spec:
               TZ: Asia/Jakarta
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
+              QBT_BitTorrent__Session__AsyncIOThreadsCount: "4"
+              QBT_BitTorrent__Session__DefaultSavePath: /media/Downloads/qbittorrent/complete/default
+              QBT_BitTorrent__Session__DisableAutoTMMByDefault: "false"
+              QBT_BitTorrent__Session__LSDEnabled: "false"
+              QBT_BitTorrent__Session__TempPath: /media/Downloads/qbittorrent/incomplete
+              QBT_BitTorrent__Session__TempPathEnabled: "true"
+              QBT_BitTorrent__Session__TorrentExportDirectory: /media/Downloads/qbittorrent/torrents
+              QBT_Preferences__WebUI__AlternativeUIEnabled: false
               QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
               QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
-                10.244.0.0/16, 10.245.0.0/16, 10.25.12.0/24, 10.25.11.0/24
+                10.244.0.0/16, 10.245.0.0/16
+              QBT_Preferences__WebUI__LocalHostAuth: false
             probes:
               liveness:
                 enabled: true
