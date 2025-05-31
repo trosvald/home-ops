@@ -21,12 +21,12 @@ spec:
     controllers:
       tagging:
         type: cronjob
-        cronjob:
+        cronjob: &cronJobSpec
           schedule: "@hourly"
-          timeZone: &timeZone Asia/Jakarta
+          backoffLimit: 0
           concurrencyPolicy: Forbid
-          successfulJobsHistory: 1
           failedJobsHistory: 1
+          successfulJobsHistory: 0
         initContainers:
           tagging: &container
             image:
