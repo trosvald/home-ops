@@ -84,8 +84,12 @@ spec:
               repository: ghcr.io/home-operations/qbittorrent
               tag: 5.1.0
             env:
+              TZ: Asia/Jakarta
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
+              QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
+              QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
+                10.244.0.0/16, 10.245.0.0/16, 10.25.12.0/24, 10.25.11.0/24
             probes:
               liveness:
                 enabled: true
