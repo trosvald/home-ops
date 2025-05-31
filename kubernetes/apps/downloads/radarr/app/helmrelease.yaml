@@ -65,7 +65,9 @@ spec:
                     key: password
               RADARR__POSTGRES__MAINDB: radarr
               TZ: Asia/Jakarta
-            envFrom: radarr-secret
+            envFrom:
+              - secretRef:
+                  name: radarr-secret
             probes:
               liveness: &probes
                 enabled: true
