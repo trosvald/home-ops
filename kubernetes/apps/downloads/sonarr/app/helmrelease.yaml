@@ -65,6 +65,7 @@ spec:
                     name: radarr-pguser-secret
                     key: password
               SONARR__POSTGRES__MAINDB: sonarr
+              SONARR__POSTGRES__LOGDB: sonarr_log
             envFrom:
               - secretRef:
                   name: sonarr-secret
