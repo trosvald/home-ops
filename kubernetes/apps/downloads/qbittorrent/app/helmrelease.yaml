@@ -165,7 +165,7 @@ spec:
         server: storage.monosense.dev
         path: /volume1/Media
         globalMounts:
-          - path: /Downloads/qbittorrent
+          - path: /media/Downloads/qbittorrent
             subPath: Downloads/qbittorrent
       gluetun-auth:
         type: secret
