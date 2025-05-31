@@ -106,6 +106,8 @@ spec:
         type: nfs
         server: storage.monosense.dev
         path: /volume1/Media
+        globalMounts:
+          - path: /media
       tmpfs:
         type: emptyDir
         advancedMounts:
