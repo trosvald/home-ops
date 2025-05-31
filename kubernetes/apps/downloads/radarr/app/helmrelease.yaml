@@ -64,6 +64,7 @@ spec:
                     name: radarr-pguser-secret
                     key: password
               RADARR__POSTGRES__MAINDB: radarr
+              RADARR__POSTGRES__LOGDB: radarr_log
               TZ: Asia/Jakarta
             envFrom:
               - secretRef:
