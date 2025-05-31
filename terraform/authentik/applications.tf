@@ -28,6 +28,22 @@ module "oauth2-grafana" {
   redirect_uris      = ["https://grafana.${var.public_domain}/login/generic_oauth"]
 }
 
+module "oauth2-pgadmin" {
+  source             = "./oauth2_application"
+  name               = "PGAdmin"
+  icon_url           = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png"
+  launch_url         = "https://grafana.${var.public_domain}"
+  description        = "Database"
+  newtab             = true
+  group              = "Infrastructure"
+  auth_groups        = [authentik_group.infrastructure.id]
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow  = resource.authentik_flow.provider-invalidation.uuid
+  client_id          = module.secret_pgadmin.fields["PGADMIN_OIDC_CLIENT_ID"]
+  client_secret      = module.secret_pgadmin.fields["PGADMIN_OIDC_CLIENT_SECRET"]
+  redirect_uris      = ["https://pgadmin.${var.public_domain}/oauth/authorize"]
+}
+
 module "gatus" {
   source             = "./oauth2_application"
   name               = "Gatus"
