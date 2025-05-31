@@ -9,3 +9,5 @@ configMapGenerator:
       - ./resources/config.yaml
 generatorOptions:
   disableNameSuffixHash: true
+configurations:
+  - kustomizeconfig.yaml

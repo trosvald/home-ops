@@ -9,7 +9,7 @@ resources:
   - ./coredns/ks.yaml
   - ./csi-driver-nfs/ks.yaml
   - ./descheduler/ks.yaml
-  # - ./generic-device-plugin/ks.yaml
+  - ./generic-device-plugin/ks.yaml
   - ./intel-device-plugin/ks.yaml
   - ./metrics-server/ks.yaml
   - ./reloader/ks.yaml

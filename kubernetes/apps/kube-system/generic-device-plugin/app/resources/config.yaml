@@ -1,6 +1,7 @@
 ---
 devices:
-  - name: coral
+  - name: tun
     groups:
-      - paths:
-          - path: /dev/apex_0
+      - count: 1000
+        paths:
+          - path: /dev/net/tun
