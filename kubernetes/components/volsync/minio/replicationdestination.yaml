@@ -9,7 +9,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: "${APP}-volsync"
+    repository: "${APP}-volsync-minio"
     copyMethod: Snapshot
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
     cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:=ceph-block}"
