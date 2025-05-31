@@ -25,12 +25,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          token: ${{ secrets.RENOVATE_PAT }}
           persist-credentials: false
 
       - name: Get Changed Terraform
         id: changed-terraform
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
         with:
+          token: ${{ secrets.RENOVATE_PAT }}
           files: terraform/**
           dir_names: true
           dir_names_max_depth: 2
@@ -74,7 +76,8 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-          token: ${{ steps.app-token.outputs.token }}
+          # token: ${{ steps.app-token.outputs.token }}
+          token: ${{ secrets.RENOVATE_PAT }}
 
       - name: Install Opentofu
         uses: opentofu/setup-opentofu@592200bd4b9bbf4772ace78f887668b1aee8f716 # v1.0.5
@@ -114,7 +117,8 @@ jobs:
         continue-on-error: true
         uses: borchero/terraform-plan-comment@434458316f8f24dd073cd2561c436cce41dc8f34 # v2.4.1
         with:
-          token: ${{ steps.app-token.outputs.token }}
+          # token: ${{ steps.app-token.outputs.token }}
+          token: ${{ secrets.RENOVATE_PAT }}
           planfile: .planfile
           terraform-cmd: tofu
           header: "📝 Terraform Plan for ${{ matrix.paths }}"

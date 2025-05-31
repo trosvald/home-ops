@@ -22,7 +22,8 @@ jobs:
         id: determine-next-tag
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
-          github-token: ${{ steps.app-token.outputs.token }}
+          # github-token: ${{ steps.app-token.outputs.token }}
+          token: ${{ secrets.RENOVATE_PAT }}
           result-encoding: string
           script: |
             const { data: tags } = await github.rest.repos.listTags({
@@ -45,7 +46,8 @@ jobs:
       - name: Create Tag
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
-          github-token: ${{ steps.app-token.outputs.token }}
+          # github-token: ${{ steps.app-token.outputs.token }}
+          token: ${{ secrets.RENOVATE_PAT }}
           script: |
             const tagName = "${{ steps.determine-next-tag.outputs.result }}";
 
