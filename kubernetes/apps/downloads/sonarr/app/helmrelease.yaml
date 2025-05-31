@@ -52,17 +52,17 @@ spec:
               SONARR__POSTGRES__PORT:
                 valueFrom:
                   secretKeyRef:
-                    name: radarr-pguser-secret
+                    name: sonarr-pguser-secret
                     key: port
               SONARR__POSTGRES__USER:
                 valueFrom:
                   secretKeyRef:
-                    name: radarr-pguser-secret
+                    name: sonarr-pguser-secret
                     key: user
               SONARR__POSTGRES__PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: radarr-pguser-secret
+                    name: sonarr-pguser-secret
                     key: password
               SONARR__POSTGRES__MAINDB: sonarr
               SONARR__POSTGRES__LOGDB: sonarr_log
