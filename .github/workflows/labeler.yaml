@@ -8,6 +8,9 @@ on:
 
 jobs:
   labeler:
+    permissions:
+      contents: read
+      pull-requests: write
     name: Labeler
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
