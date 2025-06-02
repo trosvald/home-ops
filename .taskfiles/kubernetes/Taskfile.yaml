@@ -51,6 +51,12 @@ tasks:
     preconditions:
       - which kubectl
 
+  hr-restart:
+    desc: Restart all failed Helm Releases
+    cmds:
+      - kubectl get hr --all-namespaces | grep False | awk '{print $1, $2}' | xargs -L1 bash -c 'flux suspend hr -n $0 $1'
+      - kubectl get hr --all-namespaces | grep False | awk '{print $1, $2}' | xargs -L1 bash -c 'flux resume hr -n $0 $1'
+
   cleanse-pods:
     desc: Cleanse pods with a Failed/Pending/Succeeded phase
     cmds:
