@@ -44,7 +44,7 @@ module "oauth2-pgadmin" {
   redirect_uris      = ["https://pgadmin.${var.public_domain}/oauth/authorize"]
 }
 
-module "gatus" {
+module "oauth2-gatus" {
   source             = "./oauth2_application"
   name               = "Gatus"
   icon_url           = "https://raw.githubusercontent.com/TwiN/gatus/refs/heads/master/web/app/src/assets/logo.svg"
@@ -60,7 +60,7 @@ module "gatus" {
   redirect_uris      = ["https://status.${var.public_domain}/authorization-code/callback"]
 }
 
-module "headlamp" {
+module "oauth2-headlamp" {
   source             = "./oauth2_application"
   name               = "Headlamp"
   icon_url           = "https://raw.githubusercontent.com/headlamp-k8s/headlamp/refs/heads/main/frontend/src/resources/icon-dark.svg"
