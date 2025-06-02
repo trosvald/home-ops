@@ -32,7 +32,7 @@ module "oauth2-pgadmin" {
   source             = "./oauth2_application"
   name               = "PGAdmin"
   icon_url           = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png"
-  launch_url         = "https://grafana.${var.public_domain}"
+  launch_url         = "https://pgadmin.${var.public_domain}"
   description        = "Database"
   newtab             = true
   group              = "Infrastructure"
