@@ -20,6 +20,7 @@ includes:
   talos: .taskfiles/talos
   volsync: .taskfiles/volsync
   workstation: .taskfiles/workstation
+  op: .taskfiles/onepassword
 
 tasks:
 

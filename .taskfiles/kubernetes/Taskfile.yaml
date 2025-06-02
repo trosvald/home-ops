@@ -72,3 +72,12 @@ tasks:
       - flux -n actions-runner-system reconcile hr home-ops-runner
     preconditions:
       - which flux helm
+
+  flatten:
+    desc: Flatten kubectl and talosctl
+    cmds:
+      - mkdir -p ~/.kube ~/.talos
+      - kubectl config view --flatten > ~/.kube/config
+      - cp {{.ROOT_DIR}}/talos/talosconfig ~/.talos/config
+      # - talosctl config merge {{.ROOT_DIR}}/talos/test/talosconfig --talosconfig ~/.talos/config
+      - talosctl config merge {{.ROOT_DIR}}/talos/talosconfig --talosconfig ~/.talos/config

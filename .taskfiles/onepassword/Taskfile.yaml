@@ -1,0 +1,53 @@
+---
+version: "3"
+
+vars:
+  CLUSTERS:
+    - bsd-lat
+
+tasks:
+  push:
+    desc: Push all kubeconfig to OnePassword
+    cmds:
+      - task: :kubernetes:flatten
+      - task: push-clusters
+      - task: push-combined
+    preconditions:
+      - op user get --me
+
+  push-clusters:
+    desc: Push kubeconfig/talosconfig for all clusters
+    cmds:
+      - |
+        for cluster in {{.CLUSTERS | join " "}}; do
+          op item edit kubernetes KUBECONFIG_$(echo "$cluster" | tr '[:lower:]' '[:upper:]')[text]="$(cat {{.ROOT_DIR}}/kubernetes/kubeconfig)"  &>/dev/null
+          op item edit kubernetes TALOSCONFIG_$(echo "$cluster" | tr '[:lower:]' '[:upper:]')[text]="$(cat {{.ROOT_DIR}}/talos/talosconfig)"  &>/dev/null
+        done
+    preconditions:
+      - op user get --me
+
+  push-combined:
+    desc: Push kubeconfig/talosconfig for all clusters
+    cmds:
+      - task: :kubernetes:flatten
+      - op item edit kubernetes KUBECONFIG[text]="$(cat ~/.kube/config)"  &>/dev/null
+      - op item edit kubernetes KUBECONFIG_BASE64[text]="$(cat ~/.kube/config | base64 -w 0)"  &>/dev/null
+      - op item edit kubernetes TALCONFIG[text]="$(cat ~/.talos/config)"  &>/dev/null
+    preconditions:
+      - op user get --me
+
+  pull:
+    desc: Pull Kubeconfig from OnePassword
+    cmds:
+      - mkdir -p ~/.kube ~/.talos
+      - |
+        for cluster in {{.CLUSTERS | join " "}}; do
+          mkdir -p {{.ROOT_DIR}}/talos/$cluster
+          op item get kubernetes --fields label=KUBECONFIG_$(echo "$cluster" | tr '[:lower:]' '[:upper:]') | tr -d '"' > {{.ROOT_DIR}}/kubernetes/kubeconfig
+          op item get kubernetes --fields label=TALOSCONFIG_$(echo "$cluster" | tr '[:lower:]' '[:upper:]') | tr -d '"' > {{.ROOT_DIR}}/talos/talosconfig
+        done
+      - op item get kubernetes --fields label=KUBECONFIG | tr -d '"' > ~/.kube/config
+      - op item get kubernetes --fields label=TALCONFIG | tr -d '"' > ~/.talos/config
+
+    preconditions:
+      - op user get --me
