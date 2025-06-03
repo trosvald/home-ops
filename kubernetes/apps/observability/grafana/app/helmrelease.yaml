@@ -259,8 +259,8 @@ spec:
           datasource:
             - name: DS_PROMETHEUS
               value: Prometheus
-        speedtest-exporter-hub:
-          # renovate: depName="Speedtest-Exporter"
+        speedtest:
+          # renovate: depName="Speedtest"
           gnetId: 14336
           revision: 2
           datasource:
