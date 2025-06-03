@@ -246,6 +246,12 @@ spec:
           datasource: Prometheus
 
       networking:
+        omada-controller:
+          # renovate: dashboardName="Omada Overview"
+          gnetId: 16343
+          revision: 2
+          datasource:
+            - {name: DS_PROMETHEUS, value: Prometheus }
         cert-manager:
           # renovate: dashboardName="cert-manager"
           gnetId: 20340
