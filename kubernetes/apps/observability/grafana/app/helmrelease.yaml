@@ -259,12 +259,13 @@ spec:
           datasource:
             - name: DS_PROMETHEUS
               value: Prometheus
-        speedtest:
-          # renovate: depName="Speedtest"
-          gnetId: 14336
-          revision: 2
+        speedtest-exporter:
+          # renovate: depName="Speedtest-Exporter Dashboard"
+          gnetId: 13665
+          revision: 4
           datasource:
-            - {name: DS_PROMETHEUS, value: Prometheus}
+            - name: DS_PROMETHEUS
+              value: Prometheus
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
