@@ -35,7 +35,7 @@ kind: ScrapeConfig
 metadata:
   name: &name speedtest-exporter
 spec:
-  scrapeInterval: 15m
+  scrapeInterval: 10m
   staticConfigs:
     - targets:
         - 10.25.10.11:9798
