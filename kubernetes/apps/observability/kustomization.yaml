@@ -12,6 +12,7 @@ resources:
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
+  - ./omada-exporter/ks.yaml
   - ./promtail/ks.yaml
   - ./silence-operator/ks.yaml
   - ./smartctl-exporter/ks.yaml
