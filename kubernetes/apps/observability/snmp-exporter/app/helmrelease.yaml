@@ -31,6 +31,15 @@ spec:
       retries: 3
   values:
     fullnameOverride: *app
+    extraArgs:
+      - "--config.file=/config/snmp.yaml"
+    extraConfigmapMounts:
+      - name: *app
+        mountPath: /config/snmp.yaml
+        subPath: snmp.yaml
+        configMap: *app
+        readOnly: true
+        defaultMode: 420
     serviceMonitor:
       enabled: true
       params:

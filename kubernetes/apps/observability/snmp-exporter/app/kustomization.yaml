@@ -4,3 +4,9 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./prometheusrule.yaml
+configMapGenerator:
+  - name: snmp-exporter
+    files:
+      - snmp.yaml=./snmp.yml
+generatorOptions:
+  disableNameSuffixHash: true
