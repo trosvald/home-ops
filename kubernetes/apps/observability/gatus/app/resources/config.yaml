@@ -61,7 +61,7 @@ endpoints:
 
   - name: SynoK8S
     group: guarded
-    url: icmp://storage.monosense.dev
+    url: "icmp://storage.monosense.dev"
     interval: 90s
     ui:
       hide-hostname: true
