@@ -85,6 +85,7 @@ endpoints:
       dns-resolver: tcp://10.25.10.30:53
     conditions:
       - "[CERTIFICATE_EXPIRATION] > 240h"
+
   - name: nas-cert-expiration
     group: domain
     url: "https://nas.monosense.dev:5001"
