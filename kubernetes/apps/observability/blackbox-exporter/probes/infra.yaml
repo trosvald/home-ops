@@ -2,11 +2,11 @@
 kind: Probe
 apiVersion: monitoring.coreos.com/v1
 metadata:
-  name: homelab
+  name: infra
 spec:
   module: icmp
   prober:
-    url: blackbox-exporter.monitoring.svc.cluster.local:9115
+    url: blackbox-exporter.observability.svc.cluster.local:9115
   targets:
     staticConfig:
       static:
@@ -19,3 +19,4 @@ spec:
         - ts2.monosense.dev
         - ap1.monosense.dev
         - ap2.monosense.dev
+        - storage.monosense.dev

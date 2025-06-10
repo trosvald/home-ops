@@ -59,21 +59,6 @@ endpoints:
       - type: telegram
         send-on-resolved: true
 
-  - name: SynoK8S
-    group: guarded
-    url: "icmp://storage.monosense.dev"
-    interval: 1m
-    ui:
-      hide-hostname: true
-      hide-url: true
-    client:
-      dns-resolver: tcp://10.25.10.30:53
-    conditions:
-      - "[CONNECTED] == true"
-    alerts:
-      - type: telegram
-        send-on-resolved: true
-
   - name: s3-cert-expiration
     group: domain
     url: "https://s3.monosense.dev"
