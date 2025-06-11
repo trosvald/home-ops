@@ -3,9 +3,6 @@ machine:
   install:
     diskSelector:
       model: "MTFDDAV512TBN-1A"
-  # disks:
-  #   - device: /dev/disk/by-id/xxxxxxxxx
-  #     partitions: [{ mountpoint: /var/mnt/extra }]
   network:
     hostname: p2
     interfaces:
@@ -21,9 +18,14 @@ machine:
         addresses: [10.25.11.13/24]
         routes: [{ network: "0.0.0.0/0", gateway: "10.25.11.1" }]
         vlans:
-          - { vlanId: 2512, dhcp: false, mtu: 1500 }
+          # - { vlanId: 2512, dhcp: false, mtu: 1500 }
+          - vlanId: 2512
+            mtu: 1500
+            dhcp: false
+            dhcpOptions:
+              routeMetric: 4096
   nodeLabels:
-    topology.kubernetes.io/zone: bsd-lat-mono
+    topology.kubernetes.io/zone: prod
 # ---
 # apiVersion: v1alpha1
 # kind: UserVolumeConfig
