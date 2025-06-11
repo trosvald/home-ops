@@ -68,3 +68,40 @@ This is a mono repository for my home infrastructure and Kubernetes cluster. I t
 | APC AP4421                    | 1     | -             | -                           | -     | -                | ATS/PDU                 |
 | APC SURT2000RM XL + 2x BP     | 1     | -             | -                           | -     | -                | UPS                     |
 ---
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f331/512.gif" alt="🌱" width="20" height="20"> Kubernetes
+
+This semi hyper-converged cluster operates on [Talos Linux](https://github.com/siderolabs/talos), an immutable and ephemeral Linux distribution tailored for [Kubernetes](https://github.com/kubernetes/kubernetes), and is deployed on bare-metal workstations. [Rook](https://github.com/rook/rook) supplies my workloads with persistent block, object, and file storage, while a separate server handles media file storage. The cluster is designed to enable a full teardown without any data loss.
+
+There is a template at [onedr0p/cluster-template](https://github.com/onedr0p/cluster-template) if you want to follow along with some of the practices I use here.
+
+### Core Components
+
+- [actions-runner-controller](https://github.com/actions/actions-runner-controller): Self-hosted Github runners.
+- [cert-manager](https://github.com/cert-manager/cert-manager): Creates SSL certificates for services in my cluster.
+- [cilium](https://github.com/cilium/cilium): eBPF-based networking for my workloads.
+- [cloudflared](https://github.com/cloudflare/cloudflared): Enables Cloudflare secure access to my routes.
+- [external-dns](https://github.com/kubernetes-sigs/external-dns): Automatically syncs ingress DNS records to a DNS provider.
+- [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets using [1Password Connect](https://github.com/1Password/connect).
+- [multus](https://github.com/k8snetworkplumbingwg/multus-cni): Multi-homed pod networking.
+- [rook](https://github.com/rook/rook): Distributed block storage for peristent storage.
+- [spegel](https://github.com/spegel-org/spegel): Stateless cluster local OCI registry mirror.
+- [volsync](https://github.com/backube/volsync): Backup and recovery of persistent volume claims.
+
+### GitOps
+
+[Flux](https://github.com/fluxcd/flux2) watches my [kubernetes](./kubernetes) folder (see Directories below) and makes the changes to my clusters based on the state of my Git repository.
+
+The way Flux works for me here is it will recursively search the [kubernetes/apps](./kubernetes/apps) folder until it finds the most top level `kustomization.yaml` per directory and then apply all the resources listed in it. That aforementioned `kustomization.yaml` will generally only have a namespace resource and one or many Flux kustomizations (`ks.yaml`). Under the control of those Flux kustomizations there will be a `HelmRelease` or other resources related to the application which will be applied.
+
+[Renovate](https://github.com/renovatebot/renovate) monitors my **entire** repository for dependency updates, automatically creating a PR when updates are found. When some PRs are merged Flux applies the changes to my cluster.
+
+### Directories
+
+This Git repository contains the following directories under [kubernetes](./kubernetes).
+
+```sh
+📁 kubernetes      # Kubernetes cluster defined as code
+├─📁 apps          # Apps deployed into my cluster grouped by namespace (see below)
+├─📁 components    # Re-usable kustomize components
+└─📁 flux          # Flux system configuration
+```
