@@ -3,9 +3,6 @@ machine:
   install:
     diskSelector:
       model: "Samsung SSD 860"
-  # disks:
-  #   - device: /dev/disk/by-id/xxxxxx
-  #     partitions: [{ mountpoint: /var/mnt/extra }]
   network:
     hostname: p1
     interfaces:
@@ -17,7 +14,7 @@ machine:
           lacpRate: fast
           miimon: 100
         dhcp: false
-        # mtu: 9000
+        mtu: 9000
         addresses: [10.25.11.12/24]
         routes: [{ network: "0.0.0.0/0", gateway: "10.25.11.1" }]
         vlans:

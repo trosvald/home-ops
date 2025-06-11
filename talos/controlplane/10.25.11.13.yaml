@@ -14,7 +14,7 @@ machine:
           lacpRate: fast
           miimon: 100
         dhcp: false
-        # mtu: 9000
+        mtu: 9000
         addresses: [10.25.11.13/24]
         routes: [{ network: "0.0.0.0/0", gateway: "10.25.11.1" }]
         vlans:
