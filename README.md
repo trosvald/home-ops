@@ -47,3 +47,24 @@ This is a mono repository for my home infrastructure and Kubernetes cluster. I t
 
 ---
 
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙" width="20" height="20"> Hardware
+
+<details>
+  <summary>Click to see my rack</summary>
+
+  <!-- <img src="https://github.com/user-attachments/assets/43bd0ca8-a1a8-49d5-9b9a-04fbdcecdd3f" align="center" alt="rack"/> -->
+  ![rack](./docs/src/assets/rack.png)
+</details>
+
+| Device                        | Count | OS Disk Size  | Data Disk Size              | Ram   | Operating System | Purpose                 |
+|-------------------------------|-------|---------------|-----------------------------|-------|------------------|-------------------------|
+| Thinkcentre M920x             | 3     | 512GB SSD     | 1TB NVME + 512GB NVME       | 64GB  | Talos            | Kubernetes              |
+| Synology NAS RS1221+          | 1     | -             | 8x12TB HDD                  | 32GB  | DSM 7            | NFS                     |
+| TESmart 8 Port KVM Switch     | 1     | -             | -                           | -     | -                | Network KVM             |
+| Juniper SRX320                | 1     | -             | -                           | -     | JUNOS            | Router                  |
+| TPLINK SX3008F                | 2     | -             | -                           | -     | -                | 10GGb ToR Switch        |
+| TPLINK SG2210MP               | 1     | -             | -                           | -     | -                | PoE Switch              |
+| TPLINK SG3428X                | 1     | -             | -                           | -     | -                | Aggregation Switch      |
+| APC AP4421                    | 1     | -             | -                           | -     | -                | ATS/PDU                 |
+| APC SURT2000RM XL + 2x BP     | 1     | -             | -                           | -     | -                | UPS                     |
+---
