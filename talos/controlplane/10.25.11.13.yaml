@@ -8,7 +8,10 @@ machine:
     interfaces:
       - interface: bond0
         bond:
-          deviceSelectors: [{ hardwareAddr: "7c:fe:90:a2:c5:*" }]
+          deviceSelectors: [{ hardwareAddr: "7c:fe:90:a2:c5:*", driver: mlx4_core }]
+          # interfaces:
+          #   - enp1s0
+          #   - enp1s0d1
           mode: 802.3ad
           xmitHashPolicy: layer3+4
           lacpRate: fast
