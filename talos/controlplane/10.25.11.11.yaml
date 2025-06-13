@@ -8,7 +8,7 @@ machine:
     interfaces:
       - interface: bond0
         bond:
-          deviceSelectors: [{ hardwareAddr: "e4:1d:7a:67:a5:*", driver: mlx4_en }]
+          deviceSelectors: [{ hardwareAddr: "e4:1d:7a:67:a5:*", driver: mlx4_core }]
           # interfaces:
           #   - enp1s0
           #   - enp1s0d1
