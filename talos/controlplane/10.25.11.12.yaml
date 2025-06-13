@@ -1,14 +1,14 @@
 ---
 machine:
-  install:
-    diskSelector:
-      model: "Samsung SSD 860"
+  # install:
+  #   diskSelector:
+  #     model: "Samsung SSD 860"
   network:
     hostname: p1
     interfaces:
       - interface: bond0
         bond:
-          deviceSelectors: [{ hardwareAddr: "e4:1d:85:75:d8:*", driver: mlx4_core }]
+          deviceSelectors: [{ hardwareAddr: "ec:0d:9a:00:27:*", driver: mlx4_en }]
           # interfaces:
           #   - enp1s0
           #   - enp1s0d1
@@ -29,13 +29,14 @@ machine:
               routeMetric: 4096
   nodeLabels:
     topology.kubernetes.io/zone: prod
-# ---
-# apiVersion: v1alpha1
-# kind: UserVolumeConfig
-# name: openebs
-# provisioning:
-#   diskSelector:
-#     match: disk.wwid == "naa.5000cca04a2538bc"
-#   maxSize: 200GiB
-# filesystem:
-#   type: xfs
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: openebs
+provisioning:
+  diskSelector:
+    match: disk.model == "TEAM TM8FP6512G" && !system_disk
+  minSize: 100GiB
+  maxSize: 500GiB
+filesystem:
+  type: xfs

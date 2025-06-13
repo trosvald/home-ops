@@ -46,6 +46,8 @@ machine:
         rsize=1048576
         wsize=1048576
   install:
+    diskSelector:
+      model: Samsung SSD 860
     image: factory.talos.dev/metal-installer/{{ ENV.TALOS_SCHEMATIC }}:{{ ENV.TALOS_VERSION }}
   kubelet:
     image: ghcr.io/siderolabs/kubelet:{{ ENV.KUBERNETES_VERSION }}

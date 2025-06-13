@@ -69,11 +69,20 @@ spec:
         connections:
           requireMsgr2: true
       storage:
-        useAllNodes: true
+        useAllNodes: false
         useAllDevices: false
-        deviceFilter: nvme0n1
         config:
           osdsPerDevice: "1"
+        nodes:
+          - name: p0
+            devices:
+              - name: /dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY2301230103010067A
+          - name: p1
+            devices:
+              - name: /dev/disk/by-id/nvme-PNY_CS2241_1TB_SSD_PNY23242306160103994
+          - name: p2
+            devices:
+              - name: /dev/disk/by-id/nvme-PNY_CS1031_1TB_SSD_PNY23012301030100E10
     cephBlockPools:
       - name: ceph-blockpool
         spec:
