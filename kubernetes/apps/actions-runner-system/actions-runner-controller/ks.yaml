@@ -34,8 +34,8 @@ spec:
       namespace: *namespace
     - name: external-secrets
       namespace: external-secrets
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: openebs
+      namespace: openebs-system
   interval: 1h
   path: ./kubernetes/apps/actions-runner-system/actions-runner-controller/runners
   prune: true

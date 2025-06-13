@@ -40,8 +40,8 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 25Gi
-        storageClassName: ceph-block
+            storage: 30Gi
+        storageClassName: openebs-hostpath
     controllerServiceAccount:
       name: actions-runner-controller
       namespace: actions-runner-system
