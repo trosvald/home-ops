@@ -74,7 +74,7 @@ spec:
           - "{{ .Release.Name }}.monosense.io"
         parentRefs:
           - name: external
-            namespace: kube-system
+            namespace: networking
             sectionName: https
         rules:
           - backendRefs:

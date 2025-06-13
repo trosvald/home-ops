@@ -73,7 +73,7 @@ spec:
         controller: plex
         type: LoadBalancer
         annotations:
-          lbipam.cilium.io/ips: 10.25.11.22
+          lbipam.cilium.io/ips: 10.25.25.4
         ports:
           http:
             port: 32400
@@ -82,7 +82,7 @@ spec:
         hostnames: ["{{ .Release.Name }}.monosense.io"]
         parentRefs:
           - name: external
-            namespace: kube-system
+            namespace: networking
             sectionName: https
         rules:
           - backendRefs:

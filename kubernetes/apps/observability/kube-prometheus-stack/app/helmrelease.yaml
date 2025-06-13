@@ -44,7 +44,7 @@ spec:
             - alertmanager.monosense.io
           parentRefs:
             - name: internal
-              namespace: kube-system
+              namespace: networking
               sectionName: https
       alertmanagerSpec:
         alertmanagerConfiguration:
@@ -73,7 +73,7 @@ spec:
             - prometheus.monosense.io
           parentRefs:
             - name: internal
-              namespace: kube-system
+              namespace: networking
               sectionName: https
       prometheusSpec:
         image:

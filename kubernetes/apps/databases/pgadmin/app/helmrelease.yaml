@@ -55,7 +55,7 @@ spec:
         parentRefs:
           - kind: Gateway
             name: internal
-            namespace: kube-system
+            namespace: networking
         hostnames:
           - pgadmin.monosense.io
         rules:

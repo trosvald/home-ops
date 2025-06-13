@@ -7,6 +7,11 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: networking
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: flux-system
 ---
 apiVersion: v1
@@ -29,7 +34,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: monosense-io-tls
-  namespace: kube-system
+  namespace: networking
   annotations:
     cert-manager.io/alt-names: '*.monosense.io,monosense.io'
     cert-manager.io/certificate-name: monosense-io

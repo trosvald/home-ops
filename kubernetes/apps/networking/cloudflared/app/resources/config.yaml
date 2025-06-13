@@ -4,10 +4,10 @@ originRequest:
 
 ingress:
   - hostname: monosense.io
-    service: &service https://cilium-gateway-external.kube-system.svc.cluster.local
-    # service: &service https://envoy-gateway-external.networking.svc.cluster.local
-    # originRequest:
-    #   originServerName: monosense.io
+    # service: &service https://cilium-gateway-external.kube-system.svc.cluster.local
+    service: &service https://envoy-gateway-external.networking.svc.cluster.local
+    originRequest:
+      originServerName: monosense.io
   - hostname: "*.monosense.io"
     service: *service
   # - hostname: monosense.dev
