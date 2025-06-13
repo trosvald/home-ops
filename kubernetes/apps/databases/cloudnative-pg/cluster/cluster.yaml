@@ -9,8 +9,8 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:${POSTGRESQL_VERSION}
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 20Gi
-    storageClass: ceph-block
+    size: 40Gi
+    storageClass: openebs-hostpath
   superuserSecret:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true

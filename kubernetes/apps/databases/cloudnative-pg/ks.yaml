@@ -35,8 +35,8 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: *namespace
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: openebs
+      namespace: openebs-system
   healthCheckExprs:
     - apiVersion: postgresql.cnpg.io/v1
       kind: Cluster
