@@ -6,7 +6,7 @@ spec:
   volumeMode: Filesystem
   #volumeMode: Block
   #storageClassName: longhorn  # replace with your storage class
-  storageClassName: nfs-slow
+  storageClassName: openebs-hostpath
   accessModes:
     - ReadWriteOnce
   resources:
@@ -72,7 +72,7 @@ spec:
         - name: MODE
           value: "full" # run all tests
         - name: FIRST_VOL_NAME
-          value: syno-nfs
+          value: openebs
         - name: FIRST_VOL_FILE
           value: "/volume1/test"
         - name: SECOND_VOL_NAME
