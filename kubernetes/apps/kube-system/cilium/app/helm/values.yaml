@@ -17,7 +17,7 @@ cgroup:
   hostRoot: /sys/fs/cgroup
 cluster:
   id: 1
-  name: mono
+  name: monolab
 cni:
   exclusive: false
 dashboards:
@@ -27,14 +27,15 @@ enableIPv4BIGTCP: true
 endpointRoutes:
   enabled: true
 envoy:
-  rollOutPods: true
-  prometheus:
-    serviceMonitor:
-      enabled: true
+  enabled: false
+  # rollOutPods: true
+  # prometheus:
+  #   serviceMonitor:
+  #     enabled: true
 gatewayAPI:
-  enabled: true
-  enableAlpn: true
-  xffNumTrustedHops: 1
+  enabled: false
+  # enableAlpn: true
+  # xffNumTrustedHops: 1
 hubble:
   enabled: false
 ipam:
@@ -45,11 +46,12 @@ k8sServicePort: 7445
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 l2announcements:
-  enabled: true
+  enabled: false
 loadBalancer:
   algorithm: maglev
   mode: dsr
 localRedirectPolicy: true
+MTU: 9000
 operator:
   replicas: 2
   rollOutPods: true
