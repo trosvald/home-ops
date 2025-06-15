@@ -7,6 +7,7 @@ components:
 resources:
   - ./alertmanager-telegram/ks.yaml
   - ./blackbox-exporter/ks.yaml
+  # - ./fluentbit/ks.yaml
   - ./gatus/ks.yaml
   - ./grafana/ks.yaml
   - ./kromgo/ks.yaml
@@ -18,3 +19,6 @@ resources:
   - ./smartctl-exporter/ks.yaml
   - ./snmp-exporter/ks.yaml
   - ./speedtest-exporter/ks.yaml
+  # - ./victoria-logs/ks.yaml
+  # - ./victoria-metrics/ks.yaml
+
