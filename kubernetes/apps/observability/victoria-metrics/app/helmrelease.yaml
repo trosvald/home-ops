@@ -24,9 +24,11 @@ spec:
   interval: 15m
   maxHistory: 3
   install:
+    crds: CreateReplace
     remediation:
       retries: -1
   upgrade:
+    crds: CreateReplace
     cleanupOnFail: true
     remediation:
       retries: 3
@@ -43,6 +45,7 @@ spec:
         - name: VM_VMALERTMANAGER_CONFIGRELOADERCPU
           value: 0
       operator:
+        disable_prometheus_converter: false # Ensure we keep enabled the converter to sync prom rules to VM rules
         enable_converter_ownership: true # Required to allow VM to remove VM rules it imports if a prometheus rule is deleted
 
     defaultDashboards:
