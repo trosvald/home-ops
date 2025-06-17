@@ -76,6 +76,22 @@ module "oauth2-headlamp" {
   redirect_uris      = ["https://headlamp.${var.public_domain}/login/generic_oauth"]
 }
 
+module "oauth2-outline" {
+  source             = "./oauth2_application"
+  name               = "Outline"
+  icon_url           = "https://raw.githubusercontent.com/outline/outline/refs/head/main/public/images/icon-512.png"
+  launch_url         = "https://docs.${var.public_domain}"
+  description        = "Docs and Wiki"
+  newtab             = true
+  group              = "Infrastructure"
+  auth_groups        = [authentik_group.infrastructure.id]
+  authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  invalidation_flow  = resource.authentik_flow.provider-invalidation.uuid
+  client_id          = module.secret_outline.fields["OUTLINE_OIDC_CLIENT_ID"]
+  client_secret      = module.secret_outline.fields["OUTLINE_OIDC_CLIENT_SECRET"]
+  redirect_uris      = ["https://docs.${var.public_domain}/auth/oidc.callback"]
+}
+
 # module "oauth2-immich" {
 #   source             = "./oauth2_application"
 #   name               = "Immich"
