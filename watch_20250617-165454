@@ -1,0 +1,81 @@
+Every 2.0s: flux get ks -A                                                                                                                monomini-m4.local: 16:54:53
+                                                                                                                                                        in 0.083s (0)
+NAMESPACE               NAME                                    REVISION                        SUSPENDED       READY   MESSAGE                                      
+                                                                                                                                                                     
+                                                                                                                                                                     
+actions-runner-system   actions-runner-controller               refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+actions-runner-system   actions-runner-controller-runners       refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+cert-manager            cert-manager                            refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+cert-manager            cert-manager-issuers                    refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+databases               cloudnative-pg                          refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+databases               cloudnative-pg-cluster                  refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+databases               dragonfly-operator                      refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+databases               pgadmin                                 refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+downloads               overseerr                               refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+downloads               plex                                    refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+downloads               plex-tools                              refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+downloads               prowlarr                                refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+downloads               qbittorrent                             refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+downloads               qbtools                                 refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+downloads               radarr                                  refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+downloads               sonarr                                  refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+external-secrets        external-secrets                        refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+flux-system             cluster-apps                            refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+flux-system             cluster-meta                            refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+flux-system             flux-instance                           refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+flux-system             flux-operator                           refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+flux-system             flux-system                             refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+flux-system             headlamp                                refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+flux-system             tofu-controller                         refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+flux-system             tofu-controller-terraforms              refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
+d4                                                                                                                                                                   
+                                                                                                                                                                     
+kube-system             cilium                                  refs/heads/main@sha1:e0d31cd4   False           True    Applied revision: refs/heads/main@sha1:e0d31c
