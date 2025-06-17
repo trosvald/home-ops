@@ -39,11 +39,6 @@ spec:
               repository: docker.io/outlinewiki/outline
               tag: 0.84.0@sha256:57717fcb7b697c4397578a30afe183d698c968c47279fe45dc26625343b236a6
 
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
-
             envFrom:
               - secretRef:
                   name: outline-secret
@@ -76,14 +71,6 @@ spec:
                 memory: 250Mi
               limits:
                 memory: 750Mi
-
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
 
     service:
       app:
