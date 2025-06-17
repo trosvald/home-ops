@@ -79,7 +79,7 @@ module "oauth2-headlamp" {
 module "oauth2-outline" {
   source             = "./oauth2_application"
   name               = "Outline"
-  icon_url           = "https://raw.githubusercontent.com/outline/outline/refs/head/main/public/images/icon-512.png"
+  icon_url           = "https://raw.githubusercontent.com/trosvald/home-ops/main/docs/src/assets/icon/icon-outline.png"
   launch_url         = "https://docs.${var.public_domain}"
   description        = "Docs and Wiki"
   newtab             = true
