@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app outline
+  name: &app docmost
 spec:
   interval: 1h
   chartRef:
@@ -20,9 +20,9 @@ spec:
       retries: 3
   values:
     controllers:
-      outline:
+      docmost:
         annotations:
-          secret.reloader.stakater.com/reload: outline-secret, outline-initdb-secret, outline-pguser-secret
+          secret.reloader.stakater.com/reload: docmost-secret, docmost-initdb-secret, docmost-pguser-secret
 
         initContainers:
           init-db:
@@ -31,45 +31,40 @@ spec:
               tag: 17
             envFrom:
               - secretRef:
-                  name: outline-initdb-secret
+                  name: docmost-initdb-secret
 
         containers:
           app:
             image:
-              repository: docker.io/outlinewiki/outline
-              tag: 0.84.0@sha256:57717fcb7b697c4397578a30afe183d698c968c47279fe45dc26625343b236a6
+              repository: docmost/docmost
+              tag: 0.20.4
 
             envFrom:
               - secretRef:
-                  name: outline-secret
+                  name: docmost-secret
               - secretRef:
-                  name: outline-pguser-secret
+                  name: docmost-pguser-secret
 
             env:
               TZ: "Asia/Jakarta"
-              URL: "https://docs.monosense.io"
-              PORT: &port 8080
-              ENABLE_UPDATES: "false"
-              LOG_LEVEL: warn
-              NODE_TLS_REJECT_UNAUTHORIZED: "0"
-              DEFAULT_LANGUAGE: en_US
-              FILE_STORAGE: local
-              FILE_STORAGE_LOCAL_ROOT_DIR: &storage_path /var/lib/outline/data
-              FILE_STORAGE_UPLOAD_MAX_SIZE: "26214400"
-
-            command:
-              [
-                /bin/sh,
-                -c,
-                yarn db:migrate --env=production-ssl-disabled && yarn start --env=production-ssl-disabled,
-              ]
-
+              APP_URL: "https://docs.monosense.io"
+              PORT: &port 3000
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
             resources:
               requests:
-                cpu: 10m
-                memory: 250Mi
-              limits:
-                memory: 750Mi
+                cpu: 25m
+                memory: 105M
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
 
     service:
       app:
@@ -95,4 +90,4 @@ spec:
       data:
         existingClaim: *app
         globalMounts:
-          - path: *storage_path
+          - path: /app/data/storage

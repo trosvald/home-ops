@@ -5,4 +5,4 @@ namespace: selfhosted
 components:
   - ../../components/common
 resources: []
-  # - ./outline/ks.yaml
+  # - ./docmost/ks.yaml
