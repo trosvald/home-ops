@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: docmost/docmost
-              tag: 0.20.4
+              tag: 0.21.0
 
             envFrom:
               - secretRef:
