@@ -42,7 +42,8 @@ spec:
       GATUS_SUBDOMAIN: docs
       CNPG_NAME: postgres
       VOLSYNC_CAPACITY: 20Gi
-      VOLSYNC_CACHE_CAPACITY: 10Gi
+      VOLSYNC_PUID: "1001"
+      VOLSYNC_PGID: "1001"
       DRAGONFLY_ARGS_DEFAULT_LUA_FLAGS: allow-undeclared-keys
   prune: true
   retryInterval: 1m
