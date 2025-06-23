@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    # - ../../../../components/cnpg
+    - ../../../../components/cnpg
     - ../../../../components/volsync
   dependsOn:
     - name: cloudnative-pg-cluster
@@ -31,7 +31,8 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: "15Gi"
+      CNPG_NAME: postgres
+      VOLSYNC_CAPACITY: "10Gi"
   prune: true
   retryInterval: 1m
   sourceRef:
