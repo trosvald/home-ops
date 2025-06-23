@@ -4,11 +4,11 @@ kind: HelmRelease
 metadata:
   name: &app odoo
 spec:
-  interval: 30m
+  interval: 1h
   chartRef:
     kind: OCIRepository
     name: app-template
-  maxHistory: 2
+    namespace: flux-system
   install:
     remediation:
       retries: -1
@@ -16,8 +16,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       odoo:
