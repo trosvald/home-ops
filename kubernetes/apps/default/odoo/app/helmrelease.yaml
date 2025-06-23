@@ -64,12 +64,11 @@ spec:
               limits:
                 memory: 4Gi
 
-            securityContext:
-              runAsUser: 65534
-              runAsGroup: 65534
-              fsGroup: 65534
-              fsGroupChangePolicy: OnRootMismatch
-              supplementalGroups: [100, 101]
+            # securityContext:
+            #   runAsUser: 101
+            #   runAsGroup: 101
+            #   fsGroup: 101
+            #   fsGroupChangePolicy: OnRootMismatch
 
           code:
             image:

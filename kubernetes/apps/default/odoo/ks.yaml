@@ -33,8 +33,8 @@ spec:
       APP: *app
       CNPG_NAME: postgres
       VOLSYNC_CAPACITY: "10Gi"
-      VOLSYNC_PUID: "65534"
-      VOLSYNC_PGID: "65534"
+      VOLSYNC_PUID: "101"
+      VOLSYNC_PGID: "101"
   prune: true
   retryInterval: 1m
   sourceRef:
