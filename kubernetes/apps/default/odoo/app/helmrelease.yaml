@@ -84,15 +84,6 @@ spec:
               - --port
               - "8081"
               - "/mnt/extra-addons"
-
-    defaultPodOptions:
-      securityContext:
-        runAsUser: 568
-        runAsGroup: 568
-        runAsNonRoot: true
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
-
     service:
       app:
         controller: *app
