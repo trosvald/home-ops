@@ -17,6 +17,12 @@ spec:
     remediation:
       retries: 3
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
     controllers:
       odoo:
         replicas: 1
@@ -37,25 +43,10 @@ spec:
           app:
             image:
               repository: docker.io/odoo
-              tag: 17.0-20250520
-            env:
-              TZ: "Asia/Jakarta"
-              HOST:
-                valueFrom:
-                  secretKeyRef:
-                    name: odoo-pguser-secret
-                    key: host
-              USER:
-                valueFrom:
-                  secretKeyRef:
-                    name: odoo-pguser-secret
-                    key: user
-              PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: odoo-pguser-secret
-                    key: password
-              PORT: "5432"
+              tag: 17.0-20250618
+            envFrom:
+              - secretRef:
+                  name: odoo-secret
 
             resources:
               requests:
@@ -77,6 +68,8 @@ spec:
             env:
               TZ: Asia/Jakarta
             args:
+              - --auth
+              - "none"
               - --user-data-dir
               - "/tmp/.vscode"
               - --extensions-dir
