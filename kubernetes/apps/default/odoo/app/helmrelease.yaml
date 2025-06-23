@@ -59,7 +59,17 @@ spec:
 
             resources:
               requests:
-                cpu: 250m
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 4Gi
+
+            securityContext:
+              runAsUser: 65534
+              runAsGroup: 65534
+              fsGroup: 65534
+              fsGroupChangePolicy: OnRootMismatch
+              supplementalGroups: [100, 101]
 
           code:
             image:
