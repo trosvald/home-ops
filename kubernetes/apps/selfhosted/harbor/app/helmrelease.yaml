@@ -23,6 +23,10 @@ spec:
     remediation:
       retries: 3
   valuesFrom:
+    - targetPath: harborAdminPassword
+      kind: Secret
+      name: &secret harbor-secret
+      valuesKey: HARBOR_ADMIN_PASSWORD
     - kind: Secret
       name: &dbSecret harbor-pguser-secret
       valuesKey: password
@@ -43,6 +47,24 @@ spec:
       valuesKey: db
       targetPath: database.external.coreDatabase
       optional: false
+    # S3
+    - targetPath: persistence.imageChartStorage.s3.accesskey
+      kind: Secret
+      name: *secret
+      valuesKey: REGISTRY_STORAGE_S3_ACCESSKEY
+    - targetPath: persistence.imageChartStorage.s3.secretkey
+      kind: Secret
+      name: *secret
+      valuesKey: REGISTRY_STORAGE_S3_SECRETKEY
+    - targetPath: persistence.imageChartStorage.s3.regionendpoint
+      kind: Secret
+      name: *secret
+      valuesKey: S3_ENDPOINT
+    - targetPath: persistence.imageChartStorage.s3.region
+      kind: Secret
+      name: *secret
+      valuesKey: S3_REGION
+
   values:
     expose:
       type: ingress
@@ -53,34 +75,121 @@ spec:
     persistence:
       enabled: true
       persistentVolumeClaim:
-        registry:
-          existingClaim: harbor
         jobservice:
           jobLog:
-            storageClass: zfs-nvme
+            storageClass: ceph-block
             size: 1Gi
-        database:
-          storageClass: local-hostpath
-          size: 1Gi
-        redis:
-          storageClass: local-hostpath
-          size: 1Gi
+          scanDataExports:
+            storageClass: ceph-block
+            size: 1Gi
+        trivy:
+          storageClass: ceph-block
+          size: 30Gi
+
+      imageChartStorage:
+        disableredirect: true
+        type: s3
+        s3:
+          v4auth: true
+          bucket: harbor
+          secure: true
+          skipverify: false
+          rootdirectory: /s3/object
+
+    imagePullPolicy: Always
+    updateStrategy:
+      type: Recreate
+    logLevel: warning
+    # The secret key used for encryption. Must be a string of 16 chars.
+    existingSecretSecretKey: *secret
+
+    portal:
+      image:
+        repository: ghcr.io/octohelm/harbor/harbor-portal
+        tag: v2.13.0
+      revisionHistoryLimit: 3
+    core:
+      image:
+        repository: ghcr.io/octohelm/harbor/harbor-core
+        tag: v2.13.0
+      revisionHistoryLimit: 3
+      podAnnotations:
+        secret.reloader.stakater.com/reload: "harbor-secrets"
+    jobservice:
+      image:
+        repository: ghcr.io/octohelm/harbor/harbor-jobservice
+        tag: v2.13.0
+      revisionHistoryLimit: 3
+    registry:
+      registry:
+        image:
+          repository: ghcr.io/octohelm/harbor/registry-photon
+          tag: v2.13.0
+      controller:
+        image:
+          repository: ghcr.io/octohelm/harbor/harbor-registryctl
+          tag: v2.13.0
+      upload_purging:
+        enabled: true
+        # remove files in _upload directories which exist for a period of time, default is one week.
+        age: 168h
+        # the interval of the purge operations
+        interval: 24h
+        dryrun: false
+      revisionHistoryLimit: 3
+    chartmuseum:
+      enabled: false
+    trivy:
+      enabled: true
+      image:
+        repository: ghcr.io/octohelm/harbor/trivy-adapter-photon
+        tag: v2.13.0
+    notary:
+      enabled: false
+
     redis:
       type: external
       external:
         addr: harbor-dragonfly.selfhosted.svc.cluster.local:6379
+        coreDatabaseIndex: 0
+        jobServiceDatabaseIndex: 1
+        registryDatabaseIndex: 2
+        chartMuseumDatabaseIndex: 3
+        trivyAdapterIndex: 4
+
     database:
       type: external
-    existingSecretAdminPassword: harbor-secret
-    existingSecretAdminPasswordKey: password
-    # The secret key used for encryption. Must be a string of 16 chars.
-    existingSecretSecretKey: "harbor-secret"
-    enableMigrateHelmHook: true
+      external:
+        port: 5432
+    # existingSecretAdminPassword: harbor-secret
+    # existingSecretAdminPasswordKey: password
+
+    exporter:
+      replicas: 1
+      revisionHistoryLimit: 3
+      image:
+        repository: ghcr.io/octohelm/harbor/harbor-exporter
+        tag: v2.13.0
+    metrics:
+      enabled: true
+      core:
+        path: /metrics
+        port: 8001
+      registry:
+        path: /metrics
+        port: 8001
+      jobservice:
+        path: /metrics
+        port: 8001
+      exporter:
+        path: /metrics
+        port: 8001
+      serviceMonitor:
+        enabled: true
+    trace:
+      enabled: false
     cache:
-      enabled: true
-    notary:
       enabled: false
-    trivy:
-      enabled: false
-    serviceMonitor:
-      enabled: true
+      expireHours: 24
+
+    enableMigrateHelmHook: true
