@@ -1,0 +1,86 @@
+---
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app harbor
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: harbor
+      version: 1.17.1
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: harbor
+        namespace: flux-system
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  valuesFrom:
+    - kind: Secret
+      name: &dbSecret harbor-pguser-secret
+      valuesKey: password
+      targetPath: database.external.password
+      optional: false
+    - kind: Secret
+      name: *dbSecret
+      valuesKey: user
+      targetPath: database.external.username
+      optional: false
+    - kind: Secret
+      name: *dbSecret
+      valuesKey: host
+      targetPath: database.external.host
+      optional: false
+    - kind: Secret
+      name: *dbSecret
+      valuesKey: db
+      targetPath: database.external.coreDatabase
+      optional: false
+  values:
+    expose:
+      type: ingress
+    externalURL: https://hcr.monosense.io
+    ipFamily:
+      ipv6:
+        enabled: false
+    persistence:
+      enabled: true
+      persistentVolumeClaim:
+        registry:
+          existingClaim: harbor
+        jobservice:
+          jobLog:
+            storageClass: zfs-nvme
+            size: 1Gi
+        database:
+          storageClass: local-hostpath
+          size: 1Gi
+        redis:
+          storageClass: local-hostpath
+          size: 1Gi
+    redis:
+      type: external
+      external:
+        addr: harbor-dragonfly.selfhosted.svc.cluster.local:6379
+    database:
+      type: external
+    existingSecretAdminPassword: harbor-secret
+    existingSecretAdminPasswordKey: password
+    # The secret key used for encryption. Must be a string of 16 chars.
+    existingSecretSecretKey: "harbor-secret"
+    enableMigrateHelmHook: true
+    cache:
+      enabled: true
+    notary:
+      enabled: false
+    trivy:
+      enabled: false
+    serviceMonitor:
+      enabled: true
