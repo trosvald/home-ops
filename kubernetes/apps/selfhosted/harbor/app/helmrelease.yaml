@@ -157,11 +157,11 @@ spec:
       type: external
       external:
         addr: harbor-dragonfly.selfhosted.svc.cluster.local:6379
-        coreDatabaseIndex: 0
-        jobServiceDatabaseIndex: 1
-        registryDatabaseIndex: 2
-        chartMuseumDatabaseIndex: 3
-        trivyAdapterIndex: 4
+        coreDatabaseIndex: "0"
+        jobServiceDatabaseIndex: "1"
+        registryDatabaseIndex: "2"
+        chartMuseumDatabaseIndex: "3"
+        trivyAdapterIndex: "4"
 
     database:
       type: external
