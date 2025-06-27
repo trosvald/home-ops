@@ -6,4 +6,4 @@ components:
   - ../../components/common
 resources:
   - ./docmost/ks.yaml
-  # - ./harbor/ks.yaml
+  - ./harbor/ks.yaml
