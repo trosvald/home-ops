@@ -13,7 +13,6 @@ spec:
     - ../../../../components/cnpg
     - ../../../../components/dragonfly
     - ../../../../components/gatus/external
-    - ../../../../components/volsync
   dependsOn:
     - name: cloudnative-pg-cluster
       namespace: databases
@@ -41,9 +40,6 @@ spec:
       APP: *app
       GATUS_SUBDOMAIN: hcr
       CNPG_NAME: postgres
-      VOLSYNC_CAPACITY: 300Gi
-      VOLSYNC_PUID: "568"
-      VOLSYNC_PGID: "568"
   prune: true
   retryInterval: 1m
   sourceRef:
