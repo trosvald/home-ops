@@ -121,6 +121,12 @@ spec:
         tag: v2.13.0
       revisionHistoryLimit: 3
     registry:
+      initContainers:
+        - name: init-db
+          image: ghcr.io/home-operations/postgres-init:17.5
+          envFrom:
+            - secretRef:
+                name: *dbSecret
       registry:
         image:
           repository: ghcr.io/octohelm/harbor/registry-photon
