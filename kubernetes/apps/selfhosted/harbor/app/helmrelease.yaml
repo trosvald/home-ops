@@ -91,7 +91,7 @@ spec:
         type: s3
         s3:
           v4auth: true
-          bucket: harbor
+          bucket: registry
           secure: true
           skipverify: false
           rootdirectory: /s3/object
