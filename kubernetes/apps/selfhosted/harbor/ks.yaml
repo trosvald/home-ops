@@ -49,28 +49,28 @@ spec:
   targetNamespace: *namespace
   timeout: 5m
   wait: false
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &app harbor-container-webhook
-  namespace: &namespace selfhosted
-spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  dependsOn:
-    - name: harbor
-      namespace: *namespace
-  path: ./kubernetes/apps/selfhosted/harbor/container-webhook
-  prune: true
-  interval: 1h
-  retryInterval: 2m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: *namespace
-  timeout: 5m
-  wait: true
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: &app harbor-container-webhook
+#   namespace: &namespace selfhosted
+# spec:
+#   commonMetadata:
+#     labels:
+#       app.kubernetes.io/name: *app
+#   dependsOn:
+#     - name: harbor
+#       namespace: *namespace
+#   path: ./kubernetes/apps/selfhosted/harbor/container-webhook
+#   prune: true
+#   interval: 1h
+#   retryInterval: 2m
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#     namespace: flux-system
+#   targetNamespace: *namespace
+#   timeout: 5m
+#   wait: true
 
