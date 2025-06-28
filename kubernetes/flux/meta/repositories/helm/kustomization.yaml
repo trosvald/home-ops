@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./fluent.yaml
   - ./harbor.yaml
+  - ./harbor-container-webhook.yaml
