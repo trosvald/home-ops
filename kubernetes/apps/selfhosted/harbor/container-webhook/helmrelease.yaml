@@ -1,0 +1,40 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: harbor-container-webhook
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: "https://indeedeng.github.io/harbor-container-webhook/"
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor-container-webhook
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: harbor-container-webhook
+      version: 0.7.1
+      sourceRef:
+        kind: HelmRepository
+        name: harbor-container-webhook
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      pullPolicy: Always
+    rules:
+      - name: 'docker.io replace rule'
+        matches:
+          - '^docker.io\/'
+        excludes:
+          - '^docker.io\/goharbor\/'
+        replace: 'hcr.monosense.io/docker.io'
+        checkUpstream: true
+      - name: 'harbor images'
+        matches:
+          - '^docker.io\/goharbor\/'
+        replace: 'mirror.gcr.io'
