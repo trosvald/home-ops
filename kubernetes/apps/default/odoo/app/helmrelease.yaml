@@ -35,7 +35,7 @@ spec:
               # repository: docker.io/odoo
               # tag: 18.0-20250618
               repository: hcr.monosense.io/library/odoo
-              tag: 18.0
+              tag: "18.0"
             envFrom:
               - secretRef:
                   name: odoo-secret
