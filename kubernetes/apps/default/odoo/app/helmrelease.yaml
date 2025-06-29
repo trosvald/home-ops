@@ -32,7 +32,7 @@ spec:
         containers:
           app:
             image:
-              repository: docker.io/odoo
+              repository: hcr.monosense.io/docker.io/odoo
               tag: 18.0-20250618
             envFrom:
               - secretRef:
