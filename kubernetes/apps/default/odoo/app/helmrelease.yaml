@@ -29,21 +29,13 @@ spec:
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
-
-        # initContainers:
-        #   init-db:
-        #     image:
-        #       repository: ghcr.io/home-operations/postgres-init
-        #       tag: "17"
-        #     envFrom:
-        #       - secretRef:
-        #           name: odoo-initdb-secret
-
         containers:
           app:
             image:
-              repository: docker.io/odoo
-              tag: 18.0-20250618
+              # repository: docker.io/odoo
+              # tag: 18.0-20250618
+              repository: hcr.monosense.io/library/odoo
+              tag: 18.0
             envFrom:
               - secretRef:
                   name: odoo-secret
@@ -54,12 +46,6 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 4Gi
-
-            # securityContext:
-            #   runAsUser: 101
-            #   runAsGroup: 101
-            #   fsGroup: 101
-            #   fsGroupChangePolicy: OnRootMismatch
 
           code:
             image:
