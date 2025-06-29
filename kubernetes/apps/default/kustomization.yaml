@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: default
 components:
   - ../../components/common
-resources:
+resources: []
   # - ./atuin/ks.yaml
   # - ./home-assistant/ks.yaml
-  - ./odoo/ks.yaml
+  # - ./odoo/ks.yaml
   # - ./zigbee2mqtt/ks.yaml
