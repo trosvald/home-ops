@@ -32,10 +32,8 @@ spec:
         containers:
           app:
             image:
-              # repository: docker.io/odoo
-              # tag: 18.0-20250618
-              repository: hcr.monosense.io/library/odoo
-              tag: "main-18.0"
+              repository: docker.io/odoo
+              tag: 18.0-20250618
             envFrom:
               - secretRef:
                   name: odoo-secret
@@ -100,7 +98,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: *app
+        existingClaim: odoo-addons
         globalMounts:
           - path: /var/lib/odoo
       etc-config-file:
@@ -110,6 +108,6 @@ spec:
           - path: /etc/odoo/odoo.conf
             subPath: odoo.conf
       extra-addons:
-        existingClaim: odoo-addons
+        existingClaim: *app
         globalMounts:
           - path: /mnt/extra-addons
