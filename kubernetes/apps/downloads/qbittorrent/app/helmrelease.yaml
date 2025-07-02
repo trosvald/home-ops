@@ -82,7 +82,7 @@ spec:
             nameOverride: qbittorrent
             image:
               repository: ghcr.io/home-operations/qbittorrent
-              tag: 5.1.1
+              tag: 5.1.2
             env:
               TZ: Asia/Jakarta
               UMASK: "022"
