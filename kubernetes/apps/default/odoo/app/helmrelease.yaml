@@ -98,7 +98,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: odoo-addons
+        existingClaim: *app
         globalMounts:
           - path: /var/lib/odoo
       etc-config-file:
@@ -108,6 +108,6 @@ spec:
           - path: /etc/odoo/odoo.conf
             subPath: odoo.conf
       extra-addons:
-        existingClaim: *app
+        existingClaim: odoo-addons
         globalMounts:
           - path: /mnt/extra-addons
