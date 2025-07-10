@@ -5,7 +5,7 @@ machine:
     interfaces:
       - interface: bond0
         bond:
-          deviceSelectors: [{ hardwareAddr: "7c:fe:90:a2:c5:*", driver: mlx4_core }]
+          deviceSelectors: [{ hardwareAddr: "3c:fd:fe:35:02:*", driver: i40e }]
           mode: 802.3ad
           xmitHashPolicy: layer3+4
           lacpRate: fast

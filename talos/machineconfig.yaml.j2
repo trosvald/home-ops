@@ -49,6 +49,19 @@ machine:
     diskSelector:
       model: Samsung SSD 860
     image: factory.talos.dev/metal-installer/{{ ENV.TALOS_SCHEMATIC }}:{{ ENV.TALOS_VERSION }}
+    extraKernelArgs:
+      - -init_on_alloc                      # Less security, faster puter
+      - -init_on_free                       # Less security, faster puter
+      - -selinux                            # Less security, faster puter
+      - apparmor=0                          # Less security, faster puter
+      - init_on_alloc=0                     # Less security, faster puter
+      - init_on_free=0                      # Less security, faster puter
+      - intel_iommu=on                      # PCI Passthrough
+      - iommu=pt                            # PCI Passthrough
+      - mitigations=off                     # Less security, faster puter
+      - security=none                       # Less security, faster puter
+      - talos.auditd.disabled=1             # Less security, faster puter
+      - module_blacklist=e1000e
   kubelet:
     image: ghcr.io/siderolabs/kubelet:{{ ENV.KUBERNETES_VERSION }}
     extraConfig:
@@ -181,14 +194,14 @@ filesystem:
 ---
 apiVersion: v1alpha1
 kind: EthernetConfig
-name: enp1s0
+name: enp1s0f0np0
 rings:
   rx: 8160
   tx: 8160
 ---
 apiVersion: v1alpha1
 kind: EthernetConfig
-name: enp1s0d1
+name: enp1s0f1np1
 rings:
   rx: 8160
   tx: 8160
