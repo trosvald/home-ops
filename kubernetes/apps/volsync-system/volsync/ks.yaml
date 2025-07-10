@@ -8,7 +8,13 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  components:
+    - ../../../../components/keda/nfs-scaler
   dependsOn:
+    - name: keda
+      namespace: observability
+    - name: openebs
+      namespace: openebs-system
     - name: snapshot-controller
       namespace: *namespace
   interval: 1h
@@ -22,3 +28,6 @@ spec:
   targetNamespace: *namespace
   timeout: 5m
   wait: true
+  postBuild:
+    substitute:
+      APP: *app

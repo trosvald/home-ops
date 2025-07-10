@@ -1,20 +1,20 @@
 ---
-# yaml-language-server: $schema=https://kube-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: "${APP}"
 spec:
-  sourcePVC: "${CLAIM:=${APP}}"
+  sourcePVC: "${APP}"
   trigger:
     schedule: "0 * * * *"
   restic:
     copyMethod: "${VOLSYNC_COPYMETHOD:=Snapshot}"
     pruneIntervalDays: 14
-    repository: "${APP}-volsync-minio"
+    repository: "${APP}-volsync-secret"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:=csi-ceph-blockpool}"
-    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:=10Gi}"
-    cacheStorageClassName: "${VOLSYNC_CACHE_STORAGECLASS:=ceph-block}"
+    cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:=5Gi}"
+    cacheStorageClassName: "${VOLSYNC_CACHE_SNAPSHOTCLASS:=openebs-hostpath}"
     cacheAccessModes: ["${VOLSYNC_CACHE_ACCESSMODES:=ReadWriteOnce}"]
     storageClassName: "${VOLSYNC_STORAGECLASS:=ceph-block}"
     accessModes: ["${VOLSYNC_SNAP_ACCESSMODES:=ReadWriteOnce}"]
@@ -24,6 +24,4 @@ spec:
       fsGroup: ${VOLSYNC_PGID:=568}
     retain:
       hourly: 24
-      daily: 10
-      weekly: 5
-      monthly: 3
+      daily: 7

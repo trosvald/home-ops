@@ -34,11 +34,11 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://postgresql/main
-      endpointURL: https://s3.monosense.dev
+      destinationPath: s3://cnpg-main/
+      endpointURL: https://eca0833f608b5745af030307a99bdbb4.r2.cloudflarestorage.com
       # Note: serverName version needs to be inclemented
       # when recovering from an existing cnpg cluster
-      serverName: postgres-v2
+      serverName: postgres-v1
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
