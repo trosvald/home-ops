@@ -98,7 +98,7 @@ spec:
               value: Object.spec.template.spec.volumes{
                 name: "repository",
                 nfs: Object.spec.template.spec.volumes.nfs{
-                  server: "nas.monosense.io",
+                  server: "nas.monosense.dev",
                   path: "/vol1/volsync"
                 }
               }
