@@ -4,6 +4,6 @@ kind: Kustomization
 namespace: selfhosted
 components:
   - ../../components/common
-resources: []
-  # - ./docmost/ks.yaml
+resources:
+  - ./docmost/ks.yaml
   # - ./harbor/ks.yaml
