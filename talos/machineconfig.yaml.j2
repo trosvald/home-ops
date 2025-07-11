@@ -117,8 +117,15 @@ cluster:
     image: registry.k8s.io/kube-apiserver:{{ ENV.KUBERNETES_VERSION }}
     extraArgs:
       enable-aggregator-routing: true
-    certSANs: ["k8s.internal"]
+      feature-gates: MutatingAdmissionPolicy=true
+      runtime-config: admissionregistration.k8s.io/v1alpha1=true
+    certSANs: ["k8s.monosense.io"]
     disablePodSecurityPolicy: true
+    auditPolicy:
+      apiVersion: audit.k8s.io/v1
+      kind: Policy
+      rules:
+        - level: Metadata
   controllerManager:
     image: registry.k8s.io/kube-controller-manager:{{ ENV.KUBERNETES_VERSION }}
     extraArgs:
