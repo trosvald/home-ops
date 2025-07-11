@@ -4,14 +4,14 @@ kind: Kustomization
 namespace: downloads
 components:
   - ../../components/common
-resources:
+resources: []
   # - ./autobrr/ks.yaml
   # - ./bazarr/ks.yaml
   # - ./cross-seed/ks.yaml
-  - ./overseerr/ks.yaml
-  - ./plex/ks.yaml
-  - ./prowlarr/ks.yaml
-  - ./qbittorrent/ks.yaml
-  - ./radarr/ks.yaml
-  - ./sonarr/ks.yaml
+  # - ./overseerr/ks.yaml
+  # - ./plex/ks.yaml
+  # - ./prowlarr/ks.yaml
+  # - ./qbittorrent/ks.yaml
+  # - ./radarr/ks.yaml
+  # - ./sonarr/ks.yaml
   # - ./tautulli/ks.yaml
