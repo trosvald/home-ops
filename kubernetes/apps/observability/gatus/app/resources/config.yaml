@@ -44,33 +44,6 @@ endpoints:
       - type: telegram
         send-on-resolved: true
 
-  - name: MinIO
-    group: guarded
-    url: https://s3.monosense.dev/minio/health/live
-    interval: 1m
-    ui:
-      hide-hostname: true
-      hide-url: true
-    client:
-      dns-resolver: tcp://10.25.10.30:53
-    conditions:
-      - "[STATUS] == 200"
-    alerts:
-      - type: telegram
-        send-on-resolved: true
-
-  - name: s3-cert-expiration
-    group: domain
-    url: "https://s3.monosense.dev"
-    interval: 1h
-    ui:
-      hide-hostname: true
-      hide-url: true
-    client:
-      dns-resolver: tcp://10.25.10.30:53
-    conditions:
-      - "[CERTIFICATE_EXPIRATION] > 240h"
-
   - name: nas-cert-expiration
     group: domain
     url: "https://nas.monosense.dev:5001"
