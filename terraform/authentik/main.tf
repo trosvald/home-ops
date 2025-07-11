@@ -2,10 +2,10 @@ terraform {
   backend "s3" {
     bucket                      = "terraform-state"
     key                         = "authentik/state.tfstate"
-    region                      = "bsd-lat-obj"
+    region                      = "auto"
 
     endpoints = {
-      s3 = "https://s3.monosense.dev"
+      s3 = "https://eca0833f608b5745af030307a99bdbb4.r2.cloudflarestorage.com"
     }
 
     skip_credentials_validation = true

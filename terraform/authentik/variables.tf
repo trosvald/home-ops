@@ -10,7 +10,7 @@ variable "private_domain" {
 
 variable "OP_CONNECT_HOST" {
   type        = string
-  description = "Oneopass Connect URL"
+  description = "Onepass Connect URL"
 }
 
 variable "OP_CONNECT_TOKEN" {

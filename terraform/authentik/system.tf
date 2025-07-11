@@ -5,7 +5,7 @@ data "authentik_certificate_key_pair" "generated" {
 resource "authentik_brand" "home" {
   domain           = var.public_domain
   default          = false
-  branding_title   = "Home"
+  branding_title   = "SSO - monosense"
   branding_logo    = "https://avatars.githubusercontent.com/u/11927171"
   branding_favicon = "/static/dist/assets/icons/icon.png"
 
