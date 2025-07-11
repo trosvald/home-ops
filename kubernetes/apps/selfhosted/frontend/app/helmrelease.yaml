@@ -55,7 +55,7 @@ spec:
     route:
       app:
         hostnames:
-          - frontend.dpr.go.id
+          - frontend.monosense.io
         parentRefs:
           - name: internal
             namespace: networking
