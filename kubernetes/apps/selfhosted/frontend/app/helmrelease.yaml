@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: ghcr.io/sekjen-dpr/web-talos
-              tag: latest@sha256:e957b69d7e4a31739677be6275bde71621b1aab72526185a956931f17754e21f
+              tag: latest@sha256:70d841b03732698b2b664ab2e8cb1d530b5ef6bccc7860efbd012f982e98be4e
             envFrom:
               - secretRef:
                   name: frontend-secret
