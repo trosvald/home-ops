@@ -7,7 +7,7 @@ resource "authentik_brand" "home" {
   default          = false
   branding_title   = "SSO - monosense"
   branding_logo    = "https://avatars.githubusercontent.com/u/11927171"
-  branding_favicon = "/static/dist/assets/icons/icon.png"
+  branding_favicon = "https://raw.githubusercontent.com/trosvald/home-ops/main/docs/src/assets/icons/favicon.ico"
 
   flow_authentication = authentik_flow.authentication.uuid
   flow_invalidation   = authentik_flow.invalidation.uuid
