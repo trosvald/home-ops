@@ -21,8 +21,8 @@ security:
 
 alerting:
   telegram:
-    id: ${TELEGRAM_CHANNEL_ID}
-    token: ${TELEGRAM_TOKEN}
+    id: $${TELEGRAM_CHANNEL_ID}
+    token: $${TELEGRAM_TOKEN}
 connectivity:
   checker:
     target: 172.17.13.100:53
