@@ -48,4 +48,4 @@ spec:
             - name: backups
               nfs:
                 path: /volume1/kubernetes/apps/postgres
-                server: nas.monosense.dev
+                server: storage.monosense.dev
