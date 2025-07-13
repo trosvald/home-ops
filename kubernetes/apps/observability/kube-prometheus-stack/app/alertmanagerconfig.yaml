@@ -30,11 +30,13 @@ spec:
           - name: severity
             value: critical
             matchType: =
+        continue: true
       - receiver: discord
         matchers:
           - name: severity
             value: critical
             matchType: =
+        # continue: true
   inhibitRules:
     - equal: ["alertname", "namespace"]
       sourceMatch:
