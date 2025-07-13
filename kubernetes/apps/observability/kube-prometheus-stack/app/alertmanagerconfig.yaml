@@ -96,6 +96,7 @@ spec:
         - apiURL:
             key: DISCORD_WEBHOOK_URL
             name: alertmanager-secret
+          sendResolved: true
           title: |-
             {{- if eq .Status "firing" }}🚨 **ALERT FIRING** 🚨{{- else }}✅ **ALERT RESOLVED** ✅{{- end }}
           message: |-
