@@ -55,10 +55,16 @@ This is a mono repository for my home infrastructure and Kubernetes cluster. I t
   ![rack](./docs/src/assets/rack.png)
 </details>
 
+### Home-Ops 
 | Device                        | Count | OS Disk Size  | Data Disk Size              | Ram   | Operating System | Purpose                 |
 |-------------------------------|-------|---------------|-----------------------------|-------|------------------|-------------------------|
 | ThinkCentre M920x             | 2     | 500GB SSD     | 1TB NVME + 512GB NVME       | 64GB  | Talos            | Kubernetes              |
-| ThinkStation P330             | 4     | 500GB SSD     | 1TB NVME + 512GB NVME       | 64GB  | Talos            | Kubernetes              |
+| ThinkStation P330             | 1     | 500GB SSD     | 1TB NVME + 512GB NVME       | 64GB  | Talos            | Kubernetes              |
+---
+
+### Shared Infra
+| Device                        | Count | OS Disk Size  | Data Disk Size              | Ram   | Operating System | Purpose                 |
+|-------------------------------|-------|---------------|-----------------------------|-------|------------------|-------------------------|
 | Synology NAS RS1221+          | 1     | -             | 8x12TB HDD                  | 32GB  | DSM 7            | NFS                     |
 | IBM Tape Library TS-3200      | 1     | -             | 24xLTO-6 + 24xLTO-7         | -     | -                | Longterm Archive        |
 | TESmart 8 Port KVM Switch     | 1     | -             | -                           | -     | -                | Network KVM             |

@@ -28,10 +28,10 @@ spec:
               repository: registry.k8s.io/external-dns/external-dns
               tag: v0.18.0@sha256:f90738b35be265d50141d5c21e6f6049c3da7cd761682c40214117a2951b80bc
             args:
-              - --log-level=debug
+              - --log-level=info
               - --registry=txt
-              - --txt-prefix=k8s.
-              - --txt-owner-id=k8s
+              - --txt-prefix=k8s-dev.
+              - --txt-owner-id=k8s-dev
               - --provider=rfc2136
               - --rfc2136-port=53
               - --rfc2136-tsig-secret-alg=hmac-sha256

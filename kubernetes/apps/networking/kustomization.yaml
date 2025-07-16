@@ -10,5 +10,5 @@ resources:
   - ./envoy-gateway/ks.yaml
   - ./external-dns/ks.yaml
   - ./multus/ks.yaml
-  - ./smtp-relay/ks.yaml
+  # - ./smtp-relay/ks.yaml
   # - ./tailscale/ks.yaml

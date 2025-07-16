@@ -17,7 +17,7 @@ cgroup:
   hostRoot: /sys/fs/cgroup
 cluster:
   id: 1
-  name: monolab
+  name: dev
 cni:
   exclusive: false
 dashboards:

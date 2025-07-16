@@ -5,7 +5,7 @@
 #   icon_url           = "https://github.com/transmission/transmission/raw/main/web/assets/img/logo.png"
 #   group              = "Downloads"
 #   slug               = "torrent"
-#   domain             = var.public_domain
+#   domain             = var.private_domain
 #   authorization_flow = resource.authentik_flow.provider-authorization-implicit-consent.uuid
 #   invalidation_flow  = resource.authentik_flow.provider-invalidation.uuid
 #   auth_groups        = [authentik_group.media.id]
@@ -16,7 +16,7 @@ module "oauth2-grafana" {
   source             = "./oauth2_application"
   name               = "Grafana"
   icon_url           = "https://raw.githubusercontent.com/grafana/grafana/main/public/img/icons/mono/grafana.svg"
-  launch_url         = "https://grafana.${var.public_domain}"
+  launch_url         = "https://grafana.${var.private_domain}"
   description        = "Infrastructure graphs"
   newtab             = true
   group              = "Infrastructure"
@@ -25,14 +25,14 @@ module "oauth2-grafana" {
   invalidation_flow  = resource.authentik_flow.provider-invalidation.uuid
   client_id          = module.secret_grafana.fields["GRAFANA_OIDC_CLIENT_ID"]
   client_secret      = module.secret_grafana.fields["GRAFANA_OIDC_CLIENT_SECRET"]
-  redirect_uris      = ["https://grafana.${var.public_domain}/login/generic_oauth"]
+  redirect_uris      = ["https://grafana.${var.private_domain}/login/generic_oauth"]
 }
 
 module "oauth2-pgadmin" {
   source             = "./oauth2_application"
   name               = "PGAdmin"
   icon_url           = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png"
-  launch_url         = "https://pgadmin.${var.public_domain}"
+  launch_url         = "https://pgadmin.${var.private_domain}"
   description        = "Database"
   newtab             = true
   group              = "Infrastructure"
@@ -41,14 +41,14 @@ module "oauth2-pgadmin" {
   invalidation_flow  = resource.authentik_flow.provider-invalidation.uuid
   client_id          = module.secret_pgadmin.fields["PGADMIN_OIDC_CLIENT_ID"]
   client_secret      = module.secret_pgadmin.fields["PGADMIN_OIDC_CLIENT_SECRET"]
-  redirect_uris      = ["https://pgadmin.${var.public_domain}/oauth/authorize"]
+  redirect_uris      = ["https://pgadmin.${var.private_domain}/oauth/authorize"]
 }
 
 module "oauth2-gatus" {
   source             = "./oauth2_application"
   name               = "Gatus"
   icon_url           = "https://raw.githubusercontent.com/TwiN/gatus/refs/heads/master/web/app/src/assets/logo.svg"
-  launch_url         = "https://status.${var.public_domain}"
+  launch_url         = "https://status.${var.private_domain}"
   description        = "Uptime monitoring"
   newtab             = true
   group              = "Infrastructure"
@@ -57,14 +57,14 @@ module "oauth2-gatus" {
   invalidation_flow  = resource.authentik_flow.provider-invalidation.uuid
   client_id          = module.secret_gatus.fields["GATUS_OIDC_CLIENT_ID"]
   client_secret      = module.secret_gatus.fields["GATUS_OIDC_CLIENT_SECRET"]
-  redirect_uris      = ["https://status.${var.public_domain}/authorization-code/callback"]
+  redirect_uris      = ["https://status.${var.private_domain}/authorization-code/callback"]
 }
 
 module "oauth2-headlamp" {
   source             = "./oauth2_application"
   name               = "Headlamp"
   icon_url           = "https://raw.githubusercontent.com/headlamp-k8s/headlamp/refs/heads/main/frontend/src/resources/icon-dark.svg"
-  launch_url         = "https://headlamp.${var.public_domain}"
+  launch_url         = "https://headlamp.${var.private_domain}"
   description        = "K8S Infrastructure"
   newtab             = true
   group              = "Infrastructure"
@@ -73,7 +73,7 @@ module "oauth2-headlamp" {
   invalidation_flow  = resource.authentik_flow.provider-invalidation.uuid
   client_id          = module.secret_headlamp.fields["HEADLAMP_OIDC_CLIENT_ID"]
   client_secret      = module.secret_headlamp.fields["HEADLAMP_OIDC_CLIENT_SECRET"]
-  redirect_uris      = ["https://headlamp.${var.public_domain}/login/generic_oauth"]
+  redirect_uris      = ["https://headlamp.${var.private_domain}/login/generic_oauth"]
 }
 
 
@@ -81,7 +81,7 @@ module "oauth2-headlamp" {
 #   source             = "./oauth2_application"
 #   name               = "Immich"
 #   icon_url           = "https://github.com/immich-app/immich/raw/main/docs/static/img/favicon.png"
-#   launch_url         = "https://photos.${var.public_domain}"
+#   launch_url         = "https://photos.${var.private_domain}"
 #   description        = "Photo managment"
 #   newtab             = true
 #   group              = "Selfhosted"
@@ -91,7 +91,7 @@ module "oauth2-headlamp" {
 #   client_id          = module.secret_immich.fields["OIDC_CLIENT_ID"]
 #   client_secret      = module.secret_immich.fields["OIDC_CLIENT_SECRET"]
 #   redirect_uris = [
-#     "https://photos.${var.public_domain}/auth/login",
+#     "https://photos.${var.private_domain}/auth/login",
 #     "app.immich:///oauth-callback"
 #   ]
 # }
@@ -100,7 +100,7 @@ module "oauth2-headlamp" {
 #   source             = "./oauth2_application"
 #   name               = "Audiobookshelf"
 #   icon_url           = "https://raw.githubusercontent.com/advplyr/audiobookshelf-web/master/static/Logo.png"
-#   launch_url         = "https://audiobooks.${var.public_domain}"
+#   launch_url         = "https://audiobooks.${var.private_domain}"
 #   description        = "Media player"
 #   newtab             = true
 #   group              = "Selfhosted"
@@ -109,7 +109,7 @@ module "oauth2-headlamp" {
 #   invalidation_flow  = resource.authentik_flow.provider-invalidation.uuid
 #   client_id          = module.secret_audiobookshelf.fields["OIDC_CLIENT_ID"]
 #   client_secret      = module.secret_audiobookshelf.fields["OIDC_CLIENT_SECRET"]
-#   redirect_uris      = ["https://audiobooks.${var.public_domain}/auth/openid/callback", "audiobookshelf://oauth"]
+#   redirect_uris      = ["https://audiobooks.${var.private_domain}/auth/openid/callback", "audiobookshelf://oauth"]
 # }
 
 # module "oauth2-paperless" {
@@ -132,7 +132,7 @@ module "oauth2-headlamp" {
 #   source             = "./oauth2_application"
 #   name               = "Owncloud"
 #   icon_url           = "https://raw.githubusercontent.com/owncloud/owncloud.github.io/main/static/favicon/favicon.png"
-#   launch_url         = "https://ocis.${var.public_domain}"
+#   launch_url         = "https://ocis.${var.private_domain}"
 #   description        = "ownCloud Infinite Scale"
 #   newtab             = true
 #   group              = "Selfhosted"
@@ -143,9 +143,9 @@ module "oauth2-headlamp" {
 #   client_id          = module.secret_ocis.fields["OIDC_CLIENT_ID"]
 #   # additional_property_mappings = formatlist(authentik_scope_mapping.openid-nextcloud.id)
 #   redirect_uris = [
-#     "https://ocis.${var.public_domain}",
-#     "https://ocis.${var.public_domain}/oidc-callback.html",
-#     "https://ocis.${var.public_domain}/oidc-silent-redirect.html"
+#     "https://ocis.${var.private_domain}",
+#     "https://ocis.${var.private_domain}/oidc-callback.html",
+#     "https://ocis.${var.private_domain}/oidc-silent-redirect.html"
 #   ]
 # }
 

@@ -5,13 +5,13 @@ kind: Gateway
 metadata:
   name: internal
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname internal.monosense.io
+    external-dns.alpha.kubernetes.io/target: &hostname internal.monosense.dev
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: *hostname
-      lbipam.cilium.io/ips: 10.25.25.3
+      lbipam.cilium.io/ips: 10.25.26.3
     parametersRef:
       group: gateway.envoyproxy.io
       kind: EnvoyProxy
@@ -20,18 +20,18 @@ spec:
     - name: http
       protocol: HTTP
       port: 80
-      hostname: "*.monosense.io"
+      hostname: "*.monosense.dev"
       allowedRoutes:
         namespaces:
           from: Same
     - name: https
       protocol: HTTPS
       port: 443
-      hostname: "*.monosense.io"
+      hostname: "*.monosense.dev"
       allowedRoutes:
         namespaces:
           from: All
       tls:
         certificateRefs:
           - kind: Secret
-            name: monosense-io-tls
+            name: monosense-dev-tls

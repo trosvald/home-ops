@@ -40,7 +40,7 @@ spec:
       name: nfs-slow
       parameters:
         server: storage.monosense.dev
-        share: /volume1/kubernetes/apps
+        share: /volume1/kubernetes/dev
       mountOptions:
         - nfsvers=4.1
         - nconnect=16

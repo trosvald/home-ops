@@ -37,7 +37,7 @@ spec:
         gateway:
           controllerName: gateway.envoyproxy.io/gatewayclass-controller
         backendTlsConfig:
-          clientCertificateRef: monosense-io-tls
+          clientCertificateRef: monosense-dev-tls
       logging:
         level:
           default: debug

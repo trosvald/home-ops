@@ -5,7 +5,7 @@ kind: HTTPRoute
 metadata:
   name: rook-ceph-dashboard
 spec:
-  hostnames: ["rook.monosense.io"]
+  hostnames: ["rook.monosense.dev"]
   parentRefs:
     - name: internal
       namespace: networking

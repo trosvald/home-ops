@@ -5,7 +5,7 @@ kind: HTTPRoute
 metadata:
   name: headlamp
 spec:
-  hostnames: ["headlamp.monosense.io"]
+  hostnames: ["headlamp.monosense.dev"]
   parentRefs:
     - name: internal
       namespace: networking

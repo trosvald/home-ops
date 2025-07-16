@@ -30,7 +30,7 @@ spec:
             args:
               - --cloudflare-dns-records-per-page=1000
               - --cloudflare-proxied
-              - --domain-filter=monosense.io
+              - --domain-filter=monosense.dev
               - --events
               - --gateway-name=external
               - --interval=1m

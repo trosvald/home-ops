@@ -1,14 +1,14 @@
 ---
 originRequest:
-  originServerName: external.monosense.io
+  originServerName: external.monosense.dev
 
 ingress:
-  - hostname: monosense.io
+  - hostname: monosense.dev
     # service: &service https://cilium-gateway-external.kube-system.svc.cluster.local
     service: &service https://envoy-gateway-external.networking.svc.cluster.local
     originRequest:
-      originServerName: monosense.io
-  - hostname: "*.monosense.io"
+      originServerName: monosense.dev
+  - hostname: "*.monosense.dev"
     service: *service
   # - hostname: monosense.dev
   #   service: *service

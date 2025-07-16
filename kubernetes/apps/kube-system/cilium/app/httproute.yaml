@@ -5,7 +5,7 @@ kind: HTTPRoute
 metadata:
   name: hubble-dashboard
 spec:
-  hostnames: ["hubble.monosense.io"]
+  hostnames: ["hubble.monosense.dev"]
   parentRefs:
     - name: internal
       namespace: networking

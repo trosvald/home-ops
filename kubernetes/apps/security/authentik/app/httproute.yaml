@@ -5,7 +5,7 @@ kind: HTTPRoute
 metadata:
   name: authentik
 spec:
-  hostnames: ["${GATUS_SUBDOMAIN:=${APP}}.monosense.io"]
+  hostnames: ["${GATUS_SUBDOMAIN:=${APP}}.monosense.dev"]
   parentRefs:
     - name: external
       namespace: networking

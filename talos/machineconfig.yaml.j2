@@ -91,9 +91,9 @@ cluster:
     {% if ENV.MACHINE_TYPE == 'controlplane' %}
     key: op://Automation/talos-mono/CLUSTER_CA_KEY
     {% endif %}
-  clusterName: monolab
+  clusterName: dev
   controlPlane:
-    endpoint: https://k8s.monosense.io:6443
+    endpoint: https://k8s.monosense.dev:6443
   discovery:
     enabled: true
     registries:
@@ -121,7 +121,7 @@ cluster:
       enable-aggregator-routing: true
       feature-gates: MutatingAdmissionPolicy=true
       runtime-config: admissionregistration.k8s.io/v1alpha1=true
-    certSANs: ["k8s.monosense.io"]
+    certSANs: ["k8s.monosense.dev"]
     disablePodSecurityPolicy: true
     auditPolicy:
       apiVersion: audit.k8s.io/v1

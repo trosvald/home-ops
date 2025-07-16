@@ -5,7 +5,7 @@ metadata:
   name: github-webhook
 spec:
   hostnames:
-    - flux-webhook.monosense.io
+    - flux-webhook.monosense.dev
   parentRefs:
     - name: external
       namespace: networking

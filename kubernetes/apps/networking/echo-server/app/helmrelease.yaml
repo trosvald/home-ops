@@ -63,7 +63,7 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.monosense.io"
+          - "{{ .Release.Name }}.monosense.dev"
         parentRefs:
           - name: external
             namespace: networking

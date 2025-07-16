@@ -1,7 +1,7 @@
 ---
 machine:
   network:
-    hostname: p0
+    hostname: d0
     interfaces:
       - interface: bond0
         bond:
@@ -22,4 +22,4 @@ machine:
             dhcpOptions:
               routeMetric: 4096
   nodeLabels:
-    topology.kubernetes.io/zone: prod
+    topology.kubernetes.io/zone: dev
