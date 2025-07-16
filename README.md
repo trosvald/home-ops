@@ -55,7 +55,7 @@ This is a mono repository for my home infrastructure and Kubernetes cluster. I t
   ![rack](./docs/src/assets/rack.png)
 </details>
 
-### Home-Ops 
+### Home-Ops (Dev Cluster)
 | Device                        | Count | OS Disk Size  | Data Disk Size              | Ram   | Operating System | Purpose                 |
 |-------------------------------|-------|---------------|-----------------------------|-------|------------------|-------------------------|
 | ThinkCentre M920x             | 2     | 500GB SSD     | 1TB NVME + 512GB NVME       | 64GB  | Talos            | Kubernetes              |
