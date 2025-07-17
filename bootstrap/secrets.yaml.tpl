@@ -28,5 +28,5 @@ metadata:
   name: sops-age
   namespace: flux-system
 stringData:
-  age.agekey: op://Dev/sops/SOPS_PRIVATE_KEY
+  age.agekey: op://Dev/dev-sops/SOPS_PRIVATE_KEY
 
