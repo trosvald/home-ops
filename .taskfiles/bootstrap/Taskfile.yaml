@@ -8,7 +8,7 @@ tasks:
     prompt: Bootstrap Talos ...?
     cmds:
       - until talosctl --nodes {{.RANDOM_CONTROLLER}} bootstrap; do sleep 5; done
-      - talosctl kubeconfig --nodes {{.RANDOM_CONTROLLER}} --force {{.KUBERNETES_DIR}}
+      - talosctl kubeconfig --nodes {{.RANDOM_CONTROLLER}} --force --force-context-name dev {{.KUBERNETES_DIR}}
     vars:
       RANDOM_CONTROLLER:
         sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
