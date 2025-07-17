@@ -33,6 +33,14 @@ resource "authentik_group" "infrastructure" {
   ]
 }
 
+data "authentik_group" "media" {
+  name = "media"
+}
+
+data "authentik_group" "infrastructure" {
+  name = "infrastructure"
+}
+
 resource "authentik_user" "sysadmin" {
   username = module.secret_authentik.fields["SYSADMIN_USERNAME"]
   name     = module.secret_authentik.fields["SYSADMIN_NAME"]
@@ -40,9 +48,7 @@ resource "authentik_user" "sysadmin" {
   password = module.secret_authentik.fields["SYSADMIN_PASSWORD"]
   groups   = [
     data.authentik_group.admins.id,
-    data.authentik_group.infrastructure.id,
-    data.authentik_group.users.id,
-    data.authentik_group.media.id
+    data.authentik_group.infrastructure.id
   ]
 }
 
