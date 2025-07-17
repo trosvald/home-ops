@@ -2,7 +2,7 @@
 
 resource "authentik_flow" "authenticator-totp-setup" {
   name           = "authenticator-totp-setup"
-  title          = "Setup Two-Factor authentication"
+  title          = "Setup 2FA Authenticator"
   slug           = "authenticator-totp-setup"
   designation    = "stage_configuration"
   authentication = "require_authenticated"
