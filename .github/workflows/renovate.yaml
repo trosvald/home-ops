@@ -48,8 +48,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          # token: ${{ steps.app-token.outputs.token }}
-          token: ${{ secrets.RENOVATE_PAT }}
+          token: ${{ steps.app-token.outputs.token }}
+          
 
       - name: Renovate
         uses: renovatebot/github-action@8058cfe11252651a837a58e2e3370fbc0e72c658 # v42.0.4
@@ -62,6 +62,5 @@ jobs:
           RENOVATE_PLATFORM: github
           RENOVATE_PLATFORM_COMMIT: true
         with:
-          # token: ${{ steps.app-token.outputs.token }}
-          token: ${{ secrets.RENOVATE_PAT }}
+          token: ${{ steps.app-token.outputs.token }}
           renovate-version: ${{ inputs.version || 'latest' }}
