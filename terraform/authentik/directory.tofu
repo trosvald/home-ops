@@ -42,8 +42,7 @@ resource "authentik_group" "infrastructure" {
   name         = "infrastructure"
   is_superuser = false
   users        = [
-    data.authentik_user.user.id,
-    data.authentik_user.sysadmin.id
+    data.authentik_user.user.id
   ]
 }
 
