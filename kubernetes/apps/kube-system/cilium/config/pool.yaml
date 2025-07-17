@@ -6,5 +6,4 @@ metadata:
 spec:
   allowFirstLastIPs: "Yes"
   blocks:
-    - cidr: 10.25.25.0/24
-    - cidr: ::ffff:10.25.25.0/120 # IPv4-mapped IPv6
+    - cidr: 10.25.26.0/24

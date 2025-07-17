@@ -6,6 +6,6 @@ metadata:
   name: terraform
 spec:
   interval: 1m
-  url: oci://ghcr.io/trosvald/manifests/terraform
+  url: oci://ghcr.io/trosvald/manifests/tofu-dev
   ref:
     tag: main

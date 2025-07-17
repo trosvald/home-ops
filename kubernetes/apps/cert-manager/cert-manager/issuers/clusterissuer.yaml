@@ -13,6 +13,6 @@ spec:
           cloudflare:
             apiTokenSecretRef:
               name: cloudflare-issuer-secret
-              key: CLOUDFLARE_API_TOKEN
+              key: CF_API_TOKEN
         selector:
           dnsZones: ["monosense.dev"]

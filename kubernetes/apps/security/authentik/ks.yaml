@@ -38,7 +38,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      GATUS_SUBDOMAIN: sso
+      GATUS_SUBDOMAIN: auth
       GATUS_PATH: /-/health/live/
       CNPG_NAME: postgres
   prune: true
