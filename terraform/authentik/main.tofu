@@ -61,7 +61,7 @@ module "secret_pgadmin" {
 
 provider "authentik" {
   url   = "https://auth.${var.private_domain}"
-  token = module.secret_authentik.fields["AUTHENTIK_BOOTSTRAP_TOKEN"]
+  token = module.secret_authentik.fields["SSO_BOOTSTRAP_TOKEN"]
 }
 
 provider "onepassword" {
