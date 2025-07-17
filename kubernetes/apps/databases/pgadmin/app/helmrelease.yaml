@@ -57,7 +57,7 @@ spec:
             name: internal
             namespace: networking
         hostnames:
-          - pgadmin.monosense.io
+          - pgadmin.monosense.dev
         rules:
           - backendRefs:
               - name: *app

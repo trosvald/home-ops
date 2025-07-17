@@ -68,7 +68,7 @@ spec:
   values:
     expose:
       type: ingress
-    externalURL: https://hcr.monosense.io
+    externalURL: https://hcr.monosense.dev
     ipFamily:
       ipv6:
         enabled: false

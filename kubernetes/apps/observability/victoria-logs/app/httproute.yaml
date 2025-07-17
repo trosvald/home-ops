@@ -5,7 +5,7 @@ metadata:
   name: victoria-logs-server
 spec:
   hostnames:
-    - logs.monosense.io
+    - logs.monosense.dev
   parentRefs:
     - name: internal
       namespace: networking

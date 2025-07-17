@@ -41,7 +41,7 @@ spec:
         main:
           enabled: true
           hostnames:
-            - alertmanager.monosense.io
+            - alertmanager.monosense.dev
           parentRefs:
             - name: internal
               namespace: networking
@@ -51,7 +51,7 @@ spec:
           name: alertmanager
           global:
             resolveTimeout: 5m
-        externalUrl: https://alertmanager.monosense.io
+        externalUrl: https://alertmanager.monosense.dev
         storage:
           volumeClaimTemplate:
             spec:
@@ -70,7 +70,7 @@ spec:
         main:
           enabled: true
           hostnames:
-            - prometheus.monosense.io
+            - prometheus.monosense.dev
           parentRefs:
             - name: internal
               namespace: networking
@@ -90,7 +90,7 @@ spec:
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
-        externalUrl: https://prometheus.monosense.io
+        externalUrl: https://prometheus.monosense.dev
         retention: 14d
         retentionSize: 50GB
         resources:

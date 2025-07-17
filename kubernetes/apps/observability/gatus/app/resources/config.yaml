@@ -13,10 +13,10 @@ web:
 
 security:
   oidc:
-    issuer-url: https://sso.monosense.io/application/o/gatus/
+    issuer-url: https://sso.monosense.dev/application/o/gatus/
     client-id: ${CLIENT_ID}
     client-secret: ${CLIENT_SECRET}
-    redirect-url: https://status.monosense.io/authorization-code/callback
+    redirect-url: https://status.monosense.dev/authorization-code/callback
     scopes: [openid]
 
 alerting:

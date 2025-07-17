@@ -79,8 +79,8 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.monosense.io"
-          - requests.monosense.io
+          - "{{ .Release.Name }}.monosense.dev"
+          - requests.monosense.dev
         parentRefs:
           - name: external
             namespace: networking

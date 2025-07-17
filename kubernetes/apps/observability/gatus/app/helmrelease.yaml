@@ -113,7 +113,7 @@ spec:
             scrapeInterval: 10s
     route:
       app:
-        hostnames: ["${GATUS_SUBDOMAIN:=${APP}}.monosense.io"]
+        hostnames: ["${GATUS_SUBDOMAIN:=${APP}}.monosense.dev"]
         parentRefs:
           - name: external
             namespace: networking

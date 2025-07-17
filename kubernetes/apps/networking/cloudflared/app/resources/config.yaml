@@ -10,12 +10,4 @@ ingress:
       originServerName: monosense.dev
   - hostname: "*.monosense.dev"
     service: *service
-  # - hostname: monosense.dev
-  #   service: *service
-  #   originRequest:
-  #     originServerName: monosense.dev
-  # - hostname: "*.monosense.dev"
-  #   service: *service
-  #   originRequest:
-  #     originServerName: external.monosense.dev
   - service: http_status:404

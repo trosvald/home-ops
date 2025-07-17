@@ -47,5 +47,5 @@ spec:
           volumes:
             - name: backups
               nfs:
-                path: /volume1/kubernetes/apps/postgres
+                path: /volume1/kubernetes/backup/postgres
                 server: storage.monosense.dev

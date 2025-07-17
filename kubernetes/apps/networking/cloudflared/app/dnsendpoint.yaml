@@ -6,7 +6,7 @@
 #   name: cloudflared
 # spec:
 #   endpoints:
-#     - dnsName: external.monosense.io
+#     - dnsName: external.monosense.dev
 #       recordType: CNAME
 #       targets: ["${CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com"]
 #     - dnsName: external.monosense.dev

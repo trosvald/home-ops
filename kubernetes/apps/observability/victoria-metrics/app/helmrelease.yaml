@@ -83,7 +83,7 @@ spec:
 
     alertmanager:
       spec:
-        externalURL: https://am.monosense.io
+        externalURL: https://am.monosense.dev
       useManagedConfig: true
       config:
         route:
@@ -137,7 +137,7 @@ spec:
               operator: NotIn
               values: ["never-used-value"]
         extraArgs:
-          external.url: https://vm.monosense.io
+          external.url: https://vm.monosense.dev
 
     vmagent:
       spec:

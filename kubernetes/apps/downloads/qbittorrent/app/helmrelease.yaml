@@ -201,7 +201,7 @@ spec:
     route:
       app:
         hostnames:
-          - qb.monosense.io
+          - qb.monosense.dev
         parentRefs:
           - name: internal
             namespace: networking

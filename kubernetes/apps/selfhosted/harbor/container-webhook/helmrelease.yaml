@@ -23,7 +23,7 @@ spec:
           - '^docker.io\/'
         excludes:
           - '^docker.io\/goharbor\/'
-        replace: 'hcr.monosense.io/docker.io'
+        replace: 'hcr.monosense.dev/docker.io'
         checkUpstream: false
       - name: 'harbor images'
         matches:

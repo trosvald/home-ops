@@ -84,7 +84,7 @@ spec:
     route:
       app:
         hostnames:
-          - prowlarr.monosense.io
+          - prowlarr.monosense.dev
         parentRefs:
           - name: internal
             namespace: networking

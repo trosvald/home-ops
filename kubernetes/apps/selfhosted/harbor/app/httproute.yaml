@@ -6,7 +6,7 @@ metadata:
   name: harbor
   # annotations:
   #   external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
-  #   external-dns.alpha.kubernetes.io/target: ipv4.monosense.io
+  #   external-dns.alpha.kubernetes.io/target: ipv4.monosense.dev
 spec:
   parentRefs:
     - name: internal
@@ -14,7 +14,7 @@ spec:
       namespace: networking
       sectionName: https
   hostnames:
-    - hcr.monosense.io
+    - hcr.monosense.dev
   rules:
     - matches:
       - path:

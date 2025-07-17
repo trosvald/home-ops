@@ -47,7 +47,7 @@ spec:
 
             env:
               TZ: "Asia/Jakarta"
-              APP_URL: "https://docs.monosense.io"
+              APP_URL: "https://docs.monosense.dev"
               PORT: &port 3000
             probes:
               liveness:
@@ -76,7 +76,7 @@ spec:
     route:
       app:
         hostnames:
-          - "docs.monosense.io"
+          - "docs.monosense.dev"
         parentRefs:
           - name: external
             namespace: networking
