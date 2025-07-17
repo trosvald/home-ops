@@ -3,9 +3,9 @@ data "authentik_certificate_key_pair" "generated" {
 }
 
 resource "authentik_brand" "home" {
-  domain           = var.public_domain
+  domain           = var.private_domain
   default          = false
-  branding_title   = "SSO - monosense"
+  branding_title   = "Dev SSO"
   branding_logo    = "https://avatars.githubusercontent.com/u/11927171"
   branding_favicon = "https://raw.githubusercontent.com/trosvald/home-ops/main/docs/src/assets/icons/favicon.ico"
 
@@ -34,7 +34,7 @@ resource "authentik_service_connection_kubernetes" "local" {
 #     module.proxy-homepage.id
 #   ]
 #   config = jsonencode({
-#     authentik_host          = "https://sso.${var.public_domain}",
+#     authentik_host          = "https://auth.${var.private_domain}",
 #     authentik_host_insecure = false,
 #     authentik_host_browser  = "",
 #     log_level               = "debug",

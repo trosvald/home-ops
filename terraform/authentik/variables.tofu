@@ -1,6 +1,6 @@
 variable "public_domain" {
   type    = string
-  default = "monosense.dev"
+  default = "monosense.io"
 }
 
 variable "private_domain" {
