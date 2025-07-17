@@ -28,7 +28,7 @@ spec:
       - receiver: pushover
         matchers:
           - name: severity
-            value: critical
+            value: warning
             matchType: =
         continue: true
       - receiver: discord

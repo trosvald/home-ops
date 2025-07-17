@@ -37,6 +37,13 @@ jobs:
     name: Flux Local - Test
     runs-on: ubuntu-latest
     steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2.0.6
+        id: app-token
+        with:
+          app-id: ${{ secrets.TROSVALD_APP_ID }}
+          private-key: ${{ secrets.TROSVALD_APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -65,6 +72,13 @@ jobs:
         resource: ["helmrelease", "kustomization"]
       fail-fast: false
     steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2.0.6
+        id: app-token
+        with:
+          app-id: ${{ secrets.TROSVALD_APP_ID }}
+          private-key: ${{ secrets.TROSVALD_APP_PRIVATE_KEY }}
+
       - name: Checkout Pull Request Branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
