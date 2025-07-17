@@ -7,7 +7,7 @@ components:
 resources: 
   # - ./blackbox-exporter/ks.yaml
   # - ./fluentbit/ks.yaml
-  # - ./gatus/ks.yaml
+  - ./gatus/ks.yaml
   # - ./grafana/ks.yaml
   - ./keda/ks.yaml
   # - ./kromgo/ks.yaml
