@@ -19,10 +19,6 @@ security:
     redirect-url: https://status.monosense.dev/authorization-code/callback
     scopes: [openid]
 
-alerting:
-  telegram:
-    id: $${TELEGRAM_CHANNEL_ID}
-    token: $${TELEGRAM_TOKEN}
 connectivity:
   checker:
     target: 172.17.13.100:53
@@ -31,18 +27,12 @@ connectivity:
 endpoints:
   - name: hearbeat
     group: external
-    # ui:
-    #   hide-hostname: true
-    #   hide-url: true
     url: "https://hc-ping.com/eb9c12b0-4301-413d-8525-06a414702b64"
     interval: 90s
     client:
       dns-resolver: tcp://172.17.13.100:53
     conditions:
       - "[STATUS] == 200"
-    alerts:
-      - type: telegram
-        send-on-resolved: true
 
   - name: nas-cert-expiration
     group: domain
