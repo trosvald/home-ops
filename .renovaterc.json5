@@ -10,6 +10,7 @@
     "github>trosvald/home-ops//.renovate/grafanaDashboards.json5",
     "github>trosvald/home-ops//.renovate/groups.json5",
     "github>trosvald/home-ops//.renovate/labels.json5",
+    "github>trosvald/home-ops//.renovate/renovateUser.json5",
     "github>trosvald/home-ops//.renovate/semanticCommits.json5",
     ":automergeBranch",
     ":dependencyDashboard",
@@ -18,8 +19,6 @@
     ":semanticCommits",
     ":timezone(Asia/Jakarta)",
   ],
-  "username": "bot-mono[bot]",
-  "gitAuthor": "bot-mono <1613908+bot-mono[bot]@users.noreply.github.com>",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "suppressNotifications": [
     "prEditedNotification",
