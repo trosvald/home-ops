@@ -5,3 +5,4 @@ resources:
   - ./fluent.yaml
   - ./harbor.yaml
   - ./harbor-container-webhook.yaml
+  - ./rocketchat.yaml
