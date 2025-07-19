@@ -47,23 +47,6 @@ spec:
       valuesKey: db
       targetPath: database.external.coreDatabase
       optional: false
-    # S3
-    - targetPath: persistence.imageChartStorage.s3.accesskey
-      kind: Secret
-      name: *secret
-      valuesKey: REGISTRY_STORAGE_S3_ACCESSKEY
-    - targetPath: persistence.imageChartStorage.s3.secretkey
-      kind: Secret
-      name: *secret
-      valuesKey: REGISTRY_STORAGE_S3_SECRETKEY
-    - targetPath: persistence.imageChartStorage.s3.regionendpoint
-      kind: Secret
-      name: *secret
-      valuesKey: S3_ENDPOINT
-    - targetPath: persistence.imageChartStorage.s3.region
-      kind: Secret
-      name: *secret
-      valuesKey: S3_REGION
 
   values:
     expose:
@@ -75,9 +58,13 @@ spec:
     persistence:
       enabled: true
       persistentVolumeClaim:
+        registry:
+          storageClass: ceph-block
+          size: 300Gi
+          accessMode: ReadWriteOnce
         jobservice:
           jobLog:
-            storageClass: ceph-block
+            storageClass: openebs-hostpath
             size: 1Gi
           scanDataExports:
             storageClass: ceph-block
@@ -86,15 +73,15 @@ spec:
           storageClass: ceph-block
           size: 30Gi
 
-      imageChartStorage:
-        disableredirect: true
-        type: s3
-        s3:
-          v4auth: true
-          bucket: registry
-          secure: true
-          skipverify: false
-          rootdirectory: /s3/object
+      # imageChartStorage:
+      #   disableredirect: false
+      #   type: s3
+        # s3:
+        #   v4auth: true
+        #   bucket: registry
+        #   secure: true
+        #   skipverify: false
+        #   rootdirectory: /s3/object
 
     imagePullPolicy: Always
     updateStrategy:
