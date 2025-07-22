@@ -4,5 +4,5 @@ kind: Component
 resources:
   # - ./r2
   # - ./pvc.yaml
-  - ./nfs.yaml
+  - ./nfs
   - ./nfs-pvc.yaml
