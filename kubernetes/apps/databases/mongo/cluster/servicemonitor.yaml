@@ -9,10 +9,10 @@ spec:
     - basicAuth:
         password:
           key: prom-password
-          name: *app
+          name: mongodb-secret
         username:
           key: prom-username
-          name: *app
+          name: mongodb-secret
 
       # This port matches what we created in our MongoDB Service.
       port: prometheus
