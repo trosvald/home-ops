@@ -7,3 +7,4 @@ components:
 resources:
   - ./harbor/ks.yaml
   - ./nocodb/ks.yaml
+  - ./rocketchat/ks.yaml

@@ -1,0 +1,86 @@
+---
+# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app rocketchat
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: rocketchat
+      version: 6.25.2
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: rocketchat
+        namespace: flux-system
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  valuesFrom:
+    - kind: Secret
+      name: &secret rocketchat-secret
+      valuesKey: MONGODB_URL
+      targetPath: externalMongodbUrl
+      optional: false
+    # - kind: Secret
+    #   name: *secret
+    #   valuesKey: MONGODB_OP_LOG_URL
+    #   targetPath: externalMongodbOplogUrl
+    #   optional: false
+    - kind: Secret
+      name: *secret
+      valuesKey: SMTP_HOST
+      targetPath: smtp.host
+      optional: false
+    - kind: Secret
+      name: *secret
+      valuesKey: SMTP_USERNAME
+      targetPath: smtp.username
+      optional: false
+    - kind: Secret
+      name: *secret
+      valuesKey: SMTP_PASSWORD
+      targetPath: smtp.password
+      optional: false
+  values:
+    smtp:
+      enabled: true
+    mongodb:
+      enabled: false
+    persistence:
+      enabled: true
+      existingClaim: *app
+    resources:
+      requests:
+        cpu: 300m
+        memory: 512Mi
+      limits:
+        memory: 2Gi
+    securityContext:
+      enabled: true
+      runAsUser: 999
+      fsGroup: 999
+
+    livenessProbe:
+      enabled: true
+      path: /health
+      initialDelaySeconds: 60
+      periodSeconds: 15
+      timeoutSeconds: 5
+      failureThreshold: 3
+      successThreshold: 1
+
+    readinessProbe:
+      enabled: true
+      path: /health
+      initialDelaySeconds: 10
+      periodSeconds: 15
+      timeoutSeconds: 5
+      failureThreshold: 3
+      successThreshold: 1
