@@ -12,6 +12,6 @@ spec:
       sectionName: https
   rules:
     - backendRefs:
-        - name: rocketchat
+        - name: rocketchat-rocketchat
           namespace: selfhosted
           port: 80
