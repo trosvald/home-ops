@@ -9,8 +9,8 @@ spec:
     groupBy: ["alertname", "job"]
     groupInterval: 10m
     groupWait: 1m
-    receiver: discord
-    repeatInterval: 12h
+    receiver: pushover
+    repeatInterval: 3h
     routes:
       - receiver: "null"
         matchers:
