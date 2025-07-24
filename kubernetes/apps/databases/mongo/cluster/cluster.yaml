@@ -1,0 +1,84 @@
+---
+# yaml-language-server: $schema=https://schemas.tholinka.dev/mongodbcommunity.mongodb.com/mongodbcommunity_v1.json
+apiVersion: mongodbcommunity.mongodb.com/v1
+kind: MongoDBCommunity
+metadata:
+  name: mongodb
+  namespace: databases
+spec:
+  members: 3
+  type: ReplicaSet
+  version: 8.0.11
+  security:
+    authentication:
+      modes: ["SCRAM", "SCRAM-SHA-1"]
+  users:
+    - name: mongo
+      db: &db mongo
+      passwordSecretRef: # a reference to the secret that will be used to generate the user's password
+        name: &secret mongodb-secret
+        key: password
+      roles:
+        - name: clusterAdmin
+          db: *db
+        - name: userAdminAnyDatabase
+          db: *db
+        - name: readWriteAnyDatabase
+          db: *db
+    - name: rocketchat
+      db: rocketchat
+      passwordSecretRef:
+        name: *secret
+        key: password
+      roles:
+        - name: clusterAdmin
+          db: *db
+        - name: userAdminAnyDatabase
+          db: *db
+        - name: readWriteAnyDatabase
+          db: *db
+      scramCredentialsSecretName: my-scram
+  additionalMongodConfig:
+    storage.wiredTiger.engineConfig.journalCompressor: zlib
+  statefulSet:
+    spec:
+      containers:
+        - name: mongod
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: 650M
+            requests:
+              cpu: "0.5"
+              memory: 300M
+        - name: mongodb-agent
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: 650M
+            requests:
+              cpu: "0.5"
+              memory: 300M
+      volumeClaimTemplates:
+        - metadata:
+            name: data
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 30Gi
+            storageClassName: openebs-hostpath
+        - metadata:
+            name: logs
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 10Gi
+            storageClassName: openebs-hostpath
+  prometheus:
+    username: prom-user
+    passwordSecretRef:
+      name: *secret
+      key: prom-password
+
