@@ -12,5 +12,9 @@
       "vs-kubernetes.knownKubeconfigs": [
         "./kubeconfig"
     ]
+  },
+  "go.goroot": "/Users/monosense/.local/share/mise/installs/go/1.23.11",
+  "go.alternateTools": {
+    "go": "/Users/monosense/.local/share/mise/shims/go"
   }
 }
