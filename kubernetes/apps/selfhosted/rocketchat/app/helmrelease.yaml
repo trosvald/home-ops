@@ -28,11 +28,11 @@ spec:
       valuesKey: MONGODB_URL
       targetPath: externalMongodbUrl
       optional: false
-    # - kind: Secret
-    #   name: *secret
-    #   valuesKey: MONGODB_OP_LOG_URL
-    #   targetPath: externalMongodbOplogUrl
-    #   optional: false
+    - kind: Secret
+      name: *secret
+      valuesKey: MONGODB_OP_LOG_URL
+      targetPath: externalMongodbOplogUrl
+      optional: false
     - kind: Secret
       name: *secret
       valuesKey: SMTP_HOST

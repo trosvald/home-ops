@@ -39,6 +39,19 @@ spec:
         - name: readWriteAnyDatabase
           db: *db
       scramCredentialsSecretName: rocketchat-scram
+    - name: rocketlog
+      db: rocketlog
+      passwordSecretRef:
+        name: *secret
+        key: password
+      roles:
+        - name: clusterAdmin
+          db: *db
+        - name: userAdminAnyDatabase
+          db: *db
+        - name: readWriteAnyDatabase
+          db: *db
+      scramCredentialsSecretName: rocketlog-scram
   additionalMongodConfig:
     storage.wiredTiger.engineConfig.journalCompressor: zlib
   statefulSet:
