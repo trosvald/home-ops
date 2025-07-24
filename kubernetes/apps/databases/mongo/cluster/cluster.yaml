@@ -32,11 +32,7 @@ spec:
         name: *secret
         key: password
       roles:
-        - name: clusterAdmin
-          db: *rockDB
-        - name: userAdminAnyDatabase
-          db: *rockDB
-        - name: readWriteAnyDatabase
+        - name: dbOwner
           db: *rockDB
       scramCredentialsSecretName: rocketchat-scram
     - name: rocketlog
@@ -45,11 +41,7 @@ spec:
         name: *secret
         key: password
       roles:
-        - name: clusterAdmin
-          db: *logDB
-        - name: userAdminAnyDatabase
-          db: *logDB
-        - name: readWriteAnyDatabase
+        - name: dbOwner
           db: *logDB
       scramCredentialsSecretName: rocketlog-scram
   additionalMongodConfig:

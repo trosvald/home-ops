@@ -7,5 +7,5 @@ components:
 resources:
   - ./cloudnative-pg/ks.yaml
   - ./dragonfly/ks.yaml
-  # - ./mongo/ks.yaml
+  - ./mongo/ks.yaml
   # - ./pgadmin/ks.yaml
