@@ -25,6 +25,7 @@ spec:
           db: *db
         - name: readWriteAnyDatabase
           db: *db
+      scramCredentialsSecretName: my-scram
     - name: rocketchat
       db: rocketchat
       passwordSecretRef:
@@ -37,7 +38,7 @@ spec:
           db: *db
         - name: readWriteAnyDatabase
           db: *db
-      scramCredentialsSecretName: my-scram
+      scramCredentialsSecretName: rocketchat-scram
   additionalMongodConfig:
     storage.wiredTiger.engineConfig.journalCompressor: zlib
   statefulSet:
