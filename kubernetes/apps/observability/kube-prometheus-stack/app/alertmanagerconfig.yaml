@@ -17,6 +17,7 @@ spec:
           - name: alertname
             value: InfoInhibitor
             matchType: =
+        continue: true
       - receiver: heartbeat
         groupInterval: 5m
         groupWait: 0s
