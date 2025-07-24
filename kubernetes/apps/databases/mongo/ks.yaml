@@ -24,7 +24,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app mongodb-cluster
-  namespace: flux-system
+  namespace: &namespace databases
 spec:
   targetNamespace: databases
   commonMetadata:
@@ -32,7 +32,9 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: mongodb
-    - name: external-secrets-stores
+      namespace: *namespace
+    - name: external-secrets
+      namespace: external-secrets
   path: ./kubernetes/apps/databases/mongo/cluster
   prune: true
   sourceRef:
