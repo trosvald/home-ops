@@ -45,6 +45,12 @@ spec:
             value: critical
             matchType: =
         continue: true
+      - receiver: mattermost
+        matchers:
+          - name: severity
+            value: critical
+            matchType: =
+        continue: true
   inhibitRules:
     - equal: ["alertname", "namespace"]
       sourceMatch:
