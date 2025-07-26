@@ -16,10 +16,6 @@ spec:
       namespace: databases
     - name: external-secrets
       namespace: external-secrets
-  healthChecks:
-    - kind: HelmRelease
-      name: mattermost-operator
-      namespace: *namespace
   healthCheckExprs:
     - apiVersion: postgresql.cnpg.io/v1
       kind: Cluster
@@ -56,7 +52,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/cnpg
     - ../../../../components/gatus/external
   dependsOn:
     - name: mattermost-operator
