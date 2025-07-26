@@ -29,15 +29,15 @@ spec:
       value: "true"
     - name: "MM_PLUGINSETTINGS_ENABLEUPLOADS"
       value: "true"
-    - name: "DB_CONNECTION_CHECK_URL"
+    - name: DB_CONNECTION_CHECK_URL
       valueFrom:
         secretKeyRef: &dbSecret
           name: mattermost-pguser-secret
           key: uri
-    - name: "DB_CONNECTION_STRING"
+    - name: DB_CONNECTION_STRING
       valueFrom:
         secretKeyRef: *dbSecret
-    - name: "MM_SQLSETTINGS_DATASOURCEREPLICAS"
+    - name: MM_SQLSETTINGS_DATASOURCEREPLICAS
       valueFrom:
         secretKeyRef: *dbSecret
 
