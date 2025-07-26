@@ -73,6 +73,7 @@ spec:
   path: ./kubernetes/apps/selfhosted/mattermost/instance
   postBuild:
     substitute:
+      APP: mattermost
       GATUS_SUBDOMAIN: chat
   prune: true
   retryInterval: 1m
