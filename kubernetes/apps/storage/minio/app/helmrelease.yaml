@@ -1,0 +1,134 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app minio
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+    namespace: flux-system
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      minio:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          minio:
+            image:
+              repository: quay.io/minio/minio
+              tag: RELEASE.2025-04-22T22-12-26Z@sha256:a1ea29fa28355559ef137d71fc570e508a214ec84ff8083e39bc5428980b015e
+            env:
+              TZ: "Asia/Jakarta"
+              MINIO_UPDATE: "off"
+              MINIO_BROWSER_REDIRECT_URL: https://console.monosense.dev
+              MINIO_SERVER_URL: https://s3.monosense.dev
+              MINIO_API_CORS_ALLOW_ORIGIN: https://console.monosense.dev,https:s3.monosense.dev
+              MINIO_PROMETHEUS_JOB_ID: minio
+              MINIO_PROMETHEUS_URL: https://prometheus-operated.observability.svc.cluster.local:9090
+              MINIO_PROMETHEUS_AUTH_TYPE: public
+            envFrom:
+              - secretRef:
+                  name: minio-secret
+            args: ["server", "/data", "--console-address", ":9001"]
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /minio/health/live
+                    port: &apiPort 9000
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 4Gi
+
+    service:
+      minio:
+        controller: *app
+        ports:
+          http:
+            primary: true
+            port: &consolePort 9001
+          api:
+            port: *apiPort
+
+    serviceMonitor:
+      minio:
+        serviceName: *app
+        endpoints:
+          - port: api
+            scheme: http
+            path: /minio/v2/metrics/cluster
+            interval: 1m
+            scrapeTimeout: 10s
+
+    route:
+      main:
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: internal
+            kind: Gateway
+            namespace: networking
+        hostnames:
+          - console.monosense.dev
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *consolePort
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+
+      s3:
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: internal
+            kind: Gateway
+            namespace: networking
+        hostnames:
+          - s3.monosense.dev
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *apiPort
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+
+    persistence:
+      data:
+        type: nfs
+        server: storage.monosense.dev
+        path: /volume1/minio
+        globalMounts:
+          - path: /data
+
+
+
+
+
+
+
