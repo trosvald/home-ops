@@ -27,7 +27,7 @@ spec:
     - name: MM_EMAILSETTINGS_SENDPUSHNOTIFICATIONS
       value: "true"
     - name: MM_EMAILSETTINGS_REQUIREEMAILVERIFICATION
-      value: "false"
+      value: "true"
     - name: "MM_PLUGINSETTINGS_ENABLEUPLOADS"
       value: "true"
     - name: MM_NOTIFICATIONSSETTINGS_CONNECTIONSECURITY
