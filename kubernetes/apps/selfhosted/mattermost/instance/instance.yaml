@@ -12,7 +12,7 @@ spec:
     enabled: false
   database:
     external:
-      secret: mattermost-pguser-secret
+      secret: mattermost-secret
   fileStore:
     external:
       url: minio.storage.svc.cluster.local:9000
