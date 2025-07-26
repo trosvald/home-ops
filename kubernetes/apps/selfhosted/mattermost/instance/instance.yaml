@@ -29,21 +29,6 @@ spec:
       value: "true"
     - name: "MM_PLUGINSETTINGS_ENABLEUPLOADS"
       value: "true"
-    - name: DB_CONNECTION_CHECK_URL
-      valueFrom:
-        secretKeyRef:
-          name: mattermost-pguser-secret
-          key: uri
-    - name: DB_CONNECTION_STRING
-      valueFrom:
-        secretKeyRef:
-          name: mattermost-pguser-secret
-          key: uri
-    - name: MM_SQLSETTINGS_DATASOURCEREPLICAS
-      valueFrom:
-        secretKeyRef:
-          name: mattermost-pguser-secret
-          key: uri
   podExtensions:
     initContainers:
       - name: init-db
