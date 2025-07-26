@@ -13,7 +13,7 @@ spec:
     enabled: false
   database:
     external:
-      secret: mattermost-secret
+      secret: &secret mattermost-secret
   fileStore:
     external:
       url: minio.storage.svc.cluster.local:9000
@@ -27,9 +27,37 @@ spec:
     - name: MM_EMAILSETTINGS_SENDPUSHNOTIFICATIONS
       value: "true"
     - name: MM_EMAILSETTINGS_REQUIREEMAILVERIFICATION
-      value: "true"
+      value: "false"
     - name: "MM_PLUGINSETTINGS_ENABLEUPLOADS"
       value: "true"
+    - name: MM_NOTIFICATIONSSETTINGS_CONNECTIONSECURITY
+      value: "STARTTLS"
+    - name: MM_NOTIFICATIONSSETTINGS_SMTPSERVER
+      valueFrom:
+        secretKeyRef:
+          name: *secret
+          key: MM_NOTIFICATIONSSETTINGS_SMTPSERVER
+    - name: MM_NOTIFICATIONSSETTINGS_SMTPPORT
+      valueFrom:
+        secretKeyRef:
+          name: *secret
+          key: MM_NOTIFICATIONSSETTINGS_SMTPPORT
+    - name: MM_NOTIFICATIONSSETTINGS_SMTPUSERNAME
+      valueFrom:
+        secretKeyRef:
+          name: *secret
+          key: MM_NOTIFICATIONSSETTINGS_SMTPUSERNAME
+    - name: MM_NOTIFICATIONSSETTINGS_SMTPPASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: *secret
+          key: MM_NOTIFICATIONSSETTINGS_SMTPPASSWORD
+    - name: MM_NOTIFICATIONSSETTINGS_ENABLESMTPAUTH
+      valueFrom:
+        secretKeyRef:
+          name: *secret
+          key: MM_NOTIFICATIONSSETTINGS_ENABLESMTPAUTH
+
   podExtensions:
     initContainers:
       - name: init-db
