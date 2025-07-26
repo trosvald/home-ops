@@ -6,3 +6,4 @@ resources:
   - ./harbor.yaml
   - ./harbor-container-webhook.yaml
   - ./rocketchat.yaml
+  - ./mattermost.yaml
