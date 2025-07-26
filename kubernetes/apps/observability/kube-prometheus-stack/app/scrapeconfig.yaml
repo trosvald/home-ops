@@ -13,3 +13,24 @@ spec:
     - action: replace
       targetLabel: job
       replacement: *name
+---
+# yaml-language-server $schema=https://kube-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: &name minio
+spec:
+  staticConfigs:
+    - targets:
+        - s3.monosense.dev
+  metricsPath: /minio/v2/metrics/cluster
+  scheme: https
+  authorization:
+    credentials:
+      name: minio-prom-secret
+      key: MINIO_PROMETHEUS_TOKEN
+    type: Bearer
+  relabelings:
+    - action: replace
+      targetLabel: job
+      replacement: *name

@@ -36,7 +36,6 @@ spec:
               MINIO_API_CORS_ALLOW_ORIGIN: https://console.monosense.dev,https:s3.monosense.dev
               MINIO_PROMETHEUS_JOB_ID: minio
               MINIO_PROMETHEUS_URL: http://prometheus-operated.observability.svc.cluster.local:9090
-              MINIO_PROMETHEUS_AUTH_TYPE: public
               MINIO_REGION: "bsd-lat"
             envFrom:
               - secretRef:
