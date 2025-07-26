@@ -6,6 +6,7 @@ onepassword.env
 /.venv/
 Brewfile.lock.json
 # Kubernetes
+/warp/
 kubeconfig
 talsecret.yaml
 secrets.txt
