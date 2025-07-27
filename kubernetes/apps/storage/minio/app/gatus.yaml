@@ -16,6 +16,6 @@ data:
           hide-url: true
           hide-hostname: true
         client:
-          dns-resolver: tcp://172.17.13.100:53
+          dns-resolver: tcp://1.1.1.1:53
         conditions:
           - "[STATUS] == 404"
