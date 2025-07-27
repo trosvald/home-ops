@@ -104,7 +104,7 @@ spec:
         enabled: true
         kind: HTTPRoute
         parentRefs:
-          - name: internal
+          - name: external
             kind: Gateway
             namespace: networking
         hostnames:
