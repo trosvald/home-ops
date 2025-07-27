@@ -10,7 +10,7 @@ data:
     endpoints:
       - name: ObjectStor
         group: infrastructure
-        url: http://minio.storage.cluster.local:9001
+        url: http://minio.storage.svc.cluster.local:9001
         interval: 1m
         ui:
           hide-url: true
