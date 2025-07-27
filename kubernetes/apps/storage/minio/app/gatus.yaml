@@ -10,12 +10,10 @@ data:
     endpoints:
       - name: ObjectStor
         group: infrastructure
-        url: https://s3.monosense.dev
+        url: http://minio.storage.cluster.local
         interval: 1m
         ui:
           hide-url: true
           hide-hostname: true
-        client:
-          dns-resolver: tcp://1.1.1.1:53
         conditions:
           - "[STATUS] == 404"
