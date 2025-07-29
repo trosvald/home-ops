@@ -55,8 +55,8 @@ module "secret_gatus" {
 }
 module "secret_pgadmin" {
   source = "github.com/bjw-s/terraform-1password-item?ref=main"
-  vault  = "Dev"
-  item   = "dev-pgadmin"
+  vault  = "Infra"
+  item   = "shared-pgadmin"
 }
 
 provider "authentik" {
