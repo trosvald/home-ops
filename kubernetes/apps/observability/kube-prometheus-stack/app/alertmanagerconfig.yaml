@@ -39,12 +39,6 @@ spec:
             value: critical
             matchType: =
         continue: true
-      - receiver: rocketchat
-        matchers:
-          - name: severity
-            value: critical
-            matchType: =
-        continue: true
       - receiver: mattermost
         matchers:
           - name: severity
