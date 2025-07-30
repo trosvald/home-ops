@@ -15,7 +15,7 @@ resources:
   - ./loki/ks.yaml
   - ./omada-exporter/ks.yaml
   - ./promtail/ks.yaml
-  # - ./silence-operator/ks.yaml
+  - ./silence-operator/ks.yaml
   - ./smartctl-exporter/ks.yaml
   - ./snmp-exporter/ks.yaml
   - ./speedtest-exporter/ks.yaml

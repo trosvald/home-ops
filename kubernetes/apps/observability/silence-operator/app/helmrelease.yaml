@@ -36,5 +36,7 @@ spec:
     alertmanagerAddress: http://alertmanager-operated.observability.svc.cluster.local:9093
     image:
       registry: quay.io
+      name: giantswarm/silence-operator
+      tag: 0.18.0
     networkPolicy:
       enabled: false
