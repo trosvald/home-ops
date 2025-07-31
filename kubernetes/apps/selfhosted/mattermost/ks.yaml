@@ -60,10 +60,6 @@ spec:
       namespace: external-secrets
     - name: minio
       namespace: storage
-  healthChecks:
-    - kind: HelmRelease
-      name: mattermost-operator
-      namespace: *namespace
   healthCheckExprs:
     - apiVersion: external-secrets.io/v1
       kind: ClusterSecretStore
