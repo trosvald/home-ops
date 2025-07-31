@@ -22,9 +22,9 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - minio.storage.svc.cluster.local:9001
+        - s3.monosense.dev
   metricsPath: /minio/v2/metrics/cluster
-  scheme: "HTTP"
+  scheme: "HTTPS"
   authorization:
     credentials:
       name: minio-prom-secret
