@@ -8,4 +8,4 @@ resources:
   - ./harbor/ks.yaml
   - ./mattermost/ks.yaml
   - ./nocodb/ks.yaml
-  - ./rocketchat/ks.yaml
+  # - ./rocketchat/ks.yaml
