@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pilar-ops-runner
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pilar-ops-runner
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: pilar-ops-runner
+    namespace: actions-runner-system
+---
+apiVersion: talos.dev/v1alpha1
+kind: ServiceAccount
+metadata:
+  name: pilar-ops-runner
+spec:
+  roles: ["os:admin"]
