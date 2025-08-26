@@ -1,16 +1,3 @@
-# ---
-# apiVersion: source.toolkit.fluxcd.io/v1
-# kind: OCIRepository
-# metadata:
-#   name: gha-runner-scale-set
-# spec:
-#   interval: 5m
-#   layerSelector:
-#     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
-#     operation: copy
-#   ref:
-#     tag: 0.12.1
-#   url: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -31,17 +18,11 @@ spec:
       retries: 3
   values:
     githubConfigUrl: https://github.com/trosvald/pilar
-    githubConfigSecret: pilar-ops-runner-secret
+    githubConfigSecret: home-ops-runner-secret
     minRunners: 1
     maxRunners: 6
     containerMode:
-      type: kubernetes
-      kubernetesModeWorkVolumeClaim:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 50Gi
-        storageClassName: openebs-hostpath
+      type: dind
     controllerServiceAccount:
       name: actions-runner-controller
       namespace: actions-runner-system
@@ -53,18 +34,16 @@ spec:
             command:
               - /home/runner/run.sh
             env:
-              - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER
-                value: "false"
               - name: NODE
                 valueFrom:
                   fieldRef:
                     fieldPath: spec.nodeName
-            volumeMounts:
-              - mountPath: /var/run/secrets/talos.dev
-                name: talos
-                readOnly: true
-        serviceAccountName: *app
-        volumes:
-          - name: talos
-            secret:
-              secretName: *app
+        #     volumeMounts:
+        #       - mountPath: /var/run/secrets/talos.dev
+        #         name: talos
+        #         readOnly: true
+        # serviceAccountName: *app
+        # volumes:
+        #   - name: talos
+        #     secret:
+        #       secretName: *app
