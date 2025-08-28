@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: rocketchat
-      version: 6.25.2
+      version: 6.25.3
       interval: 30m
       sourceRef:
         kind: HelmRepository
