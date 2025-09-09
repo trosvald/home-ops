@@ -20,10 +20,10 @@ spec:
     - name: external-secrets
       namespace: external-secrets
   healthCheckExprs:
-    - apiVersion: dragonflydb.io/v1alpha1
-      current: status.phase == 'ready'
-      failed:  status.phase != 'ready'
-      kind: Dragonfly
+    # - apiVersion: dragonflydb.io/v1alpha1
+    #   current: status.phase == 'ready'
+    #   failed:  status.phase != 'ready'
+    #   kind: Dragonfly
     - apiVersion: postgresql.cnpg.io/v1
       kind: Cluster
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
