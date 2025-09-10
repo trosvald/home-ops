@@ -21,7 +21,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cluster-meta
+    - name: flux-repository
       namespace: flux-system
   interval: 1h
   path: ./kubernetes/apps
