@@ -1,45 +1,30 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
     "config:recommended",
     "docker:enableMajor",
     "helpers:pinGitHubActionDigests",
-    "github>trosvald/home-ops//.renovate/allowedVersions.json5",
-    "github>trosvald/home-ops//.renovate/autoMerge.json5",
-    "github>trosvald/home-ops//.renovate/customManagers.json5",
-    "github>trosvald/home-ops//.renovate/grafanaDashboards.json5",
-    "github>trosvald/home-ops//.renovate/groups.json5",
-    "github>trosvald/home-ops//.renovate/labels.json5",
-    "github>trosvald/home-ops//.renovate/renovateUser.json5",
-    "github>trosvald/home-ops//.renovate/semanticCommits.json5",
+    "github>buroa/k8s-gitops//.renovate/autoMerge.json5",
+    "github>buroa/k8s-gitops//.renovate/customManagers.json5",
+    "github>buroa/k8s-gitops//.renovate/grafanaDashboards.json5",
+    "github>buroa/k8s-gitops//.renovate/groups.json5",
+    "github>buroa/k8s-gitops//.renovate/labels.json5",
+    "github>buroa/k8s-gitops//.renovate/overrides.json5",
+    "github>buroa/k8s-gitops//.renovate/semanticCommits.json5",
     ":automergeBranch",
     ":dependencyDashboard",
     ":disableRateLimiting",
     ":gitSignOff",
     ":semanticCommits",
-    ":timezone(Asia/Jakarta)",
+    ":timezone(America/Chicago)",
   ],
-  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": [
-    "prEditedNotification",
-    "prIgnoreNotification",
-  ],
-  "ignorePaths": [
-    "**/resources/**",
-  ],
-  "flux": {
-    "managerFilePatterns": [
-      "/(^|/)kubernetes/.+\\.ya?ml$/",
-    ],
+  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
+  ignorePaths: ["**/resources/**"],
+  flux: {
+    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
   },
-  "helm-values": {
-    "managerFilePatterns": [
-      "/(^|/)kubernetes/.+\\.ya?ml$/",
-    ],
-  },
-  "kubernetes": {
-    "managerFilePatterns": [
-      "/(^|/)kubernetes/.+\\.ya?ml$/",
-    ],
+  kubernetes: {
+    managerFilePatterns: ["/\\.yaml(?:\\.j2)?$/"],
   },
 }

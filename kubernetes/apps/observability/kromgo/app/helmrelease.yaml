@@ -73,7 +73,7 @@ spec:
         hostnames:
           - "{{ .Release.Name }}.monosense.dev"
         parentRefs:
-          - name: external
+          - name: envoy-external
             namespace: networking
             sectionName: https
         rules:

@@ -7,7 +7,7 @@ metadata:
 spec:
   hostnames: ["vm.monosense.dev"]
   parentRefs:
-    - name: internal
+    - name: envoy-internal
       namespace: networking
       sectionName: https
   rules:
@@ -24,7 +24,7 @@ metadata:
 spec:
   hostnames: ["am.monosense.dev"]
   parentRefs:
-    - name: internal
+    - name: envoy-internal
       namespace: networking
       sectionName: https
   rules:

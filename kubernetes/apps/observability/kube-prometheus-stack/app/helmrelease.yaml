@@ -43,7 +43,7 @@ spec:
           hostnames:
             - alertmanager.monosense.dev
           parentRefs:
-            - name: internal
+            - name: envoy-internal
               namespace: networking
               sectionName: https
       alertmanagerSpec:
@@ -72,7 +72,7 @@ spec:
           hostnames:
             - prometheus.monosense.dev
           parentRefs:
-            - name: internal
+            - name: envoy-internal
               namespace: networking
               sectionName: https
       prometheusSpec:

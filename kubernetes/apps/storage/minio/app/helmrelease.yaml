@@ -86,7 +86,7 @@ spec:
         enabled: true
         kind: HTTPRoute
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             kind: Gateway
             namespace: networking
         hostnames:
@@ -104,7 +104,7 @@ spec:
         enabled: true
         kind: HTTPRoute
         parentRefs:
-          - name: external
+          - name: envoy-external
             kind: Gateway
             namespace: networking
         hostnames:

@@ -11,8 +11,6 @@ spec:
   ref:
     tag: 4.3.3
   url: oci://ghcr.io/home-operations/charts-mirror/openebs
-  verify:
-    provider: cosign
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -26,12 +24,11 @@ spec:
   install:
     disableHooks: true
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     disableHooks: true
     remediation:
-      strategy: rollback
       retries: 3
   values:
     localpv-provisioner:
@@ -58,12 +55,6 @@ spec:
       enabled: false
     mayastor:
       enabled: false
-    loki:
-      enabled: false
-    alloy:
-      enabled: false
-    minio:
-      enabled: false
     engines:
       local:
         lvm:
@@ -73,3 +64,9 @@ spec:
       replicated:
         mayastor:
           enabled: false
+    loki:
+      enabled: false
+    alloy:
+      enabled: false
+    minio:
+      enabled: false

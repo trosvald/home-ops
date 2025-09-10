@@ -7,7 +7,7 @@ metadata:
 spec:
   hostnames: ["${GATUS_SUBDOMAIN:=${APP}}.monosense.dev"]
   parentRefs:
-    - name: external
+    - name: envoy-external
       namespace: networking
       sectionName: https
   rules:

@@ -5,6 +5,7 @@ namespace: observability
 components:
   - ../../components/common
 resources:
+  # - ./alloy/ks.yaml
   - ./blackbox-exporter/ks.yaml
   # - ./fluentbit/ks.yaml
   - ./gatus/ks.yaml

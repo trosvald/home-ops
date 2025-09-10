@@ -122,7 +122,7 @@ spec:
         hostnames:
           - "{{ .Release.Name }}.monosense.dev"
         parentRefs:
-          - name: internal
+          - name: envoy-internal
             namespace: networking
             sectionName: https
         rules:

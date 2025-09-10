@@ -115,13 +115,13 @@ spec:
       app:
         hostnames: ["${GATUS_SUBDOMAIN:=${APP}}.monosense.dev"]
         parentRefs:
-          - name: external
+          - name: envoy-external
             namespace: networking
             sectionName: https
-        rules:
-          - backendRefs:
-              - name: *app
-                port: *port
+        # rules:
+        #   - backendRefs:
+        #       - name: *app
+        #         port: *port
     rbac:
       roles:
         gatus:

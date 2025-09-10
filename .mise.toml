@@ -2,4 +2,3 @@
 KUBECONFIG = '{{config_root}}/kubernetes/kubeconfig'
 MINIJINJA_CONFIG_FILE = '{{config_root}}/.minijinja.toml'
 TALOSCONFIG = '{{config_root}}/talos/talosconfig'
-SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"

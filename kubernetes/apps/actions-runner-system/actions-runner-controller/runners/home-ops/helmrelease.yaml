@@ -15,7 +15,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app home-ops-runner
+  name: &app k8s-gitops-runner
 spec:
   interval: 1h
   chartRef:
@@ -23,11 +23,10 @@ spec:
     name: gha-runner-scale-set
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
       retries: 3
   values:
     githubConfigUrl: https://github.com/trosvald/home-ops
@@ -40,7 +39,7 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 30Gi
+            storage: 25Gi
         storageClassName: openebs-hostpath
     controllerServiceAccount:
       name: actions-runner-controller

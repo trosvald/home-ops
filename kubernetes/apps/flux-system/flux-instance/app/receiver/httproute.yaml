@@ -7,7 +7,7 @@ spec:
   hostnames:
     - flux-webhook.monosense.dev
   parentRefs:
-    - name: external
+    - name: envoy-external
       namespace: networking
       sectionName: https
   rules:

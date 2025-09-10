@@ -9,7 +9,7 @@ metadata:
   #   external-dns.alpha.kubernetes.io/target: ipv4.monosense.dev
 spec:
   parentRefs:
-    - name: internal
+    - name: envoy-internal
       kind: Gateway
       namespace: networking
       sectionName: https

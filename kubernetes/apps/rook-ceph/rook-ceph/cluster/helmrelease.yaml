@@ -37,6 +37,16 @@ spec:
       createPrometheusRules: true
     toolbox:
       enabled: true
+    route:
+      dashboard:
+        host:
+          name: rook.monosense.dev
+          path: /
+          pathType: PathPrefix
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
     cephClusterSpec:
       cephConfig:
         global:
