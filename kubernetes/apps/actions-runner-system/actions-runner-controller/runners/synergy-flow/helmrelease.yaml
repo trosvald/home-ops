@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app pilar-ops-runner
+  name: &app synergy-flow-runner
 spec:
   interval: 1h
   chartRef:
@@ -17,7 +17,7 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    githubConfigUrl: https://github.com/trosvald/pilar
+    githubConfigUrl: https://github.com/trosvald/synergy-flow
     githubConfigSecret: home-ops-runner-secret
     minRunners: 1
     maxRunners: 6
@@ -37,13 +37,4 @@ spec:
               - name: NODE
                 valueFrom:
                   fieldRef:
-                    fieldPath: spec.nodeName
-        #     volumeMounts:
-        #       - mountPath: /var/run/secrets/talos.dev
-        #         name: talos
-        #         readOnly: true
-        # serviceAccountName: *app
-        # volumes:
-        #   - name: talos
-        #     secret:
-        #       secretName: *app
+                    fieldPath: status.hostIP
