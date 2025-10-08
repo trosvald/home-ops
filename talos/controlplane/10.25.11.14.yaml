@@ -1,18 +1,18 @@
 ---
 machine:
   network:
-    hostname: prod-02
+    hostname: prod-04
     interfaces:
       - interface: bond0
         bond:
-          deviceSelectors: [{ hardwareAddr: "3c:fd:fe:35:10:*", driver: i40e }]
+          deviceSelectors: [{ hardwareAddr: "f8:f2:1e:08:32:*", driver: i40e }]
           mode: 802.3ad
           xmitHashPolicy: layer3+4
           lacpRate: fast
           miimon: 100
         dhcp: false
         mtu: 9000
-        addresses: [10.25.11.12/24]
+        addresses: [10.25.11.14/24]
         routes: [{ network: "0.0.0.0/0", gateway: "10.25.11.1" }]
         vlans:
           # - { vlanId: 2512, dhcp: false, mtu: 1500 }

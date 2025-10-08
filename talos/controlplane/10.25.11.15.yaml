@@ -1,7 +1,7 @@
 ---
 machine:
   network:
-    hostname: prod-02
+    hostname: prod-05
     interfaces:
       - interface: bond0
         bond:
@@ -12,7 +12,7 @@ machine:
           miimon: 100
         dhcp: false
         mtu: 9000
-        addresses: [10.25.11.12/24]
+        addresses: [10.25.11.15/24]
         routes: [{ network: "0.0.0.0/0", gateway: "10.25.11.1" }]
         vlans:
           # - { vlanId: 2512, dhcp: false, mtu: 1500 }
