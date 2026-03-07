@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/jbops
-              tag: 2025.5.31@sha256:77ce5788309cc5fbbc83c8a6df3e1a56f35ad0f7a28b6321f4f54293f47e31c4
+              tag: 2026.3.7@sha256:5fec0ac64f8093a526a2f37b24ded12dc7375fcda3ddcc2917dbf6716bd0fe44
             env:
               JBOPS__SCRIPT_PATH: utility/off_deck.py
             args: ["--markWatched", "--playlists", "Toons", "SleepMix"]
